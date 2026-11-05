@@ -184,6 +184,7 @@ flowchart LR
 ## 9. 不要做
 
 - 不用 HTML 标签排版（`<div align="center">`、`<br>`、`<img width>` 等）。例外：`website/` 目录只给网站用（首页 `website/index.md` 和样式 `website/stylesheets/extra.css`），可以用卡片、按钮等站点专用写法。
+- 例外：练习的参考答案可以折叠，写法固定为 `<details markdown><summary>参考答案</summary>`，`</summary>` 后空一行再写 Markdown 正文，最后用 `</details>` 收尾。除此之外的 HTML 仍然禁止。
 - 不用外部徽章和图床；需要图片就放仓库 `assets/`，用相对路径。
 - 不用 GitHub 不渲染的语法，比如自定义 CSS、`[TOC]` 目录标记。
 - 不在标题里放链接或 emoji（根 README 导航表除外）。
@@ -196,5 +197,6 @@ flowchart LR
 - [ ] 主题 README 有 mermaid 学习路径，在 GitHub 上实际渲染正常
 - [ ] 子主题 README 有面包屑和上一节 / 下一节导航，链接都有效
 - [ ] 提示框只用 NOTE / TIP / WARNING
-- [ ] 没有 HTML 排版标签和外部图片
+- [ ] 没有 HTML 排版标签和外部图片（练习参考答案的 `<details markdown>` 除外）
+- [ ] 参考答案折叠用 `<details markdown><summary>参考答案</summary>`，summary 后空一行，以 `</details>` 结尾，在 GitHub 和网站上都能正常展开
 - [ ] 中英文之间有空格
