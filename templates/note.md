@@ -1,6 +1,6 @@
 ---
 title: ""
-topic: ""          # e.g. programming / web / ai-ml
+topic: ""          # e.g. programming / web / ai
 tags: []
 date: YYYY-MM-DD
 status: draft      # draft | in-progress | done
