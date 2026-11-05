@@ -117,7 +117,7 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 site_author: tech-notes contributors
-copyright: "© tech-notes contributors · 内容采用 CC BY 4.0"
+copyright: "© tech-notes contributors · 内容采用 CC BY 4.0<br>本站内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。"
 edit_uri: edit/main/
 validation:
   omitted_files: warn
