@@ -11,6 +11,7 @@
 | 主题 | 内容 | 状态 |
 |------|------|------|
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
+| 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | ⚪ 待开始 |
 | 💻 [编程 Programming](topics/programming/) | 编程语言、算法、设计 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
 | 🤖 [AI / ML](topics/ai-ml/) | 机器学习、LLM | ⚪ 待开始 |
