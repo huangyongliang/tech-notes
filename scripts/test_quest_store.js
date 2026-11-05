@@ -78,5 +78,25 @@ try {
   assert.deepStrictEqual(plain(win2.load()), EMPTY);
   console.log("ok   - load() never throws when localStorage throws");
 } catch (e) { fails++; console.log("FAIL - load() threw: " + e.message); }
-console.log(fails ? fails + " failed" : "all " + (cases.length + 1) + " passed");
+/* combined level: XP from every topic (basics + java), thresholds from TN_QUEST_DATA.levels */
+var extra = 0;
+try {
+  var e3 = makeEnv({}).api, L = e3.levels;
+  var z = e3.statsAll({ done: {} });
+  assert.strictEqual(z.xp, 0); assert.strictEqual(z.lv, 1);
+  var D3 = (function () { var w = {}; w.window = w; vm.runInContext(dataSrc, vm.createContext(w)); return w.TN_QUEST_DATA; })();
+  var all = {}, sum = 0, mixed = {}, msum = 0;
+  Object.keys(D3.topics).forEach(function (k) {
+    var t = D3.topics[k]; t.quests.concat(t.bosses).forEach(function (x) { all[x.id] = true; sum += x.xp; });
+    mixed[t.quests[0].id] = true; msum += t.quests[0].xp;
+  });
+  assert.ok(Object.keys(D3.topics).length >= 2, "basics + java present");
+  var a = e3.statsAll({ done: all }); assert.strictEqual(a.xp, sum); assert.strictEqual(a.max, sum);
+  assert.strictEqual(a.lv, L.filter(function (v) { return sum >= v; }).length);
+  var m = e3.statsAll({ done: mixed }); assert.strictEqual(m.xp, msum, "counts both topics");
+  assert.strictEqual(m.lv, L.filter(function (v) { return msum >= v; }).length);
+  assert.strictEqual(m.next, L[m.lv]);
+  console.log("ok   - statsAll() sums XP across topics and maps to levels"); extra++;
+} catch (e) { fails++; console.log("FAIL - statsAll: " + e.message); }
+console.log(fails ? fails + " failed" : "all " + (cases.length + 1 + extra) + " passed");
 process.exit(fails ? 1 : 0);

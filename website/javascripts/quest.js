@@ -80,6 +80,16 @@
       localStorage.setItem(KEY_V2, JSON.stringify(s));
     } catch (e) {}
   }
+  /* 全站等级：合计所有 topic（basics + java …）的 XP，存储格式不变（同一份 done 表） */
+  function statsAll(s) {
+    var xp = 0, max = 0, done = (s && s.done) || {};
+    Object.keys(D.topics).forEach(function (k) {
+      var t = D.topics[k];
+      (t.quests || []).concat(t.bosses || []).forEach(function (x) { max += x.xp; if (done[x.id]) xp += x.xp; });
+    });
+    var lv = 1; for (var i = 0; i < LEVELS.length; i++) if (xp >= LEVELS[i]) lv = i + 1;
+    return { xp: xp, lv: lv, next: LEVELS[lv], max: max };
+  }
   function stats(s) {
     var xp = 0, q = 0, b = 0, max = 0;
     Q.forEach(function (x) { max += x.xp; if (s.done[x.id]) { q++; xp += x.xp; } });
@@ -314,7 +324,7 @@
   /* 共享进度 API（explore.js 使用；与本文件同一份 tn-quest-v2 存储和 ?demo 内存态） */
   window.TN_QUEST = {
     KEY_V1: KEY_V1, KEY_V2: KEY_V2, topicKey: TOPIC_KEY, topic: TOPIC, levels: LEVELS,
-    load: load, save: save, stats: stats, current: current, state: state,
+    load: load, save: save, stats: stats, statsAll: statsAll, current: current, state: state,
     chapterDone: chapterDone, bossState: bossState, shortId: shortId,
     url: url, urlFor: function (path) { return new URL(path, root()).href; },
     isDemo: function () { return !!demo; },
@@ -323,5 +333,5 @@
   };
 
   /* Expose migration helpers for offline tests (no network). */
-  window.TN_QUEST_MIGRATE_ = { migrateV1toV2: migrateV1toV2, migrateDoneKey: migrateDoneKey, migrateTaskKey: migrateTaskKey, KEY_V1: KEY_V1, KEY_V2: KEY_V2, load: load, save: save };
+  window.TN_QUEST_MIGRATE_ = { migrateV1toV2: migrateV1toV2, migrateDoneKey: migrateDoneKey, migrateTaskKey: migrateTaskKey, KEY_V1: KEY_V1, KEY_V2: KEY_V2, load: load, save: save, statsAll: statsAll, levels: LEVELS };
 })();
