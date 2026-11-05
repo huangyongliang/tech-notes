@@ -16,13 +16,13 @@ flowchart LR
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 01 | [计算机组成 Computer Organization](01-computer-organization/) | 数的表示、CPU、存储层次 | ⚪ |
-| 02 | [操作系统 Operating Systems](02-operating-systems/) | 进程、线程、虚拟内存、文件系统 | ⚪ |
-| 03 | [Linux 与 Shell Linux & Shell](03-linux-shell/) | 终端、管道、权限、脚本 | ⚪ |
-| 04 | [Git 版本控制 Git](04-git/) | 提交、分支、合并、远程与 PR | ⚪ |
-| 05 | [计算机网络 Networking](05-networking/) | TCP/IP、DNS、HTTP / HTTPS | ⚪ |
-| 06 | [数据结构与算法 DSA](06-data-structures-algorithms/) | 复杂度、线性结构、树、图；用 C 练习 | ⚪ |
-| 07 | [数据库基础 Databases](07-databases/) | SQL、索引、事务 | ⚪ |
+| 01 | [计算机组成 Computer Organization](01-computer-organization/) | 数的表示、CPU、存储层次 | 🟡 |
+| 02 | [操作系统 Operating Systems](02-operating-systems/) | 进程、线程、虚拟内存、文件系统 | 🟡 |
+| 03 | [Linux 与 Shell Linux & Shell](03-linux-shell/) | 终端、管道、权限、脚本 | 🟡 |
+| 04 | [Git 版本控制 Git](04-git/) | 提交、分支、合并、远程与 PR | 🟡 |
+| 05 | [计算机网络 Networking](05-networking/) | TCP/IP、DNS、HTTP / HTTPS | 🟡 |
+| 06 | [数据结构与算法 DSA](06-data-structures-algorithms/) | 复杂度、线性结构、树、图；用 C 练习 | 🟡 |
+| 07 | [数据库基础 Databases](07-databases/) | SQL、索引、事务 | 🟡 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
