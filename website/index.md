@@ -77,6 +77,14 @@ hide:
 
     <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/ai-ml/README.md)
 
+-   :material-magnify:{ .lg } **产品调研 Product Research**
+
+    ---
+
+    产品、竞品与技术选型。
+
+    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/product-research/README.md)
+
 </div>
 
 ## 怎么用这个知识库 { .tn-section }
