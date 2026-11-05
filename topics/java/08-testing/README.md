@@ -17,4 +17,4 @@ JUnit 5（Jupiter）、参数化测试、Mockito、AssertJ，以及 Testcontaine
 
 ---
 
-← [上一节：构建工具](../07-build-tools/) · [返回 Java](../) · [下一节：Spring](../09-spring/) →
+← [上一节：构建工具](../07-build-tools/) · [返回 Java](../) · [下一节：Spring 框架](../09-spring/) →

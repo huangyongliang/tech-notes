@@ -1,6 +1,6 @@
 # Spring 框架 Spring
 
-> [Java](../) › Spring
+> [Java](../) › Spring 框架
 
 IoC / AOP 原理、Spring Boot 自动配置和 Actuator、Spring MVC / WebFlux、Spring Security，以及 Spring Cloud（Gateway、Config、OpenFeign 等）。版本以 Boot 4.x / Framework 7 为主，并记录 3.x → 4.x 的迁移要点。
 

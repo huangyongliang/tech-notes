@@ -1,6 +1,6 @@
 # 语言基础与新特性 Language Basics
 
-> [Java](../) › 语言基础
+> [Java](../) › 语言基础与新特性
 
 从语法、面向对象、`record`、`sealed`、模式匹配（`switch` / `instanceof`）、文本块，到 `var`、Stream / Lambda，按 LTS 版本（8 → 11 → 17 → 21 → 25）整理语言演进。重点是每个特性解决什么问题，以及惯用写法。
 
@@ -17,4 +17,4 @@
 
 ---
 
-[返回 Java](../) · [下一节：集合](../02-collections/) →
+[返回 Java](../) · [下一节：集合框架](../02-collections/) →

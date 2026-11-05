@@ -17,4 +17,4 @@ JMM 基础、`synchronized` / `volatile` / AQS / 锁、线程池、`CompletableF
 
 ---
 
-← [上一节：IO / NIO](../04-io-nio/) · [返回 Java](../) · [下一节：JVM](../06-jvm/) →
+← [上一节：输入输出](../04-io-nio/) · [返回 Java](../) · [下一节：Java 虚拟机](../06-jvm/) →

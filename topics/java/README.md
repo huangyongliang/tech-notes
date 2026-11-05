@@ -7,7 +7,7 @@ Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的�
 ## 学习路径
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[语言基础] --> B[集合] --> C[核心进阶] --> D[IO / NIO]
   D --> E[并发] --> F[JVM]
   F --> G[构建工具] --> H[测试] --> I[Spring]

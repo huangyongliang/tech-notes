@@ -1,6 +1,6 @@
 # 集合框架 Collections
 
-> [Java](../) › 集合
+> [Java](../) › 集合框架
 
 List / Set / Map / Queue 的实现与选型，`HashMap` 原理、并发集合，以及 Sequenced Collections（JDK 21）等新 API。适合整理成对比表。
 
@@ -17,4 +17,4 @@ List / Set / Map / Queue 的实现与选型，`HashMap` 原理、并发集合，
 
 ---
 
-← [上一节：语言基础](../01-language-basics/) · [返回 Java](../) · [下一节：核心进阶](../03-core-advanced/) →
+← [上一节：语言基础与新特性](../01-language-basics/) · [返回 Java](../) · [下一节：异常、泛型、反射与注解](../03-core-advanced/) →

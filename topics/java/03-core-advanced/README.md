@@ -1,6 +1,6 @@
 # 异常、泛型、反射与注解 Core Advanced
 
-> [Java](../) › 核心进阶
+> [Java](../) › 异常、泛型、反射与注解
 
 受检与非受检异常的设计、泛型擦除和通配符（PECS）、反射与 `MethodHandle`、注解与注解处理器。这是理解 Spring、Lombok、MapStruct 等框架原理的基础。
 
@@ -17,4 +17,4 @@
 
 ---
 
-← [上一节：集合](../02-collections/) · [返回 Java](../) · [下一节：IO / NIO](../04-io-nio/) →
+← [上一节：集合框架](../02-collections/) · [返回 Java](../) · [下一节：输入输出](../04-io-nio/) →

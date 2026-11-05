@@ -16,4 +16,4 @@ JDBC 基础与连接池（HikariCP）、MyBatis 映射与动态 SQL、JPA / Hibe
 
 ---
 
-← [上一节：Spring](../09-spring/) · [返回 Java](../) · [下一节：性能诊断](../11-performance-diagnostics/) →
+← [上一节：Spring 框架](../09-spring/) · [返回 Java](../) · [下一节：性能与诊断](../11-performance-diagnostics/) →

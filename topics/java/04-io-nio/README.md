@@ -1,6 +1,6 @@
 # 输入输出 IO & NIO
 
-> [Java](../) › IO / NIO
+> [Java](../) › 输入输出
 
 BIO、NIO（Buffer / Channel / Selector）、NIO.2（`Files` / `Path`）以及 `HttpClient`。学习 Netty 等网络框架之前要先掌握这些。
 
@@ -17,4 +17,4 @@ BIO、NIO（Buffer / Channel / Selector）、NIO.2（`Files` / `Path`）以及 `
 
 ---
 
-← [上一节：核心进阶](../03-core-advanced/) · [返回 Java](../) · [下一节：并发](../05-concurrency/) →
+← [上一节：异常、泛型、反射与注解](../03-core-advanced/) · [返回 Java](../) · [下一节：并发](../05-concurrency/) →

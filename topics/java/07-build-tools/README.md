@@ -16,4 +16,4 @@ Maven 生命周期、依赖管理与 BOM；Gradle（Kotlin DSL）的任务模型
 
 ---
 
-← [上一节：JVM](../06-jvm/) · [返回 Java](../) · [下一节：测试](../08-testing/) →
+← [上一节：Java 虚拟机](../06-jvm/) · [返回 Java](../) · [下一节：测试](../08-testing/) →

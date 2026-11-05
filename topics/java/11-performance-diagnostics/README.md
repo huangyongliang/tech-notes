@@ -1,6 +1,6 @@
 # 性能与诊断 Performance & Diagnostics
 
-> [Java](../) › 性能诊断
+> [Java](../) › 性能与诊断
 
 CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、JFR、async-profiler、Arthas，以及 JMH 微基准测试。
 
@@ -16,4 +16,4 @@ CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、
 
 ---
 
-← [上一节：持久层](../10-persistence/) · [返回 Java](../) · [下一节：生态趋势](../12-ecosystem-trends/) →
+← [上一节：持久层](../10-persistence/) · [返回 Java](../) · [下一节：生态与新趋势](../12-ecosystem-trends/) →
