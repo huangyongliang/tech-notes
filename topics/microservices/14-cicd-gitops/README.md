@@ -1,6 +1,6 @@
-# CI/CD 与 GitOps
+# 持续交付与 GitOps CI/CD & GitOps
 
-> [微服务](../) › CI/CD 与 GitOps
+> [微服务](../) › 持续交付与 GitOps
 
 从提交到上线的流水线，以及以 Git 为唯一事实来源的声明式部署、灰度发布。通用基础见 [DevOps](../../devops/)。
 

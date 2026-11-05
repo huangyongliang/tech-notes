@@ -23,4 +23,4 @@
 
 ---
 
-← [上一节：CI/CD 与 GitOps](../14-cicd-gitops/) · [返回 微服务](../) · [下一节：性能与云原生 Java](../16-cloud-native-java/) →
+← [上一节：持续交付与 GitOps](../14-cicd-gitops/) · [返回 微服务](../) · [下一节：性能与云原生 Java](../16-cloud-native-java/) →

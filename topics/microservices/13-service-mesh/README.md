@@ -23,4 +23,4 @@
 
 ---
 
-← [上一节：容器与编排](../12-containers-k8s/) · [返回 微服务](../) · [下一节：CI/CD 与 GitOps](../14-cicd-gitops/) →
+← [上一节：容器与编排](../12-containers-k8s/) · [返回 微服务](../) · [下一节：持续交付与 GitOps](../14-cicd-gitops/) →
