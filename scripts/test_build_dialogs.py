@@ -2,7 +2,8 @@
 """Offline test for scripts/build_dialogs.py (stdlib only, no network).
 
 Checks that 「## 闯关任务」 and 「## 学习目标」 are parsed as the same quest-goal
-section, and that the CLI writes a loadable window.TN_DIALOGS file.
+section, that 「## 资料索引」 becomes a links scroll on the last page, and that
+the CLI writes a loadable window.TN_DIALOGS file.
 
 Run: python3 scripts/test_build_dialogs.py
 """
@@ -83,6 +84,78 @@ def main() -> int:
     check("last page is the finish choice", b["pages"][-1]["type"] == "choice")
     check("other headings are not task sections",
           not bd.is_task_heading("学习路径") and not bd.is_task_heading("目标"))
+
+    # 「## 资料索引」 → kind=links scroll on the lecturer's last page (no links in dialog text)
+    INDEX_MD = """# 索引关 Sample Index
+
+> QUEST 99 · 索引
+
+导语一句。
+
+## 闯关任务
+
+- [ ] 会打开资料卷轴
+
+## 资料索引
+
+- [LearnFree: Computer Basics](https://www.learnfree.org/series/computer-basics) — GCFGlobal 免费电脑入门系列（英文）
+- [CS50x Week 0](https://cs50.harvard.edu/x/weeks/0/) — 哈佛 CS50 第 0 周（英文，免费）
+- [无注链接](https://example.invalid/bare)
+
+## 通关自测
+
+1. 测试题？
+   - A. 是
+   - B. 否
+
+<details><summary>参考答案</summary>
+
+1. A。
+
+</details>
+"""
+    idx = bd.build_dialog(Path("java/99-index"), INDEX_MD)
+    assert idx is not None
+    link_scrolls = [s for s in idx["scrolls"].values() if s.get("kind") == "links"]
+    check("资料索引 → links scroll", len(link_scrolls) == 1)
+    items = link_scrolls[0]["items"] if link_scrolls else []
+    check("资料索引 links parsed (title+url)", len(items) == 3 and items[0]["url"].endswith("/computer-basics") and items[0]["title"].startswith("LearnFree"))
+    check("资料索引 note kept", items and "GCFGlobal" in items[0]["note"] and items[1]["note"].startswith("哈佛") and items[2]["note"] == "")
+    check("资料索引 scroll on last page only",
+          idx["pages"][-1].get("scroll") == link_scrolls[0]["id"]
+          and not any(p.get("scroll") == link_scrolls[0]["id"] for p in idx["pages"][:-1]))
+    check("资料索引 not inlined into dialog text",
+          not any("learnfree.org" in ln or "cs50.harvard" in ln or "example.invalid" in ln
+                  for p in idx["pages"] for ln in p.get("lines", [])))
+
+    EMPTY_MD = """# 空索引 Empty
+
+导语。
+
+## 闯关任务
+
+- [ ] 一项
+
+## 资料索引
+
+<!-- - [占位](https://example.invalid/x) — 注释掉的条目 -->
+
+## 通关自测
+
+1. 问？
+   - A. 是
+
+<details><summary>参考答案</summary>
+
+1. A。
+
+</details>
+"""
+    empty = bd.build_dialog(Path("java/98-empty-index"), EMPTY_MD)
+    assert empty is not None
+    check("资料索引 empty section ok (no links scroll / no button)",
+          not any(s.get("kind") == "links" for s in empty["scrolls"].values())
+          and "scroll" not in empty["pages"][-1])
 
     # End-to-end CLI run on a temp topics tree: one draft per heading.
     with tempfile.TemporaryDirectory() as tmp:

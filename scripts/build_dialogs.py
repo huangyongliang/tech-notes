@@ -17,6 +17,9 @@ Standard library only. Test: python3 scripts/test_build_dialogs.py
 
 Quest-goal section: the headings 「## 闯关任务」 and 「## 学习目标」 are treated
 as the same section (checklist → tasks + teach pages), so drafts may use either.
+
+「## 资料索引」 list items become a kind=links scroll on the lecturer's last page
+(「📜 资料卷轴」); dialog text itself never embeds the URLs.
 """
 from __future__ import annotations
 
@@ -26,11 +29,13 @@ import re
 import sys
 from pathlib import Path
 
-SKIP_HEADINGS = {"资料索引", "相关主题", "延伸阅读"}
+SKIP_HEADINGS = {"相关主题", "延伸阅读"}  # 资料索引 → 资料卷轴（见 INDEX_HEADINGS）
 # 本关目标（quest goals）：两种写法视为同一节
 TASK_HEADINGS = {"闯关任务", "学习目标"}
 QUIZ_HEADINGS = {"通关自测", "自测", "练习"}
 RESOURCE_HEADINGS = {"建议先收的资料", "参考资料", "资料"}
+# 「## 资料索引」：解析为 links 卷轴，挂在对话最后一页的「📜 资料卷轴」按钮上（不把链接写进对话框正文）
+INDEX_HEADINGS = {"资料索引"}
 
 
 def is_task_heading(title: str) -> bool:
@@ -142,6 +147,31 @@ def extract_bullets(body: str) -> list[str]:
     return bullets
 
 
+def extract_resource_links(body: str) -> list[dict]:
+    """Parse 「## 资料索引」 list items: [title](url) — note.
+
+    Returns [{title, url, note}, ...]. Skips HTML comments and bullets without a link.
+    Note keeps the trailing text after an em/en dash or hyphen separator; empty if none.
+    """
+    items: list[dict] = []
+    for line in body.splitlines():
+        if "<!--" in line:
+            continue
+        m = re.match(
+            r"^\s*[-*+]\s+\[([^\]]+)\]\(([^)]+)\)\s*(?:[—–\-]\s*(.*))?\s*$",
+            line,
+        )
+        if not m:
+            continue
+        title = m.group(1).strip()
+        url = m.group(2).strip()
+        note = (m.group(3) or "").strip()
+        if not title or not url:
+            continue
+        items.append({"title": title, "url": url, "note": note})
+    return items
+
+
 def extract_quiz(body: str) -> list[dict]:
     details_m = re.search(
         r"<details[^>]*>\s*<summary[^>]*>(.*?)</summary>(.*?)</details>",
@@ -248,19 +278,29 @@ def build_dialog(rel: Path, md: str) -> dict | None:
     scrolls: dict[str, dict] = {}
     quizzes: list[dict] = []
     tasks: list[str] = []
+    index_items: list[dict] = []
     scroll_i = 0
 
-    def add_scroll(kind: str, title_: str, body: str, lang: str = "") -> str:
+    def add_scroll(
+        kind: str,
+        title_: str,
+        body: str = "",
+        lang: str = "",
+        items: list | None = None,
+    ) -> str:
         nonlocal scroll_i
         scroll_i += 1
         sid = f"s{scroll_i}"
-        scrolls[sid] = {
+        entry: dict = {
             "id": sid,
             "kind": kind,
             "title": title_,
             "body": body,
             "lang": lang,
         }
+        if items is not None:
+            entry["items"] = items
+        scrolls[sid] = entry
         return sid
 
     lead_sec = sections[0]
@@ -345,6 +385,11 @@ def build_dialog(rel: Path, md: str) -> dict | None:
                 )
             continue
 
+        if h in INDEX_HEADINGS:
+            # Collect for the final-page 「📜 资料卷轴」; do not emit dialog lines or inline links.
+            index_items = extract_resource_links(body_nofence)
+            continue
+
         if h in RESOURCE_HEADINGS:
             bullets = extract_bullets(body_nofence)
             if bullets:
@@ -413,6 +458,15 @@ def build_dialog(rel: Path, md: str) -> dict | None:
             ],
         }
     )
+
+    if index_items:
+        plain = "\n".join(
+            "· " + it["title"] + ((" — " + it["note"]) if it["note"] else "")
+            for it in index_items
+        )
+        sid = add_scroll("links", "资料索引", body=plain, items=index_items)
+        # 讲师最后一页（完关 choice）挂「📜 资料卷轴」；对话框正文不放链接
+        pages[-1]["scroll"] = sid
 
     xp, badge = 100, ""
     m = re.search(r"\+(\d+)\s*XP", md)
