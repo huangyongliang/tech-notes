@@ -1,4 +1,4 @@
-# JVM
+# Java 虚拟机 JVM
 
 运行时内存区域、Java 内存模型、类加载与双亲委派、GC（G1、分代 ZGC、Shenandoah）和 JIT，附带调优工具 `jcmd`、`jstat`、JFR、JMC。
 

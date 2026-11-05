@@ -1,6 +1,6 @@
-# Java
+# Java 技术栈 Java
 
-Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的学习笔记。以最新 LTS（JDK 25）为基准，兼顾 8 / 17 / 21 的差异。内容大致按学习顺序排列，也可以当速查手册使用。
+Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的学习笔记。以最新 LTS（JDK 25）为基准，兼顾 8 / 11 / 17 / 21 的差异。内容大致按学习顺序排列，也可以当速查手册使用。
 
 > 相关主题：[编程 Programming](../programming/) · [Web](../web/) · [系统 Systems](../systems/)
 
@@ -8,7 +8,7 @@ Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的�
 
 | # | 子目录 | 内容 |
 |---|--------|------|
-| 1 | [01-language-basics](01-language-basics/) | 语法与新特性（8 → 25 LTS） |
+| 1 | [01-language-basics](01-language-basics/) | 语法与新特性（8 → 11 → 17 → 21 → 25 LTS） |
 | 2 | [02-collections](02-collections/) | 集合框架与选型 |
 | 3 | [03-core-advanced](03-core-advanced/) | 异常、泛型、反射、注解 |
 | 4 | [04-io-nio](04-io-nio/) | IO / NIO / NIO.2 / HttpClient |
@@ -23,7 +23,8 @@ Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的�
 
 ## 版本基线（2026-11）
 - JDK：最新 LTS 为 25；最新功能版本为 27
-- Spring Boot：4.1.x（GA），基于 Spring Framework 7；Spring Cloud 2025.1.x
+- Spring Boot：4.1.x（最新 GA 4.1.2）；Boot 4.0 起基于 Spring Framework 7.0、Spring Security 7.0、Jackson 3.0
+- Spring Cloud：2025.1.4（Oakwood），适配 Boot 4.0.x 和 4.1.x（从 2025.1.2 起支持 4.1.x）
 
 ## 资料索引
 <!-- - [标题](相对路径或链接) — 一句话说明 -->
