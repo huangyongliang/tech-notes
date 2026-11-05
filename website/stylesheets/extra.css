@@ -250,3 +250,126 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 
 /* 终端内隐藏复制按钮（2b38e34） */
 .md-typeset .tn2-term .md-clipboard, .tn2-term .md-code__nav { display: none !important; }
+
+/* ───────── Java 闯关（quest.js） ───────── */
+:root { --tn-q-gold: #ffd84d; --tn-q-lock: color-mix(in srgb, var(--tn-ink) 22%, var(--tn-paper)); --tn-q-lock-ink: color-mix(in srgb, var(--tn-ink) 45%, var(--tn-paper)); }
+
+/* 玩家状态条 */
+.md-typeset .tn2-pbar { display: grid; grid-template-columns: auto minmax(0,1fr) auto auto auto; gap: 1.3rem; align-items: center; margin: 0 0 1.6rem; padding: .7rem 1rem; border: 2px solid var(--tn-rule); background: var(--tn-paper); box-shadow: 6px 6px 0 var(--tn-rule); font-family: var(--tn-mono); }
+.tn2-pbar__lv { font-size: 1.2rem; font-weight: 800; background: var(--tn-ink); color: var(--tn-q-gold); padding: .2rem .6rem; }
+[data-md-color-scheme="slate"] .tn2-pbar__lv { color: #14110f; background: var(--tn-q-gold); }
+.tn2-pbar__xp div { display: flex; justify-content: space-between; font-size: .6rem; font-weight: 700; margin-bottom: .25rem; }
+.tn2-pbar__xp i { display: block; height: .75rem; border: 2px solid var(--tn-rule); background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 2px), color-mix(in srgb, var(--tn-ink) 18%, transparent) calc(10% - 2px) 10%); }
+.tn2-pbar__xp i b { display: block; height: 100%; background: var(--tn-hot); min-width: 0; }
+.tn2-pbar__xp small { display: block; font-size: .55rem; color: var(--tn-ink-2); margin-top: .2rem; }
+.tn2-pbar__n { text-align: center; line-height: 1.15; }
+.tn2-pbar__n b { display: block; font-size: 1.05rem; }
+.tn2-pbar__n small { font-size: .55rem; color: var(--tn-ink-2); }
+.tn2-pbar__note { font-family: var(--tn-sans); font-size: .6rem; color: var(--tn-ink-2); border-left: 2px solid var(--tn-rule); padding-left: .8rem; line-height: 1.6; }
+.tn2-pbar__note em { font-style: normal; color: var(--tn-hot); font-weight: 700; }
+.tn2-pbar__reset { display: block; font: 700 .58rem var(--tn-mono); color: var(--tn-hot); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline dashed; text-underline-offset: 3px; }
+
+/* 节点通用状态 */
+.tn2-qnode__dot, .tn2-qmini a, .tn2-qmini__boss { transition: transform .12s; }
+
+/* 目录页地图 */
+.md-typeset .tn2-qmap { margin: 1.2rem 0 2rem; display: grid; gap: 1.6rem; }
+.tn2-qchap { position: relative; }
+.md-typeset .tn2-qchap__head { display: flex; gap: .6rem; align-items: center; margin: 0 0 .4rem; padding-bottom: .3rem; border-bottom: 2px solid var(--tn-rule); font: 700 .78rem var(--tn-mono); }
+.tn2-qchap__head span { background: var(--tn-hot); color: #fff; padding: .05rem .4rem; font-size: .62rem; }
+.tn2-qchap__head em { margin-left: auto; font-style: normal; font-size: .6rem; color: var(--tn-ink-2); }
+.tn2-qrow { position: relative; display: flex; padding: .9rem 0 .2rem; }
+.tn2-qchap--2 .tn2-qrow { flex-direction: row-reverse; }
+.tn2-qrow::before { content: ""; position: absolute; left: 10%; right: 10%; top: calc(.9rem + 1.6rem - 1.5px); border-top: 3px dashed var(--tn-rule); }
+/* S 形转弯：从本章最后一个节点连到下一章第一个节点 */
+.tn2-qchap--1 .tn2-qrow::after, .tn2-qchap--2 .tn2-qrow::after { content: ""; position: absolute; top: calc(.9rem + 1.6rem - 1.5px); height: calc(100% + 1.6rem + 2.2rem - .9rem); width: 2.2rem; border: 3px dashed var(--tn-rule); }
+.tn2-qchap--1 .tn2-qrow::after { left: 90%; border-left: 0; border-radius: 0 2.2rem 2.2rem 0; }
+.tn2-qchap--2 .tn2-qrow::after { right: 90%; border-right: 0; border-radius: 2.2rem 0 0 2.2rem; }
+.md-typeset a.tn2-qnode { position: relative; z-index: 1; flex: 1 1 0; display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--tn-ink); text-decoration: none; }
+.tn2-qnode__dot { width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 2px solid var(--tn-rule); background: var(--tn-paper); display: flex; align-items: center; justify-content: center; font: 800 .95rem var(--tn-mono); box-shadow: 3px 3px 0 var(--tn-rule); }
+.tn2-qnode__lab { margin-top: .55rem; font-size: .66rem; font-weight: 700; line-height: 1.35; max-width: 7.5rem; }
+.tn2-qnode__lab b { display: block; font: 700 .52rem var(--tn-mono); color: var(--tn-ink-2); letter-spacing: .04em; }
+.md-typeset a.tn2-qnode:hover .tn2-qnode__dot { transform: translate(-2px,-2px); }
+.tn2-qnode.is-done .tn2-qnode__dot { background: var(--tn-hot); color: #fff; font-size: 0; }
+.tn2-qnode.is-done .tn2-qnode__dot::before { content: "✓"; font-size: 1.4rem; }
+.tn2-qnode.is-cur .tn2-qnode__dot { background: var(--tn-q-gold); color: #14110f; outline: 3px dashed var(--tn-hot); outline-offset: 4px; }
+.tn2-qnode.is-cur::before { content: "YOU ARE HERE"; position: absolute; top: -1.35rem; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--tn-ink); color: var(--tn-q-gold); font: 700 .5rem var(--tn-mono); padding: .15rem .4rem; animation: tn2-blink 1s steps(2) infinite; }
+[data-md-color-scheme="slate"] .tn2-qnode.is-cur::before { color: #14110f; background: var(--tn-q-gold); }
+.tn2-qnode.is-lock .tn2-qnode__dot { background: var(--tn-q-lock); color: var(--tn-q-lock-ink); border-color: var(--tn-q-lock-ink); box-shadow: 3px 3px 0 var(--tn-q-lock-ink); font-size: 0; }
+.tn2-qnode.is-lock .tn2-qnode__dot::before { content: "🔒"; font-size: 1rem; filter: grayscale(1); opacity: .7; }
+.tn2-qnode.is-lock .tn2-qnode__lab { color: var(--tn-q-lock-ink); }
+.tn2-qnode--boss .tn2-qnode__dot { border-radius: 4px; transform: rotate(45deg); width: 2.9rem; height: 2.9rem; margin: .15rem 0; background: var(--tn-ink); color: var(--tn-q-gold); box-shadow: 3px 3px 0 var(--tn-hot); font-size: 0; }
+.tn2-qnode--boss .tn2-qnode__dot::before { content: "BOSS"; transform: rotate(-45deg); font-size: .6rem; }
+.md-typeset a.tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg) translate(-2px,-2px); }
+.tn2-qnode--boss.is-lock .tn2-qnode__dot { background: var(--tn-q-lock); color: var(--tn-q-lock-ink); box-shadow: 3px 3px 0 var(--tn-q-lock-ink); }
+.tn2-qnode--boss.is-lock .tn2-qnode__dot::before { content: "BOSS"; font-size: .6rem; filter: none; opacity: 1; }
+.tn2-qnode--boss.is-cur .tn2-qnode__dot { background: var(--tn-q-gold); color: #14110f; outline: none; }
+.tn2-qnode--boss.is-cur::before { content: "可挑战"; }
+.tn2-qnode--boss.is-done .tn2-qnode__dot { background: var(--tn-hot); color: #fff; }
+.tn2-qnode--boss.is-done .tn2-qnode__dot::before { content: "✓"; font-size: 1.2rem; }
+[data-md-color-scheme="slate"] .tn2-qnode--boss .tn2-qnode__dot { background: var(--tn-paper-2); border-color: var(--tn-q-gold); }
+@keyframes tn2-blink { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .tn2-qnode.is-cur::before { animation: none; } }
+
+/* 首页缩略路径 */
+.md-typeset .tn2-qmini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; margin: 1rem 0 .5rem; }
+.tn2-qmini__ch { border: 2px solid var(--tn-rule); padding: .5rem .6rem .6rem; background: var(--tn-paper); }
+.tn2-qmini__ch > b { display: block; font: 700 .58rem var(--tn-mono); color: var(--tn-hot); }
+.tn2-qmini__ch > strong { display: block; font-size: .95rem; font-weight: 900; }
+.tn2-qmini__path { position: relative; display: flex; justify-content: space-between; align-items: center; margin-top: .45rem; }
+.tn2-qmini__path::before { content: ""; position: absolute; left: .6rem; right: .6rem; top: 50%; border-top: 2px dashed var(--tn-rule); }
+.md-typeset .tn2-qmini a, .tn2-qmini__boss { position: relative; width: 1.45rem; height: 1.45rem; border-radius: 50%; border: 2px solid var(--tn-rule); background: var(--tn-paper); color: var(--tn-ink); display: flex; align-items: center; justify-content: center; font: 700 .5rem var(--tn-mono); text-decoration: none; }
+.tn2-qmini__boss { border-radius: 2px; transform: rotate(45deg); width: 1.2rem; height: 1.2rem; background: var(--tn-ink); color: var(--tn-paper); cursor: pointer; }
+.md-typeset .tn2-qmini a.is-done { background: var(--tn-hot); color: #fff; }
+.md-typeset .tn2-qmini a.is-cur { background: var(--tn-q-gold); color: #14110f; outline: 2px dashed var(--tn-hot); outline-offset: 2px; }
+.md-typeset .tn2-qmini a.is-lock { background: var(--tn-q-lock); color: var(--tn-q-lock-ink); border-color: var(--tn-q-lock-ink); }
+.tn2-qmini__boss.is-lock { background: var(--tn-q-lock); color: var(--tn-q-lock-ink); border-color: var(--tn-q-lock-ink); }
+.tn2-qmini__boss.is-cur { background: var(--tn-q-gold); color: #14110f; }
+.tn2-qmini__boss.is-done { background: var(--tn-hot); color: #fff; }
+.md-typeset .tn2-qprog { font: .66rem var(--tn-mono); color: var(--tn-ink-2); margin: .5rem 0 .8rem; }
+.md-typeset .tn2-qprog b { color: var(--tn-hot); }
+.md-typeset .tn2-qcta { display: flex; gap: .8rem; flex-wrap: wrap; margin: 0; }
+
+/* 子页任务卡 */
+.md-typeset .tn2-quest { position: relative; margin: 1.2rem 0 1.8rem; padding: 2.2rem 1.1rem .4rem; border: 2px solid var(--tn-rule); background: var(--tn-paper); box-shadow: 6px 6px 0 var(--tn-hot); }
+.md-typeset .tn2-quest__no { position: absolute; top: 0; left: 0; right: 0; background: var(--tn-ink); color: var(--tn-paper); padding: .35rem 1.1rem; font: 700 .72rem var(--tn-mono); letter-spacing: .03em; }
+.md-typeset .tn2-quest__no::after { content: "· 未解锁也可阅读"; float: right; color: var(--tn-q-lock-ink); font-weight: 400; font-size: .6rem; }
+.md-typeset .tn2-quest.is-cur .tn2-quest__no::after { content: "▶ 当前关卡"; color: var(--tn-q-gold); }
+.md-typeset .tn2-quest.is-done .tn2-quest__no::after { content: "✓ 已通关"; color: var(--tn-hot); }
+.md-typeset .tn2-quest:not(.is-cur):not(.is-done):not(.is-lock) .tn2-quest__no::after { content: ""; }
+.md-typeset .tn2-quest.is-done { box-shadow: 6px 6px 0 var(--tn-rule); }
+.md-typeset .tn2-quest p { margin: .6em 0; font-size: .74rem; }
+.md-typeset .tn2-quest p strong { font-family: var(--tn-mono); }
+.md-typeset .tn2-quest .task-list-item { font-size: .74rem; border-bottom: 1px dashed color-mix(in srgb, var(--tn-ink) 25%, transparent); padding: .25rem 0; margin-bottom: 0; }
+
+/* 子页底部：标记通关 */
+.md-typeset .tn2-clear:empty { display: none; }
+.md-typeset .tn2-clear { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0 1rem; padding: .8rem 1rem; border: 2px dashed var(--tn-rule); }
+.tn2-clear__hint, .tn2-clear__ok { font-size: .7rem; color: var(--tn-ink-2); margin-right: auto; }
+.tn2-clear__ok { color: var(--tn-hot); font: 700 .72rem var(--tn-mono); }
+.tn2-clear__btn { font: 800 .78rem var(--tn-mono); padding: .55rem 1rem; border: 2px solid var(--tn-rule); background: var(--tn-hot); color: #fff; box-shadow: 4px 4px 0 var(--tn-rule); cursor: pointer; }
+.tn2-clear__btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--tn-rule); }
+.tn2-clear__btn.is-done { background: var(--tn-paper); color: var(--tn-ink); }
+.md-typeset a.tn2-clear__next { font: 700 .72rem var(--tn-mono); color: var(--tn-hot); }
+
+@media (max-width: 44.9375em) {
+  .md-typeset .tn2-pbar { grid-template-columns: auto 1fr auto auto; gap: .7rem; }
+  .tn2-pbar__note { grid-column: 1 / -1; border-left: 0; border-top: 1px dashed var(--tn-rule); padding: .4rem 0 0; display: flex; justify-content: space-between; }
+  .md-typeset .tn2-qmini { grid-template-columns: 1fr; }
+  .tn2-qrow, .tn2-qchap--2 .tn2-qrow { flex-direction: column; padding: .6rem 0 0; gap: .7rem; }
+  .tn2-qrow::before { left: 1.6rem; right: auto; top: 1rem; bottom: 1rem; border-top: 0; border-left: 3px dashed var(--tn-rule); }
+  .tn2-qchap--1 .tn2-qrow::after, .tn2-qchap--2 .tn2-qrow::after { display: none; }
+  .md-typeset a.tn2-qnode { flex-direction: row; text-align: left; gap: .8rem; }
+  .tn2-qnode__lab { margin-top: 0; max-width: none; font-size: .75rem; }
+  .tn2-qnode--boss .tn2-qnode__dot { margin: .15rem .15rem; }
+  .tn2-qnode.is-cur::before { top: 50%; left: auto; right: 0; transform: translateY(-50%); }
+}
+.tn2-pbar__note { white-space: nowrap; }
+.md-typeset .tn2-quest .task-list-indicator::before { background-color: transparent; border: 2px solid var(--tn-rule); border-radius: 0; -webkit-mask-image: none; mask-image: none; }
+.md-typeset .tn2-quest [type=checkbox]:checked + .task-list-indicator::before { background: var(--tn-hot); border-color: var(--tn-hot); box-shadow: inset 0 0 0 2px var(--tn-paper); }
+@media (max-width: 44.9375em) {
+  .md-typeset .tn2-pbar { grid-template-columns: auto 1fr 1fr; }
+  .tn2-pbar__xp { grid-column: 1 / -1; grid-row: 2; }
+  .tn2-pbar__note { grid-row: 3; }
+  .tn2-qnode.is-cur .tn2-qnode__lab { padding-right: 5.6rem; }
+}

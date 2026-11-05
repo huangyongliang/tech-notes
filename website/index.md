@@ -100,30 +100,21 @@ Java 12 个子主题、微服务 16 个子主题都按先后编号，后一节�
 
 <div class="tn2-card tn2-card--main" markdown>
 
-<span class="tn2-tag">START HERE · 01</span>
+<span class="tn2-tag">START HERE · QUEST MAP</span>
 
 ### Java 技术栈 <small>Java Stack</small>
 
-Java 语言、JVM 和主流生态的学习笔记，12 个子主题分三段，由浅入深。
+Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末尾一个 BOSS 章节测验。
 
-<div class="tn2-route">
-<div class="tn2-route__step"><b>01–04</b><strong>语言</strong><em>基础 · 集合 · 泛型 · IO</em></div>
-<div class="tn2-route__step"><b>05–08</b><strong>平台</strong><em>并发 · JVM · 构建 · 测试</em></div>
-<div class="tn2-route__step"><b>09–12</b><strong>生态</strong><em>Spring · 持久层 · 性能 · 趋势</em></div>
+<div class="tn2-qmini">
+<div class="tn2-qmini__ch"><b>01–04</b><strong>语言</strong><div class="tn2-qmini__path"><a data-q="01" href="topics/java/01-language-basics/" title="QUEST 01 语言基础与新特性">01</a><a data-q="02" href="topics/java/02-collections/" title="QUEST 02 集合框架">02</a><a data-q="03" href="topics/java/03-core-advanced/" title="QUEST 03 异常、泛型、反射与注解">03</a><a data-q="04" href="topics/java/04-io-nio/" title="QUEST 04 输入输出">04</a><span class="tn2-qmini__boss" data-boss="1" title="章节测验">B</span></div></div>
+<div class="tn2-qmini__ch"><b>05–08</b><strong>平台</strong><div class="tn2-qmini__path"><a data-q="05" href="topics/java/05-concurrency/" title="QUEST 05 并发">05</a><a data-q="06" href="topics/java/06-jvm/" title="QUEST 06 Java 虚拟机">06</a><a data-q="07" href="topics/java/07-build-tools/" title="QUEST 07 构建工具">07</a><a data-q="08" href="topics/java/08-testing/" title="QUEST 08 测试">08</a><span class="tn2-qmini__boss" data-boss="2" title="章节测验">B</span></div></div>
+<div class="tn2-qmini__ch"><b>09–12</b><strong>生态</strong><div class="tn2-qmini__path"><a data-q="09" href="topics/java/09-spring/" title="QUEST 09 Spring 框架">09</a><a data-q="10" href="topics/java/10-persistence/" title="QUEST 10 持久层">10</a><a data-q="11" href="topics/java/11-performance-diagnostics/" title="QUEST 11 性能与诊断">11</a><a data-q="12" href="topics/java/12-ecosystem-trends/" title="QUEST 12 生态与新趋势">12</a><span class="tn2-qmini__boss" data-boss="3" title="章节测验">B</span></div></div>
 </div>
 
-<p class="tn2-cap">前 4 节预览</p>
+<p class="tn2-qprog">12 关 · 3 个 BOSS · 从 QUEST 01 语言基础与新特性开始</p>
 
-<div class="tn2-peek" markdown>
-
-[<span>01</span>语言基础与新特性](topics/java/01-language-basics/README.md)
-[<span>02</span>集合框架](topics/java/02-collections/README.md)
-[<span>03</span>异常、泛型、反射与注解](topics/java/03-core-advanced/README.md)
-[<span>04</span>输入输出](topics/java/04-io-nio/README.md)
-
-</div>
-
-[进入 Java →](topics/java/README.md){ .tn2-btn .tn2-btn--solid }
+<p class="tn2-qcta"><a class="tn2-btn tn2-btn--solid tn2-continue" href="topics/java/01-language-basics/">开始闯关 →</a> <a class="tn2-btn" href="topics/java/">看闯关地图</a></p>
 
 </div>
 
