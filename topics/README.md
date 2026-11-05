@@ -5,6 +5,7 @@
 | 主题 | 说明 |
 |------|------|
 | [programming](programming/) | 编程语言、算法、设计 |
+| [java](java/) | Java 语言、JVM、Spring 生态 |
 | [web](web/) | 前端、后端、协议 |
 | [ai-ml](ai-ml/) | 机器学习、LLM |
 | [systems](systems/) | 操作系统、网络、数据库、分布式 |
