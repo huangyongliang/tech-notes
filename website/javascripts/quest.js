@@ -44,40 +44,34 @@
   function parseStore(raw) {
     if (raw == null || raw === "") return null;
     var s = JSON.parse(raw); // may throw
-    if (!s || typeof s !== "object") return null;
-    s.done = s.done && typeof s.done === "object" ? s.done : {};
-    s.tasks = s.tasks && typeof s.tasks === "object" ? s.tasks : {};
+    if (!s || typeof s !== "object" || Array.isArray(s)) return null;
+    s.done = s.done && typeof s.done === "object" && !Array.isArray(s.done) ? s.done : {};
+    s.tasks = s.tasks && typeof s.tasks === "object" && !Array.isArray(s.tasks) ? s.tasks : {};
     return s;
   }
+  function empty() { return { version: 2, done: {}, tasks: {} }; }
+  function readKey(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function tryParse(raw) { try { return parseStore(raw); } catch (e) { return null; } }
 
+  /* v2 优先；v2 缺失或损坏（JSON 解析失败 / 非对象）时先尝试迁移 v1，再退回空进度。永不抛错。 */
   function load() {
     if (demo) return demo;
-    /* Prefer v2; migrate v1 → v2 once when v2 missing. Bad JSON → fresh empty state. */
-    try {
-      var v2raw = localStorage.getItem(KEY_V2);
-      if (v2raw != null) {
-        var v2 = parseStore(v2raw);
-        if (v2) { v2.version = 2; return v2; }
-        return { version: 2, done: {}, tasks: {} };
-      }
-    } catch (e) {
-      return { version: 2, done: {}, tasks: {} };
+    var v2raw = readKey(KEY_V2);
+    if (v2raw != null) {
+      var v2 = tryParse(v2raw);
+      if (v2) { v2.version = 2; return v2; }
     }
-    try {
-      var v1raw = localStorage.getItem(KEY_V1);
-      if (v1raw != null) {
-        var v1 = parseStore(v1raw);
-        if (v1) {
-          var migrated = migrateV1toV2(v1);
-          try {
-            localStorage.setItem(KEY_V2, JSON.stringify(migrated));
-            /* Keep v1 untouched as backup after successful write. */
-          } catch (e) {}
-          return migrated;
-        }
+    var v1raw = readKey(KEY_V1);
+    if (v1raw != null) {
+      var v1 = tryParse(v1raw);
+      if (v1) {
+        var migrated = migrateV1toV2(v1);
+        /* 写入 v2（覆盖损坏的 v2）；v1 原样保留作备份 */
+        try { localStorage.setItem(KEY_V2, JSON.stringify(migrated)); } catch (e) {}
+        return migrated;
       }
-    } catch (e) {}
-    return { version: 2, done: {}, tasks: {} };
+    }
+    return empty();
   }
   function save(s) {
     if (demo) { demo = s; return; }
@@ -217,13 +211,14 @@
       if (link) link.setAttribute("href", "#quest-map");
       var n = h2.nextElementSibling;
       while (n && n.tagName !== "H2") {
-        if (!n.classList.contains("tn2-qmap") && !n.classList.contains("tn2-q-injected")) n.classList.add("tn2-q-hidden");
+        if (!n.classList.contains("tn2-qmap") && !n.classList.contains("tn2-q-injected") && !n.classList.contains("tn2-x")) n.classList.add("tn2-q-hidden");
         n = n.nextElementSibling;
       }
       inner.classList.add("tn2-q-mapmode");
-      /* Move map to sit right under the retitled h2 */
-      var qmap = inner.querySelector(".tn2-qmap");
-      if (qmap && qmap.previousElementSibling !== h2) h2.parentNode.insertBefore(qmap, h2.nextSibling);
+      /* Move map to sit right under the retitled h2 (or under the explore view, see explore.js) */
+      var qmap = inner.querySelector(".tn2-qmap"), prev = qmap && qmap.previousElementSibling;
+      var underExplore = prev && prev.classList.contains("tn2-x") && prev.previousElementSibling === h2;
+      if (qmap && prev !== h2 && !underExplore) h2.parentNode.insertBefore(qmap, h2.nextSibling);
     }
     patchToc();
   }
@@ -278,7 +273,15 @@
     });
   }
 
+  /* 进度变化（或重新挂载）后广播，explore.js 等消费者据此刷新 */
+  function notify() {
+    try { window.dispatchEvent(new CustomEvent("tn-quest-change")); } catch (e) {}
+  }
   function mount() {
+    mountOnly();
+    notify();
+  }
+  function mountOnly() {
     var inner = document.querySelector(".md-content__inner"); if (!inner) return;
     inner.querySelectorAll(".tn2-q-injected").forEach(function (e) { e.remove(); });
     var s = load(), isHome = !!inner.querySelector(".tn2-hero");
@@ -307,6 +310,17 @@
   }
   if (window.document$ && document$.subscribe) document$.subscribe(init);
   else document.addEventListener("DOMContentLoaded", init);
+
+  /* 共享进度 API（explore.js 使用；与本文件同一份 tn-quest-v2 存储和 ?demo 内存态） */
+  window.TN_QUEST = {
+    KEY_V1: KEY_V1, KEY_V2: KEY_V2, topicKey: TOPIC_KEY, topic: TOPIC, levels: LEVELS,
+    load: load, save: save, stats: stats, current: current, state: state,
+    chapterDone: chapterDone, bossState: bossState, shortId: shortId,
+    url: url, urlFor: function (path) { return new URL(path, root()).href; },
+    isDemo: function () { return !!demo; },
+    isIndex: function () { return rel("topics/" + TOPIC_KEY + "/"); },
+    refresh: mount
+  };
 
   /* Expose migration helpers for offline tests (no network). */
   window.TN_QUEST_MIGRATE_ = { migrateV1toV2: migrateV1toV2, migrateDoneKey: migrateDoneKey, migrateTaskKey: migrateTaskKey, KEY_V1: KEY_V1, KEY_V2: KEY_V2, load: load, save: save };
