@@ -14,4 +14,4 @@
 
 ---
 
-[返回 AI](../) · [下一节：深度学习框架](../02-dl-frameworks/) →
+← [上一节：Python 速成](../00-python-bridge/) · [返回 AI](../) · [下一节：深度学习框架](../02-dl-frameworks/) →

@@ -1,6 +1,6 @@
 # 编程入门 Programming Basics
 
-用一门语言建立编程思维，能独立把想法写成能跑、能调试的程序。本路线第一门语言选用 **Python**，阶段 3 再学 Java；与深入专题 [编程 Programming](../programming/) 分工。
+以 **C** 为第一门语言建立编程思维，看清程序和内存打交道的方式，能独立写出、调试小程序。阶段 3 再学 Java；进入 AI 前用 [Python 速成](../ai/00-python-bridge/) 补齐 Python。与深入专题 [编程 Programming](../programming/) 分工。
 
 > 相关主题：[计算机基础 CS Basics](../cs-basics/) · [Java 技术栈](../java/) · [编程 Programming](../programming/) · [学习路线 Roadmap](../roadmap/)
 
@@ -8,25 +8,25 @@
 
 ```mermaid
 flowchart LR
-  A[第一门语言 Python] --> B[核心概念] --> C[数据与对象]
-  C --> D[调试与测试] --> E[问题求解] --> F[小项目]
+  A[第一门语言 C] --> B[核心概念] --> C[内存与数据]
+  C --> D[工具调试测试] --> E[问题求解] --> F[C 小项目]
 ```
 
 ## 子目录
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 01 | [第一门语言与环境 First Language](01-first-language/) | 选用 Python；安装与运行环境 | ⚪ |
-| 02 | [核心概念 Core Concepts](02-core-concepts/) | 变量、控制流、函数、递归 | ⚪ |
-| 03 | [数据与对象 Data & Objects](03-data-and-objects/) | 列表、字典、类与对象 | ⚪ |
-| 04 | [调试与测试 Debugging & Testing](04-debugging-testing/) | 报错、断点、单元测试 | ⚪ |
-| 05 | [问题求解 Problem Solving](05-problem-solving/) | 拆解问题、伪代码、入门题 | ⚪ |
-| 06 | [小项目 Small Projects](06-small-projects/) | 命令行工具、文件与 API | ⚪ |
+| 01 | [第一门语言 C 与环境 First Language: C](01-first-language-c/) | 为何选 C；gcc / clang；编译流程；C23 | ⚪ |
+| 02 | [核心概念 Core Concepts](02-core-concepts/) | 类型、控制流、函数、指针入门、多文件 | ⚪ |
+| 03 | [内存与数据 Memory & Data](03-memory-and-data/) | 数组、字符串、struct、malloc / free | ⚪ |
+| 04 | [工具、调试与测试 Tools & Debugging](04-tools-debugging/) | 警告、gdb、Valgrind、ASan、make | ⚪ |
+| 05 | [问题求解 Problem Solving](05-problem-solving/) | 伪代码；用 C 实现基础结构与算法 | ⚪ |
+| 06 | [C 小项目 Small Projects](06-small-projects/) | 命令行工具、文件 IO、Makefile | ⚪ |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 > [!TIP]
-> 目标明确是 Java 后端、希望少学一门语言的，可以用 MOOC.fi Java Programming 或 dev.java Learn 完成本阶段，再进入 [Java 技术栈](../java/)。
+> 只想尽快做 Java 后端的，至少学完 02 核心概念和 03 内存与数据再进入 [Java 技术栈](../java/)；也可以用 MOOC.fi 或 dev.java 直接起步，但会错过 C 带来的内存直觉。
 
 ## 资料索引
 

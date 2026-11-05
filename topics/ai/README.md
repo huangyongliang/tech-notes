@@ -1,6 +1,6 @@
 # AI 技术栈 AI Stack
 
-从数学基础到大模型应用工程的完整技术栈：模型原理、提示与上下文、API 编程、RAG、Agent、MCP、AI 编程、微调、推理部署、评测、安全治理。偏实用工程，以 Python 与 Java 为主要实现语言。
+从数学基础到大模型应用工程的完整技术栈：模型原理、提示与上下文、API 编程、RAG、Agent、MCP、AI 编程、微调、推理部署、评测、安全治理。偏实用工程，以 Python 与 Java 为主要实现语言。进入本主题前先完成预备关 [Python 速成](00-python-bridge/)（第一门语言是 C，Python 作 AI 桥接）。
 
 > 相关主题：[Java 技术栈](../java/) · [Spring 框架](../java/09-spring/) · [微服务 Microservices](../microservices/) · [DevOps](../devops/) · [学习路线 Roadmap](../roadmap/)
 
@@ -8,6 +8,7 @@
 
 ```mermaid
 flowchart TD
+  P[Python 速成] --> A
   subgraph 入门
     A[大模型原理] --> B[模型全景] --> C[提示与上下文]
     C --> D[API 编程] --> E[AI 编程助手]
@@ -28,6 +29,7 @@ flowchart TD
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
+| 00 | [Python 速成 Python Bridge](00-python-bridge/) | AI 前置：对照 C / Java 速成 Python | ⚪ |
 | 01 | [数学与机器学习基础 Foundations](01-foundations/) | 线性代数、概率、优化、经典 ML | ⚪ |
 | 02 | [深度学习框架 DL Frameworks](02-dl-frameworks/) | PyTorch / JAX / Transformers | ⚪ |
 | 03 | [Transformer 与大模型原理 Transformer & LLM](03-transformer-llm/) | 注意力、MoE、推理模型 | ⚪ |
@@ -65,7 +67,7 @@ AI 主题以工程落地为主，多处直接建立在 Java 与微服务能力�
 | 08 RAG（缓存、向量库与 PostgreSQL） | [缓存](../microservices/08-caching/) · [数据库与分库分表](../microservices/09-database-sharding/) |
 
 > [!TIP]
-> 应用开发者不必先啃 01–02：先走「入门 → 应用工程 → 生产化」，遇到需要原理时再回补。目录编号按知识依赖排列，学习路线按实用优先排列。
+> 先完成 00 Python 速成。应用开发者不必先啃 01–02：先走「入门 → 应用工程 → 生产化」，遇到需要原理时再回补。目录编号按知识依赖排列，学习路线按实用优先排列。
 
 ## 版本基线（2026-11）
 

@@ -62,12 +62,12 @@ nav:
       - 06 数据结构与算法: topics/cs-basics/06-data-structures-algorithms/README.md
       - 07 数据库基础: topics/cs-basics/07-databases/README.md
       - 编程入门: topics/programming-basics/README.md
-      - 01 第一门语言与环境: topics/programming-basics/01-first-language/README.md
+      - 01 第一门语言 C 与环境: topics/programming-basics/01-first-language-c/README.md
       - 02 核心概念: topics/programming-basics/02-core-concepts/README.md
-      - 03 数据与对象: topics/programming-basics/03-data-and-objects/README.md
-      - 04 调试与测试: topics/programming-basics/04-debugging-testing/README.md
+      - 03 内存与数据: topics/programming-basics/03-memory-and-data/README.md
+      - 04 工具调试与测试: topics/programming-basics/04-tools-debugging/README.md
       - 05 问题求解: topics/programming-basics/05-problem-solving/README.md
-      - 06 小项目: topics/programming-basics/06-small-projects/README.md
+      - 06 C 小项目: topics/programming-basics/06-small-projects/README.md
   - Java:
       - topics/java/README.md
       - 01 语言基础与新特性: topics/java/01-language-basics/README.md
@@ -102,6 +102,7 @@ nav:
       - 16 性能与云原生 Java: topics/microservices/16-cloud-native-java/README.md
   - AI:
       - topics/ai/README.md
+      - 00 Python 速成: topics/ai/00-python-bridge/README.md
       - 01 数学与机器学习基础: topics/ai/01-foundations/README.md
       - 02 深度学习框架: topics/ai/02-dl-frameworks/README.md
       - 03 Transformer 与大模型原理: topics/ai/03-transformer-llm/README.md
