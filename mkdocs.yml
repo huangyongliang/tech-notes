@@ -1,0 +1,66 @@
+# tech-notes 的 GitHub Pages 站点配置（MkDocs Material）
+site_name: tech-notes 技术笔记
+site_url: https://huangyongliang.github.io/tech-notes/
+repo_url: https://github.com/huangyongliang/tech-notes
+repo_name: tech-notes
+# docs_dir 不能是 mkdocs.yml 所在目录：CI 先运行 scripts/prepare_site_src.sh 复制内容到 _site_src/ 再构建。
+# LICENSE → GitHub 绝对链接；templates/ 不进站点（正文里只以行内代码提及）。
+docs_dir: _site_src
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: amber
+      toggle: {icon: material/weather-night, name: 切换深色}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle: {icon: material/weather-sunny, name: 切换浅色}
+  font: false            # 用系统字体，国内访问不卡
+  icon: {repo: fontawesome/brands/github}
+  features:
+    - navigation.tabs        # 顶部按技术栈分栏
+    - navigation.sections
+    - navigation.indexes     # 目录 README 作为分栏首页
+    - navigation.top
+    - navigation.footer      # 上一节 / 下一节
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+plugins:
+  - search:
+      lang: [zh, en]
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+markdown_extensions:
+  - admonition
+  - github-callouts          # 需 pip install markdown-callouts，兼容 > [!NOTE]
+  - attr_list
+  - md_in_html
+  - tables
+  - toc: {permalink: true}
+  - pymdownx.highlight: {anchor_linenums: true}
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+site_author: tech-notes contributors
+copyright: "© tech-notes contributors · 内容采用 CC BY 4.0"
+edit_uri: edit/main/
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: info   # 目录链接如 topics/ 无法静态校验
+  anchors: warn

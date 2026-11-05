@@ -26,7 +26,7 @@
 ## 学习路线
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[收集 Inbox] --> B[归类 Topic] --> C[沉淀 Note]
   B --> J[Java]
   B --> P[编程]

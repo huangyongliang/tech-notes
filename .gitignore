@@ -16,3 +16,5 @@ secrets/
 # Misc
 node_modules/
 *.log
+_site_src/
+site/
