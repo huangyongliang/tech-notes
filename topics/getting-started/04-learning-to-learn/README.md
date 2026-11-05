@@ -50,7 +50,7 @@
 
 - 用**自己的话**写，不复制粘贴大段原文；原文只放链接。
 - 每篇笔记回答三个问题：这是什么？为什么需要它？怎么用（附一个最小示例）？
-- 建议用 Markdown 写，学完 [Git](../../cs-basics/04-git/) 后放进 GitHub 仓库，本仓库的 [笔记模板](../../../templates/) 可以直接拿来用。
+- 建议用 Markdown 写，学完 [Git](../../cs-basics/04-git/) 后放进 GitHub 仓库，本仓库的 [笔记模板](https://github.com/huangyongliang/tech-notes/tree/main/templates) 可以直接拿来用。
 - 记下「疑问与待办」，学到后面再回来回答，这是最好的复习。
 
 ### 搜索技巧
