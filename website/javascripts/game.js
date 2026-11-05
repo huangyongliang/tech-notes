@@ -13,7 +13,20 @@
   "use strict";
 
   var W = 2800, H = 1600;
+  /* 知识世界当前可玩陆：basics（gs/cs/pb）。java 坐标保留备切换，本版地图不挂 java 节点。 */
   var LAYOUT = {
+    /* 基础 · 第一章 零基础入门 */
+    "gs-01": { x: 160, y: 300 }, "gs-02": { x: 340, y: 240 }, "gs-03": { x: 520, y: 310 },
+    "gs-04": { x: 700, y: 240 }, "gs-05": { x: 880, y: 310 }, "gs-b1": { x: 1080, y: 280 },
+    /* 基础 · 第二章 计算机基础 */
+    "cs-01": { x: 1480, y: 320 }, "cs-02": { x: 1640, y: 270 }, "cs-03": { x: 1800, y: 340 },
+    "cs-04": { x: 1960, y: 270 }, "cs-05": { x: 2120, y: 340 }, "cs-06": { x: 2280, y: 270 },
+    "cs-07": { x: 2440, y: 340 }, "cs-b1": { x: 2600, y: 300 },
+    /* 基础 · 第三章 编程入门 */
+    "pb-01": { x: 220, y: 920 }, "pb-02": { x: 420, y: 980 }, "pb-03": { x: 620, y: 920 },
+    "pb-04": { x: 820, y: 980 }, "pb-05": { x: 1020, y: 920 }, "pb-06": { x: 1220, y: 980 },
+    "pb-b1": { x: 1440, y: 920 },
+    /* Java 陆（本版不绘制；进度仍由 quest.js TOPIC_KEY=java + tn-quest-v2 维护） */
     "java-01": { x: 180, y: 320 }, "java-02": { x: 380, y: 270 }, "java-03": { x: 580, y: 340 }, "java-04": { x: 780, y: 270 },
     "java-b1": { x: 980, y: 340 },
     "java-05": { x: 1480, y: 320 }, "java-06": { x: 1680, y: 270 }, "java-07": { x: 1880, y: 340 }, "java-08": { x: 2080, y: 270 },
@@ -22,14 +35,14 @@
     "java-b3": { x: 1280, y: 920 }
   };
   var PATH_SEGMENTS = [
-    ["java-01", "java-02"], ["java-02", "java-03"], ["java-03", "java-04"], ["java-04", "java-b1"],
-    ["java-b1", { x: 1120, y: 320 }, { x: 1230, y: 320 }, "java-05"],
-    ["java-05", "java-06"], ["java-06", "java-07"], ["java-07", "java-08"], ["java-08", "java-b2"],
-    ["java-b2", { x: 2280, y: 520 }, { x: 2280, y: 700 }, { x: 1280, y: 700 }, { x: 220, y: 700 }, "java-09"],
-    ["java-09", "java-10"], ["java-10", "java-11"], ["java-11", "java-12"], ["java-12", "java-b3"]
+    ["gs-01", "gs-02"], ["gs-02", "gs-03"], ["gs-03", "gs-04"], ["gs-04", "gs-05"], ["gs-05", "gs-b1"],
+    ["gs-b1", { x: 1180, y: 300 }, { x: 1300, y: 300 }, "cs-01"],
+    ["cs-01", "cs-02"], ["cs-02", "cs-03"], ["cs-03", "cs-04"], ["cs-04", "cs-05"], ["cs-05", "cs-06"], ["cs-06", "cs-07"], ["cs-07", "cs-b1"],
+    ["cs-b1", { x: 2600, y: 520 }, { x: 2600, y: 700 }, { x: 1440, y: 700 }, "pb-01"],
+    ["pb-01", "pb-02"], ["pb-02", "pb-03"], ["pb-03", "pb-04"], ["pb-04", "pb-05"], ["pb-05", "pb-06"], ["pb-06", "pb-b1"]
   ];
-  /* 「基础」大陆：节点占位（无关卡数据，只显示「建设中」） */
-  var BASICS_SLOTS = [{ x: 370, y: 540 }, { x: 440, y: 575 }, { x: 510, y: 540 }];
+  /* 旧「建设中」占位已由真实 basics 节点取代 */
+  var BASICS_SLOTS = [];
   var ROMAN = ["I", "II", "III", "IV", "V"];
   var CN = "一二三四五";
   var SESSION_KEY = "tn-game-started";
@@ -90,7 +103,10 @@
   function mountWorld() {
     var A = api(), QD = window.TN_QUEST_DATA;
     if (!A || !QD) return null;
-    var TOPIC = A.topic, Q = TOPIC.quests, BOSS = TOPIC.bosses, CH = TOPIC.chapters;
+    /* 地图可玩陆：优先 basics；Java 进度 API 仍是 A.topic（TOPIC_KEY=java），互不覆盖 */
+    var MAP_KEY = QD.topics.basics ? "basics" : "java";
+    var TOPIC = QD.topics[MAP_KEY] || A.topic;
+    var Q = TOPIC.quests, BOSS = TOPIC.bosses, CH = TOPIC.chapters;
     var DIALOGS = (window.TN_DIALOGS && window.TN_DIALOGS.dialogs) || {};
     var ac = new AbortController(), sig = { signal: ac.signal };
     var timers = [], raf = 0;
@@ -158,8 +174,8 @@
       '<div class="viewport" data-r="viewport" tabindex="0" aria-label="知识世界地图（WASD / 方向键移动，Enter 对话，Tab 选关卡）">' +
         '<div class="world" data-r="world">' +
           '<div class="land land--village" aria-hidden="true"><div class="land__soil"></div><span class="land__tag">新手村</span></div>' +
-          '<div class="land land--basics is-placeholder" aria-hidden="true"><div class="land__soil"></div><span class="land__tag">基础 · 建设中</span></div>' +
-          '<div class="land land--java" aria-hidden="true"><div class="land__soil"></div><span class="land__tag">Java</span></div>' +
+          '<div class="land land--basics" aria-hidden="true"><div class="land__soil"></div><span class="land__tag">基础</span></div>' +
+          '<div class="land land--java is-placeholder" aria-hidden="true"><div class="land__soil"></div><span class="land__tag">Java · 稍后</span></div>' +
           '<div class="land land--ai is-locked" aria-hidden="true"><div class="land__soil"></div><div class="land__fog"></div><span class="land__lock" title="未解锁">🔒</span><span class="land__tag">AI · 未开放</span></div>' +
           '<div class="region region--1" aria-hidden="true"></div><div class="region region--2" aria-hidden="true"></div><div class="region region--3" aria-hidden="true"></div>' +
           signs +
@@ -206,8 +222,18 @@
       teach: null, flavor: null, keys: {}, panel: null };
 
     function stOf(lv) {
-      if (lv.boss) return A.bossState(S.s, lv.b);
-      return A.state(S.s, lv.i);
+      /* 按 id 判定，不走 A.state(i)（那是 java 下标）；basics/java 共享 done{} 互不影响 */
+      if (lv.boss) {
+        if (S.s.done[lv.id]) return "done";
+        var chQ = Q.filter(function (q) { return q.chapter === lv.chapter; });
+        if (chQ.every(function (q) { return S.s.done[q.id]; })) return "cur";
+        return "lock";
+      }
+      if (S.s.done[lv.id]) return "done";
+      var idx = -1;
+      for (var i = 0; i < Q.length; i++) if (Q[i].id === lv.id) { idx = i; break; }
+      for (var j = 0; j < idx; j++) if (!S.s.done[Q[j].id]) return "lock";
+      return "cur";
     }
     function fogged(ch) {
       if (ch === 2) return !S.s.done[(BOSS[0] || {}).id];
@@ -215,11 +241,11 @@
       return false;
     }
     function startPos() {
-      var c = A.current(S.s), lv;
+      var lv = null, c = -1;
+      for (var i = 0; i < Q.length; i++) if (!S.s.done[Q[i].id]) { c = i; break; }
       if (c >= 0) lv = byId[Q[c].id];
       if (!lv || fogged(lv.chapter)) {
-        /* 当前关在迷雾后（章 BOSS 未标记）→ 站到对应 BOSS 前 */
-        for (var i = 0; i < BOSS.length; i++) if (!S.s.done[BOSS[i].id]) { lv = byId[BOSS[i].id]; break; }
+        for (var k = 0; k < BOSS.length; k++) if (!S.s.done[BOSS[k].id]) { lv = byId[BOSS[k].id]; break; }
       }
       lv = lv || byId[(BOSS[BOSS.length - 1] || {}).id] || LEVELS[0];
       return { x: lv.x, y: lv.y + 55 };
@@ -442,7 +468,7 @@
     function toggleBoss(id) {
       var lv = byId[id]; if (!lv || !lv.boss) return;
       var done = !!A.load().done[id];
-      if (!done && A.bossState(A.load(), lv.b) !== "cur") return;
+      if (!done && stOf(lv) !== "cur") return;
       commit(function (s) { if (done) delete s.done[id]; else s.done[id] = true; });
       hideCard();
       if (!done) toast("★", "CH." + lv.chapter + " BOSS 通过", '<b>+' + lv.xp + ' XP</b>' + (lv.badge ? ' · 徽章「' + esc(lv.badge) + '」' : '') + (lv.chapter < 3 ? ' · 第' + CN[lv.chapter] + '章迷雾散去' : ''));
@@ -497,11 +523,18 @@
       R.next.focus({ preventScroll: true });
     }
     function openTeach(qid) {
-      var d = DIALOGS[qid]; if (!d) { showCard(qid); return; }
-      S.flavor = null;
-      S.teach = { qid: qid, page: 0, revealed: false };
-      openDialogShell(d.npc.name, d.npc.sprite);
-      renderTeach();
+      function go() {
+        DIALOGS = (window.TN_DIALOGS && window.TN_DIALOGS.dialogs) || DIALOGS;
+        var d = DIALOGS[qid]; if (!d) { showCard(qid); return; }
+        S.flavor = null;
+        S.teach = { qid: qid, page: 0, revealed: false };
+        openDialogShell(d.npc.name, d.npc.sprite);
+        renderTeach();
+      }
+      if (DIALOGS[qid]) { go(); return; }
+      var group = /^java-/.test(qid) ? "java" : "basics";
+      if (window.TN_DIALOGS_LOAD) window.TN_DIALOGS_LOAD(group, go);
+      else go();
     }
     function closeDialog() {
       S.dialogOpen = false; S.teach = null; S.flavor = null;
@@ -860,8 +893,13 @@
     var m = mode(), home = isHome();
     if (m === "game" && home) {
       teardownSlim();
-      if (inst && inst.root.isConnected) inst.refresh();
-      else { teardownWorld(); inst = mountWorld(); }
+      function goWorld() {
+        /* 刷新 dialogs 引用（懒加载完成后） */
+        if (inst && inst.root.isConnected) inst.refresh();
+        else { teardownWorld(); inst = mountWorld(); }
+      }
+      if (window.TN_DIALOGS_LOAD) window.TN_DIALOGS_LOAD("basics", goWorld);
+      else goWorld();
     } else if (m === "game") {
       teardownWorld();
       if (slim && slim.root.isConnected) slim.refresh();

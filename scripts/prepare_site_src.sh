@@ -10,5 +10,11 @@ sed -i 's#](LICENSE)#](https://github.com/huangyongliang/tech-notes/blob/main/LI
 # 站点专用：首页和样式（GitHub 仓库页仍用 README.md）
 cp -r website/. _site_src/
 rm -f _site_src/README.md
-# 游戏模式：构建期从 Markdown 生成 NPC 对话（静态 dialogs.js，运行时不发请求；只读 _site_src 里的副本）
-python3 scripts/build_dialogs.py --topics _site_src/topics --out _site_src/javascripts/dialogs.js --only-topic java
+# 游戏模式：构建期生成分 topic 对话文件（静态、同域 script 注入，运行时不 fetch/XHR）
+# dialogs-java.js ≈ 首页外 Java 文章用；dialogs-basics.js ≈ 知识世界基础陆
+# dialogs-loader.js（入库）按路径懒加载对应文件并 merge 进 window.TN_DIALOGS
+python3 scripts/build_dialogs.py --topics _site_src/topics \
+  --out _site_src/javascripts/dialogs-java.js --only-topic java --merge
+python3 scripts/build_dialogs.py --topics _site_src/topics \
+  --out _site_src/javascripts/dialogs-basics.js \
+  --only-topic getting-started,cs-basics,programming-basics --merge

@@ -294,8 +294,8 @@
 .tn-g .land__lock { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); font-size: 24.8px; opacity: .88; z-index: 3; filter: drop-shadow(0 2px 0 rgba(0,0,0,.22)); }
 .tn-g .land__fog { position: absolute; inset: -4%; z-index: 2; pointer-events: none; border-radius: 50% 50% 48% 52% / 55% 45% 55% 45%; background: radial-gradient(ellipse at 50% 50%, color-mix(in srgb,var(--paper) 55%,transparent), color-mix(in srgb,var(--paper-2) 72%,transparent) 70%), repeating-linear-gradient(105deg, transparent 0 14px, color-mix(in srgb,var(--ink) 4%,transparent) 14px 15px); opacity: .72; }
 .tn-g .land--village { left: 70px; top: 250px; width: 240px; height: 200px; }
-.tn-g .land--basics { left: 300px; top: 450px; width: 280px; height: 190px; }
-.tn-g .land--java { left: 500px; top: 160px; width: 560px; height: 260px; }
+.tn-g .land--basics { left: 40px; top: 100px; width: 1120px; height: 420px; }
+.tn-g .land--java { left: 2920px; top: 160px; width: 560px; height: 260px; }
 .tn-g .land--ai { left: 1520px; top: 780px; width: 360px; height: 240px; }
 .tn-g .land.is-locked .land__tag { opacity: 0; visibility: hidden; }
 .tn-g .land.is-locked.is-near .land__tag { opacity: 1; visibility: visible; }
@@ -306,7 +306,7 @@
 .tn-g .dialog__face svg { width: 56px; height: 56px; }
 .tn-g .dialog__body { min-width: 0; }
 .tn-g .dialog__meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-.tn-g .dialog__who { font: 800 9.92px var(--mono); color: var(--hot); letter-spacing: .03em; }
+.tn-g .dialog__who { font: 800 9.92px var(--mono); color: var(--hot); letter-spacing: .03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%; }
 .tn-g .dialog__dots { display: flex; gap: 4px; align-items: center; }
 .tn-g .dialog__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); display: block; }
 .tn-g .dialog__dots i.is-on { background: var(--hot); transform: scale(1.15); }
