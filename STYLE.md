@@ -69,6 +69,9 @@ flowchart LR
 
 一句话：个人技术学习笔记，按主题整理链接、短笔记和学习记录。
 
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
+
 [主题索引](topics/) · [笔记](notes/) · [精选资料](resources/) · [贡献指南](CONTRIBUTING.md)
 
 ---
@@ -78,6 +81,7 @@ flowchart LR
 | 主题 | 内容 | 状态 |
 |------|------|------|
 | ☕ [Java](topics/java/) | 语言、JVM、Spring 生态 | 🟡 搭建中 |
+| 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | ⚪ 待开始 |
 | 💻 [编程 Programming](topics/programming/) | 语言、算法、设计 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
 | 🤖 [AI / ML](topics/ai-ml/) | 机器学习、LLM | ⚪ 待开始 |
