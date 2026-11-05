@@ -14,7 +14,7 @@
 - Tempo 3.1.1
 - Jaeger 2.23.0
 - Apache SkyWalking 11.0.0
-- ELK（版本 待核实）
+- ELK：Elasticsearch / Logstash / Kibana 9.5.6
 
 ## 建议先收的资料
 

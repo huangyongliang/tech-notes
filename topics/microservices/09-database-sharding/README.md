@@ -6,9 +6,9 @@
 
 ## 主流选型
 
-- MySQL / PostgreSQL（版本 待核实）
+- MySQL 9.7.4 LTS（8.4.13 LTS 仍在维护；最新非 LTS 26.10.0，改用「年.月」编号据 tag 推断，待核实）/ PostgreSQL 18.6
 - Apache ShardingSphere 5.5.3
-- TiDB 等分布式数据库（待核实）
+- TiDB 8.5.8（8.5 LTS）等分布式数据库
 
 ## 建议先收的资料
 

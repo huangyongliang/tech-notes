@@ -17,7 +17,7 @@ flowchart TD
   end
   subgraph 生产
     K[可观测] --> L[安全] --> M[容器编排]
-    M --> N[持续交付] --> O[服务网格] --> P[云原生 Java]
+    M --> N[持续交付] --> O[服务网格] --> P[性能与云原生 Java]
   end
   D --> E
   J --> K
@@ -42,7 +42,7 @@ flowchart TD
 | 13 | [服务网格 Service Mesh](13-service-mesh/) | Istio ambient / Linkerd | ⚪ |
 | 14 | [持续交付与 GitOps CI/CD & GitOps](14-cicd-gitops/) | GitHub Actions / Argo CD | ⚪ |
 | 15 | [测试 Testing](15-testing/) | 契约测试 / Testcontainers | ⚪ |
-| 16 | [云原生 Java Cloud-Native Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | ⚪ |
+| 16 | [性能与云原生 Java Performance & Cloud-Native Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | ⚪ |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 

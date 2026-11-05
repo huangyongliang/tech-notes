@@ -8,7 +8,7 @@
 
 - GitHub Actions
 - Argo CD 3.6.1
-- Argo Rollouts / Flux（版本 待核实，非本次核实范围）
+- Argo Rollouts 1.10.2 / Flux 2.10.0
 
 ## 建议先收的资料
 
