@@ -38,11 +38,19 @@ theme:
 extra_css:
   - stylesheets/extra.css
   - stylesheets/explore.css
+  - stylesheets/chibi-sprites.css
+  - stylesheets/game.css
 
+# mode-boot.js 必须第一个（尽早给 <html> 加 tn-mode-game / tn-mode-read）；
+# dialogs.js 由 scripts/prepare_site_src.sh 在构建期生成（scripts/build_dialogs.py），不入库。
 extra_javascript:
+  - javascripts/mode-boot.js
+  - javascripts/chibi-sprites.js
   - javascripts/quest-data.js
+  - javascripts/dialogs.js
   - javascripts/quest.js
   - javascripts/explore.js
+  - javascripts/game.js
 
 nav:
   - 首页: index.md

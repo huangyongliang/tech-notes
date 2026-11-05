@@ -10,3 +10,5 @@ sed -i 's#](LICENSE)#](https://github.com/huangyongliang/tech-notes/blob/main/LI
 # 站点专用：首页和样式（GitHub 仓库页仍用 README.md）
 cp -r website/. _site_src/
 rm -f _site_src/README.md
+# 游戏模式：构建期从 Markdown 生成 NPC 对话（静态 dialogs.js，运行时不发请求；只读 _site_src 里的副本）
+python3 scripts/build_dialogs.py --topics _site_src/topics --out _site_src/javascripts/dialogs.js --only-topic java

@@ -1,0 +1,171 @@
+/* tech-notes · Q版 chibi animations
+ * Works with TN_CHIBI SVG markup (classes on <g>/<path>).
+ * Drop into explore.css or link beside explore.js.
+ */
+
+.chibi {
+  display: block;
+  overflow: visible;
+  image-rendering: auto;
+}
+
+/* idle bob — applied to .chibi-bob groups inside SVG, or host .tn2-x-npc__body */
+.chibi-bob {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: chibi-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes chibi-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2.5px); }
+}
+
+/* blink — scaleY eyes */
+.chibi-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: chibi-blink 3.6s ease-in-out infinite;
+}
+.chibi--player .chibi-eye:nth-of-type(2),
+.chibi--mentor .chibi-eye:nth-of-type(2) {
+  animation-delay: .08s;
+}
+
+@keyframes chibi-blink {
+  0%, 42%, 48%, 100% { transform: scaleY(1); }
+  45% { transform: scaleY(0.08); }
+}
+
+/* player walk bounce — host toggles .is-walk on .tn2-x-player */
+.tn2-x-player.is-walk .chibi-walk,
+.chibi--player.is-walk .chibi-walk,
+.is-walk .chibi-walk {
+  animation: chibi-walk .22s steps(2) infinite;
+}
+@keyframes chibi-walk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* smith hammer */
+.chibi-hammer {
+  transform-box: fill-box;
+  transform-origin: 34px 36px;
+  animation: chibi-hammer .7s ease-in-out infinite;
+}
+@keyframes chibi-hammer {
+  0%, 100% { transform: rotate(-18deg); }
+  50% { transform: rotate(28deg); }
+}
+
+/* librarian book flip */
+.chibi-book {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: chibi-book 2.4s ease-in-out infinite;
+}
+@keyframes chibi-book {
+  0%, 55%, 100% { transform: rotate(0deg) translateY(0); }
+  60% { transform: rotate(-8deg) translateY(-1px); }
+  70% { transform: rotate(6deg) translateY(-2px); }
+  80% { transform: rotate(0deg) translateY(0); }
+}
+
+/* guard spear tap */
+.chibi-spear {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: chibi-spear 1.8s ease-in-out infinite;
+}
+@keyframes chibi-spear {
+  0%, 70%, 100% { transform: translateY(0) rotate(0deg); }
+  78% { transform: translateY(2px) rotate(4deg); }
+  86% { transform: translateY(-1px) rotate(-2deg); }
+}
+
+/* cat tail swish */
+.chibi-tail {
+  transform-box: fill-box;
+  transform-origin: 36px 28px;
+  animation: chibi-tail 1.4s ease-in-out infinite;
+}
+@keyframes chibi-tail {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(14deg); }
+}
+
+/* boss wobble */
+.chibi-wobble {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: chibi-wobble 2.2s ease-in-out infinite;
+}
+@keyframes chibi-wobble {
+  0%, 100% { transform: rotate(-2deg) translateY(0); }
+  50% { transform: rotate(2.5deg) translateY(-2px); }
+}
+
+/* map size helpers (optional; 变鼠 sizes stay in explore.css) */
+.chibi-map {
+  width: 40px;
+  height: 40px;
+}
+.chibi-map.chibi--boss,
+.chibi-map.chibi--boss1,
+.chibi-map.chibi--boss2,
+.chibi-map.chibi--boss3 {
+  width: 72px;
+  height: 72px;
+}
+.chibi-map.chibi--cat {
+  width: 40px;
+  height: 34px;
+}
+
+/* dialog portrait frame */
+.chibi-portrait-frame {
+  width: 64px;
+  height: 64px;
+  border: 2px solid #14110f;
+  background: #ebe4d4;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: 3px 3px 0 #14110f;
+}
+.chibi-portrait-frame svg {
+  width: 64px;
+  height: 64px;
+}
+
+/* spark particles near smith (host may already have .tn2-x-sparks) */
+.tn2-x-sparks i,
+.chibi-sparks i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ffd84d;
+  animation: chibi-spark .85s linear infinite;
+}
+@keyframes chibi-spark {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(12px, -18px) scale(0); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chibi-bob,
+  .chibi-eye,
+  .chibi-hammer,
+  .chibi-book,
+  .chibi-spear,
+  .chibi-tail,
+  .chibi-wobble,
+  .chibi-walk,
+  .tn2-x-player.is-walk .chibi-walk,
+  .is-walk .chibi-walk,
+  .tn2-x-sparks i,
+  .chibi-sparks i {
+    animation: none !important;
+  }
+}

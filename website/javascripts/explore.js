@@ -5,101 +5,8 @@
   "use strict";
   var inst = null; // 当前页面上的实例（instant navigation 下每次换页先 teardown）
 
-  var SVG = {
-    player: `<svg width="36" height="40" viewBox="0 0 36 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="10" y="2" width="16" height="6" fill="#ff4f12" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="8" y="8" width="20" height="12" fill="#ffd84d" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="12" y="12" width="4" height="4" fill="#14110f"/><rect x="20" y="12" width="4" height="4" fill="#14110f"/>
-      <rect x="10" y="20" width="16" height="12" fill="#14110f" stroke="#14110f" stroke-width="1"/>
-      <rect x="10" y="22" width="16" height="4" fill="#ff4f12"/>
-      <rect x="10" y="32" width="6" height="7" fill="#5b544b" stroke="#14110f" stroke-width="1"/>
-      <rect x="20" y="32" width="6" height="7" fill="#5b544b" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    mentor: `<svg width="40" height="48" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="12" y="2" width="16" height="5" fill="#1a3a5c" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="10" y="7" width="20" height="14" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="13" y="11" width="5" height="4" fill="#fff" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="11" width="5" height="4" fill="#fff" stroke="#14110f" stroke-width="1"/>
-      <rect x="12" y="14" width="16" height="2" fill="#14110f" opacity=".35"/>
-      <rect x="8" y="21" width="24" height="18" fill="#1a3a5c" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="24" width="12" height="10" fill="#ffd84d" stroke="#14110f" stroke-width="1"/>
-      <rect x="16" y="26" width="8" height="1.5" fill="#14110f"/><rect x="16" y="29" width="8" height="1.5" fill="#14110f"/>
-      <rect x="11" y="39" width="7" height="8" fill="#3d2a1a" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="39" width="7" height="8" fill="#3d2a1a" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    lib: `<svg width="40" height="48" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="10" y="4" width="20" height="6" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="10" y="10" width="20" height="12" fill="#e8d5b5" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="14" width="4" height="4" fill="#14110f"/><rect x="22" y="14" width="4" height="4" fill="#14110f"/>
-      <rect x="8" y="22" width="24" height="16" fill="#3d2a1a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="12" y="25" width="16" height="10" fill="#ff4f12" stroke="#14110f" stroke-width="1"/>
-      <rect x="11" y="38" width="7" height="8" fill="#2a1a10" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="38" width="7" height="8" fill="#2a1a10" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    shelf: `<svg width="22" height="36" viewBox="0 0 22 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="1" y="1" width="20" height="34" fill="#6b4a2e" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="3" y="4" width="5" height="12" fill="#ff4f12"/><rect x="9" y="4" width="5" height="12" fill="#ffd84d"/>
-      <rect x="15" y="4" width="4" height="12" fill="#1a3a5c"/>
-      <rect x="3" y="20" width="6" height="12" fill="#2a9d5c"/><rect x="10" y="20" width="8" height="12" fill="#7b2cbf"/>
-    </svg>`,
-    smith: `<svg width="40" height="48" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="11" y="3" width="18" height="5" fill="#666" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="10" y="8" width="20" height="12" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="12" width="4" height="4" fill="#14110f"/><rect x="22" y="12" width="4" height="4" fill="#14110f"/>
-      <rect x="8" y="20" width="24" height="16" fill="#3a3a3a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="10" y="24" width="20" height="10" fill="#8a8174" stroke="#14110f" stroke-width="1"/>
-      <rect x="11" y="36" width="7" height="10" fill="#2a2a2a" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="36" width="7" height="10" fill="#2a2a2a" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    anvil: `<svg width="28" height="18" viewBox="0 0 28 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="2" y="2" width="24" height="8" fill="#3a3a3a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="8" y="10" width="12" height="6" fill="#2a2a2a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="18" y="0" width="4" height="10" fill="#6b4a2e" stroke="#14110f" stroke-width="1"/>
-      <rect x="16" y="0" width="8" height="4" fill="#888" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    guard: `<svg width="40" height="48" viewBox="0 0 40 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="12" y="1" width="16" height="8" fill="#6e665a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="3" width="4" height="3" fill="#ffd84d"/><rect x="22" y="3" width="4" height="3" fill="#ffd84d"/>
-      <rect x="10" y="9" width="20" height="11" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="13" width="4" height="3" fill="#14110f"/><rect x="22" y="13" width="4" height="3" fill="#14110f"/>
-      <rect x="8" y="20" width="24" height="16" fill="#4a1a1a" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="14" y="22" width="12" height="8" fill="#cfc6b6" stroke="#14110f" stroke-width="1"/>
-      <rect x="32" y="8" width="3" height="30" fill="#8a8174" stroke="#14110f" stroke-width="1"/>
-      <polygon points="32,6 38,10 32,14" fill="#ffd84d" stroke="#14110f" stroke-width="1"/>
-      <rect x="11" y="36" width="7" height="10" fill="#2a1a1a" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="36" width="7" height="10" fill="#2a1a1a" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    cat: `<svg width="40" height="28" viewBox="0 0 40 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <ellipse cx="18" cy="16" rx="12" ry="8" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <circle cx="10" cy="10" r="7" fill="#c4a574" stroke="#14110f" stroke-width="1.5"/>
-      <polygon points="4,6 6,1 9,7" fill="#c4a574" stroke="#14110f" stroke-width="1"/>
-      <polygon points="12,7 15,1 17,7" fill="#c4a574" stroke="#14110f" stroke-width="1"/>
-      <rect x="7" y="9" width="2" height="2" fill="#14110f"/><rect x="12" y="9" width="2" height="2" fill="#14110f"/>
-      <path d="M28 14 Q36 10 34 18" fill="none" stroke="#c4a574" stroke-width="3"/>
-      <path d="M28 14 Q36 10 34 18" fill="none" stroke="#14110f" stroke-width="1"/>
-    </svg>`,
-    boss: `<svg width="64" height="72" viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <ellipse cx="32" cy="64" rx="26" ry="7" fill="#1a0a20" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="16" y="8" width="32" height="10" fill="#7b2cbf" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="12" y="18" width="40" height="28" fill="#1a0a20" stroke="#14110f" stroke-width="2"/>
-      <rect class="tn2-x-eye" x="18" y="26" width="8" height="8" fill="#ff4f12" stroke="#14110f" stroke-width="1"/>
-      <rect class="tn2-x-eye" x="38" y="26" width="8" height="8" fill="#ff4f12" stroke="#14110f" stroke-width="1"/>
-      <rect x="22" y="40" width="20" height="6" fill="#3a2a45" stroke="#14110f" stroke-width="1"/>
-      <rect x="14" y="46" width="14" height="14" fill="#2a1a30" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="36" y="46" width="14" height="14" fill="#2a1a30" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="8" y="20" width="6" height="20" fill="#ffd84d" stroke="#14110f" stroke-width="1" opacity=".85"/>
-      <rect x="50" y="20" width="6" height="20" fill="#ffd84d" stroke="#14110f" stroke-width="1" opacity=".85"/>
-    </svg>`,
-    tree: `<svg width="32" height="40" viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <rect x="13" y="24" width="6" height="14" fill="#6b4a2e" stroke="#14110f" stroke-width="1"/>
-      <rect x="6" y="14" width="20" height="12" fill="#2a7a45" stroke="#14110f" stroke-width="1.5"/>
-      <rect x="10" y="4" width="12" height="12" fill="#2a7a45" stroke="#14110f" stroke-width="1.5"/>
-    </svg>`,
-    rock: `<svg width="24" height="16" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-      <ellipse cx="12" cy="10" rx="10" ry="5" fill="#8a8174" stroke="#14110f" stroke-width="1.5"/>
-      <ellipse cx="12" cy="8" rx="7" ry="4" fill="#a39a8c"/>
-    </svg>`
-  };
+  /* Q版精灵：依赖先加载的 chibi-sprites.js（window.TN_CHIBI_SVG） */
+  var SVG = window.TN_CHIBI_SVG || {};
 
   var CN = ["一", "二", "三", "四", "五", "六"], RN = ["I", "II", "III", "IV", "V", "VI"];
   function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -345,7 +252,7 @@
         if (fog) b.tabIndex = -1;
         if (lv.boss) {
           b.innerHTML = '<span class="tn2-x-lair' + (st === "lock" ? " is-lock" : "") + '" aria-hidden="true"><span class="tn2-x-lair__aura"></span><span class="tn2-x-lair__plat"></span>' +
-            SVG.boss + (st === "lock" ? '<span class="tn2-x-lair__chain">⛓ 建设中</span>' : st === "done" ? '<span class="tn2-x-lair__ok">✓</span>' : "") + "</span>";
+            ((window.TN_CHIBI && TN_CHIBI["boss" + lv.chapter]) ? TN_CHIBI["boss" + lv.chapter]() : SVG.boss) + (st === "lock" ? '<span class="tn2-x-lair__chain">⛓ 建设中</span>' : st === "done" ? '<span class="tn2-x-lair__ok">✓</span>' : "") + "</span>";
         } else {
           b.innerHTML = '<span class="tn2-x-node__num" aria-hidden="true">' + esc(lv.sid) + "</span>";
         }
@@ -635,7 +542,7 @@
     function openDialog(n) {
       S.dialog = { n: n, q: n.def.lines.slice(), typing: 0 };
       qcard.hidden = true; // 对话期间收起任务卡，避免重叠
-      dlg.querySelector(".tn2-x__face").innerHTML = SVG[n.def.sprite] || SVG.mentor;
+      dlg.querySelector(".tn2-x__face").innerHTML = (window.TN_CHIBI && TN_CHIBI.portrait) ? TN_CHIBI.portrait(n.def.sprite || "mentor", "normal") : (SVG[n.def.sprite] || SVG.mentor || "");
       dlg.querySelector(".tn2-x__meta").textContent = n.def.name;
       dlg.hidden = false;
       nextLine();

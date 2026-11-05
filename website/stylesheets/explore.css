@@ -306,3 +306,12 @@ body.tn-explore-page .tn2-x__vp { height: min(78vh, 760px); min-height: 420px; }
   .tn2-x-burst, .tn2-x-dust { display: none; }
 }
 .tn2-x--still *, .tn2-x--still *::before, .tn2-x--still *::after { animation: none !important; transition: none !important; }
+
+/* Q版 chibi 精灵（chibi-sprites.js / chibi-sprites.css）：缩放到原有盒子，柔和渲染 */
+.tn2-x-npc__body svg { width: 42px; height: 42px; }
+.tn2-x-player__body svg { width: 40px; height: 40px; }
+.tn2-x-lair svg { width: 72px; height: 72px; left: 4px; top: 0; }
+.tn2-x__face svg { width: 56px; height: 56px; }
+.tn2-x-player__body svg, .tn2-x-npc__body svg, .tn2-x-lair svg, .tn2-x__face svg {
+  image-rendering: auto; shape-rendering: geometricPrecision;
+}
