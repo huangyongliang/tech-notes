@@ -40,6 +40,7 @@ extra_css:
   - stylesheets/explore.css
   - stylesheets/chibi-sprites.css
   - stylesheets/game.css
+  - stylesheets/scene.css
 
 # mode-boot.js 必须第一个（尽早给 <html> 加 tn-mode-game / tn-mode-read）；
 # dialogs-loader.js 入库；dialogs-java.js / dialogs-basics.js 由 prepare_site_src.sh 构建期生成，不入库。
@@ -50,6 +51,7 @@ extra_javascript:
   - javascripts/dialogs-loader.js
   - javascripts/quest.js
   - javascripts/explore.js
+  - javascripts/scene-data.js
   - javascripts/game.js
 
 nav:
