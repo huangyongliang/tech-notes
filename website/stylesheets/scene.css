@@ -1064,3 +1064,14 @@
 /* 芯片节点底色恒为浅色：暗色模式下编号仍用深色字，保证对比度 */
 [data-md-color-scheme="slate"] .tn-scene .node__body { color: #1f2937; }
 [data-md-color-scheme="slate"] .tn-scene .node.is-locked .node__body { color: #64748b; }
+/* 标签永不被精灵盖住：芯片 / 传送门 / 标签层（z9）在精灵层（.entities z8）之上；
+ * 层本身不吃点击，芯片与传送门按钮照常可点。NPC 位置另由 game.js layoutNpcs() 避让。 */
+.tn-scene .nodes { z-index: 9; pointer-events: none; }
+.tn-scene .nodes .node, .tn-scene .nodes .gate { pointer-events: auto; }
+/* layoutLabels() 的备选标签位：避开 HUD / 方向键 / 相邻芯片 */
+.tn-scene .node.lab-up .node__lab { top: auto; bottom: calc(100% + 6px); }
+.tn-scene .node.lab-left .node__lab { left: auto; right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.tn-scene .node.lab-right .node__lab { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+/* 竖屏：关卡卡片更紧凑，便于 placeCard() 找到不压精灵的空位 */
+.tn-scene.is-portrait .qcard { width: 176px; padding: 7px 8px; }
+.tn-scene.is-portrait .qcard__goal { -webkit-line-clamp: 2; }

@@ -271,12 +271,12 @@
         var start = LEVELS.filter(function (l) { return stOf(l) === "cur"; })[0] || LEVELS[0];
         if (start) { S.pos = { x: clamp(start.x - (P ? 0 : 5), 6, 94), y: clamp(start.y + (P ? 7 : 6), 8, 92) }; }
       }
-      placePlayer(); updateNear();
+      placePlayer(); layoutNpcs(); updateNear();
       /* 本章导师台词按 topic 懒加载（同域 script，加载器原样） */
       if (window.TN_DIALOGS_LOAD) window.TN_DIALOGS_LOAD(theme.topic, function () {
         if (!inst || inst.dead || S.key !== key) return;
         DIALOGS = (window.TN_DIALOGS && window.TN_DIALOGS.dialogs) || DIALOGS;
-        buildNpcs(); renderNpcs(); updateNear();
+        buildNpcs(); renderNpcs(); layoutNpcs(); updateNear();
       });
     }
 
@@ -362,7 +362,91 @@
       }
     }
     function renderHud() { R.hud.innerHTML = hudInner(); }
-    function renderAll() { renderNodes(); renderNpcs(); renderHud(); placePlayer(); updateNear(); }
+    function renderAll() { renderNodes(); renderNpcs(); renderHud(); placePlayer(); layoutNpcs(); updateNear(); }
+
+    /* ---- 防遮挡布局：NPC 避开关卡芯片 / 标签 / 传送门 / HUD / 主角站位，任何精灵都不压标签 ---- */
+    function relRect(el, vr, pad) {
+      var r = el.getBoundingClientRect(); pad = pad || 0;
+      return { l: r.left - vr.left - pad, t: r.top - vr.top - pad, r: r.right - vr.left + pad, b: r.bottom - vr.top + pad };
+    }
+    function overlapArea(a, b) {
+      var w = Math.min(a.r, b.r) - Math.max(a.l, b.l), h = Math.min(a.b, b.b) - Math.max(a.t, b.t);
+      return w > 0 && h > 0 ? w * h : 0;
+    }
+    function chromeRects(vr) {
+      var out = [{ l: -1e4, t: -1e4, r: 1e4, b: 52 }]; /* 顶部标题 / 按钮条 */
+      root.querySelectorAll(".hud, .dpad, .dpad button, .hud-tools, .tn-starmap-btn, .game-menu-btn, .hud-title").forEach(function (el) {
+        if (el.offsetParent !== null || getComputedStyle(el).position === "fixed") { var r = relRect(el, vr, 6); if (r.r > r.l && r.b > r.t) out.push(r); }
+      });
+      return out;
+    }
+    function sceneObstacles(vr) {
+      var obs = [];
+      R.scene.querySelectorAll(".node__body, .node__boss, .gate__arch").forEach(function (el) { obs.push(relRect(el, vr, 6)); });
+      /* 标签默认可能是 opacity:0（靠近才显示），按完整盒子避让 */
+      R.scene.querySelectorAll(".node__lab, .gate__lab").forEach(function (el) { obs.push(relRect(el, vr, 4)); });
+      var W = vw(), H = vh();
+      LEVELS.forEach(function (lv) { var s = standAt(lv), x = s.x / 100 * W, y = s.y / 100 * H; obs.push({ l: x - 22, t: y - 50, r: x + 22, b: y + 2 }); });
+      return obs.concat(chromeRects(vr));
+    }
+    /* 关卡标签若压到 HUD / 方向键 / 其它芯片，换到上 / 左 / 右侧 */
+    function layoutLabels(vr) {
+      var chrome = chromeRects(vr), LAB = ["", "lab-up", "lab-left", "lab-right"];
+      R.scene.querySelectorAll(".node").forEach(function (n) {
+        var lab = n.querySelector(".node__lab"); if (!lab) return;
+        var others = [];
+        R.scene.querySelectorAll(".node__body, .node__boss, .gate__arch, .gate__lab").forEach(function (el) { if (!n.contains(el)) others.push(relRect(el, vr, 2)); });
+        var best = "", bc = 1e12;
+        LAB.forEach(function (c, i) {
+          LAB.forEach(function (x) { if (x) n.classList.remove(x); }); if (c) n.classList.add(c);
+          var r = relRect(lab, vr, 2), cost = i;
+          if (r.l < 0 || r.t < 0 || r.r > vw() || r.b > vh()) cost += 1e6;
+          chrome.concat(others).forEach(function (o) { cost += overlapArea(r, o) * 100; });
+          if (cost < bc) { bc = cost; best = c; }
+        });
+        LAB.forEach(function (x) { if (x) n.classList.remove(x); }); if (best) n.classList.add(best);
+      });
+    }
+    function layoutNpcs() {
+      var host = entsEl(); if (!host) return;
+      var vr = R.viewport.getBoundingClientRect(); if (!vr.width) return;
+      layoutLabels(vr);
+      var W = vw(), H = vh(), obs = sceneObstacles(vr), placed = [];
+      if (R.player && R.player.parentNode) obs.push(relRect(R.player, vr, 6));
+      /* 竖屏场景拥挤：先给关卡卡片预留一块不压芯片 / 标签 / HUD 的停靠区，NPC 不进入，卡片就总有空位 */
+      if (S.portrait) {
+        var cw = 184, chh = 172, dock = null, dc = 1e12;
+        for (var dy = 56; dy <= H - chh - 8; dy += 12) for (var dx = 8; dx <= W - cw - 8; dx += 12) {
+          var db = { l: dx, t: dy, r: dx + cw, b: dy + chh }, c2 = 0;
+          obs.forEach(function (o) { c2 += overlapArea(db, o); });
+          if (c2 < dc) { dc = c2; dock = db; }
+        }
+        if (dock) obs.push(dock);
+      }
+      NPCS.forEach(function (npc) {
+        var el = host.querySelector('.npc[data-npc="' + npc.id + '"]'); if (!el) return;
+        if (npc.ax == null) { npc.ax = npc.x; npc.ay = npc.y; }
+        var bw = Math.max(36, el.offsetWidth), bh = Math.max(36, el.offsetHeight);
+        var ax = npc.ax / 100 * W, ay = npc.ay / 100 * H, best = null, bestCost = 1e12;
+        for (var ring = 0; ring <= 8 && bestCost > 0; ring++) {
+          var steps = ring ? 12 : 1;
+          for (var k = 0; k < steps; k++) {
+            var ang = k / steps * Math.PI * 2, x = ax + Math.cos(ang) * ring * 22, y = ay + Math.sin(ang) * ring * 18;
+            /* 精灵锚点在脚底中心；名字牌在脚下 16px */
+            var box = { l: x - bw / 2, t: y - bh - 14, r: x + bw / 2, b: y + 18 };
+            if (box.l < 4 || box.r > W - 4 || box.t < 4 || box.b > H - 4) continue;
+            var cost = 0;
+            obs.concat(placed).forEach(function (o) { cost += overlapArea(box, o); });
+            cost += ring; /* 同等无遮挡时尽量贴近原锚点 */
+            if (cost < bestCost) { bestCost = cost; best = { x: x, y: y, box: box }; }
+          }
+        }
+        if (!best) return;
+        npc.x = best.x / W * 100; npc.y = best.y / H * 100;
+        el.style.left = npc.x + "%"; el.style.top = npc.y + "%";
+        placed.push(best.box);
+      });
+    }
 
     /* ---- 移动 ---- */
     function placePlayer() { if (R.player) { R.player.style.left = S.pos.x + "%"; R.player.style.top = S.pos.y + "%"; } }
@@ -420,6 +504,32 @@
     }
 
     /* ---- 关卡卡片 ---- */
+    /* 卡片放在不压任何精灵 / 其它芯片 / 标签 / HUD 的位置（候选：右、左、上、下、各角落），取遮挡面积最小者 */
+    function placeCard(lv) {
+      var W = vw(), H = vh(), px = lv.x / 100 * W, py = lv.y / 100 * H;
+      var vis = R.qcard.style.visibility; R.qcard.style.visibility = "hidden"; R.qcard.classList.add("is-open");
+      var cw = R.qcard.offsetWidth || 210, chh = R.qcard.offsetHeight || 140;
+      var vr = R.viewport.getBoundingClientRect(), obs = chromeRects(vr).map(function (r) { r.w = 50; return r; }), own = R.scene.querySelector('.node[data-id="' + lv.id + '"]');
+      R.scene.querySelectorAll(".npc, .hero").forEach(function (el) { var r = relRect(el, vr, 4); r.w = 50; obs.push(r); }); /* 精灵：最高优先避让 */
+      R.scene.querySelectorAll(".node__body, .node__boss, .gate__arch, .node__lab, .gate__lab").forEach(function (el) {
+        if (own && own.contains(el) && !el.classList.contains("node__lab")) return; obs.push(relRect(el, vr, 2));
+      });
+      if (own) { var ob = own.querySelector(".node__body, .node__boss"); if (ob) obs.push(relRect(ob, vr, 6)); }
+      var c = [], g = 34;
+      [[px + g, py - chh / 2], [px - g - cw, py - chh / 2], [px - cw / 2, py - g - chh], [px - cw / 2, py + g],
+       [px + g, py - chh], [px + g, py], [px - g - cw, py - chh], [px - g - cw, py]].forEach(function (p) { c.push(p); });
+      for (var yy = 56; yy <= H - chh - 8; yy += 12) for (var xx = 8; xx <= W - cw - 8; xx += 12) c.push([xx, yy]);
+      var best = null, bc = 1e12;
+      c.forEach(function (p, i) {
+        var l = clamp(p[0], 8, Math.max(8, W - cw - 8)), t = clamp(p[1], 56, Math.max(56, H - chh - 8));
+        var box = { l: l, t: t, r: l + cw, b: t + chh }, cost = 0;
+        obs.forEach(function (o) { cost += overlapArea(box, o) * (o.w || 1); });
+        cost = cost * 1000 + Math.hypot(l + cw / 2 - px, t + chh / 2 - py) + (i < 8 ? 0 : 60);
+        if (cost < bc) { bc = cost; best = box; }
+      });
+      R.qcard.style.left = best.l + "px"; R.qcard.style.top = best.t + "px";
+      R.qcard.style.visibility = vis;
+    }
     function showCard(id, quiet) {
       var lv = byId[id]; if (!lv || lv.key !== S.key) return;
       var st = stOf(lv), title = lv.boss ? "CH." + lv.chapter + " BOSS · " + lv.name : "QUEST " + lv.num + " · " + lv.name;
@@ -439,10 +549,7 @@
         (st === "lock" && !lv.boss ? '<div class="qcard__goal">先通关前一关解锁。</div>' : '') +
         (st === "lock" && lv.boss ? '<div class="qcard__goal">通关本章全部关卡后解锁。</div>' : '') +
         '<div class="qcard__row">' + acts + '</div>';
-      var W = vw(), H = vh(), px = lv.x / 100 * W, py = lv.y / 100 * H, cw = R.qcard.offsetWidth || 230;
-      var left = px + 40; if (left + cw > W - 8) left = px - cw - 40;
-      left = clamp(left, 8, Math.max(8, W - cw - 8));
-      R.qcard.style.left = left + "px"; R.qcard.style.top = clamp(py - 10, 56, Math.max(56, H - 240)) + "px";
+      placeCard(lv);
       R.qcard.classList.add("is-open");
       R.qcard.setAttribute("data-id", lv.id);
       if (!quiet) { /* keep focus on map */ }
@@ -918,7 +1025,7 @@
     }, sig);
     window.addEventListener("resize", function () {
       if (isPortraitView() !== S.portrait) { hideCard(); renderScene(S.key); if (S.wmapOpen) buildWorldMap(); }
-      else if (S.wmapOpen) buildWorldMap();
+      else { layoutNpcs(); if (S.wmapOpen) buildWorldMap(); }
     }, sig);
 
     /* ---- 启动：只渲染当前在学的章节 ---- */
