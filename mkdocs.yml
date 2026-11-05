@@ -21,7 +21,7 @@ theme:
       primary: custom
       accent: custom
       toggle: {icon: material/weather-sunny, name: 切换浅色}
-  font: false            # 用系统字体，国内访问不卡
+  font: false            # 用系统字体，国内访问不卡（等宽字体走系统栈）
   icon: {repo: fontawesome/brands/github, logo: material/notebook-outline}
   features:
     - navigation.tabs        # 顶部按技术栈分栏

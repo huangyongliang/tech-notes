@@ -5,119 +5,103 @@ hide:
   - toc
 ---
 
-<div class="tn-hero" markdown>
+<div class="tn2-hero" markdown>
 
-<span class="tn-eyebrow">个人技术知识库 · 持续更新</span>
+<div class="tn2-hero__text" markdown>
 
-# 把学过的技术，<br>整理成随时能翻的笔记
+<span class="tn2-kicker">TECH-NOTES / 技术笔记 / v2026.11</span>
 
-按主题整理链接、短笔记和学习记录。从 Java 开始，逐步覆盖 Web、系统、DevOps 与 AI。
+# 学过的东西，<br>都<mark>落成文档</mark>。
 
-[开始阅读 Java :material-arrow-right:](topics/java/README.md){ .md-button .md-button--primary }
-[浏览全部主题](topics/README.md){ .md-button }
+一份公开的工程笔记本：按技术栈整理链接、短笔记和学习记录。不追热点，只记真正弄懂的东西。
 
-</div>
-
-<div class="tn-stats" markdown>
-<div><strong>8</strong><span>技术主题</span></div>
-<div><strong>12</strong><span>Java 子主题</span></div>
-<div><strong>JDK 25</strong><span>版本基线</span></div>
-<div><strong>CC BY 4.0</strong><span>开放许可</span></div>
-</div>
-
-## 技术栈 { .tn-section }
-
-<div class="grid cards tn-cards" markdown>
-
--   :fontawesome-brands-java:{ .lg .tn-ic-java } **Java 技术栈**
-
-    ---
-
-    语言、JVM、并发、Spring 生态，按学习顺序排好 12 个子主题。
-
-    <span class="tn-badge tn-badge--wip">搭建中</span> [进入 :material-arrow-right:](topics/java/README.md)
-
--   :material-hexagon-multiple-outline:{ .lg } **微服务 Microservices**
-
-    ---
-
-    架构拆分、服务治理、可观测性到云原生 Java，16 个子主题。
-
-    <span class="tn-badge tn-badge--wip">搭建中</span> [进入 :material-arrow-right:](topics/microservices/README.md)
-
--   :material-code-braces:{ .lg } **编程 Programming**
-
-    ---
-
-    编程语言、算法与设计。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/programming/README.md)
-
--   :material-web:{ .lg } **Web**
-
-    ---
-
-    前端、后端与网络协议。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/web/README.md)
-
--   :material-server-network:{ .lg } **系统 Systems**
-
-    ---
-
-    操作系统、网络、数据库、分布式。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/systems/README.md)
-
--   :material-rocket-launch-outline:{ .lg } **DevOps**
-
-    ---
-
-    CI/CD、容器与云。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/devops/README.md)
-
--   :material-robot-outline:{ .lg } **AI / ML**
-
-    ---
-
-    机器学习与大语言模型。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/ai-ml/README.md)
-
--   :material-magnify:{ .lg } **产品调研 Product Research**
-
-    ---
-
-    产品、竞品与技术选型。
-
-    <span class="tn-badge">待开始</span> [进入 :material-arrow-right:](topics/product-research/README.md)
+[从 Java 开始读 →](topics/java/README.md){ .tn2-btn .tn2-btn--solid }
+[全部主题](topics/README.md){ .tn2-btn }
 
 </div>
 
-## 怎么用这个知识库 { .tn-section }
+<div class="tn2-term">
+<div class="tn2-term__bar"><i></i><i></i><i></i><span>~/tech-notes</span></div>
+<pre><code><b>$</b> tree -L 1 topics/
+topics/
+├── <em>java/</em>            <s># 12 篇 · 搭建中</s>
+├── <em>microservices/</em>   <s># 16 篇 · 搭建中</s>
+├── programming/
+├── web/
+├── systems/
+├── devops/
+├── ai-ml/
+└── product-research/
 
-<div class="tn-steps" markdown>
+<b>$</b> cat java/README.md | head -1
+# Java 技术栈 Java Stack
+<b>$</b> <span class="tn2-caret"></span></code></pre>
+</div>
+
+</div>
+
+<div class="tn2-ticker" markdown>
+<span>JDK 25 LTS</span><span>Spring Boot 4.1</span><span>Virtual Threads</span><span>GraalVM</span><span>Spring Cloud 2025.1</span><span>JUnit 5</span><span>Testcontainers</span><span>Valhalla</span>
+</div>
+
+<div class="tn2-head" markdown>
+<span>§ 01</span>
+
+## 技术栈索引
+
+</div>
+
+<div class="tn2-index" markdown>
+
+[<span class="n">01</span><span class="t">Java 技术栈<small>Java Stack</small></span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s s--wip">搭建中</span>](topics/java/README.md)
+
+[<span class="n">02</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
+
+[<span class="n">03</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md)
+
+[<span class="n">04</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md)
+
+[<span class="n">05</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md)
+
+[<span class="n">06</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md)
+
+[<span class="n">07</span><span class="t">AI / ML<small>Machine Learning</small></span><span class="d">机器学习、LLM</span><span class="s">待开始</span>](topics/ai-ml/README.md)
+
+[<span class="n">08</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md)
+
+</div>
+
+<div class="tn2-head" markdown>
+<span>§ 02</span>
+
+## 工作流
+
+</div>
+
+<div class="tn2-flow" markdown>
 
 <div markdown>
-<span class="tn-step">1</span>
+<span class="k">IN</span>
+
 **收集**
 
-新链接和想法先放进 [Inbox](topics/inbox/README.md)。
+新链接、想法先丢进 [Inbox](topics/inbox/README.md)，不求整齐。
 </div>
 
 <div markdown>
-<span class="tn-step">2</span>
+<span class="k">SORT</span>
+
 **归类**
 
-整理到对应主题，更新「资料索引」。
+定期整理进对应主题，更新「资料索引」。
 </div>
 
 <div markdown>
-<span class="tn-step">3</span>
+<span class="k">OUT</span>
+
 **沉淀**
 
-值得深入的内容写成[笔记](notes/README.md)。
+真正弄懂的，写成一篇[笔记](notes/README.md)。
 </div>
 
 </div>
