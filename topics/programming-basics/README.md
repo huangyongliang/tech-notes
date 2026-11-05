@@ -16,12 +16,12 @@ flowchart LR
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 01 | [第一门语言 C 与环境 First Language: C](01-first-language-c/) | 为何选 C；gcc / clang；编译流程；C23 | ⚪ |
-| 02 | [核心概念 Core Concepts](02-core-concepts/) | 类型、控制流、函数、指针入门、多文件 | ⚪ |
-| 03 | [内存与数据 Memory & Data](03-memory-and-data/) | 数组、字符串、struct、malloc / free | ⚪ |
-| 04 | [工具、调试与测试 Tools & Debugging](04-tools-debugging/) | 警告、gdb、Valgrind、ASan、make | ⚪ |
-| 05 | [问题求解 Problem Solving](05-problem-solving/) | 伪代码；用 C 实现基础结构与算法 | ⚪ |
-| 06 | [C 小项目 Small Projects](06-small-projects/) | 命令行工具、文件 IO、Makefile | ⚪ |
+| 01 | [第一门语言 C 与环境 First Language: C](01-first-language-c/) | 为何选 C；gcc / clang；编译流程；C23 | 🟡 |
+| 02 | [核心概念 Core Concepts](02-core-concepts/) | 类型、控制流、函数、指针入门、多文件 | 🟡 |
+| 03 | [内存与数据 Memory & Data](03-memory-and-data/) | 数组、字符串、struct、malloc / free | 🟡 |
+| 04 | [工具、调试与测试 Tools & Debugging](04-tools-debugging/) | 警告、gdb、Valgrind、ASan、make | 🟡 |
+| 05 | [问题求解 Problem Solving](05-problem-solving/) | 伪代码；用 C 实现基础结构与算法 | 🟡 |
+| 06 | [C 小项目 Small Projects](06-small-projects/) | 命令行工具、文件 IO、Makefile | 🟡 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
