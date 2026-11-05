@@ -29,3 +29,4 @@
 2. 每个 PR 只做一件事，并更新相关 README 索引。
 3. 至少一人 review 后再合并（初期由小鼠 review）。
 4. 不要提交密钥、token 或私人数据。
+5. 不写真实姓名、邮箱、手机号；署名统一用 GitHub 用户名，提交邮箱用 GitHub noreply 地址。
