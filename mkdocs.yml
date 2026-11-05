@@ -44,6 +44,30 @@ extra_javascript:
 
 nav:
   - 首页: index.md
+  - 学习路线:
+      - topics/roadmap/README.md
+  - 基础:
+      - 零基础入门: topics/getting-started/README.md
+      - 01 认识计算机: topics/getting-started/01-what-is-a-computer/README.md
+      - 02 用好电脑: topics/getting-started/02-using-a-computer/README.md
+      - 03 互联网常识: topics/getting-started/03-internet-basics/README.md
+      - 04 学会学习与提问: topics/getting-started/04-learning-to-learn/README.md
+      - 05 技术英语: topics/getting-started/05-tech-english/README.md
+      - 计算机基础: topics/cs-basics/README.md
+      - 01 计算机组成: topics/cs-basics/01-computer-organization/README.md
+      - 02 操作系统: topics/cs-basics/02-operating-systems/README.md
+      - 03 Linux 与 Shell: topics/cs-basics/03-linux-shell/README.md
+      - 04 Git 版本控制: topics/cs-basics/04-git/README.md
+      - 05 计算机网络: topics/cs-basics/05-networking/README.md
+      - 06 数据结构与算法: topics/cs-basics/06-data-structures-algorithms/README.md
+      - 07 数据库基础: topics/cs-basics/07-databases/README.md
+      - 编程入门: topics/programming-basics/README.md
+      - 01 第一门语言与环境: topics/programming-basics/01-first-language/README.md
+      - 02 核心概念: topics/programming-basics/02-core-concepts/README.md
+      - 03 数据与对象: topics/programming-basics/03-data-and-objects/README.md
+      - 04 调试与测试: topics/programming-basics/04-debugging-testing/README.md
+      - 05 问题求解: topics/programming-basics/05-problem-solving/README.md
+      - 06 小项目: topics/programming-basics/06-small-projects/README.md
   - Java:
       - topics/java/README.md
       - 01 语言基础与新特性: topics/java/01-language-basics/README.md
@@ -76,14 +100,40 @@ nav:
       - 14 持续交付与 GitOps: topics/microservices/14-cicd-gitops/README.md
       - 15 测试: topics/microservices/15-testing/README.md
       - 16 性能与云原生 Java: topics/microservices/16-cloud-native-java/README.md
+  - AI:
+      - topics/ai/README.md
+      - 01 数学与机器学习基础: topics/ai/01-foundations/README.md
+      - 02 深度学习框架: topics/ai/02-dl-frameworks/README.md
+      - 03 Transformer 与大模型原理: topics/ai/03-transformer-llm/README.md
+      - 04 模型全景: topics/ai/04-model-landscape/README.md
+      - 05 提示词与上下文工程: topics/ai/05-prompt-context/README.md
+      - 06 LLM API 编程模式: topics/ai/06-llm-api-programming/README.md
+      - 07 应用开发框架: topics/ai/07-app-frameworks/README.md
+      - 08 检索增强生成: topics/ai/08-rag/README.md
+      - 09 智能体: topics/ai/09-agents/README.md
+      - 10 MCP 协议与开发: topics/ai/10-mcp/README.md
+      - 11 AI 编程助手与 IDE: topics/ai/11-ai-coding-tools/README.md
+      - 12 编程智能体工作流: topics/ai/12-coding-agents/README.md
+      - 13 代码模型与评测: topics/ai/13-code-models-evals/README.md
+      - 14 微调与对齐: topics/ai/14-fine-tuning/README.md
+      - 15 推理与服务: topics/ai/15-inference-serving/README.md
+      - 16 多模态: topics/ai/16-multimodal/README.md
+      - 17 评测与可观测: topics/ai/17-evals-observability/README.md
+      - 18 LLMOps 与 GPU 基础设施: topics/ai/18-llmops-infra/README.md
+      - 19 安全与治理: topics/ai/19-security-governance/README.md
+      - 20 前沿与趋势: topics/ai/20-trends/README.md
   - 全部主题:
       - topics/README.md
+      - 学习路线: topics/roadmap/README.md
+      - 零基础入门: topics/getting-started/README.md
+      - 计算机基础: topics/cs-basics/README.md
+      - 编程入门: topics/programming-basics/README.md
       - 微服务: topics/microservices/README.md
       - 编程: topics/programming/README.md
       - Web: topics/web/README.md
       - 系统: topics/systems/README.md
       - DevOps: topics/devops/README.md
-      - AI / ML: topics/ai-ml/README.md
+      - AI: topics/ai/README.md
       - 产品调研: topics/product-research/README.md
       - Inbox: topics/inbox/README.md
   - 笔记: notes/README.md
@@ -93,7 +143,6 @@ nav:
   - 关于:
       - 贡献指南: CONTRIBUTING.md
       - 展示规范: STYLE.md
-
 plugins:
   - search:
       lang: [zh, en]

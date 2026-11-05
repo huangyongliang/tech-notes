@@ -13,11 +13,15 @@
 
 | 主题 | 内容 | 状态 |
 |------|------|------|
+| 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
+| 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法，5 个子主题 | ⚪ 待开始 |
+| 🧮 [计算机基础 CS Basics](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | ⚪ 待开始 |
+| 🐍 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 Python，6 个子主题 | ⚪ 待开始 |
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | 🟡 搭建中 |
+| 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署，20 个子主题 | ⚪ 待开始 |
 | 💻 [编程 Programming](topics/programming/) | 编程语言、算法、设计 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
-| 🤖 [AI / ML](topics/ai-ml/) | 机器学习、LLM | ⚪ 待开始 |
 | 🖥️ [系统 Systems](topics/systems/) | 操作系统、网络、数据库、分布式 | ⚪ 待开始 |
 | 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 | ⚪ 待开始 |
 | 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、技术选型 | ⚪ 待开始 |
@@ -25,19 +29,14 @@
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 > [!TIP]
-> 第一次来？从 [Java 技术栈](topics/java/) 开始，子主题按学习顺序排好了：语言基础 → 集合 → 并发 → JVM → Spring。
+> 完全零基础从 [学习路线](topics/roadmap/) 开始；已经会编程的从 [Java 技术栈](topics/java/) 开始。
 
 ## 学习路线
 
 ```mermaid
-flowchart TD
-  A[收集 Inbox] --> B[归类 Topic] --> C[沉淀 Note]
-  B --> J[Java]
-  B --> P[编程]
-  B --> W[Web]
-  B --> S[系统]
-  B --> D[DevOps]
-  B --> M[AI / ML]
+flowchart LR
+  S0[0 零基础入门] --> S1[1 计算机基础] --> S2[2 编程入门]
+  S2 --> S3[3 Java 技术栈] --> S4[4 微服务] --> S5[5 AI]
 ```
 
 1. **收集**：新链接或想法先放进 [`topics/inbox/`](topics/inbox/)。

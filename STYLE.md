@@ -80,11 +80,15 @@ flowchart LR
 
 | 主题 | 内容 | 状态 |
 |------|------|------|
+| 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
+| 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法 | ⚪ 待开始 |
+| 🧮 [计算机基础 CS Basics](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | ⚪ 待开始 |
+| 🐍 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 Python | ⚪ 待开始 |
 | ☕ [Java](topics/java/) | 语言、JVM、Spring 生态 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | 🟡 搭建中 |
+| 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署 | ⚪ 待开始 |
 | 💻 [编程 Programming](topics/programming/) | 语言、算法、设计 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
-| 🤖 [AI / ML](topics/ai-ml/) | 机器学习、LLM | ⚪ 待开始 |
 | 🖥️ [系统 Systems](topics/systems/) | OS、网络、数据库、分布式 | ⚪ 待开始 |
 | 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 | ⚪ 待开始 |
 | 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、选型 | ⚪ 待开始 |
