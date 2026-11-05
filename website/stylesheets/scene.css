@@ -649,13 +649,13 @@
   overflow: visible;
 }
 .tn-scene .wmap-route__glow {
-  fill: none; stroke: url(#wmapBeam);
+  fill: none; stroke: url(#tnWmapBeam);
   stroke-width: 4;
   stroke-linecap: round; opacity: 0.35;
   filter: drop-shadow(0 0 6px #22d3ee);
 }
 .tn-scene .wmap-route__dash {
-  fill: none; stroke: url(#wmapBeam);
+  fill: none; stroke: url(#tnWmapBeam);
   stroke-width: 2;
   stroke-dasharray: 5 7; stroke-linecap: round; opacity: 0.95;
   animation: tns-beam-flow 2.2s linear infinite;
@@ -1075,3 +1075,29 @@
 /* 竖屏：关卡卡片更紧凑，便于 placeCard() 找到不压精灵的空位 */
 .tn-scene.is-portrait .qcard { width: 176px; padding: 7px 8px; }
 .tn-scene.is-portrait .qcard__goal { -webkit-line-clamp: 2; }
+
+/* 关卡卡片：浅色玻璃 + 青色辉光描边（与对话框同一套 cyan/violet 光晕）；
+ * 背景始终是浅色玻璃、文字固定深色，暗色模式下同样可读 */
+.tn-g .qcard.qcard {
+  background: rgba(248, 252, 255, 0.86);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  border: 1.5px solid rgba(34, 211, 238, 0.6);
+  border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25), 0 0 18px rgba(34, 211, 238, 0.32), 0 10px 26px rgba(14, 116, 144, 0.18);
+  color: #1e293b;
+}
+.tn-g .qcard.qcard .qcard__name { color: #0f172a; }
+.tn-g .qcard.qcard .qcard__goal,
+.tn-g .qcard.qcard .qcard__st { color: #475569; }
+.tn-g .qcard.qcard .qcard__st.is-done { color: #047857; }
+.tn-g .qcard.qcard .qcard__st.is-cur,
+.tn-g .qcard.qcard .qcard__id { color: #0e7490; }
+.tn-g .qcard.qcard .qcard__st.is-lock { color: #64748b; }
+.tn-g .qcard.qcard .qcard__x { color: #475569; }
+.tn-g .qcard.qcard .qcard__go {
+  border: 1.5px solid rgba(14, 116, 144, 0.55); border-radius: 10px;
+  background: linear-gradient(90deg, #06b6d4, #8b5cf6); color: #fff;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+}
+.tn-g .qcard.qcard .qcard__go--ghost { background: rgba(255, 255, 255, 0.7); color: #0f172a; box-shadow: none; }

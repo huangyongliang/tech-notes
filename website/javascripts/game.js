@@ -56,7 +56,7 @@
   }
   function hudLevel() {
     var A = api(); if (!A) return { lv: 1, pct: 0, title: "" };
-    var t = A.stats(A.load()), L = A.levels;
+    var t = (A.statsAll || A.stats)(A.load()), L = A.levels;
     var lo = L[t.lv - 1] || 0, hi = t.next != null ? t.next : t.max;
     var pct = t.next == null ? 100 : Math.max(0, Math.min(100, (t.xp - lo) / Math.max(1, hi - lo) * 100));
     return { lv: t.lv, pct: pct, title: t.xp + " / " + (t.next != null ? t.next : t.max) + " XP" };
@@ -283,14 +283,23 @@
     /* ---- NPC：本章每关一位导师（dialogs），门卫守传送门，新手村第一章有流浪猫 ---- */
     function buildNpcs() {
       var P = S.portrait; NPCS = [];
+      /* 每个角色（按名册名字）每章最多一位：站在他负责的「当前」关卡旁——
+       * 他名下第一个未通关的关卡；全部通关则站在最后一个。其它关卡仍可从关卡卡片「和导师对话」进入。 */
+      var byName = {}, order = [];
       LEVELS.forEach(function (lv) {
         if (lv.boss) return;
         var d = DIALOGS[lv.id]; if (!d || !d.npc) return;
+        var k = d.npc.name;
+        if (!byName[k]) { byName[k] = []; order.push(k); }
+        byName[k].push(lv);
+      });
+      order.forEach(function (k) {
+        var list = byName[k], lv = list.filter(function (l) { return !S.s.done[l.id]; })[0] || list[list.length - 1], d = DIALOGS[lv.id];
         NPCS.push({ id: d.npc.id, questId: lv.id, sprite: d.npc.sprite, name: d.npc.name, teach: true,
           x: clamp(lv.x + (P ? 9 : 5), 5, 95), y: clamp(lv.y - (P ? 2 : 4), 10, 94) });
       });
       var nk = S.gate.next, nt = nk ? THEMES[nk] : null, boss = bossOf(S.key), ch = parseKey(S.key).chapter;
-      NPCS.push({ id: "guard", sprite: "guard", name: "门卫", x: clamp(S.gate.x + (P ? -10 : -8), 5, 95), y: clamp(S.gate.y + (P ? 6 : 5), 10, 94), lines: nt ? [
+      if (!byName["门卫"]) NPCS.push({ id: "guard", sprite: "guard", name: "门卫", x: clamp(S.gate.x + (P ? -10 : -8), 5, 95), y: clamp(S.gate.y + (P ? 6 : 5), 10, 94), lines: nt ? [
         "站住。传送门那边是「" + nt.land + " · " + nt.name + "」。",
         "通关本章全部关卡并在「CH." + ch + " BOSS · " + (boss ? boss.name : "") + "」标记通过后，传送门才会开启。"
       ] : ["这里是目前的最后一章。更多大陆还在迷雾之外。", "随时可以点右上角 ◎「星图」回到已解锁的章节复习。"] });
@@ -362,7 +371,7 @@
       }
     }
     function renderHud() { R.hud.innerHTML = hudInner(); }
-    function renderAll() { renderNodes(); renderNpcs(); renderHud(); placePlayer(); layoutNpcs(); updateNear(); }
+    function renderAll() { buildNpcs(); renderNodes(); renderNpcs(); renderHud(); placePlayer(); layoutNpcs(); updateNear(); }
 
     /* ---- 防遮挡布局：NPC 避开关卡芯片 / 标签 / 传送门 / HUD / 主角站位，任何精灵都不压标签 ---- */
     function relRect(el, vr, pad) {
