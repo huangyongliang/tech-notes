@@ -17,6 +17,7 @@
 - 新笔记：复制 `templates/note.md`，填写 front matter（title、topic、tags、date、status、summary）。
 - 新主题：复制 `templates/topic-readme.md` 到 `topics/<new-topic>/README.md`，然后在 `topics/README.md` 里登记。
 - `status` 可选值：`draft` / `in-progress` / `done`。
+- 排版、提示框、mermaid 和导航的约定见 [展示规范 STYLE.md](STYLE.md)。
 
 ## 提交规范 (Conventional Commits)
 - `docs: add note on rust ownership`
