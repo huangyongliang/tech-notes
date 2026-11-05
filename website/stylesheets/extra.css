@@ -70,6 +70,7 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 /* 表格：账本风 */
 .md-typeset table:not([class]) { border: 2px solid var(--tn-rule); border-radius: 0; box-shadow: 4px 4px 0 var(--tn-rule); font-size: .74rem; background: var(--tn-paper); }
 .md-typeset table:not([class]) th { background: var(--tn-ink); color: var(--tn-paper); font-family: var(--tn-mono); font-weight: 700; font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th { background: #2a2622; color: var(--tn-ink); border-bottom: 2px solid var(--tn-hot); }
 .md-typeset table:not([class]) td { border-top: 1px dashed color-mix(in srgb, var(--tn-ink) 30%, transparent); }
 .md-typeset table:not([class]) tr:hover { background: color-mix(in srgb, var(--tn-mark) 25%, transparent); }
 
