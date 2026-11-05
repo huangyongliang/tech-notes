@@ -202,8 +202,13 @@
 .tn2-x__hint.is-fade { opacity: 0; }
 .tn2-x__fogmsg { position: absolute; left: 50%; bottom: 68px; transform: translateX(-50%); z-index: 31; font: 700 11px var(--x-mono); padding: 6px 12px; border: 2px solid var(--x-rule); background: var(--x-ink); color: var(--x-gold); box-shadow: 4px 4px 0 var(--x-hot); display: none; width: max-content; max-width: 90%; text-align: center; }
 .tn2-x__fogmsg.is-show { display: block; }
-.tn2-x__dpad { position: absolute; right: 10px; bottom: 10px; z-index: 30; display: none; grid-template-areas: ". u ." "l . r" ". d ."; gap: 4px; user-select: none; touch-action: none; }
-.tn2-x__dpad button { width: 36px; height: 36px; padding: 0; border: 2px solid var(--x-rule); background: var(--x-panel); box-shadow: 2px 2px 0 var(--x-rule); font: 800 12px var(--x-mono); }
+.tn2-x__dpad {
+  position: absolute; z-index: 30; display: none; grid-template-areas: ". u ." "l . r" ". d ."; gap: 2px;
+  right: calc(12px + env(safe-area-inset-right, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  opacity: .5; transition: opacity .2s; user-select: none; touch-action: none; pointer-events: none;
+}
+.tn2-x__dpad:active, .tn2-x__dpad:hover { opacity: .95; }
+.tn2-x__dpad button { pointer-events: auto; width: 38px; height: 38px; padding: 0; border: 1.5px solid var(--x-rule); border-radius: 6px; background: color-mix(in srgb, var(--x-panel) 70%, transparent); font: 800 12px var(--x-mono); }
 .tn2-x__dpad .u { grid-area: u; } .tn2-x__dpad .d { grid-area: d; } .tn2-x__dpad .l { grid-area: l; } .tn2-x__dpad .r { grid-area: r; }
 
 /* 面板 / 抽屉 / 对话 / toast：都限制在探索视图内部 */
@@ -245,7 +250,7 @@
 .tn2-x__choices:empty { display: none; }
 .tn2-x__choices button { font: 700 11px var(--x-mono); padding: 5px 10px; border: 2px solid var(--x-rule); background: var(--x-paper); box-shadow: 2px 2px 0 var(--x-rule); }
 .tn2-x__choices button:hover, .tn2-x__choices button:focus-visible { background: var(--x-gold); color: var(--x-gold-ink); }
-.tn2-x__toast { position: absolute; right: 52px; top: 10px; z-index: 55; width: min(300px, 80%); border: 3px solid var(--x-gold); background: var(--x-ink); color: var(--x-paper); box-shadow: 0 0 0 2px var(--x-rule), 6px 6px 0 var(--x-hot); padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; gap: 10px; }
+.tn2-x__toast { position: absolute; left: 10px; bottom: 74px; z-index: 55; width: min(300px, calc(100% - 20px)); border: 3px solid var(--x-gold); background: var(--x-ink); color: var(--x-paper); box-shadow: 0 0 0 2px var(--x-rule), 6px 6px 0 var(--x-hot); padding: 10px 12px; display: grid; grid-template-columns: auto 1fr; gap: 10px; }
 .tn2-x__toast[hidden] { display: none; }
 .tn2-x-toast__px { width: 34px; height: 34px; border: 2px solid var(--x-gold); display: grid; place-items: center; color: var(--x-gold); font: 900 16px var(--x-mono); }
 .tn2-x-toast__h { font: 800 12px var(--x-mono); color: var(--x-gold); letter-spacing: .06em; }
@@ -259,7 +264,8 @@
   .tn2-x { font-size: 12px; margin-left: -.8rem; margin-right: -.8rem; }
   .tn2-x__vp { height: clamp(420px, 72vh, 560px); border-left: 0; border-right: 0; box-shadow: none; }
   .tn2-x__dpad { display: grid; }
-  .tn2-x__hud { gap: 6px; padding: 5px 6px; bottom: 8px; left: 8px; }
+  .tn2-x__hud { gap: 6px; padding: 5px 6px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
+  .tn2-x__toast { bottom: calc(64px + env(safe-area-inset-bottom, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
   .tn2-x__xp { width: 76px; }
   .tn2-x__xp small { font-size: 8px; overflow: hidden; text-overflow: ellipsis; }
   .tn2-x__who { font-size: 10px; }
@@ -267,7 +273,17 @@
   .tn2-x__dialog { bottom: 8px; grid-template-columns: 1fr; }
   .tn2-x__face { display: none; }
   .tn2-x__fogmsg { bottom: 140px; }
-  .tn2-x__toast { right: 48px; }
+}
+
+/* Java 首页（JS 挂载成功后给 body 加 tn-explore-page）：地图铺满页面栅格，左侧导航与右侧目录收起 */
+body.tn-explore-page .tn2-x__vp { height: min(78vh, 760px); min-height: 420px; }
+@media screen and (min-width: 76.25em) { body.tn-explore-page .md-sidebar--primary { display: none; } }
+@media screen and (min-width: 60em) {
+  body.tn-explore-page .md-sidebar--secondary { display: none; }
+  body.tn-explore-page .md-content { max-width: 100%; }
+}
+@media (max-width: 720px) {
+  body.tn-explore-page .tn2-x__vp { height: 70vh; min-height: 400px; }
 }
 
 @keyframes tn2x-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }

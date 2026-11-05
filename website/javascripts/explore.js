@@ -330,10 +330,10 @@
 
     function stance(lv) { return { x: lv.x - 50, y: lv.y + 6 }; } // 站在节点左侧，不压住节点和下方标签
 
-    var npcs = [];
+    var npcs = [], labEls = {};
     function render() {
       var s = S.s;
-      layerNodes.innerHTML = ""; layerLabels.innerHTML = ""; layerFog.innerHTML = ""; layerNpc.innerHTML = "";
+      layerNodes.innerHTML = ""; layerLabels.innerHTML = ""; labEls = {}; layerFog.innerHTML = ""; layerNpc.innerHTML = "";
       M.levels.forEach(function (lv) {
         var st = status(API, M, s, lv), fog = fogged(M, s, lv.chapter);
         lv.st = st; lv.fog = fog;
@@ -353,7 +353,7 @@
         var lab = el("div", "tn2-x-label is-" + st + (lv.boss ? " tn2-x-label--boss" : ""),
           "<b>" + (lv.boss ? "CH." + lv.chapter + " BOSS" : "QUEST " + esc(lv.sid)) + "</b>" + esc(lv.name));
         lab.style.left = lv.x + "px"; lab.style.top = (lv.y + (lv.boss ? 50 : 34)) + "px";
-        layerLabels.appendChild(lab);
+        layerLabels.appendChild(lab); labEls[lv.id] = lab;
       });
       M.regions.forEach(function (R) {
         if (!fogged(M, s, R.c)) return;
@@ -452,7 +452,7 @@
       return "综合检验第" + (CN[lv.chapter - 1] || lv.chapter) + "章「" + M.chapters[lv.chapter - 1] + "」（QUEST " + range(M, lv.chapter) + "）。题目建设中。";
     }
     function showCard(lv) {
-      if (!lv || !preview.hidden) { qcard.hidden = true; return; }
+      if (!lv || !preview.hidden || S.dialog) { qcard.hidden = true; return; }
       var link = lv.boss ? "" : '<a class="tn2-x-qcard__go" href="' + esc(API.urlFor(lv.q.path)) + '">进入笔记 →</a>';
       qcard.innerHTML = '<div class="tn2-x-qcard__id">' + (lv.boss ? "CH." + lv.chapter + " BOSS" : "QUEST " + esc(lv.sid)) + " · 第" + (CN[lv.chapter - 1] || lv.chapter) + "章 " + esc(M.chapters[lv.chapter - 1]) + "</div>" +
         '<div class="tn2-x-qcard__name">' + esc(lv.name) + "</div>" +
@@ -460,10 +460,50 @@
         '<p class="tn2-x-qcard__goal">' + esc(goalOf(lv)) + "</p>" +
         '<div class="tn2-x-qcard__row">' + link + '<button type="button" class="tn2-x-qcard__more" data-id="' + esc(lv.id) + '">详情 (Enter)</button></div>';
       qcard.hidden = false;
-      var w = 236, h = qcard.offsetHeight || 160;
-      var left = clamp(lv.x - w / 2, 8, M.W - w - 8), top = lv.y - (lv.boss ? 56 : 34) - h;
-      if (top < 8) top = lv.y + (lv.boss ? 96 : 76);
-      qcard.style.left = left + "px"; qcard.style.top = top + "px";
+      var p = placeCard(lv, 236, qcard.offsetHeight || 160);
+      qcard.style.left = p.x + "px"; qcard.style.top = p.y + "px";
+    }
+    /* 任务卡自动摆放：在上/下/左/右/四角候选位里挑与玩家、NPC（含提示气泡）、节点标签重叠最少、且尽量在视口内的位置 */
+    function placeCard(lv, w, h) {
+      /* 标签按实测尺寸避让（两行标签更高）；读不到时退回估计值 */
+      function labBox(o) {
+        var e = labEls[o.id], lw = (e && e.offsetWidth) || 136, lh = (e && e.offsetHeight) || 52;
+        return [o.x - lw / 2 - 4, o.y + (o.boss ? 50 : 34) - 2, lw + 8, lh + 6];
+      }
+      var own = labBox(lv), r = lv.boss ? 46 : 28, below = own[1] + own[3] + 4 - lv.y;
+      var cands = [
+        [lv.x - w / 2, lv.y - r - 8 - h],          // 上
+        [lv.x + r + 14, lv.y - h / 2],              // 右
+        [lv.x - r - 70 - w, lv.y - h / 2],          // 左（让开站在左侧的玩家）
+        [lv.x - w / 2, lv.y + below],               // 下（让开标签）
+        [lv.x + r + 10, lv.y - r - h],              // 右上
+        [lv.x + r + 10, lv.y + r],                  // 右下
+        [lv.x - r - 10 - w, lv.y - r - h],          // 左上
+        [lv.x - r - 10 - w, lv.y + r],              // 左下
+        [cam.x + 10, lv.y + below],                 // 下（贴视口左缘，窄屏用）
+        [cam.x + 10, lv.y - r - 8 - h]              // 上（贴视口左缘）
+      ];
+      var obst = [[S.pos.x - 22, S.pos.y - 44, 44, 70]]; // 玩家 + 名牌
+      npcs.forEach(function (n) { obst.push([n.x - 26, n.y - 30, 52, 70]); });
+      if (!bubble.hidden) obst.push([parseFloat(bubble.style.left) - 4, parseFloat(bubble.style.top) - 4, 180, 44]);
+      M.levels.forEach(function (o) { obst.push([o.x - (o.boss ? 44 : 30), o.y - (o.boss ? 48 : 30), o.boss ? 88 : 60, o.boss ? 96 : 60]); obst.push(labBox(o)); });
+      var vw = vp.clientWidth, vh = vp.clientHeight;
+      var dp = root.querySelector(".tn2-x__dpad"), tl = root.querySelector(".tn2-x__tools");
+      if (tl && tl.offsetParent) { var tr = tl.getBoundingClientRect(), vr0 = vp.getBoundingClientRect(); obst.push([cam.x + tr.left - vr0.left - 6, cam.y + tr.top - vr0.top - 6, tr.width + 12, tr.height + 12]); }
+      if (dp && dp.offsetParent) { // 移动端方向键（半透明）也尽量不压任务卡按钮
+        var dr = dp.getBoundingClientRect(), vr = vp.getBoundingClientRect();
+        obst.push([cam.x + dr.left - vr.left - 6, cam.y + dr.top - vr.top - 6, dr.width + 12, dr.height + 12]);
+      }
+      function ov(ax, ay, aw, ah, b) { var x = Math.max(0, Math.min(ax + aw, b[0] + b[2]) - Math.max(ax, b[0])), y = Math.max(0, Math.min(ay + ah, b[1] + b[3]) - Math.max(ay, b[1])); return x * y; }
+      var best = null, bs = Infinity;
+      cands.forEach(function (c, i) {
+        var x = clamp(c[0], 8, M.W - w - 8), y = clamp(c[1], 8, M.H - h - 8);
+        var sc = i * 40; // 同分时偏好靠前的候选
+        obst.forEach(function (b) { sc += ov(x, y, w, h, b); });
+        sc += (w * h - ov(x, y, w, h, [cam.x + 6, cam.y + 6, vw - 52, vh - 70])) * 2; // 出视口（及右侧工具栏、底部状态栏）罚分
+        if (sc < bs) { bs = sc; best = { x: x, y: y }; }
+      });
+      return best;
     }
 
     /* 移动：只在按键按住或自动寻路时跑 rAF，停下即结束循环 */
@@ -594,6 +634,7 @@
     /* 对话 */
     function openDialog(n) {
       S.dialog = { n: n, q: n.def.lines.slice(), typing: 0 };
+      qcard.hidden = true; // 对话期间收起任务卡，避免重叠
       dlg.querySelector(".tn2-x__face").innerHTML = SVG[n.def.sprite] || SVG.mentor;
       dlg.querySelector(".tn2-x__meta").textContent = n.def.name;
       dlg.hidden = false;
@@ -603,6 +644,7 @@
     function closeDialog() {
       if (!S.dialog) return;
       clearInterval(S.dialog.typing); S.dialog = null; dlg.hidden = true; vp.focus({ preventScroll: true });
+      updateNear(true);
     }
     function nextLine() {
       var D = S.dialog; if (!D) return;
@@ -612,13 +654,8 @@
       if (!line) { closeDialog(); return; }
       D.line = line; D.full = fill(API, M, S.s, line.text || "");
       ch.innerHTML = ""; nx.hidden = true;
-      if (reduce || !D.full) { txt.textContent = D.full; afterType(); return; }
-      var i = 0; txt.textContent = "";
-      D.typing = setInterval(function () {
-        i += 2; txt.textContent = D.full.slice(0, i);
-        if (i >= D.full.length) { clearInterval(D.typing); D.typing = 0; afterType(); }
-      }, 22);
-      nx.hidden = false;
+      // 整句一次性显示（不做打字机效果，文字永远完整）
+      txt.textContent = D.full; afterType();
     }
     function afterType() {
       var D = S.dialog; if (!D) return;
@@ -774,6 +811,7 @@
     /* ---------- 首次渲染（全部成功后才隐藏文字版地图） ---------- */
     if (h2) h2.parentNode.insertBefore(root, h2.nextSibling);
     else qmap.parentNode.insertBefore(root, qmap);
+    document.body.classList.add(PAGE_CLASS); // 先加宽版面，再按最终尺寸摆镜头
     render();
     var f = focusLevel(S.s);
     S.pos = stance(f); placePlayer(); camera(false); updateNear(true);
@@ -787,13 +825,18 @@
         if (S.dialog) clearInterval(S.dialog.typing);
         if (ac) ac.abort(); offs.forEach(function (f) { f(); });
         inner.classList.remove("tn2-x-on", "tn2-x-list");
+        document.body.classList.remove(PAGE_CLASS);
         if (root.parentNode) root.remove();
       }
     };
   }
 
-  function teardown() { if (inst) { try { inst.destroy(); } catch (e) {} inst = null; } }
+  function teardown() {
+    if (inst) { try { inst.destroy(); } catch (e) {} inst = null; }
+    if (document.body) document.body.classList.remove(PAGE_CLASS);
+  }
 
+  var PAGE_CLASS = "tn-explore-page";
   function boot() {
     teardown();
     var API = window.TN_QUEST;
@@ -803,6 +846,7 @@
       /* 兜底：撤掉半成品，保留 quest.js 的文字版闯关地图 */
       var inner = document.querySelector(".md-content__inner");
       if (inner) { inner.querySelectorAll(".tn2-x").forEach(function (x) { x.remove(); }); inner.classList.remove("tn2-x-on", "tn2-x-list"); }
+      document.body.classList.remove(PAGE_CLASS);
       inst = null;
       if (window.console && console.warn) console.warn("[tn explore] disabled:", e);
     }
