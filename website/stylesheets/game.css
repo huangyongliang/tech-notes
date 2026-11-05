@@ -360,7 +360,8 @@
   .tn-g .start__go:hover, .tn-g .mode-fab:hover { transform: none; }
   .tn-g .start__hero { animation: none !important; }
 }
-.tn-g .hint--keys.is-fade, .tn-g .hint--keys[hidden] { display: none !important; opacity: 0 !important; }
+/* 提示条：is-fade 只做淡出（JS 在过渡结束后再设 hidden）；hidden 才真正移除 */
+.tn-g .hint--keys[hidden] { display: none !important; }
 .tn-g .node__lab.lab-left { left: 0 !important; transform: translateX(calc(-100% - 18px)) !important; }
 .tn-g .node.is-near .node__lab.lab-left, .tn-g .node:hover .node__lab.lab-left, .tn-g .node.is-focus .node__lab.lab-left { transform: translateX(calc(-100% - 18px)) !important; }
 .tn-g .node__lab.lab-right { left: 100% !important; transform: translateX(10px) !important; }
@@ -445,3 +446,17 @@ html.tn-mode-game .md-sidebar { top: 52px; }
 .tn-g .node.tn-g-ph { width: 34px; height: 34px; margin: -17px 0 0 -17px; border-style: dashed; box-shadow: none; }
 .tn-g .land.is-placeholder .land__tag { opacity: .85; }
 .tn-g .tn-g-chain { font-size: 11px; }
+
+/* 触屏：显示 D-pad，永不显示键盘提示（与 game.js 的 TOUCH_MQ 一致） */
+@media (hover: none) and (pointer: coarse) {
+  .tn-g .dpad { display: grid; }
+}
+@media (max-width: 720px), (hover: none) and (pointer: coarse) {
+  .tn-g .hint--keys { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tn-g .hint--keys, .tn-g .hint--keys.is-fade { transition: none !important; }
+}
+
+/* 游戏模式的文章页：隐藏正文上方的大 Lv / 进度卡（顶部瘦 HUD 已显示 Lv + XP）；阅读模式不变 */
+html.tn-mode-game .md-content .tn2-pbar { display: none !important; }

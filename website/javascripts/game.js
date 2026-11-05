@@ -33,6 +33,13 @@
   var ROMAN = ["I", "II", "III", "IV", "V"];
   var CN = "一二三四五";
   var SESSION_KEY = "tn-game-started";
+  /* 顶部 WASD 提示条：只在第一次进入时出现，看过就记住（独立的 key，不碰 tn-quest-v2） */
+  var HINT_KEY = "tn-hint-keys-seen";
+  /* 与 game.css 中显示 D-pad 的媒体查询保持一致：触屏 / 窄屏从不显示键盘提示 */
+  var TOUCH_MQ = "(max-width: 720px), (hover: none) and (pointer: coarse)";
+  function isTouch() { return !!(window.matchMedia && matchMedia(TOUCH_MQ).matches); }
+  function hintSeen() { try { return localStorage.getItem(HINT_KEY) === "1"; } catch (e) { return true; } }
+  function markHintSeen() { try { localStorage.setItem(HINT_KEY, "1"); } catch (e) {} }
 
   var inst = null;     /* 世界实例（只在首页） */
   var slim = null;     /* 文章页瘦 HUD */
@@ -667,9 +674,21 @@
     function begin() {
       R.start.hidden = true;
       try { sessionStorage.setItem(SESSION_KEY, "1"); } catch (e) {}
-      R.hint.hidden = false;
-      timers.push(setTimeout(function () { R.hint.classList.add("is-fade"); }, 2800));
+      maybeShowHint();
       R.viewport.focus({ preventScroll: true });
+    }
+    function maybeShowHint() {
+      if (isTouch() || hintSeen()) return;
+      markHintSeen(); /* 第一次显示即记住：之后（含刷新）不再出现 */
+      R.hint.classList.remove("is-fade");
+      R.hint.hidden = false;
+      timers.push(setTimeout(dismissHint, 4000));
+    }
+    function dismissHint() {
+      if (R.hint.hidden) return;
+      if (reduce) { R.hint.hidden = true; return; } /* 减少动态：直接隐藏，不做淡出 */
+      R.hint.classList.add("is-fade");
+      timers.push(setTimeout(function () { R.hint.hidden = true; }, 950));
     }
     R.btnStart.addEventListener("click", begin, sig);
     R.btnRead.addEventListener("click", function () { setMode("read"); }, sig);
@@ -695,7 +714,7 @@
         return;
       }
       if (S.panel || !R.menu.hidden) return;
-      if (KEYMAP[e.key]) { S.keys[KEYMAP[e.key]] = true; e.preventDefault(); kick(); hideCard(); R.hint.classList.add("is-fade"); return; }
+      if (KEYMAP[e.key]) { S.keys[KEYMAP[e.key]] = true; e.preventDefault(); kick(); hideCard(); dismissHint(); return; }
       var onNode = e.target && e.target.closest && e.target.closest(".node, .npc, .qcard, .hud-tools, .game-menu-btn");
       if ((e.key === "Enter" || e.key === " ") && !onNode) {
         e.preventDefault();
