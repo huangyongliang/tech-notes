@@ -10,4 +10,5 @@
 - `design-patterns/`
 
 ## 资料索引
+- [Java 主题](../java/) — Java 内容较多，作为独立主题放在 `topics/java/`
 <!-- - [标题](相对路径或链接) — 一句话说明 -->
