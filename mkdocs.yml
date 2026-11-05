@@ -37,10 +37,12 @@ theme:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/explore.css
 
 extra_javascript:
   - javascripts/quest-data.js
   - javascripts/quest.js
+  - javascripts/explore.js
 
 nav:
   - 首页: index.md
