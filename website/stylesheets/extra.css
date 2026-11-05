@@ -153,7 +153,7 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 }
 
 /* 细节修正 */
-.tn2-term .md-clipboard { display: none; }
+.md-typeset .tn2-term .md-clipboard, .tn2-term .md-code__nav { display: none !important; }
 @media (max-width: 900px) {
   .tn2-ticker { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .tn2-ticker span { white-space: nowrap; }
