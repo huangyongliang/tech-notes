@@ -6,6 +6,7 @@
 |------|------|
 | [programming](programming/) | 编程语言、算法、设计 |
 | [java](java/) | Java 语言、JVM、Spring 生态 |
+| [microservices](microservices/) | 微服务体系：网关、治理、消息、可观测、K8s |
 | [web](web/) | 前端、后端、协议 |
 | [ai-ml](ai-ml/) | 机器学习、LLM |
 | [systems](systems/) | 操作系统、网络、数据库、分布式 |

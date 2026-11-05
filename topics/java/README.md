@@ -2,7 +2,7 @@
 
 Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的学习笔记。以最新 LTS（JDK 25）为基准，兼顾 8 / 11 / 17 / 21 的差异，按学习顺序排列，也可以当速查手册用。
 
-> 相关主题：[编程 Programming](../programming/) · [Web](../web/) · [系统 Systems](../systems/)
+> 相关主题：[编程 Programming](../programming/) · [Web](../web/) · [系统 Systems](../systems/) · [微服务 Microservices](../microservices/)
 
 ## 学习路径
 
