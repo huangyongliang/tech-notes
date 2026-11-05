@@ -38,7 +38,7 @@ flowchart LR
 
 1. **收集**：新链接或想法先放进 [`topics/inbox/`](topics/inbox/)。
 2. **归类**：定期整理到对应的 `topics/<topic>/`，并更新那个主题的「资料索引」。
-3. **沉淀**：值得深入的内容，用 [`templates/note.md`](templates/note.md) 写成笔记，放进 [`notes/`](notes/)。
+3. **沉淀**：值得深入的内容，用 [`templates/note.md`](https://github.com/huangyongliang/tech-notes/blob/main/templates/note.md) 写成笔记，放进 [`notes/`](notes/)。
 
 ## 目录结构
 
@@ -48,7 +48,7 @@ flowchart LR
 | [`topics/inbox/`](topics/inbox/) | 暂存还没分类的链接和笔记 |
 | [`notes/`](notes/) | 跨主题或较长的笔记 |
 | [`resources/`](resources/) | 精选外部资料，[`links.md`](resources/links.md) 是链接表 |
-| [`templates/`](templates/) | 笔记模板和主题 README 模板 |
+| [`templates/`](https://github.com/huangyongliang/tech-notes/tree/main/templates) | 笔记模板和主题 README 模板 |
 
 ## 如何使用
 
@@ -64,4 +64,4 @@ cd tech-notes
 
 ## 许可证
 
-笔记内容采用 [CC BY 4.0](LICENSE) 许可，© tech-notes contributors。
+笔记内容采用 [CC BY 4.0](https://github.com/huangyongliang/tech-notes/blob/main/LICENSE) 许可，© tech-notes contributors。
