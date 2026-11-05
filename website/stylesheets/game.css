@@ -310,6 +310,7 @@
 .tn-g .dialog__dots { display: flex; gap: 4px; align-items: center; }
 .tn-g .dialog__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); display: block; }
 .tn-g .dialog__dots i.is-on { background: var(--hot); transform: scale(1.15); }
+.tn-g .dialog__prog { font: 800 11px/1 var(--mono); color: var(--ink-2); letter-spacing: 0.02em; }
 .tn-g .dialog__text { font-size: 12.48px; line-height: 1.5; min-height: 2.4em;  color: var(--ink); }
 .tn-g .dialog__quiz { margin-top: 5.6px; font: 600 9.92px var(--mono); color: var(--ink-2); }
 .tn-g .dialog__quiz .opt { display: block; width: 100%; text-align: left; margin: 3.52px 0 0; padding: 6.4px 8.8px; font: 700 10.88px var(--mono); border: 2px solid var(--rule); background: var(--paper); box-shadow: 2px 2px 0 var(--rule); border-radius: 6px; cursor: pointer; color: var(--ink); }
@@ -344,6 +345,13 @@
 .tn-g .scroll-panel__head { display: flex; align-items: center; justify-content: space-between; padding: 8.8px 12px; border-bottom: 2px solid #5a4030; font: 800 11.52px var(--mono); }
 .tn-g .scroll-panel__close { border: 2px solid #5a4030; background: transparent; width: 25.6px; height: 25.6px; cursor: pointer; font-size: 12px; }
 .tn-g .scroll-panel__body { margin: 0; padding: 12px 14.4px 16px; overflow: auto; white-space: pre-wrap; word-break: break-word; font: 600 11.52px/1.5 var(--mono); }
+.tn-g .scroll-panel__body--links { white-space: normal; }
+.tn-g .scroll-panel__link { margin: 0 0 0.65em; line-height: 1.45; }
+.tn-g .scroll-panel__link:last-child { margin-bottom: 0; }
+.tn-g .scroll-panel__link a { color: #6b3a1e; font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+.tn-g .scroll-panel__link a:hover { color: #a05020; }
+[data-md-color-scheme="slate"] .tn-g .scroll-panel__link a { color: #e8c48a; }
+[data-md-color-scheme="slate"] .tn-g .scroll-panel__link a:hover { color: #f0d7a8; }
 .tn-g .article-slim-hud { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 9.6px; padding: 6.4px 11.2px; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 2px solid var(--rule); }
 .tn-g .article-slim-hud .hud__face { width: 28px; height: 28px; }
 .tn-g .article-slim-hud .hud__face svg { width: 28px; height: 28px; }

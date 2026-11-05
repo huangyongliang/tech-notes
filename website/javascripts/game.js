@@ -514,13 +514,20 @@
       var d = DIALOGS[t.qid], pages = d.pages, page = pages[t.page];
       if (!page) { closeDialog(); return; }
       R.face.innerHTML = portrait(d.npc.sprite, page.expr || "normal");
-      R.dots.innerHTML = pages.map(function (_, i) { return "<i" + (i === t.page ? ' class="is-on"' : "") + "></i>"; }).join("");
+      /* 页数多时用计数器，避免一排圆点挤爆 */
+      if (pages.length > 12) {
+        R.dots.innerHTML = '<span class="dialog__prog">' + (t.page + 1) + " / " + pages.length + "</span>";
+      } else {
+        R.dots.innerHTML = pages.map(function (_, i) { return "<i" + (i === t.page ? ' class="is-on"' : "") + "></i>"; }).join("");
+      }
       R.choices.innerHTML = ""; R.quiz.hidden = true; R.quiz.innerHTML = ""; R.scrollWrap.hidden = true;
       R.text.innerHTML = fmt((page.lines || []).join("\n")); /* 全文即时显示，不做打字机、不截断 */
       if (page.type === "quiz") renderQuiz(t, page);
       if (page.scroll && d.scrolls && d.scrolls[page.scroll]) {
+        var scBtn = d.scrolls[page.scroll];
         R.scrollWrap.hidden = false;
-        R.btnScroll.onclick = function (e) { e.stopPropagation(); openScroll(d.scrolls[page.scroll]); };
+        R.btnScroll.textContent = scBtn.kind === "links" ? "📜 资料卷轴" : "📜 展开卷轴";
+        R.btnScroll.onclick = function (e) { e.stopPropagation(); openScroll(scBtn); };
       }
       if (page.type === "choice" && page.choices) {
         page.choices.forEach(function (c) {
@@ -587,9 +594,20 @@
     function openScroll(sc) {
       if (!sc) return;
       R.scroll.hidden = false;
-      R.scrollTitle.textContent = sc.title || "卷轴";
-      R.scrollBody.textContent = sc.body || "";
-      if (sc.lang) R.scrollBody.setAttribute("data-lang", sc.lang); else R.scrollBody.removeAttribute("data-lang");
+      R.scrollTitle.textContent = sc.title || (sc.kind === "links" ? "资料索引" : "卷轴");
+      if (sc.kind === "links" && sc.items && sc.items.length) {
+        R.scrollBody.classList.add("scroll-panel__body--links");
+        R.scrollBody.removeAttribute("data-lang");
+        R.scrollBody.innerHTML = sc.items.map(function (it) {
+          var note = it.note ? " — " + esc(it.note) : "";
+          return '<div class="scroll-panel__link"><a href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' +
+            esc(it.title) + "</a>" + note + "</div>";
+        }).join("");
+      } else {
+        R.scrollBody.classList.remove("scroll-panel__body--links");
+        R.scrollBody.textContent = sc.body || "";
+        if (sc.lang) R.scrollBody.setAttribute("data-lang", sc.lang); else R.scrollBody.removeAttribute("data-lang");
+      }
       R.scrollClose.focus({ preventScroll: true });
     }
     function closeScroll() { R.scroll.hidden = true; }
