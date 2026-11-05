@@ -81,7 +81,7 @@ flowchart LR
 | 主题 | 内容 | 状态 |
 |------|------|------|
 | ☕ [Java](topics/java/) | 语言、JVM、Spring 生态 | 🟡 搭建中 |
-| 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | ⚪ 待开始 |
+| 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | 🟡 搭建中 |
 | 💻 [编程 Programming](topics/programming/) | 语言、算法、设计 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
 | 🤖 [AI / ML](topics/ai-ml/) | 机器学习、LLM | ⚪ 待开始 |
