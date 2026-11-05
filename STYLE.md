@@ -83,7 +83,7 @@ flowchart LR
 | 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
 | 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法 | ⚪ 待开始 |
 | 🧮 [计算机基础 CS Basics](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | ⚪ 待开始 |
-| 🐍 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C | ⚪ 待开始 |
+| 💻 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C | ⚪ 待开始 |
 | ☕ [Java](topics/java/) | 语言、JVM、Spring 生态 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | 🟡 搭建中 |
 | 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署 | ⚪ 待开始 |

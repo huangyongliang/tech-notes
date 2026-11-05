@@ -26,9 +26,9 @@ hide:
 <pre><code><b>$</b> tree -L 1 topics/
 topics/
 ├── roadmap/
-├── getting-started/
-├── cs-basics/
-├── programming-basics/
+├── <em>getting-started/</em> <s># 5 个子主题 · 搭建中</s>
+├── <em>cs-basics/</em>        <s># 7 个子主题 · 搭建中</s>
+├── <em>programming-basics/</em> <s># 6 个子主题 · 搭建中</s>
 ├── <em>java/</em>            <s># 12 个子主题 · 搭建中</s>
 ├── <em>microservices/</em>   <s># 16 个子主题 · 搭建中</s>
 ├── ai/
@@ -168,11 +168,11 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">00</span><span class="t">学习路线<small>Roadmap</small></span><span class="d">从零到 AI · 六个阶段总览</span><span class="s s--wip">搭建中</span>](topics/roadmap/README.md)
 
-[<span class="n">01</span><span class="t">零基础入门<small>Getting Started</small></span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s">待开始</span>](topics/getting-started/README.md){ .tn2-todo }
+[<span class="n">01</span><span class="t">零基础入门<small>Getting Started</small></span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s s--wip">搭建中</span>](topics/getting-started/README.md)
 
-[<span class="n">02</span><span class="t">计算机基础<small>CS Basics</small></span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s">待开始</span>](topics/cs-basics/README.md){ .tn2-todo }
+[<span class="n">02</span><span class="t">计算机基础<small>CS Basics</small></span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s s--wip">搭建中</span>](topics/cs-basics/README.md)
 
-[<span class="n">03</span><span class="t">编程入门<small>Programming Basics</small></span><span class="d">第一门语言 C，6 个子主题</span><span class="s">待开始</span>](topics/programming-basics/README.md){ .tn2-todo }
+[<span class="n">03</span><span class="t">编程入门<small>Programming Basics</small></span><span class="d">第一门语言 C，6 个子主题</span><span class="s s--wip">搭建中</span>](topics/programming-basics/README.md)
 
 [<span class="n">04</span><span class="t">Java 技术栈<small>Java Stack</small></span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s s--wip">搭建中</span>](topics/java/README.md)
 
