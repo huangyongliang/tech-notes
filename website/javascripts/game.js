@@ -490,6 +490,11 @@
       while ((m = re.exec(s))) { out += esc(s.slice(last, m.index)).replace(/\n/g, "<br>"); out += '<code class="dlg-code">' + esc(m[1]) + '</code>'; last = m.index + m[0].length; }
       return out + esc(s.slice(last)).replace(/\n/g, "<br>");
     }
+    function syncChrome() {
+      /* 对话 / 卷轴打开时隐藏虚拟方向键，避免挡在对话框下方 */
+      var scrollOpen = R.scroll && !R.scroll.hidden;
+      root.classList.toggle("is-dialoging", !!(S.dialogOpen || scrollOpen));
+    }
     function openDialogShell(npcName, spriteKey) {
       hideCard(); closeMenu();
       S.dialogOpen = true; S.keys = {}; setWalk(false);
@@ -497,6 +502,7 @@
       R.who.textContent = npcName;
       R.face.innerHTML = portrait(spriteKey, "normal");
       R.quiz.hidden = true; R.quiz.innerHTML = ""; R.scrollWrap.hidden = true; R.choices.innerHTML = "";
+      syncChrome();
     }
     function openNpc(npc) {
       if (npc.teach && npc.questId) {
@@ -540,6 +546,7 @@
       S.dialogOpen = false; S.teach = null; S.flavor = null;
       R.dialog.classList.remove("is-open"); R.dialog.hidden = true;
       closeScroll();
+      syncChrome();
       R.viewport.focus({ preventScroll: true });
     }
     function renderTeach() {
@@ -642,8 +649,9 @@
         if (sc.lang) R.scrollBody.setAttribute("data-lang", sc.lang); else R.scrollBody.removeAttribute("data-lang");
       }
       R.scrollClose.focus({ preventScroll: true });
+      syncChrome();
     }
-    function closeScroll() { R.scroll.hidden = true; }
+    function closeScroll() { R.scroll.hidden = true; syncChrome(); }
 
     R.back.addEventListener("click", function (e) { e.stopPropagation(); step(-1); }, sig);
     R.next.addEventListener("click", function (e) { e.stopPropagation(); step(1); }, sig);

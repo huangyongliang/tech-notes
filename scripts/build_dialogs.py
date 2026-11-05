@@ -37,6 +37,9 @@ RESOURCE_HEADINGS = {"建议先收的资料", "参考资料", "资料"}
 # 「## 资料索引」：解析为 links 卷轴，挂在对话最后一页的「📜 资料卷轴」按钮上（不把链接写进对话框正文）
 INDEX_HEADINGS = {"资料索引"}
 
+# 讲授页（type=teach）上限；quiz / 完关 choice 不计入，完整内容靠「📖 读原文」
+LECTURE_CAP = 12
+
 
 def is_task_heading(title: str) -> bool:
     """「闯关任务」/「学习目标」（允许尾随说明，如「学习目标（30 分钟）」）。"""
@@ -74,6 +77,23 @@ def first_sentence(text: str, max_len: int = 90) -> str:
         return cut
     return s
 
+
+
+def first_prose_sentence(body: str, max_len: int = 90) -> str:
+    """First non-empty paragraph's first sentence (no tables / blockquotes)."""
+    paras = [
+        p.strip()
+        for p in re.split(r"\n\s*\n", body)
+        if p.strip() and not p.strip().startswith("|") and not p.strip().startswith(">")
+    ]
+    if not paras:
+        # fall back to first non-empty line
+        for line in body.splitlines():
+            t = line.strip()
+            if t and not t.startswith("|") and not t.startswith(">") and not t.startswith("-"):
+                return first_sentence(t, max_len)
+        return ""
+    return first_sentence(paras[0], max_len)
 
 def split_short_lines(text: str, max_len: int = 72) -> list[str]:
     text = strip_md_inline(text)
@@ -329,6 +349,16 @@ def build_dialog(rel: Path, md: str) -> dict | None:
         scrolls[sid] = entry
         return sid
 
+    def lecture_count() -> int:
+        return sum(1 for p in pages if p.get("type") == "teach")
+
+    def add_lecture(page: dict) -> bool:
+        """Append a teach page if under LECTURE_CAP. Quizzes/choices bypass this."""
+        if lecture_count() >= LECTURE_CAP:
+            return False
+        pages.append(page)
+        return True
+
     lead_sec = sections[0]
     lead_body = "\n".join(lead_sec["body"]).strip()
     lead_body = re.sub(r"<!--.*?-->", "", lead_body, flags=re.S)
@@ -337,7 +367,7 @@ def build_dialog(rel: Path, md: str) -> dict | None:
         for p in re.split(r"\n\s*\n", lead_body)
         if p.strip() and not p.strip().startswith(">")
     ]
-    pages.append(
+    add_lecture(
         {
             "type": "teach",
             "expr": "happy",
@@ -345,8 +375,10 @@ def build_dialog(rel: Path, md: str) -> dict | None:
         }
     )
     if lead_paras:
-        for ln in split_short_lines(lead_paras[0], 78):
-            pages.append({"type": "teach", "expr": "normal", "lines": [ln]})
+        # 导语只取第一句，计入讲授上限
+        fs = first_sentence(lead_paras[0], 78)
+        if fs:
+            add_lecture({"type": "teach", "expr": "normal", "lines": [fs]})
 
     for sec in sections[1:]:
         h = sec["title"]
@@ -360,7 +392,7 @@ def build_dialog(rel: Path, md: str) -> dict | None:
         if is_task_heading(h):
             bullets = extract_bullets(body_nofence)
             tasks.extend(bullets)
-            pages.append(
+            add_lecture(
                 {
                     "type": "teach",
                     "expr": "happy",
@@ -368,11 +400,15 @@ def build_dialog(rel: Path, md: str) -> dict | None:
                 }
             )
             for b in bullets:
-                for ln in split_short_lines(b, 78)[:1]:
-                    pages.append({"type": "teach", "expr": "normal", "lines": [ln]})
+                # 每条任务只留一句；超出讲授上限则停（任务列表仍完整写入 tasks）
+                ln = first_sentence(b, 78)
+                if not ln:
+                    continue
+                if not add_lecture({"type": "teach", "expr": "normal", "lines": [ln]}):
+                    break
             for line in body_nofence.splitlines():
                 if "奖励" in line or "XP" in line:
-                    pages.append(
+                    add_lecture(
                         {
                             "type": "teach",
                             "expr": "happy",
@@ -393,7 +429,8 @@ def build_dialog(rel: Path, md: str) -> dict | None:
                 ),
                 "先独立作答，再核对参考答案。",
             )
-            pages.append(
+            # 自测引导句计入讲授页；题目本身是 quiz，不计入上限
+            add_lecture(
                 {
                     "type": "teach",
                     "expr": "normal",
@@ -422,7 +459,7 @@ def build_dialog(rel: Path, md: str) -> dict | None:
                 sid = add_scroll(
                     "list", h, "\n".join("· " + b for b in bullets)
                 )
-                pages.append(
+                add_lecture(
                     {
                         "type": "teach",
                         "expr": "normal",
@@ -432,33 +469,24 @@ def build_dialog(rel: Path, md: str) -> dict | None:
                 )
             continue
 
-        pages.append(
-            {"type": "teach", "expr": "happy", "lines": ["【" + h + "】"]}
-        )
-        bullets = extract_bullets(body_nofence)
-        if bullets:
-            for b in bullets[:6]:
-                pages.append({"type": "teach", "expr": "normal", "lines": [b]})
-        else:
-            paras = [
-                p.strip()
-                for p in re.split(r"\n\s*\n", body_nofence)
-                if p.strip() and not p.strip().startswith("|")
-            ]
-            if paras:
-                for ln in split_short_lines(paras[0], 78):
-                    pages.append({"type": "teach", "expr": "normal", "lines": [ln]})
-
-        for code in codes:
+        # 普通小节：只保留「标题 + 首句」一页；超出 LECTURE_CAP 则丢弃后续小节
+        if lecture_count() >= LECTURE_CAP:
+            continue
+        fs = first_prose_sentence(body_nofence, 78)
+        if not fs:
+            bullets = extract_bullets(body_nofence)
+            if bullets:
+                fs = first_sentence(bullets[0], 78)
+        lines = ["【" + h + "】"]
+        if fs:
+            lines.append(fs)
+        page = {"type": "teach", "expr": "happy" if len(lines) == 1 else "normal", "lines": lines}
+        # 代码卷轴挂在该讲授页上（若有），不再额外占讲授页
+        if codes:
+            code = codes[0]
             sid = add_scroll("code", h or "示例", code["code"], code["lang"])
-            pages.append(
-                {
-                    "type": "teach",
-                    "expr": "normal",
-                    "lines": ["这段写法展开卷轴看更清楚。"],
-                    "scroll": sid,
-                }
-            )
+            page["scroll"] = sid
+        add_lecture(page)
 
     for q in quizzes:
         pages.append(

@@ -5,6 +5,9 @@ Checks that 「## 闯关任务」 and 「## 学习目标」 are parsed as the sa
 section, that 「## 资料索引」 becomes a links scroll on the last page, and that
 the CLI writes a loadable window.TN_DIALOGS file.
 
+Also asserts lecture teach pages ≤ LECTURE_CAP (quizzes do not count) and that
+content subsections become heading + first sentence only.
+
 Run: python3 scripts/test_build_dialogs.py
 """
 from __future__ import annotations
@@ -156,6 +159,60 @@ def main() -> int:
     check("资料索引 empty section ok (no links scroll / no button)",
           not any(s.get("kind") == "links" for s in empty["scrolls"].values())
           and "scroll" not in empty["pages"][-1])
+
+    # ---- lecture cap: teach ≤ LECTURE_CAP; quizzes kept ----
+    many = "\n\n".join(
+        f"## 小节{i}\n\n这是第{i}节的第一句话。后面还有一整段不该进对话框。\n\n第二段也不该进。"
+        for i in range(1, 25)
+    )
+    CAP_MD = f"""# 超长关 Cap Quest
+
+> QUEST 01 · 超长
+
+开场导语第一句。开场第二句应被丢掉。
+
+## 闯关任务
+
+- [ ] 任务甲要做完
+- [ ] 任务乙也要做完
+
+{many}
+
+## 通关自测
+
+先独立作答，再核对参考答案。
+
+1. 哪一项正确？
+   - A. 甲
+   - B. 乙
+
+<details><summary>参考答案</summary>
+
+1. A。
+
+</details>
+"""
+    capped = bd.build_dialog(Path("getting-started/01-cap"), CAP_MD)
+    assert capped is not None
+    teach_n = sum(1 for p in capped["pages"] if p["type"] == "teach")
+    quiz_n = sum(1 for p in capped["pages"] if p["type"] == "quiz")
+    check(f"lecture teach pages ≤ {bd.LECTURE_CAP} (got {teach_n})", teach_n <= bd.LECTURE_CAP)
+    check("quizzes kept outside lecture cap", quiz_n >= 1)
+    check("finish choice still last after cap", capped["pages"][-1]["type"] == "choice")
+    # subsection pages: heading + first sentence only
+    sub_pages = [p for p in capped["pages"] if p["type"] == "teach"
+                 and any(ln.startswith("【小节") for ln in p.get("lines", []))]
+    check("subsection → heading+first-sentence page exists", len(sub_pages) >= 1)
+    check("subsection page has heading + first sentence lines",
+          all(len(p["lines"]) == 2 and p["lines"][0].startswith("【") and "第一句话" in p["lines"][1]
+              for p in sub_pages))
+    check("subsection drops later paragraphs",
+          not any("第二段" in ln or "不该进对话框" in ln
+                  for p in capped["pages"] for ln in p.get("lines", [])))
+    # first_prose_sentence unit
+    check("first_prose_sentence picks first para sentence",
+          bd.first_prose_sentence("标题下。\n\n第一句完。第二句。\n\n下一段。") == "第一句完。"
+          or bd.first_prose_sentence("第一句完。第二句。\n\n下一段。") == "第一句完。")
 
     # End-to-end CLI run on a temp topics tree: one draft per heading.
     with tempfile.TemporaryDirectory() as tmp:

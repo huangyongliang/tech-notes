@@ -164,6 +164,7 @@
 .tn-g .dpad .r { grid-area:r }
 @media (max-width:720px) {
   .tn-g .dpad { display:grid }
+  .tn-g.is-dialoging .dpad { display:none !important }
   .tn-g .hud__xp { width:76.8px }
   .tn-g .hint { font-size:6.72px;top:50px }
 }
