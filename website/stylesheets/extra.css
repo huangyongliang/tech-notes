@@ -285,11 +285,11 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .tn2-qchap--1 .tn2-qrow::after, .tn2-qchap--2 .tn2-qrow::after { content: ""; position: absolute; top: calc(.9rem + 1.6rem - 1.5px); height: calc(100% + 1.6rem + 2.2rem - .9rem); width: 2.2rem; border: 3px dashed var(--tn-rule); }
 .tn2-qchap--1 .tn2-qrow::after { left: 90%; border-left: 0; border-radius: 0 2.2rem 2.2rem 0; }
 .tn2-qchap--2 .tn2-qrow::after { right: 90%; border-right: 0; border-radius: 2.2rem 0 0 2.2rem; }
-.md-typeset a.tn2-qnode { position: relative; z-index: 1; flex: 1 1 0; display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--tn-ink); text-decoration: none; }
+.md-typeset .tn2-qnode { position: relative; z-index: 1; flex: 1 1 0; display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--tn-ink); text-decoration: none; }
 .tn2-qnode__dot { width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 2px solid var(--tn-rule); background: var(--tn-paper); display: flex; align-items: center; justify-content: center; font: 800 .95rem var(--tn-mono); box-shadow: 3px 3px 0 var(--tn-rule); }
 .tn2-qnode__lab { margin-top: .55rem; font-size: .66rem; font-weight: 700; line-height: 1.35; max-width: 7.5rem; }
 .tn2-qnode__lab b { display: block; font: 700 .52rem var(--tn-mono); color: var(--tn-ink-2); letter-spacing: .04em; }
-.md-typeset a.tn2-qnode:hover .tn2-qnode__dot { transform: translate(-2px,-2px); }
+.md-typeset .tn2-qnode:hover .tn2-qnode__dot { transform: translate(-2px,-2px); }
 .tn2-qnode.is-done .tn2-qnode__dot { background: var(--tn-hot); color: #fff; font-size: 0; }
 .tn2-qnode.is-done .tn2-qnode__dot::before { content: "✓"; font-size: 1.4rem; }
 .tn2-qnode.is-cur .tn2-qnode__dot { background: var(--tn-q-gold); color: #14110f; outline: 3px dashed var(--tn-hot); outline-offset: 4px; }
@@ -300,7 +300,7 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .tn2-qnode.is-lock .tn2-qnode__lab { color: var(--tn-q-lock-ink); }
 .tn2-qnode--boss .tn2-qnode__dot { border-radius: 4px; transform: rotate(45deg); width: 2.9rem; height: 2.9rem; margin: .15rem 0; background: var(--tn-ink); color: var(--tn-q-gold); box-shadow: 3px 3px 0 var(--tn-hot); font-size: 0; }
 .tn2-qnode--boss .tn2-qnode__dot::before { content: "BOSS"; transform: rotate(-45deg); font-size: .6rem; }
-.md-typeset a.tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg) translate(-2px,-2px); }
+.md-typeset .tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg) translate(-2px,-2px); }
 .tn2-qnode--boss.is-lock .tn2-qnode__dot { background: var(--tn-q-lock); color: var(--tn-q-lock-ink); box-shadow: 3px 3px 0 var(--tn-q-lock-ink); }
 .tn2-qnode--boss.is-lock .tn2-qnode__dot::before { content: "BOSS"; font-size: .6rem; filter: none; opacity: 1; }
 .tn2-qnode--boss.is-cur .tn2-qnode__dot { background: var(--tn-q-gold); color: #14110f; outline: none; }
@@ -359,7 +359,7 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   .tn2-qrow, .tn2-qchap--2 .tn2-qrow { flex-direction: column; padding: .6rem 0 0; gap: .7rem; }
   .tn2-qrow::before { left: 1.6rem; right: auto; top: 1rem; bottom: 1rem; border-top: 0; border-left: 3px dashed var(--tn-rule); }
   .tn2-qchap--1 .tn2-qrow::after, .tn2-qchap--2 .tn2-qrow::after { display: none; }
-  .md-typeset a.tn2-qnode { flex-direction: row; text-align: left; gap: .8rem; }
+  .md-typeset .tn2-qnode { flex-direction: row; text-align: left; gap: .8rem; }
   .tn2-qnode__lab { margin-top: 0; max-width: none; font-size: .75rem; }
   .tn2-qnode--boss .tn2-qnode__dot { margin: .15rem .15rem; }
   .tn2-qnode.is-cur::before { top: 50%; left: auto; right: 0; transform: translateY(-50%); }
@@ -373,3 +373,9 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   .tn2-pbar__note { grid-row: 3; }
   .tn2-qnode.is-cur .tn2-qnode__lab { padding-right: 5.6rem; }
 }
+.md-typeset .tn2-q-hidden { display: none; }
+.md-typeset .tn2-qnode--boss { cursor: pointer; }
+.md-typeset .tn2-qnode--boss:focus-visible .tn2-qnode__dot { outline: 3px solid var(--tn-hot); outline-offset: 4px; }
+.tn2-qnode__lab i { display: block; font: 400 .5rem var(--tn-mono); font-style: normal; color: var(--tn-ink-2); }
+.md-typeset .tn2-quest ul { margin-left: 0; }
+.md-typeset.tn2-q-mapmode .mermaid { display: none; }

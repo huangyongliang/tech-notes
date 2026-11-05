@@ -2,11 +2,11 @@
 
 > [Java](../) › 构建工具
 
-<div class="tn2-quest" data-quest="07" markdown>
+Maven 生命周期、依赖管理与 BOM；Gradle（Kotlin DSL）的任务模型和构建缓存；以及多模块工程和依赖冲突排查。
 
-<span class="tn2-quest__no">QUEST 07 · 第二章 平台</span>
+## 闯关任务
 
-**目标**
+**QUEST 07 · 第二章 平台**
 
 - [ ] 能够说出 Maven default 生命周期的主要阶段及执行顺序。
 - [ ] 能够用 `dependencyManagement` 和 BOM 统一管理依赖版本。
@@ -15,10 +15,6 @@
 - [ ] 能够在多模块工程里定位并解决依赖冲突。
 
 **奖励**：+100 XP · 徽章「构建匠人」（徽章名暂定，内容建设中）
-
-</div>
-
-Maven 生命周期、依赖管理与 BOM；Gradle（Kotlin DSL）的任务模型和构建缓存；以及多模块工程和依赖冲突排查。
 
 ## 建议先收的资料
 
@@ -32,16 +28,25 @@ Maven 生命周期、依赖管理与 BOM；Gradle（Kotlin DSL）的任务模型
 
 ## 通关自测
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 再点下方「标记通关」。
+先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
 
 1. 【单选】执行 `mvn package` 时，以下哪个阶段不会执行？
-   A. `compile`　B. `test`　C. `install`　D. `validate`
+    - A. `compile`
+    - B. `test`
+    - C. `install`
+    - D. `validate`
 2. 【简答】如何在 Maven 中导入一个 BOM？
 3. 【简答】Maven 遇到同一依赖的多个版本时，默认按什么规则选择？
 4. 【单选】Gradle 中只在模块内部使用、不想暴露给下游模块编译期的依赖，应使用：
-   A. `api`　B. `implementation`　C. `compileOnly`　D. `testImplementation`
+    - A. `api`
+    - B. `implementation`
+    - C. `compileOnly`
+    - D. `testImplementation`
 5. 【单选】查看 Maven 依赖树、定位冲突来源的命令是：
-   A. `mvn dependency:tree`　B. `mvn clean`　C. `mvn site`　D. `mvn help:system`
+    - A. `mvn dependency:tree`
+    - B. `mvn clean`
+    - C. `mvn site`
+    - D. `mvn help:system`
 
 <details markdown><summary>参考答案</summary>
 
@@ -52,8 +57,6 @@ Maven 生命周期、依赖管理与 BOM；Gradle（Kotlin DSL）的任务模型
 5. A — 可加 `-Dincludes=groupId:artifactId` 过滤。
 
 </details>
-
-<div class="tn2-clear" data-quest="07"></div>
 
 ---
 

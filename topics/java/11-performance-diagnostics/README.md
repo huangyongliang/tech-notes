@@ -2,11 +2,11 @@
 
 > [Java](../) › 性能与诊断
 
-<div class="tn2-quest" data-quest="11" markdown>
+CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、JFR、async-profiler、Arthas，以及 JMH 微基准测试。
 
-<span class="tn2-quest__no">QUEST 11 · 第三章 生态</span>
+## 闯关任务
 
-**目标**
+**QUEST 11 · 第三章 生态**
 
 - [ ] 能够按 CPU 高、内存泄漏 / OOM、线程卡死三类问题，说出各自的定位流程。
 - [ ] 能够抓取并分析线程 dump，找出死锁和阻塞热点。
@@ -15,10 +15,6 @@
 - [ ] 能够用 JMH 写出可信的微基准测试，并说出手写计时循环的常见陷阱。
 
 **奖励**：+100 XP · 徽章「火焰图猎人」（徽章名暂定，内容建设中）
-
-</div>
-
-CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、JFR、async-profiler、Arthas，以及 JMH 微基准测试。
 
 ## 建议先收的资料
 
@@ -32,13 +28,19 @@ CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、
 
 ## 通关自测
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 再点下方「标记通关」。
+先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
 
 1. 【单选】用 `jcmd` 打印线程 dump 的子命令是：
-   A. `GC.heap_info`　B. `Thread.print`　C. `VM.flags`　D. `JFR.check`
+    - A. `GC.heap_info`
+    - B. `Thread.print`
+    - C. `VM.flags`
+    - D. `JFR.check`
 2. 【简答】怀疑内存泄漏时，用 MAT 分析 heap dump 应该重点看什么？
 3. 【单选】火焰图中，哪个特征通常代表 CPU 热点？
-   A. 很高的栈　B. 顶部很宽的帧　C. 颜色最深的帧　D. 最左边的帧
+    - A. 很高的栈
+    - B. 顶部很宽的帧
+    - C. 颜色最深的帧
+    - D. 最左边的帧
 4. 【简答】为什么不建议用 `System.nanoTime()` 包一个循环来做微基准测试？
 
 <details markdown><summary>参考答案</summary>
@@ -49,8 +51,6 @@ CPU、内存、线程问题的定位流程：线程 dump、heap dump（MAT）、
 4. 会受 JIT 预热、死代码消除、常量折叠等影响，结果不可信；JMH 会处理预热、多次 fork 和 `Blackhole`。
 
 </details>
-
-<div class="tn2-clear" data-quest="11"></div>
 
 ---
 

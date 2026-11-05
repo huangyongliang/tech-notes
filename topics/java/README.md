@@ -4,42 +4,24 @@ Java 语言、JVM 和主流生态（Spring、持久层、构建与测试）的�
 
 > 相关主题：[编程 Programming](../programming/) · [Web](../web/) · [系统 Systems](../systems/) · [微服务 Microservices](../microservices/)
 
-## 闯关地图
+## 学习路径
 
-三章十二关，每章末尾一个 BOSS 章节测验（BOSS 题目内容建设中，读完本章 4 关后可手动标记通过）。点任意关卡进入；进度只保存在本浏览器。
-
-<div class="tn2-qmap">
-<div class="tn2-qchap tn2-qchap--1">
-<p class="tn2-qchap__head"><span>§ 01</span> 第一章 · 语言 <em>关卡 01–04</em></p>
-<div class="tn2-qrow">
-<a class="tn2-qnode" data-q="01" href="01-language-basics/"><span class="tn2-qnode__dot">01</span><span class="tn2-qnode__lab"><b>QUEST 01</b>语言基础与新特性</span></a>
-<a class="tn2-qnode" data-q="02" href="02-collections/"><span class="tn2-qnode__dot">02</span><span class="tn2-qnode__lab"><b>QUEST 02</b>集合框架</span></a>
-<a class="tn2-qnode" data-q="03" href="03-core-advanced/"><span class="tn2-qnode__dot">03</span><span class="tn2-qnode__lab"><b>QUEST 03</b>异常、泛型、反射与注解</span></a>
-<a class="tn2-qnode" data-q="04" href="04-io-nio/"><span class="tn2-qnode__dot">04</span><span class="tn2-qnode__lab"><b>QUEST 04</b>输入输出</span></a>
-<a class="tn2-qnode tn2-qnode--boss" data-boss="1" href="#"><span class="tn2-qnode__dot">BOSS</span><span class="tn2-qnode__lab"><b>CH.1 BOSS</b>章节测验</span></a>
-</div>
-</div>
-<div class="tn2-qchap tn2-qchap--2">
-<p class="tn2-qchap__head"><span>§ 02</span> 第二章 · 平台 <em>关卡 05–08</em></p>
-<div class="tn2-qrow">
-<a class="tn2-qnode" data-q="05" href="05-concurrency/"><span class="tn2-qnode__dot">05</span><span class="tn2-qnode__lab"><b>QUEST 05</b>并发</span></a>
-<a class="tn2-qnode" data-q="06" href="06-jvm/"><span class="tn2-qnode__dot">06</span><span class="tn2-qnode__lab"><b>QUEST 06</b>Java 虚拟机</span></a>
-<a class="tn2-qnode" data-q="07" href="07-build-tools/"><span class="tn2-qnode__dot">07</span><span class="tn2-qnode__lab"><b>QUEST 07</b>构建工具</span></a>
-<a class="tn2-qnode" data-q="08" href="08-testing/"><span class="tn2-qnode__dot">08</span><span class="tn2-qnode__lab"><b>QUEST 08</b>测试</span></a>
-<a class="tn2-qnode tn2-qnode--boss" data-boss="2" href="#"><span class="tn2-qnode__dot">BOSS</span><span class="tn2-qnode__lab"><b>CH.2 BOSS</b>章节测验</span></a>
-</div>
-</div>
-<div class="tn2-qchap tn2-qchap--3">
-<p class="tn2-qchap__head"><span>§ 03</span> 第三章 · 生态 <em>关卡 09–12</em></p>
-<div class="tn2-qrow">
-<a class="tn2-qnode" data-q="09" href="09-spring/"><span class="tn2-qnode__dot">09</span><span class="tn2-qnode__lab"><b>QUEST 09</b>Spring 框架</span></a>
-<a class="tn2-qnode" data-q="10" href="10-persistence/"><span class="tn2-qnode__dot">10</span><span class="tn2-qnode__lab"><b>QUEST 10</b>持久层</span></a>
-<a class="tn2-qnode" data-q="11" href="11-performance-diagnostics/"><span class="tn2-qnode__dot">11</span><span class="tn2-qnode__lab"><b>QUEST 11</b>性能与诊断</span></a>
-<a class="tn2-qnode" data-q="12" href="12-ecosystem-trends/"><span class="tn2-qnode__dot">12</span><span class="tn2-qnode__lab"><b>QUEST 12</b>生态与新趋势</span></a>
-<a class="tn2-qnode tn2-qnode--boss" data-boss="3" href="#"><span class="tn2-qnode__dot">BOSS</span><span class="tn2-qnode__lab"><b>CH.3 BOSS</b>章节测验</span></a>
-</div>
-</div>
-</div>
+```mermaid
+flowchart LR
+  subgraph S1[语言 Language]
+    direction TB
+    A[语言基础与新特性] --> B[集合框架] --> C[异常、泛型、反射与注解] --> D[输入输出]
+  end
+  subgraph S2[平台 Platform]
+    direction TB
+    E[并发] --> F[Java 虚拟机] --> G[构建工具] --> H[测试]
+  end
+  subgraph S3[生态 Ecosystem]
+    direction TB
+    I[Spring 框架] --> J[持久层] --> K[性能与诊断] --> L[生态与新趋势]
+  end
+  S1 --> S2 --> S3
+```
 
 ## 子目录
 

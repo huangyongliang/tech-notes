@@ -2,11 +2,11 @@
 
 > [Java](../) › 异常、泛型、反射与注解
 
-<div class="tn2-quest" data-quest="03" markdown>
+受检与非受检异常的设计、泛型擦除和通配符（PECS）、反射与 `MethodHandle`、注解与注解处理器。这是理解 Spring、Lombok、MapStruct 等框架原理的基础。
 
-<span class="tn2-quest__no">QUEST 03 · 第一章 语言</span>
+## 闯关任务
 
-**目标**
+**QUEST 03 · 第一章 语言**
 
 - [ ] 能够区分受检异常与非受检异常，并说明各自适用的场景。
 - [ ] 能够解释泛型擦除带来的限制，并用 PECS 原则正确选择 `? extends` / `? super`。
@@ -15,10 +15,6 @@
 - [ ] 能够说出 Spring、Lombok、MapStruct 分别依赖反射 / 代理还是注解处理器。
 
 **奖励**：+100 XP · 徽章「反射术士」（徽章名暂定，内容建设中）
-
-</div>
-
-受检与非受检异常的设计、泛型擦除和通配符（PECS）、反射与 `MethodHandle`、注解与注解处理器。这是理解 Spring、Lombok、MapStruct 等框架原理的基础。
 
 ## 建议先收的资料
 
@@ -33,13 +29,19 @@
 
 ## 通关自测
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 再点下方「标记通关」。
+先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
 
 1. 【单选】以下哪个是非受检异常？
-   A. `IOException`　B. `SQLException`　C. `IllegalArgumentException`　D. `InterruptedException`
+    - A. `IOException`
+    - B. `SQLException`
+    - C. `IllegalArgumentException`
+    - D. `InterruptedException`
 2. 【简答】为什么不能写 `new T()` 或 `obj instanceof List<String>`？
 3. 【单选】方法要从集合中只读取元素（生产者），参数类型应写成：
-   A. `List<? super T>`　B. `List<? extends T>`　C. `List<T>`　D. `List<Object>`
+    - A. `List<? super T>`
+    - B. `List<? extends T>`
+    - C. `List<T>`
+    - D. `List<Object>`
 4. 【简答】注解要在运行时通过反射读到，`@Retention` 应该设为什么？
 5. 【简答】Lombok 和 MapStruct 主要在什么阶段生成代码？
 
@@ -52,8 +54,6 @@
 5. 编译期，通过注解处理器（Lombok 还会修改编译器 AST），不依赖运行时反射。
 
 </details>
-
-<div class="tn2-clear" data-quest="03"></div>
 
 ---
 

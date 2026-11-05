@@ -2,11 +2,11 @@
 
 > [Java](../) › Java 虚拟机
 
-<div class="tn2-quest" data-quest="06" markdown>
+运行时内存区域、Java 内存模型、类加载与双亲委派、GC（G1、分代 ZGC、Shenandoah）和 JIT，附带调优工具 `jcmd`、`jstat`、JFR、JMC。
 
-<span class="tn2-quest__no">QUEST 06 · 第二章 平台</span>
+## 闯关任务
 
-**目标**
+**QUEST 06 · 第二章 平台**
 
 - [ ] 能够画出运行时内存区域（堆、虚拟机栈、本地方法栈、方法区 / 元空间、程序计数器），并说出哪些是线程私有的。
 - [ ] 能够解释 Java 内存模型中的 happens-before 规则。
@@ -15,10 +15,6 @@
 - [ ] 能够用 `jcmd`、`jstat`、JFR / JMC 查看 GC 和运行时状态。
 
 **奖励**：+100 XP · 徽章「字节码考古」（徽章名暂定，内容建设中）
-
-</div>
-
-运行时内存区域、Java 内存模型、类加载与双亲委派、GC（G1、分代 ZGC、Shenandoah）和 JIT，附带调优工具 `jcmd`、`jstat`、JFR、JMC。
 
 ## 建议先收的资料
 
@@ -34,15 +30,24 @@
 
 ## 通关自测
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 再点下方「标记通关」。
+先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
 
 1. 【单选】以下哪个内存区域是线程共享的？
-   A. 程序计数器　B. 虚拟机栈　C. 堆　D. 本地方法栈
+    - A. 程序计数器
+    - B. 虚拟机栈
+    - C. 堆
+    - D. 本地方法栈
 2. 【简答】双亲委派模型的加载顺序是什么？它带来什么好处？
 3. 【单选】以低停顿为主要目标、停顿时间基本不随堆大小增长的 GC 是：
-   A. Serial　B. Parallel　C. ZGC　D. CMS
+    - A. Serial
+    - B. Parallel
+    - C. ZGC
+    - D. CMS
 4. 【单选】持续采样 GC 情况（如每秒输出一次各代使用率）的命令行工具是：
-   A. `jstat`　B. `javap`　C. `jar`　D. `jshell`
+    - A. `jstat`
+    - B. `javap`
+    - C. `jar`
+    - D. `jshell`
 5. 【简答】JIT 编译器的作用是什么？
 
 <details markdown><summary>参考答案</summary>
@@ -54,8 +59,6 @@
 5. 把热点字节码编译成本地机器码并做优化，提高长期运行的性能。
 
 </details>
-
-<div class="tn2-clear" data-quest="06"></div>
 
 ---
 

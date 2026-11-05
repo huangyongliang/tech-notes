@@ -39,6 +39,7 @@ extra_css:
   - stylesheets/extra.css
 
 extra_javascript:
+  - javascripts/quest-data.js
   - javascripts/quest.js
 
 nav:

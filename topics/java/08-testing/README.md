@@ -2,11 +2,11 @@
 
 > [Java](../) › 测试
 
-<div class="tn2-quest" data-quest="08" markdown>
+JUnit 5（Jupiter）、参数化测试、Mockito、AssertJ，以及 Testcontainers 和 Spring Boot Test 切片测试。重点是写出可维护的测试结构。
 
-<span class="tn2-quest__no">QUEST 08 · 第二章 平台</span>
+## 闯关任务
 
-**目标**
+**QUEST 08 · 第二章 平台**
 
 - [ ] 能够用 JUnit 5（Jupiter）编写测试，并使用 `@BeforeEach`、`@DisplayName`、`@Nested` 组织测试结构。
 - [ ] 能够用 `@ParameterizedTest` 配合 `@ValueSource` / `@CsvSource` 编写参数化测试。
@@ -15,10 +15,6 @@
 - [ ] 能够选择合适的 Spring Boot Test 切片注解（如 `@WebMvcTest`、`@DataJpaTest`），而不是一律用 `@SpringBootTest`。
 
 **奖励**：+100 XP · 徽章「红绿循环」（徽章名暂定，内容建设中）
-
-</div>
-
-JUnit 5（Jupiter）、参数化测试、Mockito、AssertJ，以及 Testcontainers 和 Spring Boot Test 切片测试。重点是写出可维护的测试结构。
 
 ## 建议先收的资料
 
@@ -33,14 +29,20 @@ JUnit 5（Jupiter）、参数化测试、Mockito、AssertJ，以及 Testcontaine
 
 ## 通关自测
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 再点下方「标记通关」。
+先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
 
 1. 【单选】JUnit 5 中声明参数化测试的注解是：
-   A. `@Test(params)`　B. `@ParameterizedTest`　C. `@RunWith(Parameterized.class)`　D. `@Theory`
+    - A. `@Test(params)`
+    - B. `@ParameterizedTest`
+    - C. `@RunWith(Parameterized.class)`
+    - D. `@Theory`
 2. 【简答】Mockito 中 `when(...).thenReturn(...)` 和 `verify(...)` 分别做什么？
 3. 【简答】与 H2 内存库相比，用 Testcontainers 跑数据库测试的主要好处是什么？
 4. 【单选】只测试 Web 层的 Controller、不加载完整应用上下文，应使用：
-   A. `@SpringBootTest`　B. `@WebMvcTest`　C. `@DataJpaTest`　D. `@JsonTest`
+    - A. `@SpringBootTest`
+    - B. `@WebMvcTest`
+    - C. `@DataJpaTest`
+    - D. `@JsonTest`
 
 <details markdown><summary>参考答案</summary>
 
@@ -50,8 +52,6 @@ JUnit 5（Jupiter）、参数化测试、Mockito、AssertJ，以及 Testcontaine
 4. B — 切片测试只加载 MVC 相关的 Bean，更快、更聚焦。
 
 </details>
-
-<div class="tn2-clear" data-quest="08"></div>
 
 ---
 
