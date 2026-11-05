@@ -24,8 +24,8 @@ hide:
 <div class="tn2-term__bar"><i></i><i></i><i></i><span>~/tech-notes</span></div>
 <pre><code><b>$</b> tree -L 1 topics/
 topics/
-├── <em>java/</em>            <s># 12 篇 · 搭建中</s>
-├── <em>microservices/</em>   <s># 16 篇 · 搭建中</s>
+├── <em>java/</em>            <s># 12 个子主题 · 搭建中</s>
+├── <em>microservices/</em>   <s># 16 个子主题 · 搭建中</s>
 ├── programming/
 ├── web/
 ├── systems/
@@ -40,16 +40,133 @@ topics/
 
 </div>
 
-<div class="tn2-ticker" markdown>
+<div class="tn2-ticker" aria-label="关键词">
 <span>JDK 25 LTS</span><span>Spring Boot 4.1</span><span>Virtual Threads</span><span>GraalVM</span><span>Spring Cloud 2025.1</span><span>JUnit 5</span><span>Testcontainers</span><span>Valhalla</span>
 </div>
+
+<section class="tn2-sec" markdown>
 
 <div class="tn2-head" markdown>
 <span>§ 01</span>
 
-## 技术栈索引
+## 为什么值得看
 
 </div>
+
+<p class="tn2-lede">三个理由，决定要不要花时间在这里。</p>
+
+<div class="tn2-why" markdown>
+
+<div markdown>
+<span class="k">LTS</span>
+
+**跟进最新 LTS**
+
+以 JDK 25 / Spring Boot 4.1 / Spring Cloud 2025.1 为基线，兼顾 8 / 11 / 17 / 21 的差异，版本信息标注更新日期。
+</div>
+
+<div markdown>
+<span class="k">01 → 12</span>
+
+**按学习顺序编号**
+
+Java 12 个子主题、微服务 16 个子主题都按先后编号，后一节建立在前一节上，可以从头读到尾。
+</div>
+
+<div markdown>
+<span class="k">/ SEARCH</span>
+
+**也能当速查手册**
+
+每个主题一张子目录表加资料索引，按 <kbd>/</kbd> 唤出站内搜索，遇到问题直接跳到对应编号。
+</div>
+
+</div>
+
+</section>
+
+<section class="tn2-sec" markdown>
+
+<div class="tn2-head" markdown>
+<span>§ 02</span>
+
+## 从这里开始
+
+</div>
+
+<p class="tn2-lede">第一次来，先读 Java；打好基础，再进阶微服务。</p>
+
+<div class="tn2-start" markdown>
+
+<div class="tn2-card tn2-card--main" markdown>
+
+<span class="tn2-tag">START HERE · 01</span>
+
+### Java 技术栈 <small>Java Stack</small>
+
+Java 语言、JVM 和主流生态的学习笔记，12 个子主题分三段，由浅入深。
+
+<div class="tn2-route">
+<div class="tn2-route__step"><b>01–04</b><strong>语言</strong><em>基础 · 集合 · 泛型 · IO</em></div>
+<div class="tn2-route__step"><b>05–08</b><strong>平台</strong><em>并发 · JVM · 构建 · 测试</em></div>
+<div class="tn2-route__step"><b>09–12</b><strong>生态</strong><em>Spring · 持久层 · 性能 · 趋势</em></div>
+</div>
+
+<p class="tn2-cap">前 4 节预览</p>
+
+<div class="tn2-peek" markdown>
+
+[<span>01</span>语言基础与新特性](topics/java/01-language-basics/README.md)
+[<span>02</span>集合框架](topics/java/02-collections/README.md)
+[<span>03</span>异常、泛型、反射与注解](topics/java/03-core-advanced/README.md)
+[<span>04</span>输入输出](topics/java/04-io-nio/README.md)
+
+</div>
+
+[进入 Java →](topics/java/README.md){ .tn2-btn .tn2-btn--solid }
+
+</div>
+
+<div class="tn2-card tn2-card--next" markdown>
+
+<span class="tn2-tag tn2-tag--ghost">NEXT · 02</span>
+
+### 学完进阶：微服务 <small>Microservices</small>
+
+16 个子主题，从架构拆分、服务治理、可观测性到云原生 Java，原理语言中立，以 Java / Spring 实现。
+
+<div class="tn2-mini">
+<span>入门</span><span>进阶</span><span>生产</span>
+</div>
+
+<p class="tn2-cap">前 3 节预览</p>
+
+<div class="tn2-peek" markdown>
+
+[<span>01</span>架构基础与拆分](topics/microservices/01-architecture/README.md)
+[<span>02</span>API 网关](topics/microservices/02-api-gateway/README.md)
+[<span>03</span>注册发现与配置](topics/microservices/03-discovery-config/README.md)
+
+</div>
+
+[看全部 16 个子主题 →](topics/microservices/README.md){ .tn2-btn }
+
+</div>
+
+</div>
+
+</section>
+
+<section class="tn2-sec" markdown>
+
+<div class="tn2-head" markdown>
+<span>§ 03</span>
+
+## 全部主题
+
+</div>
+
+<p class="tn2-lede">整个笔记本的目录。高亮的正在搭建，灰色的还没开始。</p>
 
 <div class="tn2-index" markdown>
 
@@ -57,26 +174,32 @@ topics/
 
 [<span class="n">02</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
 
-[<span class="n">03</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md)
+[<span class="n">03</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
 
-[<span class="n">04</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md)
+[<span class="n">04</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md){ .tn2-todo }
 
-[<span class="n">05</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md)
+[<span class="n">05</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md){ .tn2-todo }
 
-[<span class="n">06</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md)
+[<span class="n">06</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md){ .tn2-todo }
 
-[<span class="n">07</span><span class="t">AI / ML<small>Machine Learning</small></span><span class="d">机器学习、LLM</span><span class="s">待开始</span>](topics/ai-ml/README.md)
+[<span class="n">07</span><span class="t">AI / ML<small>Machine Learning</small></span><span class="d">机器学习、LLM</span><span class="s">待开始</span>](topics/ai-ml/README.md){ .tn2-todo }
 
-[<span class="n">08</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md)
+[<span class="n">08</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md){ .tn2-todo }
 
 </div>
+
+</section>
+
+<section class="tn2-sec" markdown>
 
 <div class="tn2-head" markdown>
-<span>§ 02</span>
+<span>§ 04</span>
 
-## 工作流
+## 这些笔记怎么来的
 
 </div>
+
+<p class="tn2-lede">每篇笔记都走同一条流水线：先收集，再归类，最后沉淀。</p>
 
 <div class="tn2-flow" markdown>
 
@@ -105,3 +228,25 @@ topics/
 </div>
 
 </div>
+
+</section>
+
+<section class="tn2-sec tn2-sec--cta" markdown>
+
+<div class="tn2-cta" markdown>
+
+<div class="tn2-cta__text">
+<span class="tn2-cta__label">§ 05 · 开始</span>
+<p class="tn2-cta__title">从 Java 01 开始，一节一节读下去。</p>
+</div>
+
+<div class="tn2-cta__btns" markdown>
+
+[开始读 →](topics/java/README.md){ .tn2-btn .tn2-btn--solid }
+[在 GitHub 上看](https://github.com/huangyongliang/tech-notes){ .tn2-btn .tn2-btn--light }
+
+</div>
+
+</div>
+
+</section>
