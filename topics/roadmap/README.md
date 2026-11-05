@@ -35,4 +35,7 @@ flowchart LR
 
 ## 资料索引
 
-<!-- - [标题](链接) — 一句话说明 -->
+- [LearnFree: Computer Basics](https://www.learnfree.org/series/computer-basics) — 原 GCFGlobal 电脑入门系列（edu.gcfglobal.org 已迁至 LearnFree），从硬件、软件讲到开机使用（英文）
+- [LearnFree: Windows Basics](https://www.learnfree.org/series/windows-basics) / [macOS Basics](https://www.learnfree.org/series/macos-basics) — 原 GCFGlobal 系统入门：桌面、文件、设置（英文）
+- [LearnFree: Internet Safety](https://www.learnfree.org/series/internet-safety) — 原 GCFGlobal 上网安全课：密码、钓鱼、隐私设置（英文）
+- [Khan Academy: Computers and the Internet](https://www.khanacademy.org/computing/computers-and-internet) — 二进制、数据、网络与安全的入门课（英文，免费）
