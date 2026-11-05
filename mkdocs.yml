@@ -54,8 +54,27 @@ nav:
       - 10 持久层: topics/java/10-persistence/README.md
       - 11 性能与诊断: topics/java/11-performance-diagnostics/README.md
       - 12 生态与新趋势: topics/java/12-ecosystem-trends/README.md
+  - 微服务:
+      - topics/microservices/README.md
+      - 01 架构基础与拆分: topics/microservices/01-architecture/README.md
+      - 02 API 网关: topics/microservices/02-api-gateway/README.md
+      - 03 注册发现与配置: topics/microservices/03-discovery-config/README.md
+      - 04 服务通信: topics/microservices/04-communication/README.md
+      - 05 容错与流量治理: topics/microservices/05-resilience/README.md
+      - 06 消息与事件驱动: topics/microservices/06-messaging/README.md
+      - 07 分布式事务与一致性: topics/microservices/07-distributed-transactions/README.md
+      - 08 缓存: topics/microservices/08-caching/README.md
+      - 09 数据库与分库分表: topics/microservices/09-database-sharding/README.md
+      - 10 可观测性: topics/microservices/10-observability/README.md
+      - 11 安全: topics/microservices/11-security/README.md
+      - 12 容器与编排: topics/microservices/12-containers-k8s/README.md
+      - 13 服务网格: topics/microservices/13-service-mesh/README.md
+      - 14 持续交付与 GitOps: topics/microservices/14-cicd-gitops/README.md
+      - 15 测试: topics/microservices/15-testing/README.md
+      - 16 性能与云原生 Java: topics/microservices/16-cloud-native-java/README.md
   - 全部主题:
       - topics/README.md
+      - 微服务: topics/microservices/README.md
       - 编程: topics/programming/README.md
       - Web: topics/web/README.md
       - 系统: topics/systems/README.md

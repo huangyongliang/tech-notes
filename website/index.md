@@ -19,7 +19,7 @@ hide:
 </div>
 
 <div class="tn-stats" markdown>
-<div><strong>7</strong><span>技术主题</span></div>
+<div><strong>8</strong><span>技术主题</span></div>
 <div><strong>12</strong><span>Java 子主题</span></div>
 <div><strong>JDK 25</strong><span>版本基线</span></div>
 <div><strong>CC BY 4.0</strong><span>开放许可</span></div>
@@ -36,6 +36,14 @@ hide:
     语言、JVM、并发、Spring 生态，按学习顺序排好 12 个子主题。
 
     <span class="tn-badge tn-badge--wip">搭建中</span> [进入 :material-arrow-right:](topics/java/README.md)
+
+-   :material-hexagon-multiple-outline:{ .lg } **微服务 Microservices**
+
+    ---
+
+    架构拆分、服务治理、可观测性到云原生 Java，16 个子主题。
+
+    <span class="tn-badge tn-badge--wip">搭建中</span> [进入 :material-arrow-right:](topics/microservices/README.md)
 
 -   :material-code-braces:{ .lg } **编程 Programming**
 
