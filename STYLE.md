@@ -183,7 +183,7 @@ flowchart LR
 
 ## 9. 不要做
 
-- 不用 HTML 标签排版（`<div align="center">`、`<br>`、`<img width>` 等）。
+- 不用 HTML 标签排版（`<div align="center">`、`<br>`、`<img width>` 等）。例外：`website/` 目录只给网站用（首页 `website/index.md` 和样式 `website/stylesheets/extra.css`），可以用卡片、按钮等站点专用写法。
 - 不用外部徽章和图床；需要图片就放仓库 `assets/`，用相对路径。
 - 不用 GitHub 不渲染的语法，比如自定义 CSS、`[TOC]` 目录标记。
 - 不在标题里放链接或 emoji（根 README 导航表除外）。
