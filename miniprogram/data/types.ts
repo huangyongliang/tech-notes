@@ -16,8 +16,8 @@ export interface TocItem {
 export type Block =
   | { t: "h"; level: number; id: string; text: string }
   | { t: "p"; inlines: Inline[] }
-  | { t: "ul"; items: { inlines: Inline[] }[] }
-  | { t: "ol"; items: { n: number; inlines: Inline[] }[] }
+  | { t: "ul"; items: { inlines: Inline[]; blocks?: Block[] }[] }
+  | { t: "ol"; items: { n: number; inlines: Inline[]; blocks?: Block[] }[] }
   | { t: "quote"; blocks: Block[] }
   | { t: "table"; header: Inline[][]; rows: Inline[][][] }
   | { t: "callout"; kind: "note" | "tip" | "warning"; blocks: Block[] }

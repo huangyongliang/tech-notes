@@ -61,7 +61,10 @@ export function proseFromBlocks(blocks: Block[]): string {
           break;
         case "ul":
         case "ol":
-          for (const item of block.items) parts.push(inlineText(item.inlines));
+          for (const item of block.items) {
+            parts.push(inlineText(item.inlines));
+            if (item.blocks) walk(item.blocks);
+          }
           break;
         case "table":
           for (const cell of block.header) parts.push(inlineText(cell));

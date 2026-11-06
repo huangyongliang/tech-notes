@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -39,6 +40,11 @@ def walk(blocks, kinds: dict) -> None:
         child = block.get("blocks")
         if isinstance(child, list):
             walk(child, kinds)
+        if block["t"] in {"ul", "ol"}:
+            for item in block.get("items") or []:
+                nested = item.get("blocks")
+                if isinstance(nested, list):
+                    walk(nested, kinds)
 
 
 def main() -> None:
@@ -73,6 +79,41 @@ def main() -> None:
     )
     assert b.split_title("Linux 与 Shell Linux & Shell") == ("Linux 与 Shell", "Linux & Shell")
 
+    quiz = b.parse_blocks(
+        "1. 【单选】关机后数据仍然保存的是：\n"
+        "    - A. 内存（RAM）\n"
+        "    - B. CPU 缓存\n"
+        "    - C. SSD\n"
+        "    - D. 寄存器\n"
+        "2. 【简答】操作系统在硬件和应用程序之间做了哪些事？说出两点。\n"
+    )
+    assert len(quiz) == 1 and quiz[0]["t"] == "ol"
+    assert [item["n"] for item in quiz[0]["items"]] == [1, 2]
+    assert b.plain(quiz[0]["items"][0]["inlines"]).startswith("【单选】")
+    options = quiz[0]["items"][0]["blocks"]
+    assert [block["t"] for block in options] == ["ul"]
+    assert [b.plain(item["inlines"])[:2] for item in options[0]["items"]] == [
+        "A.",
+        "B.",
+        "C.",
+        "D.",
+    ]
+    assert "blocks" not in quiz[0]["items"][1]
+    flat = b.parse_blocks("1. 甲\n2. 乙\n")
+    assert [item["n"] for item in flat[0]["items"]] == [1, 2]
+    assert all("blocks" not in item for item in flat[0]["items"])
+    spaced = b.parse_blocks("1. a\n\n2. b\n")
+    assert len(spaced) == 1 and [item["n"] for item in spaced[0]["items"]] == [1, 2]
+    tasks = b.parse_blocks("- [ ] 能够解释断电后内存里的数据丢失。\n")
+    assert tasks[0]["t"] == "ul"
+    assert b.plain(tasks[0]["items"][0]["inlines"]).startswith("☐ ")
+    continued = b.parse_blocks("- hello\n  world\n")
+    assert b.plain(continued[0]["items"][0]["inlines"]) == "hello world"
+    deep = b.parse_blocks("1. parent\n    - child\n        - grand\n")
+    grand = deep[0]["items"][0]["blocks"][0]["items"][0]["blocks"][0]
+    assert grand["t"] == "ul"
+    assert b.plain(grand["items"][0]["inlines"]) == "grand"
+
     catalog = b.build_catalog()
     assert catalog["docCount"] == 35
     assert len(catalog["docs"]) == 35
@@ -106,6 +147,67 @@ def main() -> None:
         text = (ROOT / item["path"]).read_text(encoding="utf-8")
         fold_markers += text.count("<summary>参考答案</summary>")
     assert kinds["fold"] == fold_markers
+
+    option_re = re.compile(r"^[A-D]\.\s")
+    nested_quizzes = 0
+    for item in catalog["docs"].values():
+        if item["kind"] != "chapter":
+            continue
+        quiz_ol = None
+        seen_quiz = False
+        for block in item["blocks"]:
+            if block.get("t") == "h" and block.get("text") == "通关自测":
+                seen_quiz = True
+                continue
+            if not seen_quiz:
+                continue
+            if block.get("t") == "ol":
+                quiz_ol = block
+                break
+            if block.get("t") == "h":
+                break
+        assert quiz_ol is not None, item["id"]
+        numbers = [entry["n"] for entry in quiz_ol["items"]]
+        assert numbers == list(range(1, len(numbers) + 1)), item["id"]
+        saw_options = False
+        for entry in quiz_ol["items"]:
+            stem = b.plain(entry["inlines"])
+            assert not option_re.match(stem), (item["id"], stem)
+            children = entry.get("blocks") or []
+            assert all(child["t"] == "ul" for child in children), item["id"]
+            for child in children:
+                saw_options = True
+                labels = [b.plain(opt["inlines"]).split(".", 1)[0] for opt in child["items"]]
+                assert labels == [chr(ord("A") + i) for i in range(len(labels))], (
+                    item["id"],
+                    labels,
+                )
+                assert all("blocks" not in opt for opt in child["items"])
+        assert saw_options, item["id"]
+        nested_quizzes += 1
+        folds = [block for block in item["blocks"] if block.get("t") == "fold"]
+        assert len(folds) == 1, item["id"]
+        answers = [block for block in folds[0]["blocks"] if block.get("t") == "ol"]
+        assert len(answers) == 1, item["id"]
+        answer_numbers = [entry["n"] for entry in answers[0]["items"]]
+        assert answer_numbers == list(range(1, len(answer_numbers) + 1)), item["id"]
+        assert all("blocks" not in entry for entry in answers[0]["items"]), item["id"]
+    assert nested_quizzes == 30
+
+    computer = catalog["docs"]["getting-started/01-what-is-a-computer"]
+    practice = next(
+        block
+        for block in computer["blocks"]
+        if block.get("t") == "ol"
+        and b.plain(block["items"][0]["inlines"]).startswith("查看自己电脑的配置")
+    )
+    assert [entry["n"] for entry in practice["items"]] == [1, 2, 3, 4, 5]
+    assert all("blocks" not in entry for entry in practice["items"])
+    goals = next(block for block in computer["blocks"] if block.get("t") == "ul")
+    assert b.plain(goals["items"][0]["inlines"]).startswith("☐ ")
+    assert all("blocks" not in entry for entry in goals["items"])
+    computer_search = next(row for row in catalog["search"] if row["id"] == computer["id"])
+    assert "寄存器" in computer_search["bodyText"]
 
     counts = {
         topic["id"]: topic["count"]
