@@ -44,7 +44,7 @@
 - `components/answer-fold` — summary 为「参考答案」的 `<details>`，默认收起
 - 普通 `>` 引用不是 callout
 
-图放在阅读分包 `pages/reader/diagrams/`（`app.json` 的 `subPackages`），不进主包。文件名是源码、主题和 mermaid 版本的哈希；没变就跳过重渲。渲染失败或图片加载失败时，降级成代码块，上面一条灰色提示「图表未生成 · 显示源码」，构建继续并打 WARNING。搜索正文和摘要都不收录图的源码。
+图放在阅读分包 `pages/reader/diagrams/`（`app.json` 的 `subPackages`），不进主包。文件名是源码、主题和 mermaid 版本的哈希；没变就跳过重渲。PNG 是不透明纸色 `#f4efe4`，四周留 16px。窄图按位图一半的尺寸居中，不拉满栏宽；更宽的图才横向滚动。渲染失败或图片加载失败时，降级成代码块，上面一条灰色提示「图表未生成 · 显示源码」，构建继续并打 WARNING。搜索正文和摘要都不收录图的源码。
 
 重新出图（缓存命中时不用这些工具）：
 

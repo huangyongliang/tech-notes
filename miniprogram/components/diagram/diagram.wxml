@@ -10,22 +10,25 @@
         <image
           class="tn-fig__img"
           src="{{src}}"
-          mode="widthFix"
+          mode="aspectFit"
           style="width: {{dispW}}px; height: {{dispH}}px"
           binderror="onImgError"
           aria-label="{{alt}}"
         />
       </scroll-view>
-      <image
-        wx:else
-        class="tn-fig__img tn-fig__img--fit"
-        src="{{src}}"
-        mode="widthFix"
-        binderror="onImgError"
-        aria-label="{{alt}}"
-      />
+      <view wx:else class="tn-fig__center">
+        <image
+          class="tn-fig__img"
+          src="{{src}}"
+          mode="aspectFit"
+          style="width: {{dispW}}px; height: {{dispH}}px"
+          binderror="onImgError"
+          aria-label="{{alt}}"
+        />
+      </view>
     </view>
     <view wx:if="{{wide}}" class="tn-fig__fade"></view>
+    <view wx:if="{{collapsed}}" class="tn-fig__fade-bottom"></view>
     <view wx:if="{{collapsed}}" class="tn-fig__expand" catchtap="onExpand">展开全图</view>
   </view>
   <view class="tn-fig__cap">{{caption}}</view>
