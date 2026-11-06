@@ -1,5 +1,5 @@
 <view class="tn-page">
-  <text class="tn-kicker">TECH-NOTES / v2026.11</text>
+  <text class="tn-kicker">大蒜技术栈 / v2026.11</text>
   <view class="tn-hero__h">关于</view>
   <view class="tn-hero__p">离线阅读固定的 {{docCount}} 篇笔记：从学习路线到 Java。记录只留在本机。</view>
   <view class="tn-section">
@@ -11,7 +11,7 @@
     <text class="tn-section__n">§</text>
     <text class="tn-section__h">许可</text>
   </view>
-  <view class="tn-p">笔记内容采用 CC BY 4.0，署名 tech-notes contributors。</view>
+  <view class="tn-p">笔记内容采用 CC BY 4.0，署名 大蒜技术栈 contributors。</view>
   <view class="tn-retry" bindtap="onCopyLicense">复制 CC BY 4.0 链接</view>
   <view class="tn-section">
     <text class="tn-section__n">§</text>

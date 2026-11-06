@@ -53,4 +53,4 @@ node --experimental-strip-types ../scripts/miniapp_links.test.ts
 node --experimental-strip-types ../scripts/miniapp_search.test.ts
 ```
 
-用微信开发者工具打开本目录即可看结构（`project.config.json` 的 appid 为 `wx9982c4527dbdc2e3`，projectname 为 `tech-notes`）。不要上传、不要预览发布。
+用微信开发者工具打开本目录即可看结构（`project.config.json` 的 appid 为 `wx9982c4527dbdc2e3`，projectname 为 `大蒜技术栈`）。不要上传、不要预览发布。
