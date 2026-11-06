@@ -7,6 +7,7 @@
 | [roadmap](roadmap/) | 从零到 AI 的学习路线总览 |
 | [getting-started](getting-started/) | 零基础入门：电脑、网络、自学方法 |
 | [cs-basics](cs-basics/) | 计算机基础：组成、OS、Linux、Git、网络、DSA、数据库 |
+| [cs-theory](cs-theory/) | 计算机理论选修：逻辑、图论、可计算性；不替代基础 01–07 |
 | [programming-basics](programming-basics/) | 编程入门：第一门语言 C |
 | [java](java/) | Java 语言、JVM、Spring 生态 |
 | [microservices](microservices/) | 微服务体系：网关、治理、消息、可观测、K8s |
