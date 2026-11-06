@@ -26,4 +26,5 @@
   <view class="tn-p">仓库在 GitHub。同样只复制链接，不在小程序内打开。</view>
   <view class="tn-retry" bindtap="onCopyRepo">复制仓库链接</view>
   <view class="tn-wipe" bindtap="onClearRecords">清除本机记录</view>
+  <privacy-popup />
 </view>

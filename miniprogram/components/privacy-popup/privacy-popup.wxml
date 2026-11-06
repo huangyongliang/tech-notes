@@ -1,0 +1,19 @@
+<view class="tn-privacy" wx:if="{{show}}" catchtouchmove="noop">
+  <view class="tn-privacy__mask" catchtap="onDisagree"></view>
+  <view class="tn-privacy__panel" catchtap="noop">
+    <view class="tn-privacy__kicker">隐私指引</view>
+    <view class="tn-privacy__title">复制前需要你的同意</view>
+    <view class="tn-privacy__body">复制代码或链接会使用剪切板。请先阅读并同意{{contractName}}。</view>
+    <button class="tn-privacy__link" hover-class="none" open-type="openPrivacyContract">查看隐私保护指引</button>
+    <view class="tn-privacy__actions">
+      <button class="tn-privacy__btn" hover-class="tn-privacy__btn--hover" bindtap="onDisagree">拒绝</button>
+      <button
+        id="agree-btn"
+        class="tn-privacy__btn tn-privacy__btn--agree"
+        hover-class="tn-privacy__btn--hover"
+        open-type="agreePrivacyAuthorization"
+        bindagreeprivacyauthorization="onAgree"
+      >同意并复制</button>
+    </view>
+  </view>
+</view>

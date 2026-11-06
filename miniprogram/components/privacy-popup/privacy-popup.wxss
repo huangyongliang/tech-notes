@@ -1,0 +1,104 @@
+.tn-privacy {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.tn-privacy__mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 17, 15, 0.45);
+}
+
+.tn-privacy__panel {
+  position: absolute;
+  left: 32rpx;
+  right: 32rpx;
+  bottom: calc(32rpx + env(safe-area-inset-bottom));
+  padding: 32rpx;
+  box-sizing: border-box;
+  background: #f4efe4;
+  color: #14110f;
+  border: 2px solid #14110f;
+  box-shadow: 4px 4px 0 #14110f;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif;
+}
+
+.tn-privacy__kicker {
+  font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  font-size: 20rpx;
+  letter-spacing: 0.08em;
+  color: #5b544b;
+}
+
+.tn-privacy__title {
+  margin: 8rpx 0 16rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.tn-privacy__body {
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.tn-privacy__link {
+  display: inline;
+  margin: 16rpx 0 0;
+  padding: 0;
+  background: transparent;
+  color: #ff4f12;
+  font-size: 24rpx;
+  line-height: 1.4;
+  text-align: left;
+  border-radius: 0;
+}
+
+.tn-privacy__link::after {
+  border: none;
+}
+
+.tn-privacy__actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 32rpx;
+}
+
+.tn-privacy__btn {
+  flex: 1;
+  margin: 0;
+  min-height: 88rpx;
+  padding: 0 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background: #f4efe4;
+  color: #14110f;
+  border: 2px solid #14110f;
+  border-radius: 0;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tn-privacy__btn::after {
+  border: none;
+}
+
+.tn-privacy__btn--agree {
+  background: #14110f;
+  color: #f4efe4;
+}
+
+.tn-privacy__btn--hover {
+  opacity: 0.82;
+}

@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "md-blocks": "/components/md-blocks/md-blocks"
+    "md-blocks": "/components/md-blocks/md-blocks",
+    "privacy-popup": "/components/privacy-popup/privacy-popup"
   },
   "navigationBarTitleText": "阅读"
 }
