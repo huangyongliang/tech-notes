@@ -215,6 +215,20 @@ def _error_text(text: str, limit: int = 800) -> str:
     return flat[:limit] + "…"
 
 
+def _snap_even(image, paper: tuple[int, int, int]):
+    """Pad at most one paper pixel so physical size is exactly 2× the logical size."""
+    from PIL import Image
+
+    width, height = image.size
+    even_w = width + (width % 2)
+    even_h = height + (height % 2)
+    if (even_w, even_h) == (width, height):
+        return image
+    canvas = Image.new("RGB", (even_w, even_h), paper)
+    canvas.paste(image, (0, 0))
+    return canvas
+
+
 def _fit_width(
     path: Path,
     max_width: int,
@@ -222,14 +236,16 @@ def _fit_width(
     pad_px: int,
     paper: tuple[int, int, int],
 ) -> tuple[int, int, int, int]:
-    """Opaque paper canvas, padding, then width cap. Logical size is bitmap / scale."""
+    """Opaque paper PNG. Returned logical CSS px and physical px satisfy pw == scale * w."""
     from PIL import Image
 
+    if scale != 2:
+        raise RuntimeError(f"diagram scale must be 2, got {scale}")
     with Image.open(path) as image:
         rgba = image.convert("RGBA")
         sheet = Image.new("RGBA", rgba.size, (*paper, 255))
         sheet.alpha_composite(rgba)
-        pad = max(0, pad_px) * max(1, scale)
+        pad = max(0, pad_px) * scale
         canvas = Image.new("RGB", (sheet.width + pad * 2, sheet.height + pad * 2), paper)
         canvas.paste(sheet.convert("RGB"), (pad, pad))
         pixel_w, pixel_h = canvas.size
@@ -237,10 +253,13 @@ def _fit_width(
             pixel_h = max(1, round(pixel_h * (max_width / pixel_w)))
             pixel_w = max_width
             canvas = canvas.resize((pixel_w, pixel_h), Image.Resampling.LANCZOS)
+        canvas = _snap_even(canvas, paper)
+        pixel_w, pixel_h = canvas.size
         canvas.save(path, "PNG")
-    # Recompute after the width cap so 1x display size matches the bitmap / scale.
-    logical_w = max(1, round(pixel_w / scale))
-    logical_h = max(1, round(pixel_h / scale))
+    logical_w = pixel_w // scale
+    logical_h = pixel_h // scale
+    if pixel_w != scale * logical_w or pixel_h != scale * logical_h:
+        raise RuntimeError(f"bitmap {pixel_w}x{pixel_h} is not {scale}× logical size")
     return logical_w, logical_h, pixel_w, pixel_h
 
 
@@ -356,28 +375,54 @@ def render_png(source: str, dest: Path) -> None:
             shutil.move(str(out), dest)
             if logical_w <= 0 or logical_h <= 0:
                 raise RuntimeError("rendered diagram has no size")
+            pixel_w, pixel_h = _png_size(dest)
+            if pixel_w != int(pin["scale"]) * logical_w or pixel_h != int(pin["scale"]) * logical_h:
+                raise RuntimeError(
+                    f"final bitmap {pixel_w}x{pixel_h} != {pin['scale']}× {logical_w}x{logical_h}"
+                )
             dest.with_suffix(".size").write_text(
-                json.dumps({"w": logical_w, "h": logical_h}, separators=(",", ":")),
+                json.dumps(
+                    {"w": logical_w, "h": logical_h, "pw": pixel_w, "ph": pixel_h},
+                    separators=(",", ":"),
+                ),
                 encoding="utf-8",
             )
     finally:
         puppeteer.unlink(missing_ok=True)
 
 
-def _read_size_sidecar(png: Path) -> tuple[int, int] | None:
+def _read_size_sidecar(png: Path) -> tuple[int, int, int, int] | None:
     sidecar = png.with_suffix(".size")
     if not sidecar.is_file():
         return None
     data = json.loads(sidecar.read_text(encoding="utf-8"))
-    return int(data["w"]), int(data["h"])
+    return int(data["w"]), int(data["h"]), int(data["pw"]), int(data["ph"])
 
 
-def _success_node(source: str, digest: str, logical_w: int, logical_h: int) -> dict:
+def _sizes_match(logical_w: int, logical_h: int, pixel_w: int, pixel_h: int) -> bool:
+    return (
+        logical_w > 0
+        and logical_h > 0
+        and pixel_w == 2 * logical_w
+        and pixel_h == 2 * logical_h
+    )
+
+
+def _success_node(
+    source: str,
+    digest: str,
+    logical_w: int,
+    logical_h: int,
+    pixel_w: int,
+    pixel_h: int,
+) -> dict:
     node = {
         "t": "diagram",
         "src": f"{SRC_PREFIX}/{digest}.png",
         "w": logical_w,
         "h": logical_h,
+        "pw": pixel_w,
+        "ph": pixel_h,
         "alt": diagram_alt(source),
         "source": source,
     }
@@ -410,8 +455,17 @@ def materialize(
     digest = diagram_hash(source)
     png = out_dir / f"{digest}.png"
     cached = index.get(digest)
-    if png.is_file() and isinstance(cached, dict) and int(cached.get("w") or 0) > 0:
-        return _success_node(source, digest, int(cached["w"]), int(cached["h"]))
+    if png.is_file() and isinstance(cached, dict):
+        try:
+            logical_w, logical_h = int(cached["w"]), int(cached["h"])
+            pixel_w, pixel_h = int(cached["pw"]), int(cached["ph"])
+        except (KeyError, TypeError, ValueError):
+            logical_w = logical_h = pixel_w = pixel_h = 0
+        if _sizes_match(logical_w, logical_h, pixel_w, pixel_h) and _png_size(png) == (
+            pixel_w,
+            pixel_h,
+        ):
+            return _success_node(source, digest, logical_w, logical_h, pixel_w, pixel_h)
     try:
         out_dir.mkdir(parents=True, exist_ok=True)
         run = runner or render_png
@@ -419,11 +473,15 @@ def materialize(
         sized = _read_size_sidecar(png)
         if sized is None:
             raise RuntimeError("renderer did not record logical size")
-        logical_w, logical_h = sized
-        pixel_w, pixel_h = _png_size(png)
+        logical_w, logical_h, pixel_w, pixel_h = sized
+        file_w, file_h = _png_size(png)
         png.with_suffix(".size").unlink(missing_ok=True)
+        if (file_w, file_h) != (pixel_w, pixel_h) or not _sizes_match(
+            logical_w, logical_h, pixel_w, pixel_h
+        ):
+            raise RuntimeError(f"size metadata {sized} does not match bitmap {file_w}x{file_h}")
         index[digest] = {"w": logical_w, "h": logical_h, "pw": pixel_w, "ph": pixel_h}
-        return _success_node(source, digest, logical_w, logical_h)
+        return _success_node(source, digest, logical_w, logical_h, pixel_w, pixel_h)
     except Exception as exc:  # noqa: BLE001 — one bad diagram must not fail the build
         png.with_suffix(".size").unlink(missing_ok=True)
         if png.is_file() and digest not in index:
@@ -448,28 +506,42 @@ def _walk_mermaid(blocks: list[dict], doc_id: str, found: list[tuple[list, int, 
                     _walk_mermaid(nested, doc_id, found)
 
 
-def attach_diagrams(docs: dict[str, dict]) -> dict:
+def attach_diagrams(
+    docs: dict[str, dict],
+    *,
+    out_dir: Path | None = None,
+    index_path: Path | None = None,
+    runner=None,
+) -> dict:
     """Replace mermaid code blocks in ``docs`` with diagram nodes or failure blocks."""
+    out_dir = out_dir or DIAGRAM_DIR
+    index_path = index_path or INDEX_PATH
     found: list[tuple[list, int, str, str]] = []
     for doc_id, doc in docs.items():
         _walk_mermaid(doc.get("blocks") or [], doc_id, found)
-    index = _load_index(INDEX_PATH)
+    index = _load_index(index_path)
     rendered: dict[str, dict] = {}
     for _blocks, _index, source, doc_id in found:
         if source in rendered:
             continue
-        rendered[source] = materialize(source, doc_id=doc_id, index=index)
+        rendered[source] = materialize(
+            source,
+            doc_id=doc_id,
+            out_dir=out_dir,
+            index=index,
+            runner=runner,
+        )
     for blocks, index_in_block, source, _doc_id in found:
         blocks[index_in_block] = json.loads(json.dumps(rendered[source], ensure_ascii=False))
     used = {diagram_hash(source) for source in rendered}
-    if DIAGRAM_DIR.is_dir():
-        for png in DIAGRAM_DIR.glob("*.png"):
+    if out_dir.is_dir():
+        for png in out_dir.glob("*.png"):
             if png.stem not in used and not png.name.endswith(".dark.png"):
                 png.unlink()
-        for sidecar in DIAGRAM_DIR.glob("*.size"):
+        for sidecar in out_dir.glob("*.size"):
             sidecar.unlink()
     kept = {key: value for key, value in index.items() if key in used}
-    _write_index(INDEX_PATH, kept)
+    _write_index(index_path, kept)
     total = 0
     count = 0
     failures = 0
@@ -478,7 +550,7 @@ def attach_diagrams(docs: dict[str, dict]) -> dict:
             failures += 1
             continue
         count += 1
-        png = DIAGRAM_DIR / Path(node["src"]).name
+        png = out_dir / Path(node["src"]).name
         if png.is_file():
             total += png.stat().st_size
     return {"count": count, "bytes": total, "failures": failures, "unique": len(rendered)}

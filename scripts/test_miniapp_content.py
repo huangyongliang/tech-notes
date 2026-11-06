@@ -142,6 +142,46 @@ def main() -> None:
     assert failed["banner"] == "图表未生成 · 显示源码"
     assert failed["code"] == flow
     assert "parse error" in rm.warnings()[-1]
+    assert "unit" in rm.warnings()[-1]
+    rm.clear_warnings()
+
+    def _boom(_source: str, _dest: Path) -> None:
+        raise RuntimeError("parse error on line 2: unexpected token")
+
+    one_doc = {
+        "only": {
+            "blocks": [{"t": "code", "lang": "mermaid", "code": "flowchart LR\n  A[唯一一张]"}],
+        }
+    }
+    with tempfile.TemporaryDirectory() as tmp_one:
+        one_stats = rm.attach_diagrams(
+            one_doc,
+            out_dir=Path(tmp_one) / "png",
+            index_path=Path(tmp_one) / "index.json",
+            runner=_boom,
+        )
+    assert one_stats["count"] == 0 and one_stats["failures"] == 1
+    one_node = one_doc["only"]["blocks"][0]
+    assert one_node["t"] == "code" and one_node["banner"] == "图表未生成 · 显示源码"
+    assert one_node["code"].startswith("flowchart LR")
+    assert any("only" in message and "parse error on line 2" in message for message in rm.warnings())
+    rm.clear_warnings()
+
+    all_docs = {
+        "a": {"blocks": [{"t": "code", "lang": "mermaid", "code": "flowchart LR\n  A[甲]"}]},
+        "b": {"blocks": [{"t": "code", "lang": "mermaid", "code": "flowchart TD\n  B[乙]"}]},
+    }
+    with tempfile.TemporaryDirectory() as tmp_all:
+        all_stats = rm.attach_diagrams(
+            all_docs,
+            out_dir=Path(tmp_all) / "png",
+            index_path=Path(tmp_all) / "index.json",
+            runner=_boom,
+        )
+    assert all_stats["count"] == 0 and all_stats["failures"] == 2
+    assert all(doc["blocks"][0]["t"] == "code" for doc in all_docs.values())
+    assert all(doc["blocks"][0]["banner"] == "图表未生成 · 显示源码" for doc in all_docs.values())
+    assert {message.split("(")[1].split(")")[0] for message in rm.warnings()} >= {"a", "b"}
     rm.clear_warnings()
     indexed = b.block_text(
         [
@@ -212,30 +252,38 @@ def main() -> None:
     for item in catalog["docs"].values():
         text = (ROOT / item["path"]).read_text(encoding="utf-8")
         fence_count += len(re.findall(r"^```mermaid\s*$", text, re.M))
-    assert kinds.get("diagram", 0) == fence_count
     assert fence_count >= 1
     diagram_bytes = 0
     seen_src: set[str] = set()
+    success_count = 0
+    fallback_count = 0
     for item in catalog["docs"].values():
         search_row = next(row for row in catalog["search"] if row["id"] == item["id"])
 
         def check_blocks(blocks: list) -> None:
-            nonlocal diagram_bytes
+            nonlocal diagram_bytes, success_count, fallback_count
             for block in blocks:
                 if block.get("t") == "diagram":
+                    success_count += 1
                     assert block["src"].startswith("/pages/reader/diagrams/")
                     assert block["src"].endswith(".png")
                     assert not block["src"].endswith(".dark.png")
+                    assert ".preview." not in block["src"]
                     assert block["w"] > 0 and block["h"] > 0
+                    assert block["pw"] == 2 * block["w"]
+                    assert block["ph"] == 2 * block["h"]
                     assert block["alt"] and block["source"]
                     assert "classDef hot" not in block["source"]
                     png = MINI / block["src"].lstrip("/")
                     assert png.is_file(), png
+                    assert rm._png_size(png) == (block["pw"], block["ph"])
                     diagram_bytes += png.stat().st_size
                     seen_src.add(block["src"])
                     assert block["source"].lower() not in search_row["bodyText"]
                 if block.get("t") == "code" and block.get("lang") == "mermaid":
+                    fallback_count += 1
                     assert block.get("banner") == "图表未生成 · 显示源码"
+                    assert block.get("code")
                     assert block.get("code") not in search_row["bodyText"]
                 child = block.get("blocks")
                 if isinstance(child, list):
@@ -247,6 +295,8 @@ def main() -> None:
                             check_blocks(nested)
 
         check_blocks(item["blocks"])
+    assert success_count + fallback_count == fence_count
+    assert success_count == kinds.get("diagram", 0)
     assert seen_src
     assert diagram_bytes < 1_800_000
     small = catalog["docs"]["programming-basics/06-small-projects"]

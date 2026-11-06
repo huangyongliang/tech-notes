@@ -81,9 +81,9 @@ Component({
         if (!inner || !naturalW || !naturalH) return;
         const wide = naturalW > inner + 1;
         const viewH = windowHeight();
+        // w/h are logical CSS px. Visible width is min(w, column). Never stretch.
         this.setData({
           wide,
-          // 1x size is bitmap / 2. Never stretch a narrower diagram up to the column.
           dispW: Math.round(naturalW),
           dispH: Math.round(naturalH),
           collapsed: naturalH > viewH * 1.5,
@@ -100,6 +100,7 @@ Component({
       this.setData({ collapsed: false });
     },
     onPreview() {
+      // Card and preview share this one opaque paper PNG. No second transparent asset.
       const src = String(this.properties.src || "");
       if (!src || this.data.failed) return;
       wx.previewImage({
@@ -136,7 +137,14 @@ Component({
             filePath: dest,
             data: res.data,
             success: () => {
-              wx.previewImage({ current: dest, urls: [dest] });
+              wx.previewImage({
+                current: dest,
+                urls: [dest],
+                fail: () => {
+                  console.warn("diagram preview failed", dest);
+                  wx.showToast({ title: "图片打开失败", icon: "none" });
+                },
+              });
             },
             fail: () => {
               wx.showToast({ title: "图片打不开", icon: "none" });
