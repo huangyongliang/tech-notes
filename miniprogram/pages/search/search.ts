@@ -1,44 +1,57 @@
 import { getCatalog } from "../../data/index";
 import type { SearchEntry } from "../../data/types";
 import { openListed } from "../../utils/nav";
+import {
+  chapterWhere,
+  proseFromBlocks,
+  queryDocs,
+  type QueryDoc,
+  type QueryHit,
+  type WhereTopic,
+} from "../../utils/search";
 
-interface Hit {
-  id: string;
-  kind: string;
-  topicId: string;
-  title: string;
-  pathLabel: string;
-}
+let indexed: QueryDoc[] | null = null;
 
-function toHit(entry: SearchEntry): Hit {
-  return {
-    id: entry.id,
-    kind: entry.kind,
-    topicId: entry.topicId,
-    title: entry.title,
-    pathLabel: entry.path,
-  };
+function index(): QueryDoc[] {
+  if (indexed) return indexed;
+  const catalog = getCatalog();
+  const topics: WhereTopic[] = [];
+  for (const group of catalog.groups) {
+    for (const topic of group.topics) topics.push(topic);
+  }
+  indexed = catalog.search.map((entry: SearchEntry) => {
+    const doc = catalog.docs[entry.id];
+    return {
+      id: entry.id,
+      kind: entry.kind,
+      topicId: entry.topicId,
+      title: entry.title,
+      titleText: entry.titleText,
+      bodyText: entry.bodyText,
+      where: chapterWhere(entry.kind, entry.id, entry.topicId, topics),
+      prose: doc ? proseFromBlocks(doc.blocks) : "",
+    };
+  });
+  return indexed;
 }
 
 Page({
   data: {
     query: "",
-    hits: [] as Hit[],
-    phase: "empty" as "empty" | "none" | "list",
+    hits: [] as QueryHit[],
+    phase: "idle" as "idle" | "none" | "list",
   },
   onInput(event: WechatMiniprogram.Input) {
     const query = event.detail.value || "";
-    const needle = query.trim().toLowerCase();
-    if (!needle) {
-      this.setData({ query, hits: [], phase: "empty" });
+    if (!query.trim()) {
+      this.setData({ query, hits: [], phase: "idle" });
       return;
     }
-    const hits = getCatalog()
-      .search.filter(
-        (entry) => entry.titleText.includes(needle) || entry.bodyText.includes(needle),
-      )
-      .map(toHit);
+    const hits = queryDocs(index(), query);
     this.setData({ query, hits, phase: hits.length ? "list" : "none" });
+  },
+  onClear() {
+    this.setData({ query: "", hits: [], phase: "idle" });
   },
   onOpen(event: WechatMiniprogram.TouchEvent) {
     const id = String(event.currentTarget.dataset.id || "");

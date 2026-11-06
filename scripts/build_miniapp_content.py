@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build the fixed 35-doc miniapp catalog from Markdown.
 
-Reads only the manifest below (roadmap + 零基础 / 计算机基础 / 编程入门 / Java).
+Reads only the manifest below, which must match miniprogram/content-selection.json
+(roadmap + 零基础 / 计算机基础 / 编程入门 / Java, 35 paths).
 Writes miniprogram/data/catalog.ts: title metadata plus a block tree
 (callout / code / fold / paragraphs). The miniapp renders that tree with
 native components. No network, no web-view, no runtime Markdown parser.
@@ -20,6 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "miniprogram" / "data" / "catalog.ts"
+SELECTION = ROOT / "miniprogram" / "content-selection.json"
 
 # Locked content set. Adding or removing a path must stay at 35 docs.
 EXPECTED_DOC_COUNT = 35
@@ -477,6 +479,28 @@ def rel_posix(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
+def whitelist_paths() -> set[str]:
+    data = json.loads(SELECTION.read_text(encoding="utf-8"))
+    included = data.get("included")
+    if data.get("documentCount") != EXPECTED_DOC_COUNT or not isinstance(included, list):
+        raise SystemExit(f"{SELECTION.name} must list {EXPECTED_DOC_COUNT} docs")
+    if len(included) != EXPECTED_DOC_COUNT or len(set(included)) != EXPECTED_DOC_COUNT:
+        raise SystemExit(f"{SELECTION.name} is not an exact {EXPECTED_DOC_COUNT}-path set")
+    return set(included)
+
+
+def assert_whitelist(docs: dict[str, dict]) -> None:
+    got = {doc["path"] for doc in docs.values()}
+    want = whitelist_paths()
+    if got != want:
+        missing = sorted(want - got)
+        extra = sorted(got - want)
+        raise SystemExit(
+            "catalog drifted from content-selection.json\n"
+            f"missing {missing}\nextra {extra}"
+        )
+
+
 def load_doc(path: Path, *, doc_id: str, kind: str, topic_id: str, num: str) -> dict:
     markdown = path.read_text(encoding="utf-8")
     title, blocks, toc = parse_markdown(markdown)
@@ -583,6 +607,8 @@ def build_catalog() -> dict:
 
     if len(docs) != EXPECTED_DOC_COUNT:
         raise SystemExit(f"manifest count {len(docs)} != {EXPECTED_DOC_COUNT}")
+
+    assert_whitelist(docs)
 
     return {
         "version": "2026.11",

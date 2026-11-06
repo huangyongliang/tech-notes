@@ -8,7 +8,7 @@
     <view class="tn-hero__h">{{title}}</view>
     <view class="tn-hero__p">{{summary}}</view>
     <view class="tn-section">
-      <text class="tn-section__n">§</text>
+      <text class="tn-section__n">§ 子目录</text>
       <text class="tn-section__h">章节</text>
     </view>
     <view

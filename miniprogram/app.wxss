@@ -120,6 +120,10 @@
   padding: 0 var(--tn-space-3);
 }
 
+.tn-ticker__mark {
+  color: var(--tn-accent);
+}
+
 .tn-card {
   display: flex;
   gap: var(--tn-space-3);
@@ -298,7 +302,8 @@
   display: flex;
   margin-top: var(--tn-space-4);
   background: var(--tn-ink);
-  box-shadow: var(--tn-shadow-hot);
+  border: var(--tn-border);
+  box-shadow: 4px 4px 0 var(--tn-accent);
 }
 
 .tn-pager__btn {
@@ -363,4 +368,12 @@
   background: var(--tn-bg);
   font-family: var(--tn-mono);
   font-weight: 700;
+}
+
+page {
+  background-color: #f4efe4;
+  background-image:
+    linear-gradient(rgba(20, 17, 15, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 17, 15, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

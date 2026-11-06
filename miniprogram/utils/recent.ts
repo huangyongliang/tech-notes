@@ -1,11 +1,14 @@
 import type { RecentEntry } from "../data/types";
 
-const KEY = "tn_recent_v1";
+/** Dedicated keys. Clearing records removes only these two, never the whole store. */
+export const RECENT_KEY = "tn_recent_v1";
+export const FAVORITES_KEY = "tn_favorites_v1";
+
 const LIMIT = 30;
 
 export function readRecent(): RecentEntry[] {
   try {
-    const raw = wx.getStorageSync(KEY) as unknown;
+    const raw = wx.getStorageSync(RECENT_KEY) as unknown;
     if (!Array.isArray(raw)) return [];
     return raw.filter(
       (item): item is RecentEntry =>
@@ -22,7 +25,17 @@ export function readRecent(): RecentEntry[] {
 
 export function pushRecent(entry: RecentEntry): void {
   const next = [entry, ...readRecent().filter((item) => item.id !== entry.id)].slice(0, LIMIT);
-  wx.setStorageSync(KEY, next);
+  wx.setStorageSync(RECENT_KEY, next);
+}
+
+export function clearLocalRecords(): void {
+  for (const key of [RECENT_KEY, FAVORITES_KEY]) {
+    try {
+      wx.removeStorageSync(key);
+    } catch {
+      /* already empty */
+    }
+  }
 }
 
 export function formatWhen(ts: number): string {

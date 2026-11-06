@@ -10,29 +10,45 @@
       confirm-type="search"
       bindinput="onInput"
     />
+    <view wx:if="{{query}}" class="tn-search__clear" catchtap="onClear">清空</view>
   </view>
-  <view wx:if="{{phase === 'empty'}}" class="tn-empty">
+  <view wx:if="{{phase === 'idle'}}" class="tn-empty">
     <view class="tn-empty__t">输入关键词</view>
-    <view class="tn-muted">查这 35 篇的标题和正文。还没输入时不列出全部。</view>
+    <view class="tn-muted">查这 35 篇的标题和正文。摘要不含代码块和参考答案。</view>
   </view>
   <view wx:elif="{{phase === 'none'}}" class="tn-empty">
-    <view class="tn-empty__t">没有匹配的篇目</view>
-    <view class="tn-muted">换个主题名、篇名或关键词试试。</view>
+    <view class="tn-empty__t">没找到，换个关键词试试</view>
   </view>
   <block wx:else>
-  <view
-    wx:for="{{hits}}"
-    class="tn-row"
-    data-id="{{item.id}}"
-    data-kind="{{item.kind}}"
-    data-topic="{{item.topicId}}"
-    bindtap="onOpen"
-  >
-    <view class="tn-row__main">
-      <text class="tn-row__t">{{item.title}}</text>
-      <text class="tn-row__en">{{item.pathLabel}}</text>
+    <view
+      wx:for="{{hits}}"
+      wx:key="id"
+      class="tn-hit"
+      data-id="{{item.id}}"
+      data-kind="{{item.kind}}"
+      data-topic="{{item.topicId}}"
+      bindtap="onOpen"
+    >
+      <view class="tn-hit__main">
+        <view class="tn-hit__title">
+          <text
+            wx:for="{{item.titleRuns}}"
+            wx:for-item="run"
+            wx:key="k"
+            class="{{run.mark ? 'tn-mark' : ''}}"
+          >{{run.text}}</text>
+        </view>
+        <text class="tn-hit__where">{{item.where}}</text>
+        <view class="tn-hit__snip">
+          <text
+            wx:for="{{item.snippetRuns}}"
+            wx:for-item="run"
+            wx:key="k"
+            class="{{run.mark ? 'tn-mark' : ''}}"
+          >{{run.text}}</text>
+        </view>
+      </view>
+      <text class="tn-row__arrow">›</text>
     </view>
-    <text class="tn-row__arrow">›</text>
-  </view>
   </block>
 </view>

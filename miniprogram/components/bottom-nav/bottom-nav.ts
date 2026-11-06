@@ -10,8 +10,8 @@ Component({
   },
   data: {
     list: [
-      { pagePath: "/pages/topics/topics", text: "主题" },
-      { pagePath: "/pages/recent/recent", text: "最近" },
+      { pagePath: "/pages/topics/topics", text: "主题", icon: "▣" },
+      { pagePath: "/pages/recent/recent", text: "最近", icon: "◷" },
     ],
   },
   methods: {

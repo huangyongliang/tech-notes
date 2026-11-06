@@ -220,6 +220,69 @@ def main() -> None:
     for name in deps:
         assert "towxml" not in name and "wemark" not in name
 
+    selection = json.loads((MINI / "content-selection.json").read_text(encoding="utf-8"))
+    assert selection["documentCount"] == 35
+    assert selection["appId"] == "wx9982c4527dbdc2e3"
+    assert isinstance(selection["included"], list)
+    assert len(selection["included"]) == 35
+    assert len(set(selection["included"])) == 35
+    assert set(selection["included"]) == {item["path"] for item in catalog["docs"].values()}
+    assert set(selection["included"]) == {item["path"] for item in search}
+
+    project = json.loads((MINI / "project.config.json").read_text(encoding="utf-8"))
+    assert project["appid"] == "wx9982c4527dbdc2e3"
+    assert project["projectname"] == "tech-notes"
+    assert project["appid"] != "touristappid"
+    private = MINI / "project.private.config.json"
+    if private.is_file():
+        priv = json.loads(private.read_text(encoding="utf-8"))
+        assert priv.get("appid") == "wx9982c4527dbdc2e3"
+
+    assert "没找到，换个关键词试试" in search_wxml
+    assert "清空" in search_wxml
+    assert "tn-mark" in search_wxml
+    assert "queryDocs" in (MINI / "pages/search/search.ts").read_text(encoding="utf-8")
+    assert "snippetRuns" in search_wxml
+
+    assert "复制站点链接" in about_wxml
+    assert "复制仓库链接" in about_wxml
+    assert "清除本机记录" in about_wxml
+    assert "huangyongliang" not in about_wxml
+    about_ts = (MINI / "pages/about/about.ts").read_text(encoding="utf-8")
+    assert "https://huangyongliang.github.io/tech-notes/" in about_ts
+    assert "https://github.com/huangyongliang/tech-notes" in about_ts
+    assert "clearLocalRecords" in about_ts
+
+    recent = (MINI / "utils/recent.ts").read_text(encoding="utf-8")
+    assert "tn_recent_v1" in recent
+    assert "tn_favorites_v1" in recent
+    assert "removeStorageSync" in recent
+
+    nav_css = (MINI / "components/bottom-nav/bottom-nav.wxss").read_text(encoding="utf-8")
+    assert "background: #f4efe4" in nav_css
+    assert "border-top: 1px solid #14110f" in nav_css
+    assert "height: 3px" in nav_css
+    assert "#ff4f12" in nav_css
+    assert "box-shadow" not in nav_css
+    assert "safe-area-inset-bottom" in nav_css
+
+    app_css = (MINI / "app.wxss").read_text(encoding="utf-8")
+    assert "box-shadow: 4px 4px 0 var(--tn-accent)" in app_css
+    assert "<bottom-nav" not in reader_wxml
+
+    for path in MINI.rglob("*"):
+        if "node_modules" in path.parts or "miniprogram_npm" in path.parts:
+            continue
+        if path.suffix not in {".ts", ".js", ".wxml", ".wxss", ".json", ".md"}:
+            continue
+        if path.name == "catalog.ts":
+            continue
+        text = path.read_text(encoding="utf-8")
+        lowered = text.lower()
+        assert "dasuan" not in lowered, path
+        if path.suffix in {".ts", ".js"}:
+            assert "wx.clearstorage" not in lowered, path
+
     print("miniapp content ok", catalog["docCount"], "docs", kinds["fold"], "folds")
 
 

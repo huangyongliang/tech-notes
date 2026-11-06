@@ -58,6 +58,7 @@
   font-size: var(--tn-fs-sm);
   background: var(--tn-code-bg);
   padding: 0 8rpx;
+  border: 1px solid rgba(20, 17, 15, 0.2);
 }
 
 .tn-strong {

@@ -5,6 +5,7 @@
     data-index="{{index}}"
     bindtap="onSwitch"
   >
+    <text class="tn-tabbar__ico">{{item.icon}}</text>
     <text>{{item.text}}</text>
   </view>
 </view>
