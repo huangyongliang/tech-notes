@@ -1,5 +1,9 @@
 # tech-notes 技术笔记
 
+[![GitHub Pages](https://img.shields.io/badge/site-huangyongliang.github.io%2Ftech--notes-orange)](https://huangyongliang.github.io/tech-notes/)
+
+**在线阅读：** [https://huangyongliang.github.io/tech-notes/](https://huangyongliang.github.io/tech-notes/)
+
 个人技术学习笔记：按主题整理链接、短笔记和学习记录，方便浏览和复习。
 
 > [!NOTE]
