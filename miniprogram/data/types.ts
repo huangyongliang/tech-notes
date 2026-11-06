@@ -68,12 +68,24 @@ export interface Doc {
   toc: TocItem[];
 }
 
+/** Build-time search row. Only the fixed manifest docs are present. */
+export interface SearchEntry {
+  id: string;
+  kind: "chapter" | "topic" | "roadmap";
+  topicId: string;
+  title: string;
+  path: string;
+  titleText: string;
+  bodyText: string;
+}
+
 export interface CatalogFile {
   version: string;
   docCount: number;
   groups: TopicGroup[];
   roadmap: ChapterRef;
   docs: Record<string, Doc>;
+  search: SearchEntry[];
 }
 
 export interface RecentEntry {

@@ -116,6 +116,27 @@ def main() -> None:
     }
     assert catalog["roadmap"]["id"] == "roadmap"
 
+    search = catalog["search"]
+    assert len(search) == 35
+    assert {item["id"] for item in search} == set(catalog["docs"])
+    for item in search:
+        assert set(item) == {
+            "id",
+            "kind",
+            "topicId",
+            "title",
+            "path",
+            "titleText",
+            "bodyText",
+        }
+        assert item["path"] == catalog["docs"][item["id"]]["path"]
+        assert not item["path"].startswith("topics/ai/")
+        assert not item["path"].startswith("topics/microservices/")
+    concurrency = next(item for item in search if item["id"] == "java/05-concurrency")
+    assert "并发" in concurrency["titleText"]
+    assert "pinning" not in concurrency["titleText"]
+    assert "pinning" in concurrency["bodyText"]
+
     rendered = b.render_ts(catalog)
     on_disk = (MINI / "data" / "catalog.ts").read_text(encoding="utf-8")
     assert on_disk == rendered, "run python3 scripts/build_miniapp_content.py"
@@ -136,6 +157,37 @@ def main() -> None:
     assert app["tabBar"]["custom"] is True
     assert "pages/reader/reader" not in tab_pages
     assert [item["text"] for item in app["tabBar"]["list"]] == ["主题", "最近"]
+    for hidden in (
+        "pages/category/category",
+        "pages/reader/reader",
+        "pages/search/search",
+        "pages/about/about",
+    ):
+        assert hidden not in tab_pages
+        assert hidden in app["pages"]
+
+    category_json = json.loads((MINI / "pages/category/category.json").read_text(encoding="utf-8"))
+    reader_json = json.loads((MINI / "pages/reader/reader.json").read_text(encoding="utf-8"))
+    search_json = json.loads((MINI / "pages/search/search.json").read_text(encoding="utf-8"))
+    tab_host = json.loads((MINI / "custom-tab-bar/index.json").read_text(encoding="utf-8"))
+    assert category_json["usingComponents"]["bottom-nav"] == "/components/bottom-nav/bottom-nav"
+    assert "bottom-nav" not in reader_json.get("usingComponents", {})
+    assert "bottom-nav" not in search_json.get("usingComponents", {})
+    assert search_json.get("component") is not True
+    assert tab_host["usingComponents"]["bottom-nav"] == "/components/bottom-nav/bottom-nav"
+
+    category_wxml = (MINI / "pages/category/category.wxml").read_text(encoding="utf-8")
+    reader_wxml = (MINI / "pages/reader/reader.wxml").read_text(encoding="utf-8")
+    search_wxml = (MINI / "pages/search/search.wxml").read_text(encoding="utf-8")
+    about_wxml = (MINI / "pages/about/about.wxml").read_text(encoding="utf-8")
+    tab_wxml = (MINI / "custom-tab-bar/index.wxml").read_text(encoding="utf-8")
+    assert "<bottom-nav" in category_wxml
+    assert 'dock="page"' in category_wxml
+    assert "<bottom-nav" not in reader_wxml
+    assert "<bottom-nav" not in search_wxml
+    assert "<bottom-nav" not in about_wxml
+    assert "<bottom-nav" in tab_wxml
+    assert 'dock="tab"' in tab_wxml
 
     for rel in (
         "components/callout/callout.wxml",

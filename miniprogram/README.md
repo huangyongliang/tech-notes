@@ -8,12 +8,16 @@
 |------|------|
 | 主题 `pages/topics` | 底栏。搜索条、关于、主题卡、学习路线 |
 | 最近 `pages/recent` | 底栏。本机 `wx.setStorage`，可空 |
-| 分类 `pages/category` | 主题卡进入，章节按编号从易到深 |
-| 阅读 `pages/reader` | 章节进入。**不是底栏** |
-| 搜索 `pages/search` | 主题页搜索条。空关键词不列结果 |
-| 关于 `pages/about` | 许可、免责声明、仓库链接（复制，不打开网页） |
+| 分类 `pages/category` | 主题卡进入。底栏是页面里的 `bottom-nav`，高亮「主题」 |
+| 阅读 `pages/reader` | 章节进入。没有底栏 |
+| 搜索 `pages/search` | 独立页面。构建索引含标题和正文，只覆盖这 35 篇 |
+| 关于 `pages/about` | 许可、免责声明、仓库链接（复制，不打开网页）。没有底栏 |
 
-底栏只有「主题」「最近」。
+底栏只有「主题」「最近」。微信的 custom tabBar 只挂在 tab 页上，所以：
+
+- 主题、最近：`app.json` → `custom-tab-bar`，里面用 `components/bottom-nav`。
+- 分类：同一组件，`dock="page"`，写在页面底部。不是靠 tabBar 自动出现。
+- 阅读、搜索、关于：不放这个组件。
 
 ## 内容
 

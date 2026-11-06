@@ -1,4 +1,4 @@
-<view class="tn-page">
+<view class="tn-page tn-page--tab">
   <view wx:if="{{missing}}" class="tn-error">
     <view class="tn-error__t">没有这个主题</view>
     <view>当前包只收录固定篇目里的主题。</view>
@@ -25,4 +25,6 @@
       <text class="tn-row__arrow">›</text>
     </view>
   </block>
+  <!-- Not a tab page. custom-tab-bar does not render here, so the shared bar is explicit. -->
+  <bottom-nav selected="{{0}}" dock="page" />
 </view>

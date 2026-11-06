@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "主题"
+  "navigationBarTitleText": "主题",
+  "usingComponents": {
+    "bottom-nav": "/components/bottom-nav/bottom-nav"
+  }
 }

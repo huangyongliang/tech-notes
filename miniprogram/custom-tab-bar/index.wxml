@@ -1,10 +1,2 @@
-<view class="tn-tabbar">
-  <view
-    wx:for="{{list}}"
-    class="tn-tabbar__item {{selected === index ? 'tn-tabbar__item--on' : ''}}"
-    data-index="{{index}}"
-    bindtap="onSwitch"
-  >
-    <text>{{item.text}}</text>
-  </view>
-</view>
+<!-- WeChat mounts custom-tab-bar only on tab pages (topics, recent). -->
+<bottom-nav selected="{{selected}}" dock="tab" />

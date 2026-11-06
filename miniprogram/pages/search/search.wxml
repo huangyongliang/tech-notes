@@ -13,7 +13,7 @@
   </view>
   <view wx:if="{{phase === 'empty'}}" class="tn-empty">
     <view class="tn-empty__t">输入关键词</view>
-    <view class="tn-muted">查本机篇目的标题和简介。还没输入时不列出全部。</view>
+    <view class="tn-muted">查这 35 篇的标题和正文。还没输入时不列出全部。</view>
   </view>
   <view wx:elif="{{phase === 'none'}}" class="tn-empty">
     <view class="tn-empty__t">没有匹配的篇目</view>

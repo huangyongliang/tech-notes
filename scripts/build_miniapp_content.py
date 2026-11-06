@@ -413,6 +413,42 @@ def assign_ids(blocks: list[dict], toc: list[dict], counter: list[int]) -> None:
             assign_ids(child, toc, counter)
 
 
+def block_text(blocks: list[dict]) -> str:
+    """Visible text for the build-time search index. Skips link URLs."""
+    parts: list[str] = []
+    for block in blocks:
+        kind = block.get("t")
+        if kind == "h":
+            parts.append(block.get("text") or "")
+        elif kind == "p":
+            parts.append(plain(block.get("inlines") or []))
+        elif kind in {"ul", "ol"}:
+            for item in block.get("items") or []:
+                parts.append(plain(item.get("inlines") or []))
+        elif kind == "code":
+            parts.append(block.get("code") or "")
+        elif kind == "table":
+            for row in [block.get("header") or [], *(block.get("rows") or [])]:
+                for cell in row:
+                    parts.append(plain(cell))
+        elif kind in {"quote", "callout", "fold"}:
+            parts.append(block_text(block.get("blocks") or []))
+    return "\n".join(part for part in parts if part)
+
+
+def search_entry(doc: dict) -> dict:
+    title = f"{doc['titleZh']} {doc['titleEn']}".strip()
+    return {
+        "id": doc["id"],
+        "kind": doc["kind"],
+        "topicId": doc["topicId"],
+        "title": title,
+        "path": doc["path"],
+        "titleText": f"{doc['titleZh']}\n{doc['titleEn']}".lower(),
+        "bodyText": block_text(doc["blocks"]).lower(),
+    }
+
+
 def first_summary(blocks: list[dict]) -> str:
     for block in blocks:
         if block.get("t") == "p":
@@ -562,6 +598,7 @@ def build_catalog() -> dict:
             "path": roadmap["path"],
         },
         "docs": docs,
+        "search": [search_entry(doc) for doc in docs.values()],
     }
 
 
