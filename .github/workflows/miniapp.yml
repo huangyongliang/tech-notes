@@ -1,0 +1,28 @@
+name: miniapp
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Manifest and structure
+        run: python3 scripts/test_miniapp_content.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: miniprogram/package-lock.json
+      - name: Typecheck
+        working-directory: miniprogram
+        run: npm ci && npm run typecheck
+      - name: Link resolver
+        working-directory: miniprogram
+        run: node --experimental-strip-types ../scripts/miniapp_links.test.ts

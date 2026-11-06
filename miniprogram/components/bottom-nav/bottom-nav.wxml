@@ -1,0 +1,11 @@
+<view class="tn-tabbar {{dock === 'page' ? 'tn-tabbar--page' : ''}}">
+  <view
+    wx:for="{{list}}"
+    class="tn-tabbar__item {{selected === index ? 'tn-tabbar__item--on' : ''}}"
+    data-index="{{index}}"
+    bindtap="onSwitch"
+  >
+    <text class="tn-tabbar__ico">{{item.icon}}</text>
+    <text>{{item.text}}</text>
+  </view>
+</view>

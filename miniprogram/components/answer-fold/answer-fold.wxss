@@ -1,0 +1,32 @@
+.tn-fold {
+  border: var(--tn-border);
+  box-shadow: var(--tn-shadow);
+  background: var(--tn-bg);
+  margin: var(--tn-space-3) 0;
+  border-radius: var(--tn-radius);
+}
+
+.tn-fold__sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--tn-space-3);
+  min-height: var(--tn-tap);
+  box-sizing: border-box;
+  font-family: var(--tn-mono);
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tn-fold__chev {
+  color: var(--tn-accent);
+}
+
+.tn-fold__bd {
+  padding: var(--tn-space-3);
+  border-top: var(--tn-border-dashed);
+  font-size: var(--tn-fs-md);
+  line-height: 1.7;
+}

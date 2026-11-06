@@ -1,0 +1,16 @@
+<template name="inl">
+  <block wx:for="{{nodes}}">
+    <block wx:if="{{item.t === 'strong' || item.t === 'em'}}">
+      <text class="{{item.t === 'strong' ? 'tn-strong' : 'tn-em'}}" user-select>
+        <block wx:for="{{item.c}}" wx:for-item="ch">
+          <text wx:if="{{ch.t === 'code'}}" class="tn-icode" user-select>{{ch.v}}</text>
+          <text wx:elif="{{ch.t === 'link'}}" class="tn-link" data-href="{{ch.href}}" bindtap="onLink">{{ch.v}}</text>
+          <text wx:else user-select>{{ch.v}}</text>
+        </block>
+      </text>
+    </block>
+    <text wx:elif="{{item.t === 'code'}}" class="tn-icode" user-select>{{item.v}}</text>
+    <text wx:elif="{{item.t === 'link'}}" class="tn-link" data-href="{{item.href}}" bindtap="onLink">{{item.v}}</text>
+    <text wx:else user-select>{{item.v}}</text>
+  </block>
+</template>

@@ -1,0 +1,10 @@
+<view class="tn-code">
+  <view class="tn-code__bar">
+    <text class="tn-code__lang">{{lang || 'text'}}</text>
+    <view class="tn-code__copy" bindtap="onCopy">复制</view>
+  </view>
+  <scroll-view scroll-x class="tn-code__scroll" enable-flex>
+    <text class="tn-code__pre" user-select decode>{{code}}</text>
+  </scroll-view>
+  <view class="tn-code__fade"></view>
+</view>

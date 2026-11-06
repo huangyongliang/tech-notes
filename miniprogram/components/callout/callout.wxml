@@ -1,0 +1,6 @@
+<view class="tn-callout tn-callout--{{type}}">
+  <view class="tn-callout__hd">{{type}}</view>
+  <view class="tn-callout__bd">
+    <md-blocks blocks="{{blocks}}" base-id="{{baseId}}" />
+  </view>
+</view>

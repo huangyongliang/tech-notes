@@ -1,0 +1,57 @@
+.tn-code {
+  position: relative;
+  border: var(--tn-border);
+  background: var(--tn-code-bg);
+  margin: var(--tn-space-3) 0;
+  border-radius: var(--tn-radius);
+}
+
+.tn-code__bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 20rpx;
+  border-bottom: var(--tn-border);
+  font-family: var(--tn-mono);
+  font-size: var(--tn-fs-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tn-code__copy {
+  border: var(--tn-border);
+  background: var(--tn-bg);
+  padding: 8rpx 16rpx;
+  min-height: var(--tn-tap);
+  min-width: var(--tn-tap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tn-mono);
+  font-weight: 700;
+  font-size: var(--tn-fs-xs);
+  box-sizing: border-box;
+}
+
+.tn-code__scroll {
+  white-space: nowrap;
+}
+
+.tn-code__pre {
+  display: inline-block;
+  padding: var(--tn-space-3);
+  font-family: var(--tn-mono);
+  font-size: 22rpx;
+  line-height: var(--tn-lh-mono);
+  white-space: pre;
+}
+
+.tn-code__fade {
+  position: absolute;
+  top: 88rpx;
+  right: 0;
+  bottom: 0;
+  width: 56rpx;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(235, 228, 212, 0), var(--tn-code-bg));
+}

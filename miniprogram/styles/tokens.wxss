@@ -1,0 +1,77 @@
+/* tech-notes mini program tokens — aligned with site v2 (dff1819 extra.css)
+ * 750rpx = 375px design width
+ */
+page {
+  /* Colors (light only for v1) */
+  --tn-bg: #f4efe4;           /* --tn-paper */
+  --tn-surface: #ebe4d4;      /* --tn-paper-2 */
+  --tn-ink: #14110f;
+  --tn-muted: #5b544b;        /* --tn-ink-2 */
+  --tn-line: #14110f;         /* --tn-rule */
+  --tn-grid: rgba(20, 17, 15, 0.06);
+  --tn-accent: #ff4f12;       /* --tn-hot */
+  --tn-accent-ink: #ffffff;   /* --tn-hot-ink */
+  --tn-accent-weak: #ffd84d;  /* --tn-mark */
+  --tn-code-bg: #ebe4d4;      /* same as surface */
+
+  /* Admonition left-bar (D1 fixed; fill still paper) */
+  --tn-note-bar: #14110f;     /* ink */
+  --tn-tip-bar: #ffd84d;      /* mark; title label stays ink */
+  --tn-warning-bar: #ff4f12;  /* accent */
+
+  /* Typography */
+  --tn-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+             "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", sans-serif;
+  --tn-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", Menlo, Consolas,
+             "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
+
+  /* Type scale (rpx; /2 = px @375) */
+  --tn-fs-xs: 20rpx;    /* 10px — kicker / badge */
+  --tn-fs-sm: 24rpx;    /* 12px — meta / tab label */
+  --tn-fs-md: 28rpx;    /* 14px — body */
+  --tn-fs-lg: 32rpx;    /* 16px — card title */
+  --tn-fs-xl: 40rpx;    /* 20px — page title */
+  --tn-fs-2xl: 48rpx;   /* 24px — hero / article h1 */
+  --tn-lh-tight: 1.25;
+  --tn-lh-body: 1.85;
+  --tn-lh-mono: 1.7;
+
+  /* Spacing (4px base → 8rpx) */
+  --tn-space-1: 8rpx;   /* 4px */
+  --tn-space-2: 16rpx;  /* 8px */
+  --tn-space-3: 24rpx;  /* 12px */
+  --tn-space-4: 32rpx;  /* 16px */
+  --tn-space-5: 40rpx;  /* 20px */
+  --tn-space-6: 48rpx;  /* 24px */
+  --tn-space-8: 64rpx;  /* 32px */
+
+  /* Radii — v2 is hard-edged */
+  --tn-radius: 0;
+
+  /* Borders */
+  --tn-border: 2px solid var(--tn-line);
+  --tn-border-thin: 1px solid var(--tn-line);
+  --tn-border-dashed: 1px dashed rgba(20, 17, 15, 0.3);
+
+  /* Hard shadow (v2: 4px 4px 0 ink) */
+  --tn-shadow: 4px 4px 0 var(--tn-line);
+  --tn-shadow-hot: 8px 8px 0 var(--tn-accent);
+
+  /* Tap target */
+  --tn-tap: 88rpx; /* 44px */
+
+  /* Tab bar */
+  --tn-tab-h: 100rpx; /* 50px content; + safe-area in layout */
+  --tn-tab-bg: var(--tn-bg);
+  --tn-tab-active: var(--tn-accent);
+  --tn-tab-inactive: var(--tn-muted);
+
+  /* Grid paper */
+  --tn-grid-size: 48rpx; /* 24px */
+
+  background-color: var(--tn-bg);
+  color: var(--tn-ink);
+  font-family: var(--tn-sans);
+  font-size: var(--tn-fs-md);
+  line-height: var(--tn-lh-body);
+}

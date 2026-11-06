@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "status": "frozen-for-d1",
+  "approvedBy": "小鼠",
+  "approvedDate": "2026-11-05",
+  "appId": "wx9982c4527dbdc2e3",
+  "sourceCommit": "13ee382cd565a13f2bb6bcf88a65ce338fcaf450",
+  "repo": "huangyongliang/tech-notes",
+  "notes": [
+    "首发仅收录下列 35 个源文档；后续新增 Markdown 不自动进入本版。",
+    "未收录公开主题仅展示名称，并提供网站链接复制入口。",
+    "构建和搜索索引只允许 included 里的 35 个路径。"
+  ],
+  "documentCount": 35,
+  "included": [
+    "topics/roadmap/README.md",
+    "topics/getting-started/README.md",
+    "topics/getting-started/01-what-is-a-computer/README.md",
+    "topics/getting-started/02-using-a-computer/README.md",
+    "topics/getting-started/03-internet-basics/README.md",
+    "topics/getting-started/04-learning-to-learn/README.md",
+    "topics/getting-started/05-tech-english/README.md",
+    "topics/cs-basics/README.md",
+    "topics/cs-basics/01-computer-organization/README.md",
+    "topics/cs-basics/02-operating-systems/README.md",
+    "topics/cs-basics/03-linux-shell/README.md",
+    "topics/cs-basics/04-git/README.md",
+    "topics/cs-basics/05-networking/README.md",
+    "topics/cs-basics/06-data-structures-algorithms/README.md",
+    "topics/cs-basics/07-databases/README.md",
+    "topics/programming-basics/README.md",
+    "topics/programming-basics/01-first-language-c/README.md",
+    "topics/programming-basics/02-core-concepts/README.md",
+    "topics/programming-basics/03-memory-and-data/README.md",
+    "topics/programming-basics/04-tools-debugging/README.md",
+    "topics/programming-basics/05-problem-solving/README.md",
+    "topics/programming-basics/06-small-projects/README.md",
+    "topics/java/README.md",
+    "topics/java/01-language-basics/README.md",
+    "topics/java/02-collections/README.md",
+    "topics/java/03-core-advanced/README.md",
+    "topics/java/04-io-nio/README.md",
+    "topics/java/05-concurrency/README.md",
+    "topics/java/06-jvm/README.md",
+    "topics/java/07-build-tools/README.md",
+    "topics/java/08-testing/README.md",
+    "topics/java/09-spring/README.md",
+    "topics/java/10-persistence/README.md",
+    "topics/java/11-performance-diagnostics/README.md",
+    "topics/java/12-ecosystem-trends/README.md"
+  ],
+  "topics": [
+    {
+      "id": "roadmap",
+      "title": "学习路线",
+      "sourcePaths": [
+        "topics/roadmap/README.md"
+      ]
+    },
+    {
+      "id": "getting-started",
+      "title": "零基础入门",
+      "sourcePaths": [
+        "topics/getting-started/README.md",
+        "topics/getting-started/01-what-is-a-computer/README.md",
+        "topics/getting-started/02-using-a-computer/README.md",
+        "topics/getting-started/03-internet-basics/README.md",
+        "topics/getting-started/04-learning-to-learn/README.md",
+        "topics/getting-started/05-tech-english/README.md"
+      ]
+    },
+    {
+      "id": "cs-basics",
+      "title": "计算机基础",
+      "sourcePaths": [
+        "topics/cs-basics/README.md",
+        "topics/cs-basics/01-computer-organization/README.md",
+        "topics/cs-basics/02-operating-systems/README.md",
+        "topics/cs-basics/03-linux-shell/README.md",
+        "topics/cs-basics/04-git/README.md",
+        "topics/cs-basics/05-networking/README.md",
+        "topics/cs-basics/06-data-structures-algorithms/README.md",
+        "topics/cs-basics/07-databases/README.md"
+      ]
+    },
+    {
+      "id": "programming-basics",
+      "title": "编程入门",
+      "sourcePaths": [
+        "topics/programming-basics/README.md",
+        "topics/programming-basics/01-first-language-c/README.md",
+        "topics/programming-basics/02-core-concepts/README.md",
+        "topics/programming-basics/03-memory-and-data/README.md",
+        "topics/programming-basics/04-tools-debugging/README.md",
+        "topics/programming-basics/05-problem-solving/README.md",
+        "topics/programming-basics/06-small-projects/README.md"
+      ]
+    },
+    {
+      "id": "java",
+      "title": "Java",
+      "sourcePaths": [
+        "topics/java/README.md",
+        "topics/java/01-language-basics/README.md",
+        "topics/java/02-collections/README.md",
+        "topics/java/03-core-advanced/README.md",
+        "topics/java/04-io-nio/README.md",
+        "topics/java/05-concurrency/README.md",
+        "topics/java/06-jvm/README.md",
+        "topics/java/07-build-tools/README.md",
+        "topics/java/08-testing/README.md",
+        "topics/java/09-spring/README.md",
+        "topics/java/10-persistence/README.md",
+        "topics/java/11-performance-diagnostics/README.md",
+        "topics/java/12-ecosystem-trends/README.md"
+      ]
+    }
+  ],
+  "excludedFromReader": {
+    "showNameOnly": [
+      "microservices",
+      "ai",
+      "programming",
+      "web",
+      "systems",
+      "devops",
+      "product-research"
+    ],
+    "hidden": [
+      "inbox"
+    ],
+    "labelsZh": [
+      "微服务",
+      "AI",
+      "编程",
+      "Web",
+      "系统",
+      "DevOps",
+      "产品调研",
+      "Inbox"
+    ]
+  },
+  "siteBaseUrl": "https://huangyongliang.github.io/tech-notes/"
+}

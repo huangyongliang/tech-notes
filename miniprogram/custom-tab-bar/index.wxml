@@ -1,0 +1,2 @@
+<!-- WeChat mounts custom-tab-bar only on tab pages (topics, recent). -->
+<bottom-nav selected="{{selected}}" dock="tab" />

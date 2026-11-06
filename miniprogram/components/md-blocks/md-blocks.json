@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "md-blocks": "/components/md-blocks/md-blocks",
+    "callout": "/components/callout/callout",
+    "code-block": "/components/code-block/code-block",
+    "answer-fold": "/components/answer-fold/answer-fold"
+  }
+}

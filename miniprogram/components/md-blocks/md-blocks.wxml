@@ -1,0 +1,45 @@
+<import src="../../templates/inl.wxml" />
+<view class="tn-blocks">
+  <block wx:for="{{blocks}}">
+    <view wx:if="{{item.t === 'h'}}" id="{{item.id}}" class="{{item.level === 2 ? 'tn-h2' : 'tn-h3'}}">
+      <text wx:if="{{item.level === 2}}" class="tn-h2__mark">## </text>
+      <text user-select>{{item.text}}</text>
+    </view>
+
+    <view wx:elif="{{item.t === 'p'}}" class="tn-p">
+      <template is="inl" data="{{nodes: item.inlines}}" />
+    </view>
+
+    <view wx:elif="{{item.t === 'ul' || item.t === 'ol'}}" class="tn-list">
+      <view wx:for="{{item.items}}" wx:for-item="li" class="tn-li">
+        <text class="tn-li__m">{{item.t === 'ol' ? li.n + '.' : '–'}}</text>
+        <view class="tn-li__b">
+          <template is="inl" data="{{nodes: li.inlines}}" />
+        </view>
+      </view>
+    </view>
+
+    <view wx:elif="{{item.t === 'quote'}}" class="tn-quote">
+      <md-blocks blocks="{{item.blocks}}" base-id="{{baseId}}" />
+    </view>
+
+    <scroll-view wx:elif="{{item.t === 'table'}}" scroll-x class="tn-table-scroll" enable-flex>
+      <view class="tn-table">
+        <view class="tn-tr tn-tr--hd">
+          <view wx:for="{{item.header}}" wx:for-item="cell" class="tn-td">
+            <template is="inl" data="{{nodes: cell}}" />
+          </view>
+        </view>
+        <view wx:for="{{item.rows}}" wx:for-item="row" class="tn-tr">
+          <view wx:for="{{row}}" wx:for-item="cell" class="tn-td">
+            <template is="inl" data="{{nodes: cell}}" />
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <callout wx:elif="{{item.t === 'callout'}}" type="{{item.kind}}" blocks="{{item.blocks}}" base-id="{{baseId}}" />
+    <code-block wx:elif="{{item.t === 'code'}}" lang="{{item.lang}}" code="{{item.code}}" />
+    <answer-fold wx:elif="{{item.t === 'fold'}}" blocks="{{item.blocks}}" base-id="{{baseId}}" />
+  </block>
+</view>

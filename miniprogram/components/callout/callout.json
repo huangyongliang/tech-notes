@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "md-blocks": "/components/md-blocks/md-blocks"
+  }
+}

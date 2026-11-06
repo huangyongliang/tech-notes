@@ -1,0 +1,20 @@
+.tn-p {
+  font-size: var(--tn-fs-md);
+  line-height: var(--tn-lh-body);
+  margin-bottom: var(--tn-space-3);
+}
+
+.tn-retry {
+  margin-bottom: var(--tn-space-4);
+}
+
+.tn-wipe {
+  margin-top: 96rpx;
+  min-height: var(--tn-tap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a8178;
+  font-size: 22rpx;
+  line-height: 1.4;
+}

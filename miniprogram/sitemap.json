@@ -1,0 +1,4 @@
+{
+  "desc": "tech-notes reading skeleton",
+  "rules": [{ "action": "allow", "page": "*" }]
+}
