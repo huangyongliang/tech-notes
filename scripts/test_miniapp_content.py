@@ -231,7 +231,7 @@ def main() -> None:
 
     project = json.loads((MINI / "project.config.json").read_text(encoding="utf-8"))
     assert project["appid"] == "wx9982c4527dbdc2e3"
-    assert project["projectname"] == "tech-notes"
+    assert project["projectname"] == "大蒜技术栈"
     assert project["appid"] != "touristappid"
     private = MINI / "project.private.config.json"
     if private.is_file():

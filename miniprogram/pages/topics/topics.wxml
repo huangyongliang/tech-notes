@@ -12,7 +12,7 @@
     <text class="tn-route__go">›</text>
   </view>
   <view class="tn-kicker-row">
-    <text class="tn-kicker">TECH-NOTES / v2026.11</text>
+    <text class="tn-kicker">大蒜技术栈 / v2026.11</text>
     <view class="tn-about" bindtap="onAbout">关于</view>
   </view>
   <view class="tn-section">
