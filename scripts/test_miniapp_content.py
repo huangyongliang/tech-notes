@@ -291,6 +291,11 @@ def main() -> None:
     assert "通关/XP 进度" in about_ts
     assert "attachExternal" not in topics_ts
     assert "data-external" not in topics_wxml
+    assert "statusLabel" not in topics_ts
+    assert "statusLabel" not in topics_wxml
+    assert "搭建中" not in topics_wxml
+    assert 'class="tn-badge">{{topic.countLabel}}</text>' in topics_wxml
+    assert "topic.chapters.length" in topics_ts
     for hidden_id in (
         "microservices",
         "ai",

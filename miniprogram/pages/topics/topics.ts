@@ -12,8 +12,6 @@ interface TopicView {
   titleZh: string;
   titleEn: string;
   blurb: string;
-  status: string;
-  statusLabel: string;
   countLabel: string;
 }
 
@@ -44,9 +42,7 @@ Page({
         titleZh: topic.titleZh,
         titleEn: topic.titleEn,
         blurb: topic.blurb,
-        status: topic.status,
-        statusLabel: topic.statusLabel,
-        countLabel: `${topic.count} 篇`,
+        countLabel: `${topic.chapters.length} 篇`,
       })),
     }));
     const progress = loadProgress(chapterIdSet());
