@@ -13,6 +13,10 @@ desktop.ini
 *.pem
 *.key
 secrets/
+# Python
+__pycache__/
+*.pyc
+.venv/
 # Misc
 node_modules/
 *.log

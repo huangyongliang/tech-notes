@@ -1,0 +1,44 @@
+name: 内容勘误或失效资源
+description: 笔记内容有误，或资料链接失效、指向错误
+title: "勘误: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢指出问题。请只描述公开笔记里的错误或失效资源，不要留下真实姓名、邮箱、手机号或其他私人信息。
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 问题类型
+      options:
+        - 内容错误
+        - 失效或错误资源
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: 位置
+      description: 仓库内相对路径，或笔记页面链接
+      placeholder: topics/java/01-language-basics/README.md
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 说明
+      description: 错在哪里，或资源为何失效
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 建议修正
+      description: 正确说法或可用的替代链接。不确定可以留空
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 确认
+      options:
+        - label: 本 Issue 不含真实姓名、邮箱、手机号或私人数据
+          required: true
