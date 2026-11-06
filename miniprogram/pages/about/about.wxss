@@ -1,0 +1,9 @@
+.tn-p {
+  font-size: var(--tn-fs-md);
+  line-height: var(--tn-lh-body);
+  margin-bottom: var(--tn-space-3);
+}
+
+.tn-retry {
+  margin-bottom: var(--tn-space-4);
+}

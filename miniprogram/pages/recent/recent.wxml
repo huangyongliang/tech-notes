@@ -1,0 +1,25 @@
+<view class="tn-page tn-page--tab">
+  <text class="tn-kicker">LOCAL · 仅本机</text>
+  <view class="tn-section">
+    <text class="tn-section__n">§</text>
+    <text class="tn-section__h">最近</text>
+  </view>
+  <view wx:if="{{empty}}" class="tn-empty">
+    <view class="tn-empty__t">EMPTY · 还没有阅读记录</view>
+    <view class="tn-muted">打开任意一篇后会出现在这里。记录只保存在本机，不上传。</view>
+  </view>
+  <block wx:else>
+  <view
+    wx:for="{{rows}}"
+    class="tn-row"
+    data-id="{{item.id}}"
+    bindtap="onOpen"
+  >
+    <view class="tn-row__main">
+      <text class="tn-row__t">{{item.title}}</text>
+      <text class="tn-row__en">{{item.pathLabel}}</text>
+    </view>
+    <text class="tn-when">{{item.when}}</text>
+  </view>
+  </block>
+</view>

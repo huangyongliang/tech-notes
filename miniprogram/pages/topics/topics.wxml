@@ -1,0 +1,45 @@
+<view class="tn-page tn-page--tab">
+  <view class="tn-search" bindtap="onSearch">
+    <text class="tn-search__ico">/</text>
+    <text class="tn-search__ph">搜索主题、篇名、关键词…</text>
+  </view>
+  <view class="tn-kicker-row">
+    <text class="tn-kicker">TECH-NOTES / v2026.11</text>
+    <view class="tn-about" bindtap="onAbout">关于</view>
+  </view>
+  <view class="tn-section">
+    <text class="tn-section__n">§ 01</text>
+    <text class="tn-section__h">主题索引</text>
+  </view>
+  <scroll-view scroll-x class="tn-ticker" enable-flex>
+    <text wx:for="{{ticker}}" class="tn-ticker__item">✱ {{item}}</text>
+  </scroll-view>
+  <view class="tn-link-row" bindtap="onRoadmap">
+    <view class="tn-row__main">
+      <text class="tn-row__t">{{roadmapTitle}}</text>
+      <text class="tn-row__en">{{roadmapEn}}</text>
+    </view>
+    <text class="tn-row__arrow">›</text>
+  </view>
+  <block wx:for="{{groups}}" wx:for-item="group">
+    <view class="tn-group">{{group.label}}</view>
+    <view
+      wx:for="{{group.topics}}"
+      wx:for-item="topic"
+      class="tn-card"
+      data-id="{{topic.id}}"
+      bindtap="onTopic"
+    >
+      <text class="tn-card__num">{{topic.num}}</text>
+      <view class="tn-card__main">
+        <text class="tn-card__name">{{topic.titleZh}}</text>
+        <text class="tn-card__en">{{topic.titleEn}}</text>
+        <text class="tn-card__desc">{{topic.blurb}}</text>
+      </view>
+      <view class="tn-card__meta">
+        <text class="tn-card__count">{{topic.countLabel}}</text>
+        <text class="tn-badge {{topic.status === 'wip' ? 'tn-badge--wip' : ''}}">{{topic.statusLabel}}</text>
+      </view>
+    </view>
+  </block>
+</view>

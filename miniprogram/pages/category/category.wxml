@@ -1,0 +1,28 @@
+<view class="tn-page">
+  <view wx:if="{{missing}}" class="tn-error">
+    <view class="tn-error__t">没有这个主题</view>
+    <view>当前包只收录固定篇目里的主题。</view>
+  </view>
+  <block wx:else>
+    <text class="tn-kicker">{{kicker}}</text>
+    <view class="tn-hero__h">{{title}}</view>
+    <view class="tn-hero__p">{{summary}}</view>
+    <view class="tn-section">
+      <text class="tn-section__n">§</text>
+      <text class="tn-section__h">章节</text>
+    </view>
+    <view
+      wx:for="{{rows}}"
+      class="tn-row"
+      data-id="{{item.id}}"
+      bindtap="onChapter"
+    >
+      <text class="tn-row__n">{{item.num}}</text>
+      <view class="tn-row__main">
+        <text class="tn-row__t">{{item.titleZh}}</text>
+        <text class="tn-row__en">{{item.titleEn}}</text>
+      </view>
+      <text class="tn-row__arrow">›</text>
+    </view>
+  </block>
+</view>

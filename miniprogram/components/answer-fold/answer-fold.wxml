@@ -1,0 +1,9 @@
+<view class="tn-fold">
+  <view class="tn-fold__sum" bindtap="toggle">
+    <text>参考答案</text>
+    <text class="tn-fold__chev">{{open ? '▾' : '▸'}}</text>
+  </view>
+  <view wx:if="{{open}}" class="tn-fold__bd">
+    <md-blocks blocks="{{blocks}}" base-id="{{baseId}}" />
+  </view>
+</view>

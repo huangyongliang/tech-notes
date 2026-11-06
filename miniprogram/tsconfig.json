@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "CommonJS",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2018"],
+    "types": ["miniprogram-api-typings"]
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules", "miniprogram_npm"]
+}

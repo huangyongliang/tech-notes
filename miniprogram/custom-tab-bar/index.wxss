@@ -1,0 +1,45 @@
+/* custom-tab-bar sits outside <page>, so page vars from tokens.wxss do not apply.
+   Values below mirror tokens.wxss (--tn-bg / --tn-line / --tn-ink / --tn-muted / --tn-accent / --tn-tab-h). */
+.tn-tabbar {
+  --tn-bg: #f4efe4;
+  --tn-line: #14110f;
+  --tn-ink: #14110f;
+  --tn-muted: #5b544b;
+  --tn-accent: #ff4f12;
+  --tn-tab-h: 100rpx;
+  --tn-mono: "SF Mono", Menlo, Consolas, monospace;
+  display: flex;
+  height: calc(var(--tn-tab-h) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  background: var(--tn-bg);
+  border-top: 2px solid var(--tn-line);
+}
+
+.tn-tabbar__item {
+  flex: 1;
+  min-height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tn-mono);
+  font-size: 24rpx;
+  letter-spacing: 0.06em;
+  color: var(--tn-muted);
+  position: relative;
+}
+
+.tn-tabbar__item--on {
+  color: var(--tn-ink);
+  font-weight: 700;
+}
+
+.tn-tabbar__item--on::after {
+  content: "";
+  position: absolute;
+  left: 28%;
+  right: 28%;
+  bottom: 8rpx;
+  height: 6rpx;
+  background: var(--tn-accent);
+}

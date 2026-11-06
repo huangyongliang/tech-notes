@@ -1,0 +1,38 @@
+<view class="tn-page">
+  <view class="tn-search">
+    <text class="tn-search__ico">/</text>
+    <input
+      class="tn-search__input"
+      placeholder="搜索主题、篇名、关键词…"
+      placeholder-class="tn-search__ph"
+      value="{{query}}"
+      focus
+      confirm-type="search"
+      bindinput="onInput"
+    />
+  </view>
+  <view wx:if="{{phase === 'empty'}}" class="tn-empty">
+    <view class="tn-empty__t">输入关键词</view>
+    <view class="tn-muted">查本机篇目的标题和简介。还没输入时不列出全部。</view>
+  </view>
+  <view wx:elif="{{phase === 'none'}}" class="tn-empty">
+    <view class="tn-empty__t">没有匹配的篇目</view>
+    <view class="tn-muted">换个主题名、篇名或关键词试试。</view>
+  </view>
+  <block wx:else>
+  <view
+    wx:for="{{hits}}"
+    class="tn-row"
+    data-id="{{item.id}}"
+    data-kind="{{item.kind}}"
+    data-topic="{{item.topicId}}"
+    bindtap="onOpen"
+  >
+    <view class="tn-row__main">
+      <text class="tn-row__t">{{item.title}}</text>
+      <text class="tn-row__en">{{item.pathLabel}}</text>
+    </view>
+    <text class="tn-row__arrow">›</text>
+  </view>
+  </block>
+</view>

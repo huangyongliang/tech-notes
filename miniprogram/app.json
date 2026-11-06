@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/topics/topics",
+    "pages/recent/recent",
+    "pages/category/category",
+    "pages/reader/reader",
+    "pages/search/search",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#f4efe4",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "tech-notes",
+    "backgroundColor": "#f4efe4",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#5b544b",
+    "selectedColor": "#14110f",
+    "backgroundColor": "#f4efe4",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/topics/topics",
+        "text": "主题",
+        "iconPath": "assets/tab-topics.png",
+        "selectedIconPath": "assets/tab-topics-on.png"
+      },
+      {
+        "pagePath": "pages/recent/recent",
+        "text": "最近",
+        "iconPath": "assets/tab-recent.png",
+        "selectedIconPath": "assets/tab-recent-on.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

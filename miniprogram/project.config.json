@@ -1,0 +1,33 @@
+{
+  "description": "tech-notes 阅读骨架。不要在这个目录里上传或预览发布。",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "bundle": false,
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": false,
+    "useIsolateContext": true,
+    "useCompilerPlugins": ["typescript"],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.6.6",
+  "appid": "touristappid",
+  "projectname": "tech-notes",
+  "condition": {},
+  "editorSetting": {}
+}

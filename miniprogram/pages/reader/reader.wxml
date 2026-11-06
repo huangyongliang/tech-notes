@@ -1,0 +1,34 @@
+<view class="tn-page">
+  <view wx:if="{{missing}}" class="tn-error">
+    <view class="tn-error__t">这篇打不开</view>
+    <view>没有这篇，或它不在当前固定篇目里。</view>
+    <view class="tn-retry" bindtap="retry">重试</view>
+  </view>
+  <block wx:else>
+    <view class="tn-read-h">{{title}}</view>
+    <view class="tn-meta">
+      <text class="tn-pill">{{crumb}}</text>
+      <text>{{minutesLabel}}</text>
+      <view wx:if="{{toc.length}}" class="tn-toc-btn" bindtap="toggleToc">目录 TOC</view>
+    </view>
+    <view wx:if="{{tocOpen}}" class="tn-toc">
+      <view
+        wx:for="{{toc}}"
+        class="tn-toc__item"
+        data-id="{{item.id}}"
+        bindtap="jumpToc"
+      >{{item.text}}</view>
+    </view>
+    <md-blocks blocks="{{blocks}}" base-id="{{docId}}" />
+    <view class="tn-pager">
+      <view class="tn-pager__btn" data-id="{{prev.id}}" bindtap="openNav">
+        <text class="tn-pager__lab">← 上一篇</text>
+        <text class="tn-pager__nm">{{prev ? prev.label : '已是第一篇'}}</text>
+      </view>
+      <view class="tn-pager__btn tn-pager__btn--next" data-id="{{next.id}}" bindtap="openNav">
+        <text class="tn-pager__lab">下一篇 →</text>
+        <text class="tn-pager__nm">{{next ? next.label : '已是最后一篇'}}</text>
+      </view>
+    </view>
+  </block>
+</view>

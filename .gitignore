@@ -22,3 +22,6 @@ node_modules/
 *.log
 _site_src/
 site/
+# WeChat DevTools
+miniprogram/miniprogram_npm/
+miniprogram/project.private.config.json
