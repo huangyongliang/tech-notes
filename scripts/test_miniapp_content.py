@@ -15,6 +15,7 @@ sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import build_miniapp_content as b  # noqa: E402
+import render_mermaid as rm  # noqa: E402
 
 ROOT = HERE.parent
 MINI = ROOT / "miniprogram"
@@ -23,10 +24,10 @@ PAGES = {
     "pages/topics/topics",
     "pages/recent/recent",
     "pages/category/category",
-    "pages/reader/reader",
     "pages/search/search",
     "pages/about/about",
 }
+READER_PAGE = "pages/reader/reader"
 TAB_PAGES = ["pages/topics/topics", "pages/recent/recent"]
 BANNED_UI = ("永亮", "Yongliang", "小鼠", "优鼠", "微鼠", "huangyongliang")
 
@@ -108,6 +109,65 @@ def main() -> None:
     assert tasks[0]["t"] == "ul"
     assert b.plain(tasks[0]["items"][0]["inlines"]).startswith("☐ ")
     continued = b.parse_blocks("- hello\n  world\n")
+    flow = "flowchart LR\n  A[输入设备 Input] --> B[CPU]"
+    assert rm.diagram_alt(flow) == "输入设备 Input"
+    titled = "---\ntitle: 总览\n---\nflowchart LR\n  A[第一步] --> B[第二步]\n"
+    assert rm.diagram_title(titled) == "总览"
+    assert rm.diagram_alt(titled) == "总览"
+    prepared = rm.prepare_source(flow)
+    assert prepared.index("flowchart") < prepared.index("classDef hot")
+    assert "classDef mark" in prepared
+    authored = "flowchart LR\n  A[a]\n  classDef hot fill:#000,color:#fff\n"
+    authored_prepared = rm.prepare_source(authored)
+    assert authored_prepared.count("classDef hot") == 1
+    assert "classDef mark" in authored_prepared
+    sequence = "sequenceDiagram\n  Alice->>Bob: hi\n"
+    assert "classDef" not in rm.prepare_source(sequence)
+    assert rm.diagram_hash(flow) == rm.diagram_hash(flow)
+    assert rm.diagram_hash(flow) != rm.diagram_hash(flow + "\n")
+    import tempfile
+
+    def _boom(_source: str, _dest: Path) -> None:
+        raise RuntimeError("parse error")
+
+    with tempfile.TemporaryDirectory() as tmp_fail:
+        failed = rm.materialize(
+            flow,
+            doc_id="unit",
+            out_dir=Path(tmp_fail),
+            index={},
+            runner=_boom,
+        )
+    assert failed["t"] == "code" and failed["lang"] == "mermaid"
+    assert failed["banner"] == "图表未生成 · 显示源码"
+    assert failed["code"] == flow
+    assert "parse error" in rm.warnings()[-1]
+    rm.clear_warnings()
+    indexed = b.block_text(
+        [
+            {"t": "p", "inlines": [{"t": "text", "v": "正文"}]},
+            {
+                "t": "diagram",
+                "src": "/pages/reader/diagrams/x.png",
+                "w": 1,
+                "h": 1,
+                "alt": "a",
+                "source": "DIAGRAM_TOKEN",
+            },
+            {
+                "t": "code",
+                "lang": "mermaid",
+                "code": "FAILED_TOKEN",
+                "banner": "图表未生成 · 显示源码",
+            },
+            {"t": "code", "lang": "c", "code": "int x;"},
+        ]
+    )
+    assert "DIAGRAM_TOKEN" not in indexed
+    assert "FAILED_TOKEN" not in indexed
+    assert "int x;" in indexed
+    assert "正文" in indexed
+
     assert b.plain(continued[0]["items"][0]["inlines"]) == "hello world"
     deep = b.parse_blocks("1. parent\n    - child\n        - grand\n")
     grand = deep[0]["items"][0]["blocks"][0]["items"][0]["blocks"][0]
@@ -147,6 +207,58 @@ def main() -> None:
         text = (ROOT / item["path"]).read_text(encoding="utf-8")
         fold_markers += text.count("<summary>参考答案</summary>")
     assert kinds["fold"] == fold_markers
+
+    fence_count = 0
+    for item in catalog["docs"].values():
+        text = (ROOT / item["path"]).read_text(encoding="utf-8")
+        fence_count += len(re.findall(r"^```mermaid\s*$", text, re.M))
+    assert kinds.get("diagram", 0) == fence_count
+    assert fence_count >= 1
+    diagram_bytes = 0
+    seen_src: set[str] = set()
+    for item in catalog["docs"].values():
+        search_row = next(row for row in catalog["search"] if row["id"] == item["id"])
+
+        def check_blocks(blocks: list) -> None:
+            nonlocal diagram_bytes
+            for block in blocks:
+                if block.get("t") == "diagram":
+                    assert block["src"].startswith("/pages/reader/diagrams/")
+                    assert block["src"].endswith(".png")
+                    assert not block["src"].endswith(".dark.png")
+                    assert block["w"] > 0 and block["h"] > 0
+                    assert block["alt"] and block["source"]
+                    assert "classDef hot" not in block["source"]
+                    png = MINI / block["src"].lstrip("/")
+                    assert png.is_file(), png
+                    diagram_bytes += png.stat().st_size
+                    seen_src.add(block["src"])
+                    assert block["source"].lower() not in search_row["bodyText"]
+                if block.get("t") == "code" and block.get("lang") == "mermaid":
+                    assert block.get("banner") == "图表未生成 · 显示源码"
+                    assert block.get("code") not in search_row["bodyText"]
+                child = block.get("blocks")
+                if isinstance(child, list):
+                    check_blocks(child)
+                if block.get("t") in {"ul", "ol"}:
+                    for entry in block.get("items") or []:
+                        nested = entry.get("blocks")
+                        if isinstance(nested, list):
+                            check_blocks(nested)
+
+        check_blocks(item["blocks"])
+    assert seen_src
+    assert diagram_bytes < 1_800_000
+    small = catalog["docs"]["programming-basics/06-small-projects"]
+    small_search = next(row for row in catalog["search"] if row["id"] == small["id"])
+    assert "stderr 报错" not in small_search["bodyText"]
+    for png in (MINI / "pages" / "reader" / "diagrams").glob("*.png"):
+        assert f"/pages/reader/diagrams/{png.name}" in seen_src
+    for path in MINI.rglob("*.png"):
+        if "node_modules" in path.parts:
+            continue
+        rel = path.relative_to(MINI).as_posix()
+        assert rel.startswith("pages/reader/diagrams/") or rel.startswith("assets/"), rel
 
     option_re = re.compile(r"^[A-D]\.\s")
     nested_quizzes = 0
@@ -258,14 +370,23 @@ def main() -> None:
     app = json.loads((MINI / "app.json").read_text(encoding="utf-8"))
     assert app["pages"][0] == "pages/topics/topics"
     assert set(app["pages"]) == PAGES
+    assert READER_PAGE not in app["pages"]
+    reader_pkg = next(item for item in app["subPackages"] if item["root"] == "pages/reader")
+    assert reader_pkg["pages"] == ["reader"]
+    assert reader_pkg.get("name") == "reader"
+    for rule in (
+        app["preloadRule"]["pages/topics/topics"],
+        app["preloadRule"]["pages/category/category"],
+        app["preloadRule"]["pages/search/search"],
+    ):
+        assert "reader" in rule["packages"]
     tab_pages = [item["pagePath"] for item in app["tabBar"]["list"]]
     assert tab_pages == TAB_PAGES
     assert app["tabBar"]["custom"] is True
-    assert "pages/reader/reader" not in tab_pages
+    assert READER_PAGE not in tab_pages
     assert [item["text"] for item in app["tabBar"]["list"]] == ["主题", "最近"]
     for hidden in (
         "pages/category/category",
-        "pages/reader/reader",
         "pages/search/search",
         "pages/about/about",
     ):
@@ -300,6 +421,7 @@ def main() -> None:
         "components/code-block/code-block.wxml",
         "components/answer-fold/answer-fold.wxml",
         "components/md-blocks/md-blocks.wxml",
+        "components/diagram/diagram.wxml",
     ):
         assert (MINI / rel).is_file(), rel
 

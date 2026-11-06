@@ -4,6 +4,7 @@
     "md-blocks": "/components/md-blocks/md-blocks",
     "callout": "/components/callout/callout",
     "code-block": "/components/code-block/code-block",
+    "diagram": "/components/diagram/diagram",
     "answer-fold": "/components/answer-fold/answer-fold"
   }
 }

@@ -40,10 +40,21 @@
 
 - `components/callout` — `> [!NOTE|TIP|WARNING]`
 - `components/code-block` — 围栏代码，横向滚动，复制
+- `components/diagram` — mermaid 围栏。构建期用 mmdc 出 PNG，阅读页用原生 image，点按 `wx.previewImage`
 - `components/answer-fold` — summary 为「参考答案」的 `<details>`，默认收起
 - 普通 `>` 引用不是 callout
 
-不使用 `web-view`，也不在运行时拉取远程渲染器。
+图放在阅读分包 `pages/reader/diagrams/`（`app.json` 的 `subPackages`），不进主包。文件名是源码、主题和 mermaid 版本的哈希；没变就跳过重渲。渲染失败或图片加载失败时，降级成代码块，上面一条灰色提示「图表未生成 · 显示源码」，构建继续并打 WARNING。搜索正文和摘要都不收录图的源码。
+
+重新出图（缓存命中时不用这些工具）：
+
+```bash
+cd scripts/mermaid && npm ci
+# 需要本机 Chrome、fonts-noto-cjk（Noto Sans CJK SC）、pngquant
+python3 scripts/build_miniapp_content.py
+```
+
+不使用 `web-view`，也不在运行时拉取远程渲染器。暗色图不在这一版生成，文件名留给以后的 `<hash>.dark.png`。
 
 ## 检查
 

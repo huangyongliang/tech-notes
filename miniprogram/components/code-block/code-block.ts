@@ -4,6 +4,7 @@ Component({
   properties: {
     lang: { type: String, value: "text" },
     code: { type: String, value: "" },
+    banner: { type: String, value: "" },
   },
   methods: {
     onCopy() {

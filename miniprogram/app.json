@@ -3,10 +3,30 @@
     "pages/topics/topics",
     "pages/recent/recent",
     "pages/category/category",
-    "pages/reader/reader",
     "pages/search/search",
     "pages/about/about"
   ],
+  "subPackages": [
+    {
+      "root": "pages/reader",
+      "name": "reader",
+      "pages": ["reader"]
+    }
+  ],
+  "preloadRule": {
+    "pages/topics/topics": {
+      "network": "all",
+      "packages": ["reader"]
+    },
+    "pages/category/category": {
+      "network": "all",
+      "packages": ["reader"]
+    },
+    "pages/search/search": {
+      "network": "all",
+      "packages": ["reader"]
+    }
+  },
   "window": {
     "navigationBarBackgroundColor": "#f4efe4",
     "navigationBarTextStyle": "black",

@@ -52,6 +52,7 @@ export function proseFromBlocks(blocks: Block[]): string {
       switch (block.t) {
         case "code":
         case "fold":
+        case "diagram":
           break;
         case "h":
           parts.push(block.text);

@@ -1,0 +1,22 @@
+/* Square nodes. Mermaid's base theme rounds flowchart rects; v2 cards are radius 0. */
+.node rect,
+.node circle,
+.node ellipse,
+.node polygon,
+.node path,
+.cluster rect,
+.actor,
+rect {
+  rx: 0 !important;
+  ry: 0 !important;
+}
+
+.nodeLabel,
+.edgeLabel,
+.label,
+text,
+div,
+span,
+foreignObject {
+  font-family: "Noto Sans CJK SC", sans-serif !important;
+}
