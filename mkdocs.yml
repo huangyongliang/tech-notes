@@ -73,6 +73,21 @@ nav:
       - 05 计算机网络: topics/cs-basics/05-networking/README.md
       - 06 数据结构与算法: topics/cs-basics/06-data-structures-algorithms/README.md
       - 07 数据库基础: topics/cs-basics/07-databases/README.md
+      - 计算机理论: topics/cs-theory/README.md
+      - 01 命题与谓词: topics/cs-theory/01-logic/README.md
+      - 02 集合、关系与函数: topics/cs-theory/02-sets-relations-functions/README.md
+      - 03 证明与归纳: topics/cs-theory/03-proofs-induction/README.md
+      - 04 组合计数与递推: topics/cs-theory/04-counting-recurrences/README.md
+      - 05 图的建模与度数: topics/cs-theory/05-graphs-degrees/README.md
+      - 06 路径、连通与遍历: topics/cs-theory/06-walks-connectivity-euler/README.md
+      - 07 树与生成树: topics/cs-theory/07-trees-spanning/README.md
+      - 08 二分图与匹配: topics/cs-theory/08-bipartite-matching/README.md
+      - 09 着色与平面图: topics/cs-theory/09-coloring-planarity/README.md
+      - 10 有向图与依赖顺序: topics/cs-theory/10-digraphs-dag/README.md
+      - 11 最短路与算法证明: topics/cs-theory/11-shortest-path-proofs/README.md
+      - 12 自动机与形式语言: topics/cs-theory/12-automata-languages/README.md
+      - 13 可计算性与停机问题: topics/cs-theory/13-computability/README.md
+      - 14 复杂度与归约: topics/cs-theory/14-complexity-reductions/README.md
       - 编程入门: topics/programming-basics/README.md
       - 01 第一门语言 C 与环境: topics/programming-basics/01-first-language-c/README.md
       - 02 核心概念: topics/programming-basics/02-core-concepts/README.md
@@ -140,6 +155,7 @@ nav:
       - 学习路线: topics/roadmap/README.md
       - 零基础入门: topics/getting-started/README.md
       - 计算机基础: topics/cs-basics/README.md
+      - 计算机理论: topics/cs-theory/README.md
       - 编程入门: topics/programming-basics/README.md
       - 微服务: topics/microservices/README.md
       - 编程: topics/programming/README.md

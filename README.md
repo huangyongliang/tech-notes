@@ -20,6 +20,7 @@
 | 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
 | 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法，5 个子主题 | 🟡 搭建中 |
 | 🧮 [计算机基础 CS Basics](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | 🟡 搭建中 |
+| 📐 [计算机理论 CS Theory](topics/cs-theory/) | 逻辑、图论、可计算性，14 个选修关 | 🟡 搭建中 |
 | 🔧 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C，6 个子主题 | 🟡 搭建中 |
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | 🟡 搭建中 |
@@ -33,7 +34,7 @@
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 > [!TIP]
-> 完全零基础从 [学习路线](topics/roadmap/) 开始；已经会编程的从 [Java 技术栈](topics/java/) 开始。
+> 完全零基础从 [学习路线](topics/roadmap/) 开始；已经会编程的从 [Java 技术栈](topics/java/) 开始。想补逻辑、图论和计算模型，可以并行选读 [计算机理论](topics/cs-theory/)，它不是写出第一个 C 程序的前置。
 
 ## 学习路线
 
