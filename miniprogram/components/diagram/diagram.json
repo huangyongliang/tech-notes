@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "code-block": "/components/code-block/code-block"
+  }
+}

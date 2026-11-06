@@ -1,0 +1,32 @@
+<code-block wx:if="{{failed}}" lang="mermaid" code="{{source}}" banner="{{banner}}" />
+<view wx:else class="tn-fig">
+  <view
+    class="tn-fig__card {{collapsed ? 'tn-fig__card--clip' : ''}}"
+    style="{{collapsed ? 'max-height:' + clipH + 'px' : ''}}"
+    bindtap="onPreview"
+  >
+    <view class="tn-fig__frame">
+      <scroll-view wx:if="{{wide}}" scroll-x class="tn-fig__scroll" enable-flex>
+        <image
+          class="tn-fig__img"
+          src="{{src}}"
+          mode="widthFix"
+          style="width: {{dispW}}px; height: {{dispH}}px"
+          binderror="onImgError"
+          aria-label="{{alt}}"
+        />
+      </scroll-view>
+      <image
+        wx:else
+        class="tn-fig__img tn-fig__img--fit"
+        src="{{src}}"
+        mode="widthFix"
+        binderror="onImgError"
+        aria-label="{{alt}}"
+      />
+    </view>
+    <view wx:if="{{wide}}" class="tn-fig__fade"></view>
+    <view wx:if="{{collapsed}}" class="tn-fig__expand" catchtap="onExpand">展开全图</view>
+  </view>
+  <view class="tn-fig__cap">{{caption}}</view>
+</view>

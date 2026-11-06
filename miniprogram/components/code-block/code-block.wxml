@@ -1,3 +1,5 @@
+<view class="{{banner ? 'tn-code-wrap tn-code-wrap--banner' : 'tn-code-wrap'}}">
+  <view wx:if="{{banner}}" class="tn-code__banner">{{banner}}</view>
 <view class="tn-code">
   <view class="tn-code__bar">
     <text class="tn-code__lang">{{lang || 'text'}}</text>
@@ -7,4 +9,5 @@
     <text class="tn-code__pre" user-select decode>{{code}}</text>
   </scroll-view>
   <view class="tn-code__fade"></view>
+</view>
 </view>

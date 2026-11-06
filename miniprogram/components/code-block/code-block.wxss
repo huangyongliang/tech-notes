@@ -1,3 +1,18 @@
+.tn-code-wrap--banner .tn-code {
+  margin-top: 0;
+}
+
+.tn-code__banner {
+  margin: var(--tn-space-3) 0 0;
+  padding: 12rpx 20rpx;
+  font-family: var(--tn-mono);
+  font-size: var(--tn-fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--tn-muted);
+  background: #d9d3c7;
+  border: 1px solid rgba(20, 17, 15, 0.35);
+}
+
 .tn-code {
   position: relative;
   border: var(--tn-border);

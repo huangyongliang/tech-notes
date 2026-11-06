@@ -21,6 +21,20 @@ assert.equal(prose.includes("CODETOKEN"), false);
 assert.equal(prose.includes("ANSWERTOKEN"), false);
 assert.equal(prose.includes("pinning"), true);
 
+const diagramProse = proseFromBlocks([
+  { t: "p", inlines: [{ t: "text", v: "图旁边的正文" }] },
+  {
+    t: "diagram",
+    src: "/pages/reader/diagrams/abc.png",
+    w: 10,
+    h: 10,
+    alt: "节点",
+    source: "flowchart LR\n  A[DIAGRAMTOKEN]",
+  },
+] as Block[]);
+assert.equal(diagramProse.includes("图旁边的正文"), true);
+assert.equal(diagramProse.includes("DIAGRAMTOKEN"), false);
+
 const quizProse = proseFromBlocks([
   {
     t: "ol",

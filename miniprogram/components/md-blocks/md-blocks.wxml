@@ -42,7 +42,16 @@
     </scroll-view>
 
     <callout wx:elif="{{item.t === 'callout'}}" type="{{item.kind}}" blocks="{{item.blocks}}" base-id="{{baseId}}" />
-    <code-block wx:elif="{{item.t === 'code'}}" lang="{{item.lang}}" code="{{item.code}}" />
+    <diagram
+      wx:elif="{{item.t === 'diagram'}}"
+      src="{{item.src}}"
+      w="{{item.w}}"
+      h="{{item.h}}"
+      alt="{{item.alt}}"
+      source="{{item.source}}"
+      title="{{item.title}}"
+    />
+    <code-block wx:elif="{{item.t === 'code'}}" lang="{{item.lang}}" code="{{item.code}}" banner="{{item.banner}}" />
     <answer-fold wx:elif="{{item.t === 'fold'}}" blocks="{{item.blocks}}" base-id="{{baseId}}" />
   </block>
 </view>

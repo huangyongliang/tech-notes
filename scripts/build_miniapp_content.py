@@ -4,8 +4,9 @@
 Reads only the manifest below, which must match miniprogram/content-selection.json
 (roadmap + 零基础 / 计算机基础 / 编程入门 / Java, 35 paths).
 Writes miniprogram/data/catalog.ts: title metadata plus a block tree
-(callout / code / fold / paragraphs). The miniapp renders that tree with
-native components. No network, no web-view, no runtime Markdown parser.
+(callout / code / diagram / fold / paragraphs). ```mermaid fences are rendered
+to PNGs by scripts/render_mermaid.py (mmdc). The miniapp shows those images
+with native components. No network, no web-view, no runtime Markdown parser.
 
 Usage:
   python3 scripts/build_miniapp_content.py
@@ -18,6 +19,8 @@ import json
 import re
 import sys
 from pathlib import Path
+
+import render_mermaid
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "miniprogram" / "data" / "catalog.ts"
@@ -470,7 +473,11 @@ def block_text(blocks: list[dict]) -> str:
                 nested = item.get("blocks")
                 if isinstance(nested, list):
                     parts.append(block_text(nested))
+        elif kind == "diagram":
+            continue
         elif kind == "code":
+            if block.get("lang") == "mermaid":
+                continue
             parts.append(block.get("code") or "")
         elif kind == "table":
             for row in [block.get("header") or [], *(block.get("rows") or [])]:
@@ -652,6 +659,7 @@ def build_catalog() -> dict:
         raise SystemExit(f"manifest count {len(docs)} != {EXPECTED_DOC_COUNT}")
 
     assert_whitelist(docs)
+    diagram_stats = render_mermaid.attach_diagrams(docs)
 
     return {
         "version": "2026.11",
@@ -668,13 +676,15 @@ def build_catalog() -> dict:
         },
         "docs": docs,
         "search": [search_entry(doc) for doc in docs.values()],
+        "_diagrams": diagram_stats,
     }
 
 
 def render_ts(catalog: dict) -> str:
     # JSON.parse keeps the generated module typed as `any` so `tsc` does not
     # infer a giant literal. Content is still static data, not a remote fetch.
-    payload = json.dumps(catalog, ensure_ascii=False, separators=(",", ":"))
+    public = {key: value for key, value in catalog.items() if key != "_diagrams"}
+    payload = json.dumps(public, ensure_ascii=False, separators=(",", ":"))
     payload = (
         payload.replace("\u2028", "\\u2028")
         .replace("\u2029", "\\u2029")
@@ -693,7 +703,12 @@ def main() -> None:
     catalog = build_catalog()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(render_ts(catalog), encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)} ({catalog['docCount']} docs)")
+    stats = catalog.get("_diagrams") or {}
+    print(
+        f"wrote {OUT.relative_to(ROOT)} ({catalog['docCount']} docs, "
+        f"{stats.get('count', 0)} diagrams, {stats.get('bytes', 0)} png bytes, "
+        f"{stats.get('failures', 0)} render failures)"
+    )
 
 
 if __name__ == "__main__":

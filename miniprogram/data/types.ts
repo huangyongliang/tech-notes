@@ -21,7 +21,16 @@ export type Block =
   | { t: "quote"; blocks: Block[] }
   | { t: "table"; header: Inline[][]; rows: Inline[][][] }
   | { t: "callout"; kind: "note" | "tip" | "warning"; blocks: Block[] }
-  | { t: "code"; lang: string; code: string }
+  | { t: "code"; lang: string; code: string; banner?: string }
+  | {
+      t: "diagram";
+      src: string;
+      w: number;
+      h: number;
+      alt: string;
+      source: string;
+      title?: string;
+    }
   | { t: "fold"; blocks: Block[] };
 
 export interface ChapterRef {

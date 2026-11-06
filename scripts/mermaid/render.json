@@ -1,0 +1,12 @@
+{
+  "mermaid": "12.3.0",
+  "cli": "12.2.0",
+  "scale": 2,
+  "maxWidth": 1400,
+  "pngquant": ["--quality=65-85", "--speed", "1"],
+  "classDefs": {
+    "hot": "fill:#ff4f12,color:#fff,stroke:#14110f",
+    "mark": "fill:#ffd84d,color:#14110f,stroke:#14110f"
+  },
+  "classDefKinds": ["flowchart", "graph", "stateDiagram", "stateDiagram-v2"]
+}
