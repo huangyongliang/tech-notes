@@ -34,7 +34,6 @@
       wx:key="id"
       class="tn-card"
       data-id="{{topic.id}}"
-      data-external="{{topic.external ? 1 : 0}}"
       bindtap="onTopic"
     >
       <text class="tn-card__num">{{topic.num}}</text>
