@@ -200,18 +200,47 @@ def _png_size(path: Path) -> tuple[int, int]:
     return width, height
 
 
-def _fit_width(path: Path, max_width: int, scale: int) -> tuple[int, int, int, int]:
+def _parse_hex(color: str) -> tuple[int, int, int]:
+    text = color.strip().lstrip("#")
+    if len(text) != 6:
+        raise RuntimeError(f"expected #rrggbb paper color, got {color}")
+    return int(text[0:2], 16), int(text[2:4], 16), int(text[4:6], 16)
+
+
+def _error_text(text: str, limit: int = 800) -> str:
+    """Keep the start of an mmdc error. Parse messages are not at the tail."""
+    flat = " ".join(text.split())
+    if len(flat) <= limit:
+        return flat
+    return flat[:limit] + "…"
+
+
+def _fit_width(
+    path: Path,
+    max_width: int,
+    scale: int,
+    pad_px: int,
+    paper: tuple[int, int, int],
+) -> tuple[int, int, int, int]:
+    """Opaque paper canvas, padding, then width cap. Logical size is bitmap / scale."""
     from PIL import Image
 
     with Image.open(path) as image:
-        pixel_w, pixel_h = image.size
-        logical_w = max(1, round(pixel_w / scale))
-        logical_h = max(1, round(pixel_h / scale))
+        rgba = image.convert("RGBA")
+        sheet = Image.new("RGBA", rgba.size, (*paper, 255))
+        sheet.alpha_composite(rgba)
+        pad = max(0, pad_px) * max(1, scale)
+        canvas = Image.new("RGB", (sheet.width + pad * 2, sheet.height + pad * 2), paper)
+        canvas.paste(sheet.convert("RGB"), (pad, pad))
+        pixel_w, pixel_h = canvas.size
         if pixel_w > max_width:
-            new_h = max(1, round(pixel_h * (max_width / pixel_w)))
-            resized = image.resize((max_width, new_h), Image.Resampling.LANCZOS)
-            resized.save(path, "PNG")
-            pixel_w, pixel_h = max_width, new_h
+            pixel_h = max(1, round(pixel_h * (max_width / pixel_w)))
+            pixel_w = max_width
+            canvas = canvas.resize((pixel_w, pixel_h), Image.Resampling.LANCZOS)
+        canvas.save(path, "PNG")
+    # Recompute after the width cap so 1x display size matches the bitmap / scale.
+    logical_w = max(1, round(pixel_w / scale))
+    logical_h = max(1, round(pixel_h / scale))
     return logical_w, logical_h, pixel_w, pixel_h
 
 
@@ -301,7 +330,7 @@ def render_png(source: str, dest: Path) -> None:
                 "-o",
                 str(out),
                 "-b",
-                "transparent",
+                str(pin.get("background") or "#f4efe4"),
                 "-c",
                 str(CONFIG_PATH),
                 "-C",
@@ -314,9 +343,15 @@ def render_png(source: str, dest: Path) -> None:
             ]
             result = subprocess.run(command, capture_output=True, text=True, timeout=120)
             if result.returncode != 0 or not out.is_file():
-                detail = (result.stderr or result.stdout or "mmdc failed").strip()
-                raise RuntimeError(detail[-800:])
-            logical_w, logical_h, _pw, _ph = _fit_width(out, int(pin["maxWidth"]), int(pin["scale"]))
+                detail = _error_text(result.stderr or result.stdout or "mmdc failed")
+                raise RuntimeError(detail or "mmdc failed")
+            logical_w, logical_h, _pw, _ph = _fit_width(
+                out,
+                int(pin["maxWidth"]),
+                int(pin["scale"]),
+                int(pin.get("padPx") or 0),
+                _parse_hex(str(pin.get("background") or "#f4efe4")),
+            )
             _pngquant(out, list(pin.get("pngquant") or []))
             shutil.move(str(out), dest)
             if logical_w <= 0 or logical_h <= 0:
@@ -393,7 +428,7 @@ def materialize(
         png.with_suffix(".size").unlink(missing_ok=True)
         if png.is_file() and digest not in index:
             png.unlink(missing_ok=True)
-        detail = str(exc).replace("\n", " ")[:500]
+        detail = _error_text(str(exc), 500)
         warn(f"mermaid render failed ({doc_id}): {detail}")
         return _failure_node(source)
 
