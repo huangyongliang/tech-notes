@@ -178,7 +178,9 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset .tn2-card--next .tn2-peek > p { grid-template-columns: 1fr; }
 .md-typeset .tn2-peek a { display: block; padding: .45rem .2rem; border-bottom: 1px dashed color-mix(in srgb, var(--tn-ink) 35%, transparent); text-decoration: none; font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .md-typeset .tn2-peek a span { font-family: var(--tn-mono); font-weight: 800; color: var(--tn-hot); margin-right: .6rem; }
-.md-typeset .tn2-peek a:hover { background: var(--tn-ink); color: var(--tn-paper); }
+/* 键盘焦点与悬停同一套反色，避免序号被改成纸色后仍停在纸底上。 */
+.md-typeset .tn2-peek a:hover,
+.md-typeset .tn2-peek a:focus-visible { background: var(--tn-ink); color: var(--tn-paper); transition: none; }
 .tn2-mini { display: flex; margin: .9rem 0 .3rem; }
 .tn2-mini span { font-family: var(--tn-mono); font-size: .66rem; font-weight: 700; padding: .15em .6em; border: 1.5px solid var(--tn-rule); }
 .tn2-mini span + span { border-left: 0; }
@@ -186,9 +188,15 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 
 /* § 03 主题索引：目录行 */
 .md-typeset .tn2-index > p { margin: 0; }
-.md-typeset .tn2-index a { display: grid; grid-template-columns: 3.2rem 1.3fr 2fr 5rem; align-items: center; gap: 1rem; padding: 1rem .6rem; border-bottom: 1px solid color-mix(in srgb, var(--tn-ink) 25%, transparent); color: var(--tn-ink); text-decoration: none; transition: background .12s, padding .12s, opacity .12s; }
-.md-typeset .tn2-index a:hover { background: var(--tn-ink); color: var(--tn-paper); padding-left: 1.2rem; opacity: 1; }
-.md-typeset .tn2-index a:hover .d, .md-typeset .tn2-index a:hover small { color: color-mix(in srgb, var(--tn-paper) 70%, transparent); }
+.md-typeset .tn2-index a { display: grid; grid-template-columns: 3.2rem 1.3fr 2fr 5rem; align-items: center; gap: 1rem; padding: 1rem .6rem; border-bottom: 1px solid color-mix(in srgb, var(--tn-ink) 25%, transparent); color: var(--tn-ink); text-decoration: none; transition: padding .12s, opacity .12s; }
+.md-typeset .tn2-index a:hover,
+.md-typeset .tn2-index a:focus-visible { background: var(--tn-ink); color: var(--tn-paper); opacity: 1; }
+.md-typeset .tn2-index a:focus-visible { transition: none; }
+.md-typeset .tn2-index a:hover { padding-left: 1.2rem; }
+.md-typeset .tn2-index a:hover .d,
+.md-typeset .tn2-index a:hover small,
+.md-typeset .tn2-index a:focus-visible .d,
+.md-typeset .tn2-index a:focus-visible small { color: color-mix(in srgb, var(--tn-paper) 70%, transparent); }
 .tn2-index .n { font-family: var(--tn-mono); font-size: 1.4rem; font-weight: 800; color: var(--tn-hot); }
 .tn2-index .t { font-size: 1.02rem; font-weight: 800; }
 .tn2-index .t small { display: block; font-family: var(--tn-mono); font-size: .62rem; font-weight: 400; color: var(--tn-ink-2); letter-spacing: .04em; text-transform: uppercase; }
@@ -200,7 +208,8 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset .tn2-index a.tn2-todo .n { color: var(--tn-ink-2); }
 .md-typeset .tn2-index a.tn2-todo .t { font-weight: 700; }
 .md-typeset .tn2-index a.tn2-todo:hover, .md-typeset .tn2-index a.tn2-todo:focus-visible { opacity: 1; }
-.md-typeset .tn2-index a.tn2-todo:hover .n { color: var(--tn-hot); }
+.md-typeset .tn2-index a.tn2-todo:hover .n,
+.md-typeset .tn2-index a.tn2-todo:focus-visible .n { color: var(--tn-paper); }
 
 /* § 04 工作流：卡片 + 箭头 */
 .tn2-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.6rem; }
@@ -568,7 +577,8 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   .md-typeset .tn2-index a,
   .tn2-qnode__dot { transition: none; }
   .md-typeset .tn2-btn:hover { transform: none; }
-  .md-typeset .tn2-index a:hover { padding-left: .6rem; }
+  .md-typeset .tn2-index a:hover,
+  .md-typeset .tn2-index a:focus-visible { padding-left: .6rem; }
   .md-typeset .tn2-qnode:hover .tn2-qnode__dot { transform: none; }
   .md-typeset .tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg); }
 }
