@@ -43,8 +43,7 @@
         <text class="tn-card__desc">{{topic.blurb}}</text>
       </view>
       <view class="tn-card__meta">
-        <text class="tn-card__count">{{topic.countLabel}}</text>
-        <text class="tn-badge {{topic.status === 'wip' ? 'tn-badge--wip' : ''}}">{{topic.statusLabel}}</text>
+        <text class="tn-badge">{{topic.countLabel}}</text>
       </view>
     </view>
   </block>
