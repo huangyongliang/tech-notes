@@ -178,7 +178,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">05</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
 
-[<span class="n">06</span><span class="t">AI 技术栈<small>AI Stack</small></span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s">待开始</span>](topics/ai/README.md){ .tn2-todo }
+[<span class="n">06</span><span class="t">AI 技术栈<small>AI Stack</small></span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s s--wip">搭建中</span>](topics/ai/README.md)
 
 [<span class="n">07</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
 

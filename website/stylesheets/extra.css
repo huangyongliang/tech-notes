@@ -380,3 +380,192 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .tn2-qnode__lab i { display: block; font: 400 .5rem var(--tn-mono); font-style: normal; color: var(--tn-ink-2); }
 .md-typeset .tn2-quest ul { margin-left: 0; }
 .md-typeset.tn2-q-mapmode .mermaid { display: none; }
+
+/* ========== R2 P0：文字橙 / 焦点 / 减弱动效 / 提示与答案 ==========
+   装饰填充和线条仍用 --tn-hot。承担信息的文字改用 --tn-hot-text。
+   橙底上的字用 --tn-hot-ink。只覆盖阅读页，不改游戏场景。 */
+:root {
+  --tn-hot-text: #b3320b;
+  --tn-hot-ink: #14110f;
+}
+[data-md-color-scheme="slate"] {
+  --tn-hot-text: #ff6a33;
+  --tn-hot-ink: #14110f;
+}
+
+.md-nav__link--active { color: var(--tn-hot-text) !important; }
+.tn2-index .n { color: var(--tn-hot-text); }
+.md-typeset .tn2-index a:hover .n,
+.md-typeset .tn2-index a:focus-visible .n,
+.md-typeset .tn2-index a.tn2-todo:hover .n,
+.md-typeset .tn2-index a.tn2-todo:focus-visible .n { color: var(--tn-paper); }
+.md-typeset a:hover { color: var(--tn-hot-text); }
+.md-typeset .tn2-peek a span { color: var(--tn-hot-text); }
+.md-typeset .tn2-peek a:hover span,
+.md-typeset .tn2-peek a:focus-visible span { color: var(--tn-paper); }
+.tn2-pbar__note em,
+.tn2-pbar__reset,
+.tn2-qmini__ch > b,
+.md-typeset .tn2-qprog b,
+.tn2-clear__ok,
+.md-typeset a.tn2-clear__next,
+.tn2-route b { color: var(--tn-hot-text); }
+
+/* 正文里橙底上的字（按钮、徽标、通关标记）改为墨色。游戏场景的按钮不在这里。 */
+.tn2-clear__btn,
+.tn2-qchap__head span,
+.tn2-qnode.is-done .tn2-qnode__dot,
+.tn2-qnode--boss.is-done .tn2-qnode__dot,
+.md-typeset .tn2-qmini a.is-done,
+.tn2-qmini__boss.is-done { color: var(--tn-hot-ink); }
+
+.md-typeset a:focus-visible,
+.md-typeset a.focus-visible,
+.md-nav__link:focus-visible,
+.md-nav__link.focus-visible,
+.md-typeset summary:focus-visible,
+.md-typeset summary.focus-visible,
+.md-typeset button:focus-visible,
+.md-typeset button.focus-visible,
+.tn2-clear__btn:focus-visible,
+.tn2-pbar__reset:focus-visible {
+  outline: 3px solid var(--tn-ink);
+  outline-offset: 3px;
+}
+/* Material 的 a:focus 会把字色改成装饰橙，压过按钮字色。焦点时正文链接用文字橙，橙底按钮保持墨字。 */
+.md-typeset a:focus,
+.md-typeset a:focus-visible { color: var(--tn-hot-text); }
+.md-typeset a.tn2-btn--solid:focus,
+.md-typeset a.tn2-btn--solid:focus-visible,
+.md-typeset a.tn2-btn--solid.focus-visible { color: var(--tn-hot-ink); }
+.md-typeset .tn2-cta a.tn2-btn--light:focus,
+.md-typeset .tn2-cta a.tn2-btn--light:focus-visible,
+.md-typeset .tn2-cta a.tn2-btn--light.focus-visible { color: var(--tn-paper); }
+
+/* 提示与参考答案：正文约 16px，summary 点击高度 48px，纸色标题，保留原生折叠。 */
+.md-typeset .admonition,
+.md-typeset details {
+  font-size: .8rem;
+  line-height: 1.8;
+  color: var(--tn-ink);
+}
+.md-typeset .admonition.note,
+.md-typeset .admonition.tip,
+.md-typeset .admonition.warning,
+.md-typeset .admonition.danger,
+.md-typeset .admonition.important,
+.md-typeset details.note,
+.md-typeset details.tip,
+.md-typeset details.warning,
+.md-typeset details.danger,
+.md-typeset details.important,
+.md-typeset details:not([open]) {
+  border: 2px solid var(--tn-rule);
+  border-radius: 0;
+  background: var(--tn-paper);
+  box-shadow: 4px 4px 0 var(--tn-rule);
+  color: var(--tn-ink);
+}
+.md-typeset .admonition.warning,
+.md-typeset details.warning,
+.md-typeset .admonition.danger,
+.md-typeset details.danger { border-left-color: var(--tn-hot-text); }
+.md-typeset .admonition:focus-within,
+.md-typeset details:focus-within,
+.md-typeset .admonition.note:focus-within,
+.md-typeset .admonition.tip:focus-within,
+.md-typeset .admonition.warning:focus-within,
+.md-typeset .admonition.danger:focus-within,
+.md-typeset .admonition.important:focus-within,
+.md-typeset details.note:focus-within,
+.md-typeset details.tip:focus-within,
+.md-typeset details.warning:focus-within,
+.md-typeset details.danger:focus-within,
+.md-typeset details.important:focus-within {
+  box-shadow: 4px 4px 0 var(--tn-rule);
+}
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-family: var(--tn-sans);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  background: var(--tn-paper-2);
+  color: var(--tn-ink);
+  border-radius: 0;
+}
+.md-typeset .note > .admonition-title,
+.md-typeset .tip > .admonition-title,
+.md-typeset .warning > .admonition-title,
+.md-typeset .danger > .admonition-title,
+.md-typeset .important > .admonition-title,
+.md-typeset .note > summary,
+.md-typeset .tip > summary,
+.md-typeset .warning > summary,
+.md-typeset .danger > summary,
+.md-typeset .important > summary {
+  background: var(--tn-paper-2);
+  color: var(--tn-ink);
+}
+.md-typeset summary,
+.md-typeset .admonition-title {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  overflow: visible;
+}
+.md-typeset details:not([open]) > summary { border-radius: 0; }
+.md-typeset details:not([class]) > summary::before { content: none; display: none; }
+.md-typeset details:not([class]) > summary { padding-left: .9rem; }
+.md-typeset .admonition-title::before,
+.md-typeset summary::before,
+.md-typeset summary::after {
+  top: 50%;
+  margin-top: -.5rem;
+}
+.md-typeset .admonition p,
+.md-typeset details p,
+.md-typeset .admonition li,
+.md-typeset details li,
+.md-typeset .admonition code,
+.md-typeset details :not(summary) code { font-size: 1em; }
+
+.md-typeset .admonition.note > .admonition-title,
+.md-typeset .admonition.tip > .admonition-title,
+.md-typeset .admonition.warning > .admonition-title,
+.md-typeset .admonition.danger > .admonition-title,
+.md-typeset .admonition.important > .admonition-title { font-size: 0; }
+.md-typeset .admonition.note > .admonition-title::after,
+.md-typeset .admonition.tip > .admonition-title::after,
+.md-typeset .admonition.warning > .admonition-title::after,
+.md-typeset .admonition.danger > .admonition-title::after,
+.md-typeset .admonition.important > .admonition-title::after {
+  font-family: var(--tn-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+.md-typeset .admonition.note > .admonition-title::after,
+.md-typeset .admonition.important > .admonition-title::after { content: "注意"; color: var(--tn-ink); }
+.md-typeset .admonition.tip > .admonition-title::after { content: "提示"; color: #14110f; background: var(--tn-mark); padding: .05em .45em; }
+.md-typeset .admonition.warning > .admonition-title::after,
+.md-typeset .admonition.danger > .admonition-title::after { content: "警告"; color: var(--tn-hot-text); }
+.md-typeset .warning > .admonition-title::before,
+.md-typeset .danger > .admonition-title::before { background-color: var(--tn-hot-text); }
+.md-typeset .note > .admonition-title::before,
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .important > .admonition-title::before { background-color: var(--tn-ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .tn2-caret { animation: none; opacity: 1; }
+  .md-typeset .tn2-btn,
+  .md-typeset .tn2-index a,
+  .tn2-qnode__dot { transition: none; }
+  .md-typeset .tn2-btn:hover { transform: none; }
+  .md-typeset .tn2-index a:hover { padding-left: .6rem; }
+  .md-typeset .tn2-qnode:hover .tn2-qnode__dot { transform: none; }
+  .md-typeset .tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg); }
+}
