@@ -46,3 +46,33 @@
   font-size: var(--tn-fs-xl);
   font-weight: 700;
 }
+
+.tn-xp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tn-space-2);
+  min-height: var(--tn-tap);
+  margin-bottom: var(--tn-space-3);
+  padding: var(--tn-space-2) var(--tn-space-3);
+  background: var(--tn-bg);
+  border: var(--tn-border);
+  box-sizing: border-box;
+}
+
+.tn-xp__n {
+  font-family: var(--tn-mono);
+  font-size: var(--tn-fs-md);
+  font-weight: 800;
+  color: var(--tn-accent);
+  letter-spacing: 0.04em;
+}
+
+.tn-xp__b {
+  flex: 1;
+  font-family: var(--tn-mono);
+  font-size: var(--tn-fs-xs);
+  line-height: 1.4;
+  color: var(--tn-ink);
+  text-align: right;
+}

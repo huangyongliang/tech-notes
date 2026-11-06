@@ -1,5 +1,6 @@
-import { getCatalog, getDoc } from "../../data/index";
+import { chapterIdSet, getCatalog, getDoc } from "../../data/index";
 import type { Block, TocItem } from "../../data/types";
+import { clearHint as hintFor, loadProgress, toggleChapter } from "../../utils/progress";
 import { pushRecent } from "../../utils/recent";
 
 interface NavRef {
@@ -24,6 +25,20 @@ function neighbors(docId: string): { prev: NavRef | null; next: NavRef | null } 
   return { prev: null, next: null };
 }
 
+function progressFields(id: string, isChapter: boolean): {
+  canClear: boolean;
+  cleared: boolean;
+  clearHint: string;
+} {
+  if (!isChapter) return { canClear: false, cleared: false, clearHint: "" };
+  const view = loadProgress(chapterIdSet(), id);
+  return {
+    canClear: true,
+    cleared: view.checked,
+    clearHint: hintFor(view.checked),
+  };
+}
+
 Page({
   data: {
     docId: "",
@@ -37,9 +52,18 @@ Page({
     prev: null as NavRef | null,
     next: null as NavRef | null,
     anchor: "",
+    canClear: false,
+    cleared: false,
+    clearHint: "",
   },
   onLoad(query: Record<string, string | undefined>) {
     this.load(decodeURIComponent(query.id || ""));
+  },
+  onShow() {
+    if (!this.data.docId || this.data.missing) return;
+    const doc = getDoc(this.data.docId);
+    if (!doc) return;
+    this.setData(progressFields(doc.id, doc.kind === "chapter"));
   },
   load(id: string) {
     const doc = id ? getDoc(id) : null;
@@ -50,7 +74,15 @@ Page({
       return;
     }
     if (!doc) {
-      this.setData({ docId: id, missing: true, blocks: [], tocOpen: false });
+      this.setData({
+        docId: id,
+        missing: true,
+        blocks: [],
+        tocOpen: false,
+        canClear: false,
+        cleared: false,
+        clearHint: "",
+      });
       return;
     }
     const catalog = getCatalog();
@@ -74,6 +106,7 @@ Page({
       prev: edge.prev,
       next: edge.next,
       anchor: "",
+      ...progressFields(doc.id, doc.kind === "chapter"),
     });
     pushRecent({
       id: doc.id,
@@ -98,5 +131,13 @@ Page({
     const id = String(event.currentTarget.dataset.id || "");
     if (!id) return;
     wx.redirectTo({ url: `/pages/reader/reader?id=${encodeURIComponent(id)}` });
+  },
+  onToggleClear() {
+    if (!this.data.canClear || !this.data.docId) return;
+    const view = toggleChapter(this.data.docId, chapterIdSet());
+    this.setData({
+      cleared: view.checked,
+      clearHint: hintFor(view.checked),
+    });
   },
 });

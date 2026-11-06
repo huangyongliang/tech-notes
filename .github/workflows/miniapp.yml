@@ -26,3 +26,6 @@ jobs:
       - name: Link resolver
         working-directory: miniprogram
         run: node --experimental-strip-types ../scripts/miniapp_links.test.ts
+      - name: Chapter progress
+        working-directory: miniprogram
+        run: node --experimental-strip-types ../scripts/miniapp_progress.test.ts

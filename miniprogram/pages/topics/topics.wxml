@@ -15,6 +15,10 @@
     <text class="tn-kicker">大蒜技术栈 / v2026.11</text>
     <view class="tn-about" bindtap="onAbout">关于</view>
   </view>
+  <view class="tn-xp">
+    <text class="tn-xp__n">{{xpLabel}}</text>
+    <text class="tn-xp__b">{{badgeLine}}</text>
+  </view>
   <view class="tn-section">
     <text class="tn-section__n">§ 01</text>
     <text class="tn-section__h">主题索引</text>

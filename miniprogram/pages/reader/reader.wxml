@@ -20,6 +20,10 @@
       >{{item.text}}</view>
     </view>
     <md-blocks blocks="{{blocks}}" base-id="{{docId}}" />
+    <view wx:if="{{canClear}}" class="tn-clear {{cleared ? 'tn-clear--on' : ''}}" bindtap="onToggleClear">
+      <text class="tn-clear__lab">{{cleared ? '已通关' : '通关'}}</text>
+      <text class="tn-clear__xp">{{clearHint}}</text>
+    </view>
     <view class="tn-pager">
       <view class="tn-pager__btn" data-id="{{prev.id}}" bindtap="openNav">
         <text class="tn-pager__lab">← 上一篇</text>
