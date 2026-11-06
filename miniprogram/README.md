@@ -26,9 +26,11 @@
 - `topics/roadmap/README.md`
 - 零基础、计算机基础、编程入门、Java 的主题 README 和全部章节（5 + 7 + 6 + 12）
 
-不把微服务、AI 和其他未收录主题编进正文或搜索。主题页只显示名称，点进去是复制站点链接。游戏模式不进小程序。新增章节也不会自动进来，除非改白名单并且把篇数维持在 35。
+不把微服务、AI 和其他未收录主题编进正文或搜索。主题页只显示名称，点进去是复制站点链接。游戏模式（探索地图、NPC、BOSS）不进小程序。新增章节也不会自动进来，除非改白名单并且把篇数维持在 35。
 
-关于页最下方「清除本机记录」会先确认，然后只删除本机的 `tn_recent_v1` 和 `tn_favorites_v1`，不调用 `wx.clearStorage`，也不上传。
+阅读页只对章节显示「通关 / 已通关」（主题枢纽和路线页没有这个开关）。记在本机 `tn_progress_v1`，值是 `{ cleared: string[] }`，每项是章节 id，每勾一章记 100 XP。主题页用一行字显示合计和徽章：未出发、开了个头、在路上、熟路、路线通关。
+
+关于页最下方「清除本机记录」会先确认，然后只删除本机的 `tn_recent_v1`、`tn_favorites_v1` 和 `tn_progress_v1`，不调用 `wx.clearStorage`，也不上传。
 
 阅读时长：去掉围栏代码、`<details>` 参考答案和链接 URL 后数汉字，400 字/分钟向上取整，最少 1 分钟。`java/05-concurrency` 为 412 字、约 2 分钟。
 
@@ -51,6 +53,7 @@ python3 scripts/test_miniapp_content.py
 cd miniprogram && npm ci && npm run typecheck
 node --experimental-strip-types ../scripts/miniapp_links.test.ts
 node --experimental-strip-types ../scripts/miniapp_search.test.ts
+node --experimental-strip-types ../scripts/miniapp_progress.test.ts
 ```
 
 用微信开发者工具打开本目录即可看结构（`project.config.json` 的 appid 为 `wx9982c4527dbdc2e3`，projectname 为 `大蒜技术栈`）。不要上传、不要预览发布。

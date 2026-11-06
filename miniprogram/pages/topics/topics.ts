@@ -1,9 +1,11 @@
-import { getCatalog } from "../../data/index";
+import { chapterIdSet, getCatalog } from "../../data/index";
 import type { TopicGroup } from "../../data/types";
 import { openAbout, openCategory, openReader, openSearch } from "../../utils/nav";
+import { loadProgress, progressView } from "../../utils/progress";
 import { selectTab } from "../../utils/tab";
 
 const SITE = "https://huangyongliang.github.io/tech-notes/";
+const blankProgress = progressView([], new Set<string>());
 
 interface TopicView {
   id: string;
@@ -137,6 +139,8 @@ Page({
     roadmapTitle: "",
     roadmapEn: "",
     ticker: ["JDK 25 LTS", "Spring Boot 4.1", "Virtual Threads", "RAG"],
+    xpLabel: blankProgress.xpLabel,
+    badgeLine: blankProgress.badgeLine,
   },
   onShow() {
     selectTab(this, 0);
@@ -156,10 +160,13 @@ Page({
         external: false,
       })),
     }));
+    const progress = loadProgress(chapterIdSet());
     this.setData({
       groups: attachExternal(groups),
       roadmapTitle: catalog.roadmap.titleZh,
       roadmapEn: catalog.roadmap.titleEn,
+      xpLabel: progress.xpLabel,
+      badgeLine: progress.badgeLine,
     });
   },
   onSearch() {

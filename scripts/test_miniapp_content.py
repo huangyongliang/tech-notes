@@ -76,6 +76,10 @@ def main() -> None:
     catalog = b.build_catalog()
     assert catalog["docCount"] == 35
     assert len(catalog["docs"]) == 35
+    kind_counts: dict[str, int] = {}
+    for item in catalog["docs"].values():
+        kind_counts[item["kind"]] = kind_counts.get(item["kind"], 0) + 1
+    assert kind_counts == {"chapter": 30, "topic": 4, "roadmap": 1}
 
     doc = catalog["docs"]["java/05-concurrency"]
     assert doc["han"] == 412
@@ -257,6 +261,34 @@ def main() -> None:
     assert "tn_recent_v1" in recent
     assert "tn_favorites_v1" in recent
     assert "removeStorageSync" in recent
+    progress = (MINI / "utils/progress.ts").read_text(encoding="utf-8")
+    assert 'PROGRESS_KEY = "tn_progress_v1"' in progress
+    assert "applyToggle" in progress
+    assert "loadProgress" in progress
+    assert "toggleChapter" in progress
+    assert "clearstorage" not in progress.lower()
+    clear_fn = recent[recent.index("export function clearLocalRecords") : recent.index("export function formatWhen")]
+    assert "RECENT_KEY" in clear_fn
+    assert "FAVORITES_KEY" in clear_fn
+    assert "PROGRESS_KEY" in clear_fn
+    assert "removeStorageSync" in clear_fn
+    assert "clearstorage" not in clear_fn.lower()
+
+    reader_ts = (MINI / "pages/reader/reader.ts").read_text(encoding="utf-8")
+    assert 'doc.kind === "chapter"' in reader_ts
+    assert "chapterIdSet" in reader_ts
+    assert "toggleChapter" in reader_ts
+    assert 'wx:if="{{canClear}}"' in reader_wxml
+    assert "已通关" in reader_wxml
+    assert "通关" in reader_wxml
+    assert "onToggleClear" in reader_wxml
+
+    topics_ts = (MINI / "pages/topics/topics.ts").read_text(encoding="utf-8")
+    topics_wxml = (MINI / "pages/topics/topics.wxml").read_text(encoding="utf-8")
+    assert "loadProgress" in topics_ts
+    assert "{{xpLabel}}" in topics_wxml
+    assert "{{badgeLine}}" in topics_wxml
+    assert "通关/XP 进度" in about_ts
 
     nav_css = (MINI / "components/bottom-nav/bottom-nav.wxss").read_text(encoding="utf-8")
     assert "background: #f4efe4" in nav_css

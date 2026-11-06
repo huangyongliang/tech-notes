@@ -1,1 +1,35 @@
-/* layout lives in app.wxss; body nodes use component tokens */
+.tn-clear {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tn-space-3);
+  min-height: var(--tn-tap);
+  margin-top: var(--tn-space-4);
+  padding: 0 var(--tn-space-3);
+  border: var(--tn-border);
+  background: var(--tn-bg);
+  color: var(--tn-ink);
+  box-shadow: var(--tn-shadow);
+  box-sizing: border-box;
+}
+
+.tn-clear__lab {
+  font-size: var(--tn-fs-md);
+  font-weight: 800;
+}
+
+.tn-clear__xp {
+  font-family: var(--tn-mono);
+  font-size: var(--tn-fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--tn-muted);
+}
+
+.tn-clear--on {
+  background: var(--tn-accent);
+  color: var(--tn-accent-ink);
+}
+
+.tn-clear--on .tn-clear__xp {
+  color: var(--tn-accent-ink);
+}

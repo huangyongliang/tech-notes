@@ -1,6 +1,7 @@
 import type { RecentEntry } from "../data/types";
+import { PROGRESS_KEY } from "./progress";
 
-/** Dedicated keys. Clearing records removes only these two, never the whole store. */
+/** Recent and favorites. Chapter checklist is `tn_progress_v1` (`PROGRESS_KEY`). */
 export const RECENT_KEY = "tn_recent_v1";
 export const FAVORITES_KEY = "tn_favorites_v1";
 
@@ -28,8 +29,9 @@ export function pushRecent(entry: RecentEntry): void {
   wx.setStorageSync(RECENT_KEY, next);
 }
 
+/** Removes recent, favorites, and chapter progress. Does not wipe any other key. */
 export function clearLocalRecords(): void {
-  for (const key of [RECENT_KEY, FAVORITES_KEY]) {
+  for (const key of [RECENT_KEY, FAVORITES_KEY, PROGRESS_KEY]) {
     try {
       wx.removeStorageSync(key);
     } catch {

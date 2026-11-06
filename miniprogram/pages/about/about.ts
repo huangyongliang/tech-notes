@@ -24,7 +24,7 @@ Page({
   onClearRecords() {
     wx.showModal({
       title: "清除本机记录",
-      content: "只删除这台设备上的最近阅读和收藏，不会上传。",
+      content: "只删除这台设备上的最近阅读、收藏和通关/XP 进度，不会上传。",
       confirmText: "清除",
       cancelText: "取消",
       success: (res) => {
