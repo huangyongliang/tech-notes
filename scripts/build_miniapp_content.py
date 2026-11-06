@@ -294,6 +294,75 @@ def checkbox_text(rest: str) -> str:
     return rest
 
 
+def list_kind(marker: str) -> str:
+    return "ol" if marker[:1].isdigit() else "ul"
+
+
+def parse_list(lines: list[str], i: int) -> tuple[dict, int]:
+    """Parse one list, including items nested by indent.
+
+    A deeper marker starts a child list on the previous item (通关自测:
+    numbered stem, then indented ``- A.`` options). Same-indent markers of
+    the other kind end this list. A single blank line does not.
+    """
+    n = len(lines)
+    first = LIST_RE.match(lines[i])
+    if not first:
+        raise RuntimeError("parse_list called on a non-list line")
+    base = len(first.group(1).expandtabs(4))
+    kind = list_kind(first.group(2))
+    items: list[dict] = []
+    while i < n:
+        cur = lines[i]
+        if not cur.strip():
+            nxt = lines[i + 1] if i + 1 < n else ""
+            nxt_m = LIST_RE.match(nxt)
+            if nxt_m:
+                indent = len(nxt_m.group(1).expandtabs(4))
+                nxt_kind = list_kind(nxt_m.group(2))
+                if indent > base or (indent == base and nxt_kind == kind):
+                    i += 1
+                    continue
+            break
+        lm = LIST_RE.match(cur)
+        if lm:
+            indent = len(lm.group(1).expandtabs(4))
+            if indent > base:
+                if not items:
+                    break
+                child, i = parse_list(lines, i)
+                items[-1].setdefault("blocks", []).append(child)
+                continue
+            if indent < base:
+                break
+            marker = lm.group(2)
+            if list_kind(marker) != kind:
+                break
+            rest = checkbox_text(lm.group(3).strip())
+            num = int(marker[:-1]) if kind == "ol" else 0
+            items.append({"n": num, "src": rest})
+            i += 1
+            continue
+        if (
+            items
+            and (cur.startswith("  ") or cur.startswith("\t"))
+            and not is_block_start(cur.strip())
+        ):
+            items[-1]["src"] = join_lines([items[-1]["src"], cur.strip()])
+            i += 1
+            continue
+        break
+    norm_items = []
+    for idx, item in enumerate(items, start=1):
+        entry: dict = {"inlines": parse_inlines(item["src"])}
+        if kind == "ol":
+            entry["n"] = item["n"] or idx
+        if item.get("blocks"):
+            entry["blocks"] = item["blocks"]
+        norm_items.append(entry)
+    return {"t": kind, "items": norm_items}, i
+
+
 def parse_blocks(text: str) -> list[dict]:
     lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
     i = 0
@@ -362,37 +431,8 @@ def parse_blocks(text: str) -> list[dict]:
                 blocks.append({"t": "table", "header": parsed[0], "rows": parsed[1:]})
             continue
         if LIST_RE.match(line):
-            items: list[dict] = []
-            kind = None
-            while i < n:
-                cur = lines[i]
-                if not cur.strip():
-                    nxt = lines[i + 1] if i + 1 < n else ""
-                    if LIST_RE.match(nxt):
-                        i += 1
-                        continue
-                    break
-                lm = LIST_RE.match(cur)
-                if lm:
-                    marker, rest = lm.group(2), checkbox_text(lm.group(3).strip())
-                    if kind is None:
-                        kind = "ol" if marker[:1].isdigit() else "ul"
-                    num = int(marker[:-1]) if marker[:1].isdigit() else 0
-                    items.append({"n": num, "src": rest})
-                    i += 1
-                    continue
-                if (cur.startswith("  ") or cur.startswith("\t")) and items and not is_block_start(cur.strip()):
-                    items[-1]["src"] = join_lines([items[-1]["src"], cur.strip()])
-                    i += 1
-                    continue
-                break
-            norm_items = []
-            for idx, item in enumerate(items, start=1):
-                entry = {"inlines": parse_inlines(item["src"])}
-                if kind == "ol":
-                    entry["n"] = item["n"] or idx
-                norm_items.append(entry)
-            blocks.append({"t": kind or "ul", "items": norm_items})
+            block, i = parse_list(lines, i)
+            blocks.append(block)
             continue
         buf = [line]
         i += 1
@@ -427,6 +467,9 @@ def block_text(blocks: list[dict]) -> str:
         elif kind in {"ul", "ol"}:
             for item in block.get("items") or []:
                 parts.append(plain(item.get("inlines") or []))
+                nested = item.get("blocks")
+                if isinstance(nested, list):
+                    parts.append(block_text(nested))
         elif kind == "code":
             parts.append(block.get("code") or "")
         elif kind == "table":

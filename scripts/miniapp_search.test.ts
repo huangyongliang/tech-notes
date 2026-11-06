@@ -21,6 +21,21 @@ assert.equal(prose.includes("CODETOKEN"), false);
 assert.equal(prose.includes("ANSWERTOKEN"), false);
 assert.equal(prose.includes("pinning"), true);
 
+const quizProse = proseFromBlocks([
+  {
+    t: "ol",
+    items: [
+      {
+        n: 1,
+        inlines: [{ t: "text", v: "题干" }],
+        blocks: [{ t: "ul", items: [{ inlines: [{ t: "text", v: "A. 寄存器" }] }] }],
+      },
+    ],
+  },
+] as Block[]);
+assert.equal(quizProse.includes("题干"), true);
+assert.equal(quizProse.includes("寄存器"), true);
+
 const hits = queryDocs(
   [
     {

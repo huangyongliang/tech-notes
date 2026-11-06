@@ -45,6 +45,20 @@
 
 .tn-li__b {
   flex: 1;
+  min-width: 0;
+}
+
+.tn-li__nest {
+  margin-top: var(--tn-space-1);
+  padding-left: var(--tn-space-2);
+}
+
+.tn-li__nest .tn-list {
+  margin-bottom: 0;
+}
+
+.tn-li__nest .tn-li:last-child {
+  margin-bottom: 0;
 }
 
 .tn-quote {

@@ -15,6 +15,9 @@
         <text class="tn-li__m">{{item.t === 'ol' ? li.n + '.' : '–'}}</text>
         <view class="tn-li__b">
           <template is="inl" data="{{nodes: li.inlines}}" />
+          <view wx:if="{{li.blocks && li.blocks.length}}" class="tn-li__nest">
+            <md-blocks blocks="{{li.blocks}}" base-id="{{baseId}}" />
+          </view>
         </view>
       </view>
     </view>
