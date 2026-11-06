@@ -289,6 +289,18 @@ def main() -> None:
     assert "{{xpLabel}}" in topics_wxml
     assert "{{badgeLine}}" in topics_wxml
     assert "通关/XP 进度" in about_ts
+    assert "attachExternal" not in topics_ts
+    assert "data-external" not in topics_wxml
+    for hidden_id in (
+        "microservices",
+        "ai",
+        "programming",
+        "web",
+        "systems",
+        "devops",
+        "product-research",
+    ):
+        assert hidden_id not in topics_ts, hidden_id
 
     nav_css = (MINI / "components/bottom-nav/bottom-nav.wxss").read_text(encoding="utf-8")
     assert "background: #f4efe4" in nav_css

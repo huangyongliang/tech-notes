@@ -8,7 +8,7 @@
   "repo": "huangyongliang/tech-notes",
   "notes": [
     "首发仅收录下列 35 个源文档；后续新增 Markdown 不自动进入本版。",
-    "未收录公开主题仅展示名称，并提供网站链接复制入口。",
+    "未收录公开主题不出现在主题页、正文或搜索。",
     "构建和搜索索引只允许 included 里的 35 个路径。"
   ],
   "documentCount": 35,
