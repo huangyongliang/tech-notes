@@ -1,3 +1,4 @@
+import { copyText } from "../../utils/privacy";
 import { clearLocalRecords } from "../../utils/recent";
 
 const SITE_URL = "https://huangyongliang.github.io/tech-notes/";
@@ -5,7 +6,7 @@ const REPO_URL = "https://github.com/huangyongliang/tech-notes";
 const LICENSE_URL = "https://creativecommons.org/licenses/by/4.0/";
 
 function copyLink(data: string): void {
-  wx.setClipboardData({ data });
+  copyText(data, (option) => wx.setClipboardData(option));
 }
 
 Page({

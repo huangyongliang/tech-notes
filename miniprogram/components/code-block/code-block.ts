@@ -1,3 +1,5 @@
+import { copyText } from "../../utils/privacy";
+
 Component({
   properties: {
     lang: { type: String, value: "text" },
@@ -5,7 +7,7 @@ Component({
   },
   methods: {
     onCopy() {
-      wx.setClipboardData({ data: String(this.data.code || "") });
+      copyText(String(this.data.code || ""), (option) => wx.setClipboardData(option));
     },
   },
 });
