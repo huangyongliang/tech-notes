@@ -27,6 +27,8 @@ export type Block =
       src: string;
       w: number;
       h: number;
+      pw: number;
+      ph: number;
       alt: string;
       source: string;
       title?: string;
