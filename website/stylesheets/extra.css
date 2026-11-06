@@ -383,7 +383,9 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 
 /* ========== R2 P0：文字橙 / 焦点 / 减弱动效 / 提示与答案 ==========
    装饰填充和线条仍用 --tn-hot。承担信息的文字改用 --tn-hot-text。
-   橙底上的字用 --tn-hot-ink。只覆盖阅读页，不改游戏场景。 */
+   橙底上的字用 --tn-hot-ink。这个 token 是全局的：首页 .tn2-tag 与
+   .tn2-head span 会变成墨字，游戏入口那份文档上的这两处标签因此对比会变。
+   科幻场景自己的按钮（.start__go 等）仍写死 #fff，不读这个 token。 */
 :root {
   --tn-hot-text: #b3320b;
   --tn-hot-ink: #14110f;
@@ -411,7 +413,8 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset a.tn2-clear__next,
 .tn2-route b { color: var(--tn-hot-text); }
 
-/* 正文里橙底上的字（按钮、徽标、通关标记）改为墨色。游戏场景的按钮不在这里。 */
+/* 正文里橙底上的字（按钮、徽标、通关标记）改为墨色。
+   .start__go 等游戏场景按钮不在这条规则里，它们仍是硬编码白字。 */
 .tn2-clear__btn,
 .tn2-qchap__head span,
 .tn2-qnode.is-done .tn2-qnode__dot,
@@ -547,8 +550,8 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   line-height: 1.4;
   letter-spacing: 0;
 }
-.md-typeset .admonition.note > .admonition-title::after,
-.md-typeset .admonition.important > .admonition-title::after { content: "注意"; color: var(--tn-ink); }
+.md-typeset .admonition.note > .admonition-title::after { content: "注意"; color: var(--tn-ink); }
+.md-typeset .admonition.important > .admonition-title::after { content: "重要"; color: var(--tn-ink); }
 .md-typeset .admonition.tip > .admonition-title::after { content: "提示"; color: #14110f; background: var(--tn-mark); padding: .05em .45em; }
 .md-typeset .admonition.warning > .admonition-title::after,
 .md-typeset .admonition.danger > .admonition-title::after { content: "警告"; color: var(--tn-hot-text); }
