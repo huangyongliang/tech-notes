@@ -61,6 +61,7 @@ Coordinated Restore at Checkpoint：在预热后做检查点，新实例恢复�
 
 - [Spring Boot Native Image](https://docs.spring.io/spring-boot/reference/packaging/native-image/index.html) — Boot 原生镜像
 - [GraalVM Native Image](https://www.graalvm.org/latest/reference-manual/native-image/) — 官方手册
+- [GraalVM CE Builds Releases](https://github.com/graalvm/graalvm-ce-builds/releases) — Community 发行标签，本章 `graal-25.5.5.0.3` 由此核对
 - [OpenJDK CRaC 项目](https://openjdk.org/projects/crac/) — CRaC 概述
 - [Azul CRaC 产品页](https://www.azul.com/products/components/crac/) — 发行说明入口
 - [JEP 444: Virtual Threads](https://openjdk.org/jeps/444) — 虚拟线程
