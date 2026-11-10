@@ -30,6 +30,7 @@
 | 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟡 搭建中 |
 | 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟡 搭建中 |
 | 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题 | 🟡 搭建中 |
+| 🧱 [软件工程理论 Software Engineering Theory](topics/software-engineering/) | 软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题 | 🟡 搭建中 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 

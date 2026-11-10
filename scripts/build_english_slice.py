@@ -32,6 +32,7 @@ SECTION_EN = {
     "编程": "Programming",
     "DevOps": "DevOps",
     "产品调研": "Product Research",
+    "软件工程": "Software Engineering Theory",
     "系统": "Systems",
     "资料": "Sources",
     "关于": "About",

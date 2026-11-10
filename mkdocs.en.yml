@@ -171,6 +171,12 @@ nav:
       - Comparison under Conditions: topics/product-research/02-comparison/README.md
       - Selection Records: topics/product-research/03-selection-records/README.md
       - Invalidation and Revision: topics/product-research/04-invalidation/README.md
+    - Software Engineering Theory:
+      - Software Engineering Theory: topics/software-engineering/README.md
+      - Complexity and Change: topics/software-engineering/01-complexity-change/README.md
+      - Modules and Information Hiding: topics/software-engineering/02-modules-information-hiding/README.md
+      - Specifications and Implementations: topics/software-engineering/03-specification-implementation/README.md
+      - What Verification Can Establish: topics/software-engineering/04-verification/README.md
     - Inbox: topics/inbox/README.md
   - Notes: notes/README.md
   - Sources:

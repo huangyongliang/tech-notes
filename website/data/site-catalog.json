@@ -888,6 +888,46 @@
       "kind": "topic"
     },
     {
+      "path": "topics/software-engineering/01-complexity-change/README.md",
+      "title_zh": "复杂性与变化",
+      "title_en": "Complexity and Change",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/software-engineering/02-modules-information-hiding/README.md",
+      "title_zh": "模块与信息隐藏",
+      "title_en": "Modules and Information Hiding",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/software-engineering/03-specification-implementation/README.md",
+      "title_zh": "规格与实现",
+      "title_en": "Specifications and Implementations",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/software-engineering/04-verification/README.md",
+      "title_zh": "验证能证明什么",
+      "title_en": "What Verification Can Establish",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/software-engineering/README.md",
+      "title_zh": "软件工程理论",
+      "title_en": "Software Engineering Theory",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
       "path": "topics/systems/README.md",
       "title_zh": "系统",
       "title_en": "Systems",
@@ -993,12 +1033,12 @@
     }
   ],
   "counts": {
-    "pages": 119,
+    "pages": 124,
     "translated": 7,
-    "untranslated": 112,
+    "untranslated": 117,
     "editorial": {
       "planned": 0,
-      "building": 119,
+      "building": 124,
       "complete": 0
     }
   },

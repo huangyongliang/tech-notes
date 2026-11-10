@@ -133,8 +133,8 @@ def main() -> int:
         if re.search(r"\d+\s*章", line):
             fail(f"English home still has a hard-coded chapter count: {line}")
     topics = [page for page in catalog["pages"] if page["kind"] == "topic"]
-    if len(topics) != 13 or any(not page.get("title_en") for page in topics):
-        fail("expected 13 topics with English display names")
+    if len(topics) != 14 or any(not page.get("title_en") for page in topics):
+        fail("expected 14 topics with English display names")
     if catalog["counts"]["translated"] != 7 or catalog["counts"]["untranslated"] != catalog["counts"]["pages"] - 7:
         fail("translation counts drifted")
     phrases = {

@@ -188,6 +188,12 @@ nav:
           - 02 对照与条件: topics/product-research/02-comparison/README.md
           - 03 选型记录: topics/product-research/03-selection-records/README.md
           - 04 失效与修订: topics/product-research/04-invalidation/README.md
+      - 软件工程:
+          - topics/software-engineering/README.md
+          - 01 复杂性与变化: topics/software-engineering/01-complexity-change/README.md
+          - 02 模块与信息隐藏: topics/software-engineering/02-modules-information-hiding/README.md
+          - 03 规格与实现: topics/software-engineering/03-specification-implementation/README.md
+          - 04 验证能证明什么: topics/software-engineering/04-verification/README.md
       - Inbox: topics/inbox/README.md
   - 笔记: notes/README.md
   - 资料:
