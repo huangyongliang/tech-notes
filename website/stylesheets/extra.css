@@ -390,6 +390,13 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset .tn2-quest ul { margin-left: 0; }
 .md-typeset.tn2-q-mapmode .mermaid { display: none; }
 
+/* Language switch. Same paper, ink, and hard edge as the rest of the header. */
+.tn-lang { margin-left: auto; font-family: var(--tn-mono); font-size: .68rem; font-weight: 700; }
+.md-header__inner .tn-lang a { color: var(--tn-ink); text-decoration: none; border-bottom: 2px solid transparent; }
+.md-header__inner .tn-lang a[aria-current="true"] { border-bottom-color: var(--tn-hot); }
+.md-header__inner .tn-lang a:focus-visible { outline: 3px solid var(--tn-ink); outline-offset: 3px; }
+.tn-lang-limit { font-size: .8rem; line-height: 1.7; color: var(--tn-ink-2); border: 2px solid var(--tn-rule); background: var(--tn-paper-2); padding: .6rem .8rem; box-shadow: 4px 4px 0 var(--tn-rule); }
+
 /* ========== R2 P0：文字橙 / 焦点 / 减弱动效 / 提示与答案 ==========
    装饰填充和线条仍用 --tn-hot。承担信息的文字改用 --tn-hot-text。
    橙底上的字用 --tn-hot-ink。这个 token 是全局的：首页 .tn2-tag 与

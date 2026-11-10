@@ -1,0 +1,880 @@
+{
+  "version": 1,
+  "labels": {
+    "planned": {
+      "zh": "待开始",
+      "en": "Not started"
+    },
+    "building": {
+      "zh": "搭建中",
+      "en": "In progress"
+    },
+    "complete": {
+      "zh": "已完成",
+      "en": "Complete"
+    }
+  },
+  "note": "editorial is the publishing state of the Chinese page. translation is separate. complete is never inferred from prose. pending_integrations is not applied to pages.",
+  "pages": [
+    {
+      "path": "topics/README.md",
+      "title_zh": "主题索引",
+      "title_en": "Topics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "topics/ai/00-python-bridge/README.md",
+      "title_zh": "Python 速成",
+      "title_en": "Python Bridge",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/01-foundations/README.md",
+      "title_zh": "数学与机器学习基础",
+      "title_en": "Foundations & Math",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/02-dl-frameworks/README.md",
+      "title_zh": "深度学习框架",
+      "title_en": "Deep Learning Frameworks",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/03-transformer-llm/README.md",
+      "title_zh": "Transformer 与大模型原理",
+      "title_en": "Transformer & LLM",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/04-model-landscape/README.md",
+      "title_zh": "模型全景",
+      "title_en": "Model Landscape",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/05-prompt-context/README.md",
+      "title_zh": "提示词与上下文工程",
+      "title_en": "Prompt & Context Engineering",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/06-llm-api-programming/README.md",
+      "title_zh": "LLM API 编程模式",
+      "title_en": "LLM API Programming",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/07-app-frameworks/README.md",
+      "title_zh": "应用开发框架",
+      "title_en": "LLM App Frameworks",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/08-rag/README.md",
+      "title_zh": "检索增强生成",
+      "title_en": "RAG",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/09-agents/README.md",
+      "title_zh": "智能体",
+      "title_en": "Agents",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/10-mcp/README.md",
+      "title_zh": "MCP 协议与开发",
+      "title_en": "Model Context Protocol",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/11-ai-coding-tools/README.md",
+      "title_zh": "AI 编程助手与",
+      "title_en": "IDE AI Coding Tools",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/12-coding-agents/README.md",
+      "title_zh": "编程智能体工作流",
+      "title_en": "Coding Agent Workflows",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/13-code-models-evals/README.md",
+      "title_zh": "代码模型与评测",
+      "title_en": "Code Models & Benchmarks",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/14-fine-tuning/README.md",
+      "title_zh": "微调与对齐",
+      "title_en": "Fine-tuning & Alignment",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/15-inference-serving/README.md",
+      "title_zh": "推理与服务",
+      "title_en": "Inference & Serving",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/16-multimodal/README.md",
+      "title_zh": "多模态",
+      "title_en": "Multimodal",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/17-evals-observability/README.md",
+      "title_zh": "评测与可观测",
+      "title_en": "Evals & Observability",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/18-llmops-infra/README.md",
+      "title_zh": "LLMOps 与",
+      "title_en": "GPU 基础设施 LLMOps & GPU Infra",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/19-security-governance/README.md",
+      "title_zh": "安全与治理",
+      "title_en": "Security & Governance",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/20-trends/README.md",
+      "title_zh": "前沿与趋势",
+      "title_en": "Trends",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/ai/README.md",
+      "title_zh": "AI 技术栈",
+      "title_en": "AI Stack",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/cs-basics/01-computer-organization/README.md",
+      "title_zh": "计算机组成",
+      "title_en": "Computer Organization",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/02-operating-systems/README.md",
+      "title_zh": "操作系统",
+      "title_en": "Operating Systems",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/03-linux-shell/README.md",
+      "title_zh": "Linux 与",
+      "title_en": "Shell Linux & Shell",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/04-git/README.md",
+      "title_zh": "Git 版本控制",
+      "title_en": "Git",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/05-networking/README.md",
+      "title_zh": "计算机网络",
+      "title_en": "Networking",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/06-data-structures-algorithms/README.md",
+      "title_zh": "数据结构与算法",
+      "title_en": "DSA",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/07-databases/README.md",
+      "title_zh": "数据库基础",
+      "title_en": "Databases",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-basics/README.md",
+      "title_zh": "计算机基础",
+      "title_en": "CS Basics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/cs-theory/01-logic/README.md",
+      "title_zh": "命题与谓词",
+      "title_en": "Logic",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/02-sets-relations-functions/README.md",
+      "title_zh": "集合、关系与函数",
+      "title_en": "Sets, Relations and Functions",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/03-proofs-induction/README.md",
+      "title_zh": "证明与归纳",
+      "title_en": "Proofs and Induction",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/04-counting-recurrences/README.md",
+      "title_zh": "组合计数与递推",
+      "title_en": "Counting and Recurrences",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/05-graphs-degrees/README.md",
+      "title_zh": "图的建模与度数",
+      "title_en": "Graphs and Degrees",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/06-walks-connectivity-euler/README.md",
+      "title_zh": "路径、连通与遍历",
+      "title_en": "Walks, Connectivity and Tours",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/07-trees-spanning/README.md",
+      "title_zh": "树与生成树",
+      "title_en": "Trees and Spanning Trees",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/08-bipartite-matching/README.md",
+      "title_zh": "二分图与匹配",
+      "title_en": "Bipartite Graphs and Matchings",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/09-coloring-planarity/README.md",
+      "title_zh": "着色与平面图",
+      "title_en": "Coloring and Planarity",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/10-digraphs-dag/README.md",
+      "title_zh": "有向图与依赖顺序",
+      "title_en": "Digraphs and DAGs",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/11-shortest-path-proofs/README.md",
+      "title_zh": "最短路与算法证明",
+      "title_en": "Shortest Paths and Correctness",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/12-automata-languages/README.md",
+      "title_zh": "自动机与形式语言",
+      "title_en": "Automata and Formal Languages",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/13-computability/README.md",
+      "title_zh": "可计算性与停机问题",
+      "title_en": "Computability and Halting",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/14-complexity-reductions/README.md",
+      "title_zh": "复杂度与归约",
+      "title_en": "Complexity and Reductions",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/cs-theory/README.md",
+      "title_zh": "理论基础",
+      "title_en": "Theoretical Foundations",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/devops/README.md",
+      "title_zh": "DevOps",
+      "title_en": "DevOps",
+      "editorial": "planned",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/getting-started/01-what-is-a-computer/README.md",
+      "title_zh": "认识计算机",
+      "title_en": "What Is a Computer",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/getting-started/02-using-a-computer/README.md",
+      "title_zh": "用好电脑",
+      "title_en": "Using a Computer",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/getting-started/03-internet-basics/README.md",
+      "title_zh": "互联网常识",
+      "title_en": "Internet Basics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/getting-started/04-learning-to-learn/README.md",
+      "title_zh": "学会学习与提问",
+      "title_en": "Learning to Learn",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/getting-started/05-tech-english/README.md",
+      "title_zh": "技术英语",
+      "title_en": "Tech English",
+      "editorial": "building",
+      "translation": "translated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/getting-started/README.md",
+      "title_zh": "零基础入门",
+      "title_en": "Getting Started",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/inbox/README.md",
+      "title_zh": "收件箱",
+      "title_en": "Inbox",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "topics/java/01-language-basics/README.md",
+      "title_zh": "语言基础与新特性",
+      "title_en": "Language Basics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/02-collections/README.md",
+      "title_zh": "集合框架",
+      "title_en": "Collections",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/03-core-advanced/README.md",
+      "title_zh": "异常、泛型、反射与注解",
+      "title_en": "Core Advanced",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/04-io-nio/README.md",
+      "title_zh": "输入输出",
+      "title_en": "IO & NIO",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/05-concurrency/README.md",
+      "title_zh": "并发",
+      "title_en": "Concurrency",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/06-jvm/README.md",
+      "title_zh": "Java 虚拟机",
+      "title_en": "JVM",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/07-build-tools/README.md",
+      "title_zh": "构建工具",
+      "title_en": "Build Tools",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/08-testing/README.md",
+      "title_zh": "测试",
+      "title_en": "Testing",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/09-spring/README.md",
+      "title_zh": "Spring 框架",
+      "title_en": "Spring",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/10-persistence/README.md",
+      "title_zh": "持久层",
+      "title_en": "Persistence",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/11-performance-diagnostics/README.md",
+      "title_zh": "性能与诊断",
+      "title_en": "Performance & Diagnostics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/12-ecosystem-trends/README.md",
+      "title_zh": "生态与新趋势",
+      "title_en": "Ecosystem & Trends",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/java/README.md",
+      "title_zh": "Java 技术栈",
+      "title_en": "Java Stack",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/microservices/01-architecture/README.md",
+      "title_zh": "架构基础与拆分",
+      "title_en": "Architecture & Decomposition",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/02-api-gateway/README.md",
+      "title_zh": "API 网关",
+      "title_en": "API Gateway",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/03-discovery-config/README.md",
+      "title_zh": "注册发现与配置",
+      "title_en": "Discovery & Config",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/04-communication/README.md",
+      "title_zh": "服务通信",
+      "title_en": "Service Communication",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/05-resilience/README.md",
+      "title_zh": "容错与流量治理",
+      "title_en": "Resilience & Traffic",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/06-messaging/README.md",
+      "title_zh": "消息与事件驱动",
+      "title_en": "Messaging & Events",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/07-distributed-transactions/README.md",
+      "title_zh": "分布式事务与一致性",
+      "title_en": "Distributed Transactions",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/08-caching/README.md",
+      "title_zh": "缓存",
+      "title_en": "Caching",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/09-database-sharding/README.md",
+      "title_zh": "数据库与分库分表",
+      "title_en": "Database & Sharding",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/10-observability/README.md",
+      "title_zh": "可观测性",
+      "title_en": "Observability",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/11-security/README.md",
+      "title_zh": "安全",
+      "title_en": "Security",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/12-containers-k8s/README.md",
+      "title_zh": "容器与编排",
+      "title_en": "Containers & Kubernetes",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/13-service-mesh/README.md",
+      "title_zh": "服务网格",
+      "title_en": "Service Mesh",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/14-cicd-gitops/README.md",
+      "title_zh": "持续交付与",
+      "title_en": "GitOps CI/CD & GitOps",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/15-testing/README.md",
+      "title_zh": "测试",
+      "title_en": "Testing",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/16-cloud-native-java/README.md",
+      "title_zh": "性能与云原生",
+      "title_en": "Java Performance & Cloud-Native Java",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/microservices/README.md",
+      "title_zh": "微服务",
+      "title_en": "Microservices",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/product-research/README.md",
+      "title_zh": "产品调研",
+      "title_en": "Product Research",
+      "editorial": "planned",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/programming/README.md",
+      "title_zh": "编程",
+      "title_en": "Programming",
+      "editorial": "planned",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/programming-basics/01-first-language-c/README.md",
+      "title_zh": "第一门语言",
+      "title_en": "C 与环境 First Language: C",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/02-core-concepts/README.md",
+      "title_zh": "核心概念",
+      "title_en": "Core Concepts",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/03-memory-and-data/README.md",
+      "title_zh": "内存与数据",
+      "title_en": "Memory & Data",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/04-tools-debugging/README.md",
+      "title_zh": "工具、调试与测试",
+      "title_en": "Tools & Debugging",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/05-problem-solving/README.md",
+      "title_zh": "问题求解",
+      "title_en": "Problem Solving",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/06-small-projects/README.md",
+      "title_zh": "C 小项目",
+      "title_en": "Small Projects",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming-basics/README.md",
+      "title_zh": "编程入门",
+      "title_en": "Programming Basics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/roadmap/README.md",
+      "title_zh": "从零到",
+      "title_en": "AI 学习路线 Learning Roadmap",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/systems/README.md",
+      "title_zh": "系统",
+      "title_en": "Systems",
+      "editorial": "planned",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "topics/web/README.md",
+      "title_zh": "Web 开发",
+      "title_en": null,
+      "editorial": "planned",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
+      "path": "website/index.md",
+      "title_zh": "技术笔记",
+      "title_en": "tech-notes",
+      "editorial": "building",
+      "translation": "translated",
+      "kind": "home"
+    },
+    {
+      "path": "notes/README.md",
+      "title_zh": "笔记",
+      "title_en": "Notes",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "resources/README.md",
+      "title_zh": "资料",
+      "title_en": "Resources",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "resources/links.md",
+      "title_zh": "链接表",
+      "title_en": "Links",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "title_zh": "贡献指南 (Contributing)",
+      "title_en": null,
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    },
+    {
+      "path": "STYLE.md",
+      "title_zh": "Markdown 展示规范",
+      "title_en": "Markdown Display Guide",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "meta"
+    }
+  ],
+  "counts": {
+    "pages": 102,
+    "translated": 2,
+    "untranslated": 100,
+    "editorial": {
+      "planned": 5,
+      "building": 97,
+      "complete": 0
+    }
+  },
+  "pending_integrations": [
+    {
+      "pr": 33,
+      "url": "https://github.com/huangyongliang/tech-notes/pull/33",
+      "head": "e7e6fdebf1ac5c3b197a6950dd403e7bb44e9735",
+      "base": "b95578b67fcc79e5bed0056b713a4cd846e7b109",
+      "merged": false,
+      "summary": "Open Chinese batch. After it merges, Web and Systems become building, and two new Chinese chapters exist. Those chapters are not English and are not part of the frozen miniapp 35.",
+      "when_merged": [
+        {
+          "path": "topics/web/README.md",
+          "editorial": "building",
+          "translation": "untranslated"
+        },
+        {
+          "path": "topics/systems/README.md",
+          "editorial": "building",
+          "translation": "untranslated"
+        },
+        {
+          "path": "topics/web/origin/README.md",
+          "editorial": "building",
+          "translation": "untranslated",
+          "new_file": true
+        },
+        {
+          "path": "topics/systems/distributed/README.md",
+          "editorial": "building",
+          "translation": "untranslated",
+          "new_file": true
+        }
+      ]
+    }
+  ]
+}
