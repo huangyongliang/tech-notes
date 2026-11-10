@@ -173,8 +173,12 @@ def main() -> int:
         if 'title: "Chinese original:' in built_java:
             fail("fallback markdown title is prefixed")
         h1 = next(line for line in built_java.splitlines() if line.startswith("# "))
-        if "Language Basics" in h1 or "语言基础与新特性" not in h1:
-            fail(f"fallback H1 is mixed or missing: {h1}")
+        if not h1.startswith("# Language basics"):
+            fail(f"fallback H1 is not the English display name: {h1}")
+        if "{#language-basics}" not in h1:
+            fail(f"fallback H1 dropped the old anchor: {h1}")
+        if "语言基础与新特性" not in built_java:
+            fail("fallback body lost the Chinese article")
         if BANNER in built_chapter or BANNER not in built_java:
             fail("builder swapped translated and fallback pages")
         labeled = bes.label_search_index(
@@ -187,8 +191,8 @@ def main() -> int:
         )
         titles = [doc["title"] for doc in labeled["docs"]]
         if titles != [
-            "Chinese original: 语言基础与新特性",
-            "Chinese original: 闯关任务",
+            "Chinese original: Language basics",
+            "Chinese original: Language basics",
             "Tech English",
         ]:
             fail(f"search labels drifted: {titles}")
@@ -198,8 +202,10 @@ def main() -> int:
             fail("english slice picked up unrelated chapters")
     if "Chinese original:" in flat:
         fail("English navigation still prefixes untranslated titles")
-    if "语言基础与新特性" not in flat:
-        fail("English nav dropped the Chinese title")
+    if "语言基础与新特性" in flat:
+        fail("English nav still uses a Chinese chapter title")
+    if "Language basics" not in flat:
+        fail("English nav is missing the English chapter title")
 
     print(
         f"ok pages={counts['pages']} translated={counts['translated']} "

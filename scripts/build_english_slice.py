@@ -8,6 +8,7 @@ config (theme language en), not from rewriting interface strings in JavaScript.
 """
 from __future__ import annotations
 
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -89,7 +90,7 @@ def nav_label(nav_path: str, by_path: dict) -> str:
     page = by_path.get(catalog_path(nav_path))
     if page is None:
         raise SystemExit(f"nav path missing from catalog: {nav_path}")
-    if page.get("kind") == "topic" and page.get("title_en"):
+    if page.get("title_en"):
         return page["title_en"]
     if page["translation"] == "translated":
         return page["title_en"] or page["title_zh"]
@@ -151,26 +152,68 @@ def english_page_location(path: str) -> str:
     return url.strip("/") + "/"
 
 
+def _search_page(location: str) -> str:
+    page = (location or "").split("#", 1)[0]
+    if page and not page.endswith("/"):
+        page += "/"
+    return page
+
+
 def label_search_index(index: dict, catalog: dict) -> dict:
-    """Prefix search hits from untranslated pages. Navigation titles stay plain."""
-    untranslated = {
-        english_page_location(page["path"])
-        for page in catalog["pages"]
-        if page["translation"] == "untranslated"
-    }
+    """English titles in the search index. Untranslated hits stay marked, without CJK."""
+    by_loc = {english_page_location(page["path"]): page for page in catalog["pages"]}
     for doc in index.get("docs") or []:
-        location = doc.get("location") or ""
-        page = location.split("#", 1)[0]
-        if page and not page.endswith("/"):
-            page += "/"
+        page = by_loc.get(_search_page(doc.get("location") or ""))
         title = doc.get("title") or ""
-        if page in untranslated and not title.startswith("Chinese original:"):
-            doc["title"] = "Chinese original: " + title
+        if page and sc.HAN_RE.search(title):
+            title = page.get("title_en") or title
+        if page and page["translation"] == "untranslated" and not str(title).startswith("Chinese original:"):
+            title = "Chinese original: " + title
+        doc["title"] = title
     return index
+
+
+def replace_first_h1(body: str, title: str) -> str:
+    """English H1, keeping an explicit anchor id so old hashes still resolve."""
+    lines = body.splitlines(keepends=True)
+    fence = False
+    done = False
+    out = []
+    for line in lines:
+        opener = line.lstrip()
+        if opener.startswith("```") or opener.startswith("~~~"):
+            fence = not fence
+            out.append(line)
+            continue
+        if not fence and not done and re.match(r"^#\s+\S", line):
+            raw = line.rstrip("\n")
+            pin = re.search(r"\s*(\{#[^}]+\})\s*$", raw)
+            rewritten = "# " + title + ((" " + pin.group(1)) if pin else "")
+            if line.endswith("\n"):
+                rewritten += "\n"
+            out.append(rewritten)
+            done = True
+            continue
+        out.append(line)
+    if not done:
+        raise SystemExit(f"no H1 to retitle: {title}")
+    return "".join(out)
 
 
 def fallback_markdown(page: dict, text: str) -> str:
     front_matter, body = sc.split_front_matter(text)
+    title = page.get("title_en") or page["title_zh"]
+    front_matter = _set_title(front_matter, title)
+    # Section headings stay Chinese with the body. Hide that TOC so the
+    # sidebar only shows the English site nav and the English page title.
+    if not re.search(r"(?m)^\s*-\s*toc\s*$", front_matter):
+        if re.search(r"(?m)^hide:\s*$", front_matter):
+            front_matter = re.sub(r"(?m)^hide:\s*$", "hide:\n  - toc", front_matter, count=1)
+        elif front_matter.startswith("---\n"):
+            front_matter = front_matter.replace("---\n", "---\nhide:\n  - toc\n", 1)
+        else:
+            front_matter = "---\nhide:\n  - toc\n---\n"
+    body = replace_first_h1(body, title)
     banner = (
         '<div class="tn-fallback" lang="en" role="status">'
         + sc.FALLBACK_BANNER
@@ -298,12 +341,12 @@ def render_not_translated(catalog: dict) -> str:
             lines.append("")
             continue
         for page in rows:
-            title = page["title_zh"]
+            title = page.get("title_en") or page["title_zh"]
             rel = english_url(page["path"]).removeprefix("/en/")
             lines.append(
                 f"- <span id=\"{anchor_for(page['path'])}\"></span>"
-                f"**{title}** — Chinese title: {page['title_zh']}. "
-                f"[Same article]({rel}) · [Chinese URL]({_chinese_href(page['path'])})"
+                f"**{title}** — [Same article]({rel}) · "
+                f"[Chinese page]({_chinese_href(page['path'])})"
             )
         lines.append("")
     return "\n".join(lines) + "\n"
@@ -354,6 +397,7 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.footer
+    - navigation.path
     - search.suggest
     - search.highlight
     - content.code.copy
