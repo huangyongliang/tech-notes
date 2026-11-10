@@ -9,9 +9,9 @@ How to read error messages and official documentation. API and command names sta
 | Item | Content |
 |------|---------|
 | Stage | Stage 0, Getting Started · Chapter 5 (last chapter of this stage) |
-| Prerequisites | [Learning to Learn](../04-learning-to-learn/); school-level English. That chapter has no English body yet. |
+| Prerequisites | [Learning and asking questions](../04-learning-to-learn/); school-level English. |
 | Suggested time | 3–5 days to start, then daily reading |
-| What's next | [CS Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
+| What's next | [Computer Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
 
 Keywords, compiler errors, official docs, and most primary sources are in English. The useful vocabulary is small and the sentence patterns repeat. You do not need exam-level English. The goal is narrower: do not freeze on an English error, and finish one page of official documentation with a dictionary.
 
