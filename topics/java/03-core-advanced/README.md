@@ -33,7 +33,9 @@ class ConfigReader {
 
 ## 类型参数在运行时不在了 {#erasure}
 
-泛型擦除是 JLS 的规定：编译之后，类型参数被映射成它们的擦除。运行时的 `List<String>` 和 `List<Integer>` 都只是 `List`。类型变量不是可具体化类型，类实例创建要求那个名字指向一个类或接口，所以不能 `new T()`。`instanceof` 右侧若是参数化类型，类型参数只能是无界通配符，也就是必须可具体化。`List<String>` 带了具体的 `String`，写 `obj instanceof List<String>` 通不过编译。这不是编译器漏做的检查。
+泛型擦除是 JLS 的规定：编译之后，类型参数被映射成它们的擦除。运行时的 `List<String>` 和 `List<Integer>` 都只是 `List`。类型变量不是可具体化类型，类实例创建要求那个名字指向一个类或接口，所以不能 `new T()`。
+
+类型比较形式的 `instanceof` 在编译期另有规则。JLS 15.20.2 要求左侧与右侧 checked cast compatible（§5.5）。Java SE 16 之前，右侧还必须可具体化；这条要求在 Java SE 16 放开。因此 `Object obj; obj instanceof List<String>` 可以编译。规范里的例子是：`List<Integer> x` 写 `x instanceof ArrayList<Integer>` 合法，因为存在从 `List<Integer>` 到 `ArrayList<Integer>` 的转换；`x instanceof ArrayList<String>` 和 `x instanceof ArrayList<Object>` 是编译期错误，因为没有对应的转换，不是因为类型不可具体化。运行时擦除仍然成立：这次测试看不见类型参数。
 
 通配符表示对类型参数只有一部分了解。`List<? extends T>` 取出的元素可以当成 `T`，不能放进一个任意的 `T`，因为实际元素可能是 `T` 的某个子类型。它适合「我只从这里生产元素」。`List<? super T>` 可以放进 `T`，取出来只能当成更宽的类型。它适合「我只向这里消费 `T`」。两边都要读写具体的 `T` 时，通配符帮不上，应写成 `List<T>`。集合上的这种写法见 [Java 02](../02-collections/)，本页不重讲容器选型。
 
@@ -54,20 +56,20 @@ Lombok 和 MapStruct 走的是注解处理器：编译期生成代码或改语�
 ## 常见误读 {#_3}
 
 - 「运行时异常就是可以忽略。」语言只是不强迫你声明它。失败仍然发生。
-- 「不能 `instanceof List<String>` 是编译器的小毛病。」这是擦除和可具体化类型的规定。运行时没有 `String` 这个参数可查。
+- 「`obj instanceof List<String>` 一定编译失败，因为 `List<String>` 不可具体化。」Java SE 16 起，类型比较看的是 checked cast compatible。`Object` 到 `List<String>` 可以转换，所以这句能编译。运行时仍然擦除，测试看不见 `String` 这个参数。
 - 「记住 PECS 口诀就总能选对。」口诀只在「只生产」或「只消费」时成立。又读又写具体的 `T`，通配符会挡住你。
 - 「`MethodHandle` 一定比反射快，并且绕过访问控制。」查找之后少一次按名查找。看不见的成员，查找阶段就会失败。
 
 ## 可选核对 {#core-advanced-check}
 
-定义已经写在上面。这两问只核对擦除和保留期。
+定义已经写在上面。这两问只核对类型比较的编译期规则，以及注解保留期。
 
-1. 为什么不能写 `obj instanceof List<String>`？
+1. `List<Integer> x` 时，`x instanceof ArrayList<Integer>` 和 `x instanceof ArrayList<String>` 分别能不能编译？不能编译的原因是什么？
 2. 注解要在运行时用反射读到，`@Retention` 必须是什么？
 
 <details markdown><summary>参考答案</summary>
 
-1. `List<String>` 不是可具体化类型。类型参数在编译后被擦除，运行时没有 `String` 这个参数可以检查。这是 JLS 的限制。
+1. 前者能编译，因为从 `List<Integer>` 到 `ArrayList<Integer>` 存在转换。后者是编译期错误，因为没有到 `ArrayList<String>` 的转换。依据是 JLS 15.20.2 的 checked cast compatible，不是「必须可具体化」。Java SE 16 之前才要求可具体化。`Object obj; obj instanceof List<String>` 自 Java SE 16 起可以编译。运行时类型参数仍被擦除，测试看不见它们。
 2. `RetentionPolicy.RUNTIME`。`CLASS` 即使进了类文件，标准反射也读不到。`SOURCE` 更早就不在了。
 
 </details>
@@ -78,7 +80,7 @@ Lombok 和 MapStruct 走的是注解处理器：编译期生成代码或改语�
 - [JLS 11.2.3：Exception Checking](https://docs.oracle.com/javase/specs/jls/se25/html/jls-11.html#jls-11.2.3) — 方法体能抛出的受检异常必须写进 `throws`，否则是编译期错误。
 - [JLS 4.6：Type Erasure](https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.6) — 类型参数被擦除。运行时没有单独的 `List<String>`。
 - [JLS 4.7：Reifiable Types](https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.7) — 带具体类型参数的 `List<String>` 不是可具体化类型。
-- [JLS 4.11：Where Types Are Used](https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.11) — `instanceof` 右侧若是参数化类型，类型参数只能是无界通配符。
+- [JLS 15.20.2：The instanceof Operator](https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.20.2) — 类型比较的编译期规则是 checked cast compatible（§5.5）。Java SE 16 起不再要求右侧可具体化。`List<Integer>` 对 `ArrayList<Integer>` 合法；对 `ArrayList<String>` 或 `ArrayList<Object>` 没有转换，所以是编译期错误。
 - [JLS 15.9.1](https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.9.1) — 被实例化的名字必须指向类或接口。类型变量 `T` 不能 `new T()`。
 - [JLS 4.5.1：Type Arguments](https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1) — 通配符表示只掌握类型参数的一部分。只读或只写的使用条件来自这份部分了解。
 - [`java.lang.reflect`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/package-summary.html) — 运行时读取仍被保留的字段、方法和注解。
