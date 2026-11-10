@@ -1,17 +1,17 @@
-# What a computer is {#what-is-a-computer}
+# What is a computer {#what-is-a-computer}
 
-> [Getting Started](../) › What a computer is · [Chinese original](../../../../topics/getting-started/01-what-is-a-computer/)
+> [Getting Started](../) › What is a computer · [Chinese original](../../../../topics/getting-started/01-what-is-a-computer/)
 
 Hardware, software, binary, and units of storage: what a computer is, and what each part does.
 
-## Where this chapter sits {#_1}
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 1 |
-| Before | None |
-| Time | 3–5 days (a rough guide, at 1–2 hours a day) |
-| Next | [Computer organization](../../cs-basics/01-computer-organization/) takes this chapter's CPU, memory, and binary one level deeper |
+| Stage | Stage 0, Getting Started · Chapter 1 |
+| Prerequisites | None |
+| Suggested time | 3–5 days (a rough guide, at 1–2 hours a day) |
+| What's next | [Computer organization](../../cs-basics/01-computer-organization/) takes this chapter's CPU, memory, and binary one level deeper |
 
 This chapter has no code. The goal is a map of the computer: which parts the machine is made of, what role software plays, and why information can be written with 0 and 1. Every later chapter uses that map again.
 
@@ -114,7 +114,7 @@ Disk makers label "1 TB" in decimal, meaning 10¹² bytes. Windows counts by 102
 
 ## Check yourself {#_12}
 
-Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next lesson.
+Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next chapter.
 
 1. Which of these still holds its data after the machine is turned off?
     - A. Memory (RAM)

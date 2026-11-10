@@ -4,14 +4,14 @@
 
 How to read error messages and official documentation. API and command names stay in English on purpose.
 
-## Where this chapter sits {#_1}
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 5 (last lesson of this stage) |
-| Before | [Learning to Learn](../04-learning-to-learn/); school-level English. That chapter has no English body yet. |
-| Time | 3–5 days to start, then daily reading |
-| Next | [CS Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
+| Stage | Stage 0, Getting Started · Chapter 5 (last chapter of this stage) |
+| Prerequisites | [Learning to Learn](../04-learning-to-learn/); school-level English. That chapter has no English body yet. |
+| Suggested time | 3–5 days to start, then daily reading |
+| What's next | [CS Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
 
 Keywords, compiler errors, official docs, and most primary sources are in English. The useful vocabulary is small and the sentence patterns repeat. You do not need exam-level English. The goal is narrower: do not freeze on an English error, and finish one page of official documentation with a dictionary.
 
@@ -123,7 +123,7 @@ I have checked that the file is saved. What am I missing?
 
 ## Check yourself {#_12}
 
-Answer first, then open the fold. A short answer is enough when it has the point. 80% is the bar for the next lesson.
+Answer first, then open the fold. A short answer is enough when it has the point. 80% is the bar for the next chapter.
 
 1. A manual calls a function `deprecated`. That means:
     - A. It has been deleted and cannot be called

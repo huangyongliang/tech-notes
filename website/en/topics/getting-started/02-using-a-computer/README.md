@@ -4,14 +4,14 @@
 
 The keyboard and typing, the operating system's interface, files and directories, installing software, and the shortcuts you use every day.
 
-## Where this chapter sits {#_1}
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 2 |
-| Before | [What a computer is](../01-what-is-a-computer/) |
-| Time | 4–7 days (a rough guide; typing practice has to be daily, and it takes longer) |
-| Next | [Linux and Shell](../../cs-basics/03-linux-shell/) does from the command line what this chapter does in the graphical interface |
+| Stage | Stage 0, Getting Started · Chapter 2 |
+| Prerequisites | [What is a computer](../01-what-is-a-computer/) |
+| Suggested time | 4–7 days (a rough guide; typing practice has to be daily, and it takes longer) |
+| What's next | [Linux and Shell](../../cs-basics/03-linux-shell/) does from the command line what this chapter does in the graphical interface |
 
 A programmer's day is typing, finding files, installing tools, and moving between windows. This chapter makes those basics fluent, so that later, when you learn the command line and write code, your attention stays on what you mean rather than on where to click.
 
@@ -115,7 +115,7 @@ Keep at least two copies of anything important, in different places (the compute
 
 ## Check yourself {#_13}
 
-Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next lesson.
+Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next chapter.
 
 1. The current directory is `/home/alice/Documents`. The relative path `../Downloads` points at:
     - A. `/home/alice/Documents/Downloads`
@@ -147,4 +147,4 @@ Answer on your own first, then open the fold. A short answer counts when it has 
 
 ---
 
-← [Previous: What a computer is](../01-what-is-a-computer/) · [Back to Getting Started](../) · [Next: Internet basics](../03-internet-basics/) →
+← [Previous: What is a computer](../01-what-is-a-computer/) · [Back to Getting Started](../) · [Next: Internet basics](../03-internet-basics/) →

@@ -4,14 +4,14 @@
 
 The Feynman technique, spaced repetition, notes, search, and "How to Ask Questions the Smart Way".
 
-## Where this chapter sits {#_1}
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 4 |
-| Before | [Internet basics](../03-internet-basics/) |
-| Time | 3–5 days to learn the method, then use it again in every later lesson |
-| Next | Every later lesson on this path uses it: notes, the self-check, and searching and asking when you are stuck |
+| Stage | Stage 0, Getting Started · Chapter 4 |
+| Prerequisites | [Internet basics](../03-internet-basics/) |
+| Suggested time | 3–5 days to learn the method, then use it again in every later chapter |
+| What's next | Every later chapter on this path uses it: notes, the self-check, and searching and asking when you are stuck |
 
 The hard part of studying a technical subject on your own is not that the material is hard. It is that you forget what you read, and that you do not know what to do when you are stuck. This chapter gives a method you can carry out: how to get the idea in, how to keep it, how to find the answer yourself, and how to ask someone else when you really cannot.
 
@@ -36,7 +36,7 @@ The method is named after the physicist Feynman (the name was given later; the s
 
 ### Active recall and spaced repetition {#_5}
 
-- **Active recall:** close the book and try to remember. That sticks better than reading it again. Psychology calls this the testing effect, which is why every lesson on this path has a "Check yourself".
+- **Active recall:** close the book and try to remember. That sticks better than reading it again. Psychology calls this the testing effect, which is why every chapter on this path has a "Check yourself".
 - **Spaced repetition:** forgetting is fast at first and then slow. Review once as you are about to forget, and the next review can wait longer (1 day, then 3 days, then 1 week, then 1 month, and so on).
 - **A tool:** flashcard software such as Anki schedules the reviews for you. Anki's traditional scheduler comes from SM-2, and newer versions can use the FSRS scheduler in the deck options. One card asks one thing. The front might say "1 Byte = ? bit" and the back "8".
 
@@ -89,14 +89,14 @@ A good question lets someone else see it at a glance and reproduce it once. Befo
 ## Common mistakes {#_10}
 
 - **Treating "I followed it" as "I learned it".** A video feels clear, and then you cannot write it once it is closed. After every section, do the thing and take the self-check.
-- **Saving a link is not studying.** A hundred links in a folder are worth less than reading one of them carefully. Each lesson on this path recommends only three to six sources, so the list stays short.
+- **Saving a link is not studying.** A hundred links in a folder are worth less than reading one of them carefully. Each chapter on this path recommends only three to six sources, so the list stays short.
 - **Asking the moment you are stuck.** Someone else searching for you teaches you less than searching yourself, and an answer you find yourself is the one you keep. Spend 15–30 minutes investigating before you ask.
 - **A screenshot and no text.** A screenshot cannot be copied or searched. Paste errors and code as text.
 
 ## Practice {#_11}
 
-1. Take "binary" from lesson 1 and, with the Feynman technique, write an explanation of at most 200 characters that a non-specialist can follow.
-2. Install Anki or a similar tool. Turn 10 key ideas from the first three lessons into cards, and review them for a week.
+1. Take "binary" from Chapter 1 and, with the Feynman technique, write an explanation of at most 200 characters that a non-specialist can follow.
+2. Install Anki or a similar tool. Turn 10 key ideas from the first three chapters into cards, and review them for a week.
 3. Search once with each of the four forms in the table, and note which one helped.
 4. Take a problem you hit recently and write it up as a complete question in the style of "How to Ask Questions the Smart Way". You do not have to post it.
 5. Create a learning-log file. Each day, write three lines: what you studied, what you did not understand, and what you will do tomorrow.
@@ -112,7 +112,7 @@ A good question lets someone else see it at a glance and reproduce it once. Befo
 
 ## Check yourself {#_13}
 
-Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next lesson.
+Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next chapter.
 
 1. Which way of reviewing is the most effective for long-term memory?
     - A. Read the whole thing three times just before the exam

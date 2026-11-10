@@ -16,7 +16,7 @@ flowchart LR
 
 | # | Chapter | What it covers | Status |
 |---|---------|----------------|--------|
-| 01 | [What a computer is](01-what-is-a-computer/) | Hardware, software, binary, and units of storage | 🟡 |
+| 01 | [What is a computer](01-what-is-a-computer/) | Hardware, software, binary, and units of storage | 🟡 |
 | 02 | [Using a computer](02-using-a-computer/) | Typing, files, installing software, shortcuts | 🟡 |
 | 03 | [Internet basics](03-internet-basics/) | IP, domain names, HTTP, account security | 🟡 |
 | 04 | [Learning and asking questions](04-learning-to-learn/) | How to study, how to search, how to ask | 🟡 |

@@ -4,14 +4,14 @@
 
 IP addresses, domain names, the browser, HTTP / HTTPS, and account security and password management.
 
-## Where this chapter sits {#_1}
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 3 |
-| Before | [Using a computer](../02-using-a-computer/) |
-| Time | 3–5 days (a rough guide) |
-| Next | [Computer networking](../../cs-basics/05-networking/) expands the layered model, TCP / UDP, and the details of DNS |
+| Stage | Stage 0, Getting Started · Chapter 3 |
+| Prerequisites | [Using a computer](../02-using-a-computer/) |
+| Suggested time | 3–5 days (a rough guide) |
+| What's next | [Computer networking](../../cs-basics/05-networking/) expands the layered model, TCP / UDP, and the details of DNS |
 
 This chapter builds two instincts. One is what happens, behind the scenes, when you open a web page. The other is how to protect your accounts. The first is the starting point for later Web and backend study. The second is something to use starting today.
 
@@ -108,7 +108,7 @@ nslookup github.com
 
 ## Check yourself {#_9}
 
-Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next lesson.
+Answer on your own first, then open the fold. A short answer counts when it has the point. 80% is the bar for the next chapter.
 
 1. Which of these turns the domain name `github.com` into an IP address?
     - A. HTTP
