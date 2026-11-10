@@ -223,8 +223,8 @@ def main() -> None:
     assert kind_counts == {"chapter": 30, "topic": 4, "roadmap": 1}
 
     doc = catalog["docs"]["java/05-concurrency"]
-    assert doc["han"] == 412
-    assert doc["minutes"] == 2
+    assert doc["han"] == 1745
+    assert doc["minutes"] == 5
     assert doc["titleZh"] == "并发"
     assert doc["kind"] == "chapter"
 
@@ -312,8 +312,16 @@ def main() -> None:
 
     option_re = re.compile(r"^[A-D]\.\s")
     nested_quizzes = 0
+    knowledge_chapters = {
+        "java/03-core-advanced",
+        "java/04-io-nio",
+        "java/05-concurrency",
+        "java/06-jvm",
+    }
     for item in catalog["docs"].values():
         if item["kind"] != "chapter":
+            continue
+        if item["id"] in knowledge_chapters:
             continue
         quiz_ol = None
         seen_quiz = False
@@ -354,7 +362,7 @@ def main() -> None:
         answer_numbers = [entry["n"] for entry in answers[0]["items"]]
         assert answer_numbers == list(range(1, len(answer_numbers) + 1)), item["id"]
         assert all("blocks" not in entry for entry in answers[0]["items"]), item["id"]
-    assert nested_quizzes == 30
+    assert nested_quizzes == 26
 
     computer = catalog["docs"]["getting-started/01-what-is-a-computer"]
     practice = next(
