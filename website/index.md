@@ -185,9 +185,9 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">08</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
 
-[<span class="n">09</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md){ .tn2-todo }
+[<span class="n">09</span><span class="t">Web<small>Web</small></span><span class="d">浏览器里的源；前端与后端仍空</span><span class="s s--wip">搭建中</span>](topics/web/README.md)
 
-[<span class="n">10</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md){ .tn2-todo }
+[<span class="n">10</span><span class="t">系统<small>Systems</small></span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础</span><span class="s s--wip">搭建中</span>](topics/systems/README.md)
 
 [<span class="n">11</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md){ .tn2-todo }
 

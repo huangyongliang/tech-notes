@@ -13,8 +13,8 @@
 | [microservices](microservices/) | 微服务体系：网关、治理、消息、可观测、K8s |
 | [ai](ai/) | AI 技术栈：大模型原理、RAG、Agent、MCP、AI 编程、推理部署、安全治理 |
 | [programming](programming/) | 编程语言、算法、设计 |
-| [web](web/) | 前端、后端、协议 |
-| [systems](systems/) | 操作系统、网络、数据库、分布式 |
+| [web](web/) | 浏览器里的源已有一章；前端、后端目录仍空 |
+| [systems](systems/) | 分布式系统模型已有一章；不重复计算机基础里的 OS、网络和 SQL |
 | [devops](devops/) | CI/CD、容器、云 |
 | [product-research](product-research/) | 产品、竞品、技术选型 |
 | [inbox](inbox/) | 未分类暂存区 |
