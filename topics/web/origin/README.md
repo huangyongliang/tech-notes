@@ -1,4 +1,4 @@
-# 浏览器里的源 Browser Origin
+# 浏览器里的源 {#browser-origin}
 
 > [Web](../) › 浏览器里的源
 
