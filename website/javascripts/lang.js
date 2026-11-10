@@ -29,8 +29,10 @@
     if (path === "/") return "/en/";
     return "/en" + path;
   }
+  var EN_ONLY = { "/en/not-translated/": "/" };
   function chineseHref(path) {
     if (path === "/en/") return "/";
+    if (EN_ONLY[path]) return EN_ONLY[path];
     if (path.indexOf("/en/") === 0) return path.slice(3);
     return path;
   }

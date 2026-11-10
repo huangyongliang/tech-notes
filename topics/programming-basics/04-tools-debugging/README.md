@@ -292,7 +292,7 @@ int main(void) {
 
 ## 资料索引
 
-- [GCC 手册：](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html) — 所有警告选项的官方说明（英文）
+- [GCC 手册：Warning Options](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html) — 所有警告选项的官方说明（英文）
 - [AddressSanitizer 文档](https://clang.llvm.org/docs/AddressSanitizer.html) — Clang 官方文档，说明 ASan 能发现的错误类型和用法，GCC 用法相同（英文）
 - [UndefinedBehaviorSanitizer 文档](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html) — UBSan 的各项检查与选项（英文）
 - [GDB 官方文档](https://sourceware.org/gdb/documentation/) — GDB 用户手册，入门先读「A Sample GDB Session」一章（英文）

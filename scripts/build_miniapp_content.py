@@ -489,15 +489,27 @@ def block_text(blocks: list[dict]) -> str:
     return "\n".join(part for part in parts if part)
 
 
+def title_parts(*values) -> list[str]:
+    parts = []
+    for value in values:
+        if value is None:
+            continue
+        text = str(value).strip()
+        if not text or text.lower() == "none":
+            continue
+        parts.append(text)
+    return parts
+
+
 def search_entry(doc: dict) -> dict:
-    title = f"{doc['titleZh']} {doc['titleEn']}".strip()
+    title = " ".join(title_parts(doc.get("titleZh"), doc.get("titleEn")))
     return {
         "id": doc["id"],
         "kind": doc["kind"],
         "topicId": doc["topicId"],
         "title": title,
         "path": doc["path"],
-        "titleText": f"{doc['titleZh']}\n{doc['titleEn']}".lower(),
+        "titleText": "\n".join(title_parts(doc.get("titleZh"), doc.get("titleEn"))).lower(),
         "bodyText": block_text(doc["blocks"]).lower(),
     }
 

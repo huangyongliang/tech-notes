@@ -168,8 +168,8 @@ hello.c:4:9: warning: unused variable ‘unused’ [-Wunused-variable]
 ## 资料索引
 
 - [CS50x Week 1: C](https://cs50.harvard.edu/x/weeks/1/) — 哈佛 CS50 用 C 讲编程入门的第一周，含视频、讲义和自动评测的习题（英文）
-- [GCC 手册：](https://gcc.gnu.org/onlinedocs/gcc/Overall-Options.html) — `-E`、`-S`、`-c`、`-o` 等控制编译阶段的选项（英文）
-- [GCC 手册：C](https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html) — `-std=` 可选的全部 C 标准及默认值（英文）
+- [GCC 手册：Overall Options](https://gcc.gnu.org/onlinedocs/gcc/Overall-Options.html) — `-E`、`-S`、`-c`、`-o` 等控制编译阶段的选项（英文）
+- [GCC 手册：C Dialect Options](https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html) — `-std=` 可选的全部 C 标准及默认值（英文）
 - [Clang C 语言特性支持状态](https://clang.llvm.org/c_status.html) — Clang 各版本对 C23 等标准特性的支持表（英文）
 - [Modern C](https://gustedt.gitlabpages.inria.fr/modern-c/) — 法国 INRIA 研究员 Jens Gustedt 著，面向现代 C 标准的教材，作者提供免费电子版（英文）
 - [Beej's Guide to C Programming](https://beej.us/guide/bgc/) — 轻松易读的免费 C 教程，适合配合本阶段通读（英文）

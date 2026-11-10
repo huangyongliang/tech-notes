@@ -108,7 +108,7 @@ Java 12 个子主题、微服务 16 个子主题都按先后编号，后一节�
 
 <span class="tn2-tag">START HERE · QUEST MAP</span>
 
-### Java 技术栈
+### Java 技术栈 {#java-java-stack}
 
 Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末尾一个 BOSS 章节测验。
 
@@ -128,7 +128,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 <span class="tn2-tag tn2-tag--ghost">NEXT · 02</span>
 
-### 学完进阶：微服务
+### 学完进阶：微服务 {#microservices}
 
 16 个子主题，从架构拆分、服务治理、可观测性到云原生 Java，原理语言中立，以 Java / Spring 实现。
 

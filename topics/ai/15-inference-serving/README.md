@@ -197,7 +197,7 @@ for chunk in stream:
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — 本地 GGUF 推理
 - [llm-d](https://llm-d.ai/) — K8s 原生分布式推理
 - [vLLM 基准 CLI](https://docs.vllm.ai/en/stable/benchmarking/cli/) — 延迟、吞吐与 SLO 压测
-- [vLLM 量化 KV](https://docs.vllm.ai/en/stable/features/quantization/quantized_kvcache/) — KV 精度与容量取舍
+- [vLLM 量化 KV Cache](https://docs.vllm.ai/en/stable/features/quantization/quantized_kvcache/) — KV 精度与容量取舍
 - [vLLM 前缀缓存设计](https://docs.vllm.ai/en/stable/design/prefix_caching/) — 哈希、租户 salt 与安全隔离
 - [TensorRT-LLM 支持矩阵](https://nvidia.github.io/TensorRT-LLM/reference/support-matrix.html) — 模型、精度与硬件支持
 - [GGUF 规范](https://github.com/ggml-org/ggml/blob/master/docs/gguf.md) — 容器格式与量化表示

@@ -61,7 +61,7 @@ flowchart LR
 ## 资料索引
 
 - [Istio Ambient 文档](https://istio.io/latest/docs/ambient/) — 无 sidecar 模式
-- [Istio 1.24 公告（](https://istio.io/latest/news/releases/1.24.x/announcing-1.24/) — GA 说明
+- [Istio 1.24 公告（ambient GA）](https://istio.io/latest/news/releases/1.24.x/announcing-1.24/) — GA 说明
 - [Linkerd Releases 政策](https://linkerd.io/releases/) — edge / stable
 - [Istio 最新文档](https://istio.io/latest/docs/) — 流量管理总览
 

@@ -35,6 +35,8 @@ extra_css:
   - stylesheets/extra.css
 extra_javascript:
   - javascripts/lang.js
+hooks:
+  - scripts/english_page_hook.py
 nav:
   - Home: index.md
   - Roadmap:
@@ -150,14 +152,14 @@ nav:
     - DevOps: topics/devops/README.md
     - AI 技术栈: topics/ai/README.md
     - 产品调研: topics/product-research/README.md
-    - 收件箱: topics/inbox/README.md
-  - 笔记: notes/README.md
+    - Inbox: topics/inbox/README.md
+  - Notes: notes/README.md
   - Sources:
-    - 资料: resources/README.md
-    - 链接表: resources/links.md
+    - Sources: resources/README.md
+    - Links: resources/links.md
   - About:
-    - 贡献指南: CONTRIBUTING.md
-    - Markdown 展示规范: STYLE.md
+    - Contributing: CONTRIBUTING.md
+    - Style guide: STYLE.md
   - Coverage: not-translated.md
 plugins:
   - search:

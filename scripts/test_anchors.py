@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare pinned H1 anchors with the pre-change build snapshot."""
+"""Every heading id from main 3b56fcd must still resolve in this build."""
 from __future__ import annotations
 
 import json
@@ -13,7 +13,7 @@ sys.path.insert(0, str(HERE))
 import site_catalog as sc  # noqa: E402
 
 ROOT = sc.ROOT
-SNAPSHOT = ROOT / "website" / "data" / "h1-anchors.json"
+SNAPSHOT = ROOT / "website" / "data" / "main-anchors.json"
 
 
 def fail(msg: str) -> None:
@@ -34,42 +34,52 @@ def source_heading(path: Path) -> str:
 
 
 def check_sources(snapshot: dict) -> None:
+    if snapshot.get("source_commit") != "3b56fcd5dcf65274afbc4d95fd186517ddac8b4b":
+        fail("anchor baseline is not main 3b56fcd")
     for page in snapshot["pages"]:
+        if not page.get("path"):
+            continue
         line = source_heading(ROOT / page["path"])
         if "{#" in line and page["h1_id"] not in line:
-            fail(f"{page['path']} pins a different id than {page['h1_id']}")
-        visible = re.sub(r"\s*\{#[^}]+\}\s*$", "", line[2:]).strip()
-        old = re.sub(r"&amp;", "&", page.get("old_text") or "")
-        if old and sc.strip_gloss(old) != visible and page["h1_id"] not in line:
-            fail(f"{page['path']} changed without pinning {page['h1_id']}")
+            fail(f"{page['path']} pins a different id than main {page['h1_id']}")
+        if page["h1_id"] == "tech-english" and "{#tech-english}" not in line:
+            fail("Tech English lost the main id tech-english")
+
+
+def page_html(site: Path, url: str) -> Path:
+    if url == "/":
+        return site / "index.html"
+    return site / url.strip("/") / "index.html"
 
 
 def check_site(site: Path, snapshot: dict) -> None:
-    missing = []
+    missing_pages = []
+    missing_ids = []
     for page in snapshot["pages"]:
-        url = page["url"]
-        html_path = site / "index.html" if url == "/" else site / url.strip("/") / "index.html"
+        html_path = page_html(site, page["url"])
         if not html_path.is_file():
-            missing.append(page["url"])
+            missing_pages.append(page["url"])
             continue
         text = html_path.read_text(encoding="utf-8", errors="replace")
-        match = re.search(r'<h1[^>]*\sid="([^"]+)"', text)
-        if not match or match.group(1) != page["h1_id"]:
-            got = match.group(1) if match else "none"
-            fail(f"{page['url']} h1 id is {got}, snapshot {page['h1_id']}")
-    if missing:
-        fail("missing built pages: " + ", ".join(missing[:8]))
+        for anchor in page["ids"]:
+            if f'id="{anchor}"' not in text:
+                missing_ids.append(f"{page['url']}#{anchor}")
+    if missing_pages:
+        fail("main pages missing from this build: " + ", ".join(missing_pages[:8]))
+    if missing_ids:
+        fail("main anchors missing: " + ", ".join(missing_ids[:12]))
 
 
 def main() -> int:
     snapshot = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
     if len(snapshot["pages"]) < 100:
-        fail("anchor snapshot is too small")
+        fail("main anchor snapshot is too small")
     check_sources(snapshot)
     site = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     if site is not None:
         check_site(site, snapshot)
-        print(f"ok anchors={len(snapshot['pages'])} site={site}")
+        total = sum(len(page["ids"]) for page in snapshot["pages"])
+        print(f"ok anchors={len(snapshot['pages'])} ids={total} site={site}")
     else:
         print(f"ok anchors={len(snapshot['pages'])} sources-only")
     return 0

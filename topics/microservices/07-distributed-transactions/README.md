@@ -61,7 +61,7 @@ Apache Seata 2.6.0 提供 AT / TCC / Saga / XA。AT 对业务侵入较低但依�
 ## 资料索引
 
 - [Microservices.io 模式目录](https://microservices.io/patterns/) — Saga / Outbox 等
-- [Seata 文档：何为](https://seata.apache.org/docs/overview/what-is-seata/) — 模式总览
+- [Seata 文档：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 模式总览
 - [Debezium 稳定版文档](https://debezium.io/documentation/reference/stable/) — CDC
 - [Debezium Maven 元数据](https://repo1.maven.org/maven2/io/debezium/debezium-core/maven-metadata.xml) — 版本核对（Final）
 

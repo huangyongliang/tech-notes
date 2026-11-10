@@ -266,7 +266,7 @@ Spring AI 自动配置的 MCP client 是应用级共享对象，不应当作用�
 
 ## 资料索引
 
-- [MCP 规范](https://modelcontextprotocol.io/specification/2026-07-28) — 最新协议规范
+- [MCP 规范 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28) — 最新协议规范
 - [MCP 官方文档](https://modelcontextprotocol.io/docs/getting-started/intro) — 概念与快速上手
 - [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) — 官方 Python SDK
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk) — 官方 TypeScript SDK

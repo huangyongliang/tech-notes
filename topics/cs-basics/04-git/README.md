@@ -149,7 +149,7 @@ git push                           # 之后直接推送
 
 - [Pro Git 中文版](https://git-scm.com/book/zh/v2) — Git 官方推荐的免费书，第 1–3 章覆盖本关全部内容
 - [Learn Git Branching](https://learngitbranching.js.org/?locale=zh_CN) — 可视化闯关练习分支、合并、变基，支持中文
-- [GitHub 快速入门：](https://docs.github.com/zh/get-started/start-your-journey/hello-world) — GitHub 官方中文教程，走通仓库、分支、PR 流程
+- [GitHub 快速入门：Hello World](https://docs.github.com/zh/get-started/start-your-journey/hello-world) — GitHub 官方中文教程，走通仓库、分支、PR 流程
 - [Git 官方文档](https://git-scm.com/docs) — 所有 Git 命令的参考手册（英文）
 - [Oh Shit, Git!?!](https://ohshitgit.com/) — 常见翻车场景和对应的补救命令（英文）
 

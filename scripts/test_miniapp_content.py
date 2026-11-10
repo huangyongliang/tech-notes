@@ -404,10 +404,17 @@ def main() -> None:
     assert "并发" in concurrency["titleText"]
     assert "pinning" not in concurrency["titleText"]
     assert "pinning" in concurrency["bodyText"]
+    for item in search:
+        title = item["title"]
+        assert "None" not in title, title
+        assert not title.endswith(" ")
+        lowered = item["titleText"]
+        assert "\nnone" not in lowered and not lowered.endswith("none"), item["id"]
 
     rendered = b.render_ts(catalog)
     on_disk = (MINI / "data" / "catalog.ts").read_text(encoding="utf-8")
     assert on_disk == rendered, "run python3 scripts/build_miniapp_content.py"
+    assert " None" not in on_disk
 
     tokens = (MINI / "styles" / "tokens.wxss").read_bytes()
     assert hashlib.sha256(tokens).hexdigest() == TOKENS_SHA256

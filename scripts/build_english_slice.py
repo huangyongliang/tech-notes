@@ -71,9 +71,21 @@ def catalog_path(nav_path: str) -> str:
     return nav_path
 
 
+# Site chrome, not article titles. Untranslated chapters keep their Chinese titles.
+INTERFACE_LABELS = {
+    "index.md": "Home",
+    "notes/README.md": "Notes",
+    "resources/README.md": "Sources",
+    "resources/links.md": "Links",
+    "CONTRIBUTING.md": "Contributing",
+    "STYLE.md": "Style guide",
+    "topics/inbox/README.md": "Inbox",
+}
+
+
 def nav_label(nav_path: str, by_path: dict) -> str:
-    if nav_path == "index.md":
-        return "Home"
+    if nav_path in INTERFACE_LABELS:
+        return INTERFACE_LABELS[nav_path]
     page = by_path.get(catalog_path(nav_path))
     if page is None:
         raise SystemExit(f"nav path missing from catalog: {nav_path}")
@@ -328,6 +340,8 @@ extra_css:
   - stylesheets/extra.css
 extra_javascript:
   - javascripts/lang.js
+hooks:
+  - scripts/english_page_hook.py
 nav:
 {indent(nav_yaml)}
 plugins:
