@@ -30,6 +30,7 @@ SECTION_EN = {
     "全部主题": "All topics",
     "Web": "Web",
     "编程": "Programming",
+    "DevOps": "DevOps",
     "系统": "Systems",
     "资料": "Sources",
     "关于": "About",

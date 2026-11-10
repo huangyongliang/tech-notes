@@ -155,7 +155,12 @@ nav:
     - Systems:
       - Systems: topics/systems/README.md
       - Distributed systems model: topics/systems/distributed/README.md
-    - DevOps: topics/devops/README.md
+    - DevOps:
+      - DevOps: topics/devops/README.md
+      - Repeatability: topics/devops/01-repeatability/README.md
+      - Provenance: topics/devops/02-provenance/README.md
+      - Promotion and Gating: topics/devops/03-promotion-gating/README.md
+      - Rollback and Audit: topics/devops/04-rollback-audit/README.md
     - AI: topics/ai/README.md
     - Product Research: topics/product-research/README.md
     - Inbox: topics/inbox/README.md

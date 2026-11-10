@@ -172,7 +172,12 @@ nav:
       - 系统:
           - topics/systems/README.md
           - 分布式模型: topics/systems/distributed/README.md
-      - DevOps: topics/devops/README.md
+      - DevOps:
+          - topics/devops/README.md
+          - 01 可重复性: topics/devops/01-repeatability/README.md
+          - 02 来源与追溯: topics/devops/02-provenance/README.md
+          - 03 晋级与门禁: topics/devops/03-promotion-gating/README.md
+          - 04 回滚与审计: topics/devops/04-rollback-audit/README.md
       - AI: topics/ai/README.md
       - 产品调研: topics/product-research/README.md
       - Inbox: topics/inbox/README.md

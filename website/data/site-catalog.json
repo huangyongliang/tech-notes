@@ -408,10 +408,42 @@
       "kind": "topic"
     },
     {
+      "path": "topics/devops/01-repeatability/README.md",
+      "title_zh": "可重复性",
+      "title_en": "Repeatability",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/devops/02-provenance/README.md",
+      "title_zh": "来源与追溯",
+      "title_en": "Provenance",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/devops/03-promotion-gating/README.md",
+      "title_zh": "晋级与门禁",
+      "title_en": "Promotion and Gating",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/devops/04-rollback-audit/README.md",
+      "title_zh": "回滚与审计",
+      "title_en": "Rollback and Audit",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
       "path": "topics/devops/README.md",
       "title_zh": "DevOps",
       "title_en": "DevOps",
-      "editorial": "planned",
+      "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -905,12 +937,12 @@
     }
   ],
   "counts": {
-    "pages": 108,
+    "pages": 112,
     "translated": 7,
-    "untranslated": 101,
+    "untranslated": 105,
     "editorial": {
-      "planned": 2,
-      "building": 106,
+      "planned": 1,
+      "building": 111,
       "complete": 0
     }
   },

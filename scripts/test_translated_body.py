@@ -56,7 +56,7 @@ def en_ids_from_build(site: Path, rel: str) -> list[str]:
 
 def main() -> int:
     catalog = json.loads(sc.CATALOG_PATH.read_text(encoding="utf-8"))
-    if catalog["counts"]["translated"] != 7 or catalog["counts"]["untranslated"] != 101:
+    if catalog["counts"]["translated"] != 7 or catalog["counts"]["untranslated"] != 105:
         fail(f"translation counts drifted: {catalog['counts']}")
     pages = [
         page["path"]

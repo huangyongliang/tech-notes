@@ -28,7 +28,7 @@
 | 💻 [编程 Programming](topics/programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题 | 🟡 搭建中 |
 | 🌐 [Web](topics/web/) | 浏览器里的源；前端与后端目录仍空 · 1 个子主题 | 🟡 搭建中 |
 | 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟡 搭建中 |
-| 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 · 0 个子主题 | ⚪ 待开始 |
+| 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟡 搭建中 |
 | 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、技术选型 · 0 个子主题 | ⚪ 待开始 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始

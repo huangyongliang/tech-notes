@@ -171,6 +171,10 @@ PAGE_TITLE_EN = {
     "topics/systems/README.md": "Systems",
     "topics/systems/distributed/README.md": "Distributed systems model",
     "topics/devops/README.md": "DevOps",
+    "topics/devops/01-repeatability/README.md": "Repeatability",
+    "topics/devops/02-provenance/README.md": "Provenance",
+    "topics/devops/03-promotion-gating/README.md": "Promotion and Gating",
+    "topics/devops/04-rollback-audit/README.md": "Rollback and Audit",
     "topics/product-research/README.md": "Product Research",
 }
 
