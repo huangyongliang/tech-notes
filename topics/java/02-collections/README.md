@@ -58,7 +58,11 @@ c,a
 
 ### HashMap：桶、扩容，以及必须成对的 equals / hashCode
 
-`HashMap` 用键的 `hashCode` 选桶。桶里冲突变长时，OpenJDK 的实现会在链表长度达到 8 且数组容量至少 64 时把这个桶改成红黑树；容量不够时先扩容。默认负载因子是 0.75，元素个数超过「容量 × 负载因子」就大约扩成两倍。平均查找接近常数，冲突严重时会变差。
+`HashMap` 用键的 `hashCode` 选桶。默认负载因子 `DEFAULT_LOAD_FACTOR` 是 0.75：元素个数超过容量乘以负载因子就 `resize()`，表长大约变成两倍。平均查找接近常数，冲突严重时会变差。
+
+树化不是「链表一到 8 个结点就变成红黑树」。在 OpenJDK 的 jdk21u 标签 `jdk-21.0.12-ga` 里，`TREEIFY_THRESHOLD` 的值是 8，但 `putVal` 挂上新结点时判断的是 `binCount >= TREEIFY_THRESHOLD - 1`。`binCount` 从 0 计，而且不计桶首那个结点，所以同一桶里第 8 个不同的键挂上以后，结点仍是链表上的 `Node`；第 9 个键挂上后才调用 `treeifyBin`。`treeifyBin` 发现表长小于 `MIN_TREEIFY_CAPACITY`（64）时只 `resize()`，不换成 `TreeNode`。表长至少 64 时，才把这个桶改成红黑树。`UNTREEIFY_THRESHOLD` 是 6，用在扩容拆桶时把太短的树拆回链表，不是插入阈值。这是该版本源码里的实现，不是 `java.util.Map` 的接口保证，别的 JDK 可以不同。
+
+2026-11-10 在 Ubuntu OpenJDK 21.0.12.1（`java.runtime.version` 为 `21.0.12.1+1-1-24.04.4-Ubuntu`）上用反射读取 `table`。启动参数是 `--add-opens java.base/java.util=ALL-UNNAMED`。每个键的 `hashCode` 都返回 1，`equals` 只认自己的 `id`，因此它们互不相等、却进同一个桶。`new HashMap<>(64)` 时表长保持 64：第 8 个键的桶首类名是 `java.util.HashMap$Node`，链长 8；第 9 个之后是 `java.util.HashMap$TreeNode`，链长 9。`new HashMap<>(16)` 时第 9 个键仍是 `Node`，表长从 16 扩到 32。对照源码是 [HashMap.java（jdk-21.0.12-ga）](https://github.com/openjdk/jdk21u/blob/jdk-21.0.12-ga/src/java.base/share/classes/java/util/HashMap.java#L260)，插入判断在 [putVal](https://github.com/openjdk/jdk21u/blob/jdk-21.0.12-ga/src/java.base/share/classes/java/util/HashMap.java#L646-L650)，容量门槛在 [treeifyBin](https://github.com/openjdk/jdk21u/blob/jdk-21.0.12-ga/src/java.base/share/classes/java/util/HashMap.java#L761-L764)。
 
 `equals` 为真的两个键必须有相同的 `hashCode`，否则它们会进不同的桶，`get` 找不到已经放进去的值。下面的 `Tag` 只写了 `equals`，`hashCode` 仍是对象身份。
 
@@ -213,11 +217,12 @@ c
 ## 资料索引
 
 - [The Collections Framework](https://docs.oracle.com/javase/tutorial/collections/index.html) — Oracle Java 教程里的集合总览
-- [HashMap（JDK 21 Javadoc）](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html) — 负载因子、树化和实现说明
+- [HashMap（JDK 21 Javadoc）](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html) — 公开 API；树化阈值 8 与表长 64 不写在这份文档里
+- [HashMap.java（jdk-21.0.12-ga）](https://github.com/openjdk/jdk21u/blob/jdk-21.0.12-ga/src/java.base/share/classes/java/util/HashMap.java#L260) — `TREEIFY_THRESHOLD`、`MIN_TREEIFY_CAPACITY` 与 `putVal` 的实现
 - [JEP 431: Sequenced Collections](https://openjdk.org/jeps/431) — `getFirst` / `reversed` 的正式说明
 - [SequencedCollection（JDK 21 Javadoc）](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SequencedCollection.html) — 统一接口
 - [Algorithms, 4th Edition](https://algs4.cs.princeton.edu/home/) — 普林斯顿 COS 226 教材站点，用 Java 讲数据结构和算法
-- [UC Berkeley CS 61B](https://inst.eecs.berkeley.edu/~cs61b/) — 伯克利数据结构课程（Java）
+- [COS 226 Syllabus（Fall 2024）](https://www.cs.princeton.edu/courses/archive/fall24/cos226/) — 普林斯顿公开课纲，Java 数据结构与算法；页面可直接阅读，不经过登录
 
 ## 通关自测
 

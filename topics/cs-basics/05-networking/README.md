@@ -11,7 +11,7 @@
 | 所属阶段 | 阶段 1 计算机基础 · 第 5 关（第二章「数据与网络」） |
 | 前置要求 | [网络基础](../../getting-started/03-internet-basics/) 的概念；[Linux 与 Shell](../03-linux-shell/) 的命令行操作 |
 | 建议用时 | 2–3 周（入门深度） |
-| 后续衔接 | Java 阶段的 [IO 与 NIO](../../java/04-io-nio/) 和 Spring Web 开发都建立在 TCP 与 HTTP 之上。静态图上的连通和最短路可选读 [图与度数](../../cs-theory/05-graphs-degrees/) 和 [最短路证明](../../cs-theory/11-shortest-path-proofs/)，不代替本关协议 |
+| 后续衔接 | Java 阶段的 [IO 与 NIO](../../java/04-io-nio/) 和 Spring Web 开发都建立在 TCP 与 HTTP 之上。静态图上的连通和最短路可选读网站上的 [图与度数](../../cs-theory/05-graphs-degrees/) 和 [最短路证明](../../cs-theory/11-shortest-path-proofs/)，不代替本关协议，也不在小程序打包的 35 篇里 |
 
 零基础入门里已经知道了「输入网址到看到网页」的大致过程，这一关把每一步拆开：数据怎样分层封装、IP 怎样找到目标机器、TCP 怎样保证可靠、DNS 怎样把域名变成地址、HTTP 报文长什么样，以及 HTTPS 多做了什么。
 

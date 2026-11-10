@@ -69,7 +69,11 @@ Point[x=3, y=4]
 
 `sealed` 配合 `permits` 把实现者写死。模式匹配 `switch` 覆盖全部许可类型后，编译器知道没有遗漏，可以不写 `default`。以后多一个实现，没补分支就会编译失败，这正是想要的提醒。
 
+`printf(String, Object...)` 按 JVM 的默认 `Locale` 决定小数点。不传 `Locale` 时，`de_DE` 和 `fr_FR` 会把圆周面积印成 `3,14`。下面传入 `Locale.US`，小数点固定为 `.`。
+
 ```java
+import java.util.Locale;
+
 public class ShapeDemo {
     sealed interface Shape permits Circle, Square {}
     record Circle(double r) implements Shape {}
@@ -83,8 +87,8 @@ public class ShapeDemo {
     }
 
     public static void main(String[] args) {
-        System.out.printf("%.2f%n", area(new Circle(1)));
-        System.out.printf("%.2f%n", area(new Square(2)));
+        System.out.printf(Locale.US, "%.2f%n", area(new Circle(1)));
+        System.out.printf(Locale.US, "%.2f%n", area(new Square(2)));
     }
 }
 ```

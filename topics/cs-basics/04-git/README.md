@@ -11,7 +11,7 @@
 | 所属阶段 | 阶段 1 计算机基础 · 第 4 关（第一章「系统与工具」最后一关） |
 | 前置要求 | [Linux 与 Shell](../03-linux-shell/)：能在终端里导航和编辑文件 |
 | 建议用时 | 1 周入门，之后每天使用中熟练 |
-| 后续衔接 | 从本关起，所有练习代码都放进 Git 仓库；阶段产出 `cs-basics-lab` 仓库也用它管理。提交历史的 DAG 背景可选读 [关系](../../cs-theory/02-sets-relations-functions/) 和 [有向图](../../cs-theory/10-digraphs-dag/)，命令仍以本章为准 |
+| 后续衔接 | 从本关起，所有练习代码都放进 Git 仓库；阶段产出 `cs-basics-lab` 仓库也用它管理。提交历史的 DAG 背景可选读网站上的 [关系](../../cs-theory/02-sets-relations-functions/) 和 [有向图](../../cs-theory/10-digraphs-dag/)。命令仍以本章为准；这两篇不在小程序打包的 35 篇里 |
 
 Git 记录项目每一次修改的快照，让你可以随时回到过去、并行开发不同功能、和别人协作。它是程序员的必备工具，GitHub 等平台在它之上提供远程托管和 Pull Request 协作流程。
 

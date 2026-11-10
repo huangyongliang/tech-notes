@@ -11,7 +11,7 @@
 | 所属阶段 | 阶段 1 计算机基础 · 第 7 关（第二章「数据与网络」最后一关） |
 | 前置要求 | [Linux 与 Shell](../03-linux-shell/) 的终端操作；[数据结构与算法](../06-data-structures-algorithms/) 中的哈希表与树 |
 | 建议用时 | 2–3 周（入门深度） |
-| 后续衔接 | Java 阶段的 [数据持久化](../../java/10-persistence/)（JDBC、ORM）直接建立在本关的 SQL 和事务之上。数学关系可选读 [集合、关系与函数](../../cs-theory/02-sets-relations-functions/)，不覆盖 SQL 的 NULL，也不是写查询的前置 |
+| 后续衔接 | Java 阶段的 [数据持久化](../../java/10-persistence/)（JDBC、ORM）直接建立在本关的 SQL 和事务之上。数学关系可选读网站上的 [集合、关系与函数](../../cs-theory/02-sets-relations-functions/)，不覆盖 SQL 的 NULL，也不是写查询的前置，并且不在小程序打包的 35 篇里 |
 
 几乎所有应用都要把数据长期保存下来并快速查询，关系数据库是最常用的方案。本关用 SQLite 练习：它是一个单文件、零配置的数据库，安装后马上能用，SQL 语法和 MySQL、PostgreSQL 大部分相通。
 

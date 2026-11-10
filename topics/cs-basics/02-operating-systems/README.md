@@ -11,7 +11,7 @@
 | 所属阶段 | 阶段 1 计算机基础 · 第 2 关（第一章「系统与工具」） |
 | 前置要求 | [计算机组成](../01-computer-organization/)；能读懂简单 C 代码（[核心概念](../../programming-basics/02-core-concepts/)） |
 | 建议用时 | 3–4 周（粗略参考，入门深度；读完 OSTEP 需要更久） |
-| 后续衔接 | [Linux 与 Shell](../03-linux-shell/) 会天天用到进程、文件描述符和权限；Java 阶段的 [并发](../../java/05-concurrency/) 建立在本关的线程与锁之上。不变式与终止可选读 [证明与归纳](../../cs-theory/03-proofs-induction/)，依赖成圈可选读 [有向图](../../cs-theory/10-digraphs-dag/)，都不是本关前置 |
+| 后续衔接 | [Linux 与 Shell](../03-linux-shell/) 会天天用到进程、文件描述符和权限；Java 阶段的 [并发](../../java/05-concurrency/) 建立在本关的线程与锁之上。不变式与终止可选读网站上的 [证明与归纳](../../cs-theory/03-proofs-induction/)，依赖成圈可选读 [有向图](../../cs-theory/10-digraphs-dag/)。都不是本关前置，也不在小程序打包的 35 篇里 |
 
 > [!TIP]
 > 路线建议阶段 1 和阶段 2 交叉进行：先通读本关建立概念，学完 C 的指针和内存后，再回来动手跑本关的示例和 OSTEP 的作业。
