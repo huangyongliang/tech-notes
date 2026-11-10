@@ -31,6 +31,7 @@
 | 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟡 搭建中 |
 | 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题 | 🟡 搭建中 |
 | 🧱 [软件工程理论 Software Engineering Theory](topics/software-engineering/) | 软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题 | 🟡 搭建中 |
+| 🛟 [SRE 与高可用 SRE and High Availability](topics/sre/) | 可用性如何被定义与花掉（含义、目标与误差预算、冗余条件、恢复）; 不建监控工具/应急手册目录 · 4 个子主题 | 🟡 搭建中 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 

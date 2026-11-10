@@ -194,6 +194,12 @@ nav:
           - 02 模块与信息隐藏: topics/software-engineering/02-modules-information-hiding/README.md
           - 03 规格与实现: topics/software-engineering/03-specification-implementation/README.md
           - 04 验证能证明什么: topics/software-engineering/04-verification/README.md
+      - SRE:
+          - topics/sre/README.md
+          - 01 可用性的含义: topics/sre/01-availability/README.md
+          - 02 服务水平与误差预算: topics/sre/02-slo-error-budget/README.md
+          - 03 冗余成立的条件: topics/sre/03-redundancy-conditions/README.md
+          - 04 恢复能挽回什么: topics/sre/04-recovery/README.md
       - Inbox: topics/inbox/README.md
   - 笔记: notes/README.md
   - 资料:

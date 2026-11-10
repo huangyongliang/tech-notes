@@ -177,6 +177,12 @@ nav:
       - Modules and Information Hiding: topics/software-engineering/02-modules-information-hiding/README.md
       - Specifications and Implementations: topics/software-engineering/03-specification-implementation/README.md
       - What Verification Can Establish: topics/software-engineering/04-verification/README.md
+    - SRE and High Availability:
+      - SRE and High Availability: topics/sre/README.md
+      - What Availability Means: topics/sre/01-availability/README.md
+      - Service Levels and Error Budgets: topics/sre/02-slo-error-budget/README.md
+      - Conditions for Redundancy: topics/sre/03-redundancy-conditions/README.md
+      - What Recovery Can Restore: topics/sre/04-recovery/README.md
     - Inbox: topics/inbox/README.md
   - Notes: notes/README.md
   - Sources:

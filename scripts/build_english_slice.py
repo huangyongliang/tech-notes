@@ -33,6 +33,7 @@ SECTION_EN = {
     "DevOps": "DevOps",
     "产品调研": "Product Research",
     "软件工程": "Software Engineering Theory",
+    "SRE": "SRE and High Availability",
     "系统": "Systems",
     "资料": "Sources",
     "关于": "About",

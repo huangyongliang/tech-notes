@@ -928,6 +928,46 @@
       "kind": "topic"
     },
     {
+      "path": "topics/sre/01-availability/README.md",
+      "title_zh": "可用性的含义",
+      "title_en": "What Availability Means",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/sre/02-slo-error-budget/README.md",
+      "title_zh": "服务水平与误差预算",
+      "title_en": "Service Levels and Error Budgets",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/sre/03-redundancy-conditions/README.md",
+      "title_zh": "冗余成立的条件",
+      "title_en": "Conditions for Redundancy",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/sre/04-recovery/README.md",
+      "title_zh": "恢复能挽回什么",
+      "title_en": "What Recovery Can Restore",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/sre/README.md",
+      "title_zh": "SRE 与高可用",
+      "title_en": "SRE and High Availability",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "topic"
+    },
+    {
       "path": "topics/systems/README.md",
       "title_zh": "系统",
       "title_en": "Systems",
@@ -1033,12 +1073,12 @@
     }
   ],
   "counts": {
-    "pages": 124,
+    "pages": 129,
     "translated": 7,
-    "untranslated": 117,
+    "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 124,
+      "building": 129,
       "complete": 0
     }
   },

@@ -184,6 +184,11 @@ PAGE_TITLE_EN = {
     "topics/software-engineering/02-modules-information-hiding/README.md": "Modules and Information Hiding",
     "topics/software-engineering/03-specification-implementation/README.md": "Specifications and Implementations",
     "topics/software-engineering/04-verification/README.md": "What Verification Can Establish",
+    "topics/sre/README.md": "SRE and High Availability",
+    "topics/sre/01-availability/README.md": "What Availability Means",
+    "topics/sre/02-slo-error-budget/README.md": "Service Levels and Error Budgets",
+    "topics/sre/03-redundancy-conditions/README.md": "Conditions for Redundancy",
+    "topics/sre/04-recovery/README.md": "What Recovery Can Restore",
     "topics/product-research/01-problem-constraints/README.md": "Problems and Constraints",
     "topics/product-research/02-comparison/README.md": "Comparison under Conditions",
     "topics/product-research/03-selection-records/README.md": "Selection Records",
@@ -372,8 +377,8 @@ def homepage_statuses(root: Path | None = None) -> dict[str, str]:
         if label not in HOMEPAGE_STATUS:
             raise ValueError(f"unknown homepage status {label} for {href}")
         found[href] = HOMEPAGE_STATUS[label]
-    if len(found) != 14:
-        raise ValueError(f"expected 14 homepage topic rows, found {len(found)}")
+    if len(found) != 15:
+        raise ValueError(f"expected 15 homepage topic rows, found {len(found)}")
     return found
 
 
@@ -460,8 +465,8 @@ def status_comment(page: dict, count: int, lang: str) -> str:
 
 def topic_order_from(text: str) -> list[str]:
     order = [match.group("href") for match in INDEX_ROW_RE.finditer(text)]
-    if len(order) != 14:
-        raise ValueError(f"expected 14 homepage topic rows, found {len(order)}")
+    if len(order) != 15:
+        raise ValueError(f"expected 15 homepage topic rows, found {len(order)}")
     return order
 
 
@@ -563,8 +568,8 @@ def apply_homepage(text: str, catalog: dict) -> str:
         )
 
     rewritten, count = INDEX_ROW_RE.subn(repl, text)
-    if count != 14:
-        raise ValueError(f"expected 14 homepage rows, rewrote {count}")
+    if count != 15:
+        raise ValueError(f"expected 15 homepage rows, rewrote {count}")
     rewritten = re.sub(r"(### [^<\n]+?)\s*<small>.*?</small>", r"\1", rewritten)
     marker = '<p class="tn2-lede">整个笔记本的目录。高亮的正在搭建，灰色的还没开始。</p>'
     note = (
@@ -907,8 +912,8 @@ def apply_readme(text: str, catalog: dict) -> str:
         return f"{match.group(1)} {desc} | {label} |"
 
     updated, count = README_ROW_RE.subn(repl, text)
-    if count != 14:
-        raise ValueError(f"expected 14 README topic rows, rewrote {count}")
+    if count != 15:
+        raise ValueError(f"expected 15 README topic rows, rewrote {count}")
     theory = subtopic_count(catalog, "topics/cs-theory/README.md")
     updated, tip = re.subn(
         r"这 (?:\d+ 章|\d+ 个子主题)",
