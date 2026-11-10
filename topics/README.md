@@ -12,7 +12,7 @@
 | [Java 技术栈](java/) | Java 语言、JVM、Spring 生态 |
 | [微服务](microservices/) | 微服务体系：网关、治理、消息、可观测、K8s |
 | [AI 技术栈](ai/) | AI 技术栈：大模型原理、RAG、Agent、MCP、AI 编程、推理部署、安全治理 |
-| [编程](programming/) | 编程语言、算法、设计 |
+| [编程](programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 |
 | [Web](web/) | 浏览器里的源已有 1 个子主题；前端、后端目录仍空 |
 | [系统](systems/) | 分布式系统模型已有 1 个子主题；不重复计算机基础里的 OS、网络和 SQL |
 | [DevOps](devops/) | CI/CD、容器、云 |

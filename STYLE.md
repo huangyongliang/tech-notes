@@ -87,7 +87,7 @@ flowchart LR
 | ☕ [Java](topics/java/) | 语言、JVM、Spring 生态 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s | 🟡 搭建中 |
 | 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署 | ⚪ 待开始 |
-| 💻 [编程 Programming](topics/programming/) | 语言、算法、设计 | ⚪ 待开始 |
+| 💻 [编程 Programming](topics/programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 | ⚪ 待开始 |
 | 🌐 [Web](topics/web/) | 前端、后端、协议 | ⚪ 待开始 |
 | 🖥️ [系统 Systems](topics/systems/) | OS、网络、数据库、分布式 | ⚪ 待开始 |
 | 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 | ⚪ 待开始 |
