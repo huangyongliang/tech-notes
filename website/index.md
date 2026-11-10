@@ -28,6 +28,7 @@ topics/
 ├── roadmap/
 ├── <em>getting-started/</em> <s># 5 个子主题 · 搭建中</s>
 ├── <em>cs-basics/</em>        <s># 7 个子主题 · 搭建中</s>
+├── <em>cs-theory/</em>       <s># 理论基础 · 14 章 · 网站</s>
 ├── <em>programming-basics/</em> <s># 6 个子主题 · 搭建中</s>
 ├── <em>java/</em>            <s># 12 个子主题 · 搭建中</s>
 ├── <em>microservices/</em>   <s># 16 个子主题 · 搭建中</s>
@@ -172,23 +173,25 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">02</span><span class="t">计算机基础<small>CS Basics</small></span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s s--wip">搭建中</span>](topics/cs-basics/README.md)
 
-[<span class="n">03</span><span class="t">编程入门<small>Programming Basics</small></span><span class="d">第一门语言 C，6 个子主题</span><span class="s s--wip">搭建中</span>](topics/programming-basics/README.md)
+[<span class="n">03</span><span class="t">理论基础<small>CS Theory</small></span><span class="d">数理逻辑 · 图论 · 计算理论，14 章，只在网站</span><span class="s s--wip">搭建中</span>](topics/cs-theory/README.md)
 
-[<span class="n">04</span><span class="t">Java 技术栈<small>Java Stack</small></span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s s--wip">搭建中</span>](topics/java/README.md)
+[<span class="n">04</span><span class="t">编程入门<small>Programming Basics</small></span><span class="d">第一门语言 C，6 个子主题</span><span class="s s--wip">搭建中</span>](topics/programming-basics/README.md)
 
-[<span class="n">05</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
+[<span class="n">05</span><span class="t">Java 技术栈<small>Java Stack</small></span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s s--wip">搭建中</span>](topics/java/README.md)
 
-[<span class="n">06</span><span class="t">AI 技术栈<small>AI Stack</small></span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s s--wip">搭建中</span>](topics/ai/README.md)
+[<span class="n">06</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
 
-[<span class="n">07</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
+[<span class="n">07</span><span class="t">AI 技术栈<small>AI Stack</small></span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s s--wip">搭建中</span>](topics/ai/README.md)
 
-[<span class="n">08</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md){ .tn2-todo }
+[<span class="n">08</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
 
-[<span class="n">09</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md){ .tn2-todo }
+[<span class="n">09</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md){ .tn2-todo }
 
-[<span class="n">10</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md){ .tn2-todo }
+[<span class="n">10</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md){ .tn2-todo }
 
-[<span class="n">11</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md){ .tn2-todo }
+[<span class="n">11</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md){ .tn2-todo }
+
+[<span class="n">12</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md){ .tn2-todo }
 
 </div>
 

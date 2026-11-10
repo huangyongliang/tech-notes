@@ -73,7 +73,15 @@ nav:
       - 05 计算机网络: topics/cs-basics/05-networking/README.md
       - 06 数据结构与算法: topics/cs-basics/06-data-structures-algorithms/README.md
       - 07 数据库基础: topics/cs-basics/07-databases/README.md
-      - 计算机理论: topics/cs-theory/README.md
+      - 编程入门: topics/programming-basics/README.md
+      - 01 第一门语言 C 与环境: topics/programming-basics/01-first-language-c/README.md
+      - 02 核心概念: topics/programming-basics/02-core-concepts/README.md
+      - 03 内存与数据: topics/programming-basics/03-memory-and-data/README.md
+      - 04 工具调试与测试: topics/programming-basics/04-tools-debugging/README.md
+      - 05 问题求解: topics/programming-basics/05-problem-solving/README.md
+      - 06 C 小项目: topics/programming-basics/06-small-projects/README.md
+  - 理论基础:
+      - topics/cs-theory/README.md
       - 01 命题与谓词: topics/cs-theory/01-logic/README.md
       - 02 集合、关系与函数: topics/cs-theory/02-sets-relations-functions/README.md
       - 03 证明与归纳: topics/cs-theory/03-proofs-induction/README.md
@@ -88,13 +96,6 @@ nav:
       - 12 自动机与形式语言: topics/cs-theory/12-automata-languages/README.md
       - 13 可计算性与停机问题: topics/cs-theory/13-computability/README.md
       - 14 复杂度与归约: topics/cs-theory/14-complexity-reductions/README.md
-      - 编程入门: topics/programming-basics/README.md
-      - 01 第一门语言 C 与环境: topics/programming-basics/01-first-language-c/README.md
-      - 02 核心概念: topics/programming-basics/02-core-concepts/README.md
-      - 03 内存与数据: topics/programming-basics/03-memory-and-data/README.md
-      - 04 工具调试与测试: topics/programming-basics/04-tools-debugging/README.md
-      - 05 问题求解: topics/programming-basics/05-problem-solving/README.md
-      - 06 C 小项目: topics/programming-basics/06-small-projects/README.md
   - Java:
       - topics/java/README.md
       - 01 语言基础与新特性: topics/java/01-language-basics/README.md
@@ -155,7 +156,7 @@ nav:
       - 学习路线: topics/roadmap/README.md
       - 零基础入门: topics/getting-started/README.md
       - 计算机基础: topics/cs-basics/README.md
-      - 计算机理论: topics/cs-theory/README.md
+      - 理论基础: topics/cs-theory/README.md
       - 编程入门: topics/programming-basics/README.md
       - 微服务: topics/microservices/README.md
       - 编程: topics/programming/README.md

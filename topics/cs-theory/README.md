@@ -1,8 +1,8 @@
-# 计算机理论 CS Theory
+# 理论基础 Theoretical Foundations
 
-从逻辑与证明走向图论和计算模型：通过原创小问题、例题与证明，理解算法为什么成立、又在哪些前提下失效。
+从数理逻辑到图论，再到计算理论。用来看清算法、操作系统、数据库和分布式依赖为什么成立，以及在什么前提下失效。这 14 章不是全部理论，也不是写第一个程序的门槛。
 
-> 相关主题：[计算机基础 CS Basics](../cs-basics/) · [编程入门 Programming Basics](../programming-basics/) · [Java](../java/) · [学习路线 Roadmap](../roadmap/)
+> 相关主题：[计算机基础 CS Basics](../cs-basics/) · [编程入门 Programming Basics](../programming-basics/) · [系统 Systems](../systems/) · [微服务 Microservices](../microservices/) · [学习路线 Roadmap](../roadmap/)
 
 > [!NOTE]
 > 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
@@ -11,12 +11,41 @@
 
 ## 学习路径
 
-这是基础主线的并行选修，不改变「从零 → 计算机 → C → Java → 微服务 → Python 桥梁 → AI」的学习顺序。01–04 可与 C 入门并读；05–11 在理解 DSA 图、队列与堆后学习；12–14 在熟悉归纳与程序模型后选读。
+理论基础是独立主题。实践主线仍是「零基础 → 计算机基础 → C → Java → 微服务 → Python 桥梁 → AI」。本主题不插进这条线，也不要求先读完才能写程序。目录还是 `topics/cs-theory/`，各章面包屑里的「计算机理论」就是这一页。
+
+数学上的递进是三条，不是三道强制关：
 
 ```mermaid
 flowchart LR
-  A[逻辑 Logic] --> B[图论 Graphs] --> C[算法 Algo] --> D[计算 Theory]
+  A[数理逻辑] --> B[图论] --> C[计算理论]
 ```
+
+| 段落 | 章节 | 本段内部要先会 | 适合何时读 |
+|------|------|----------------|------------|
+| 数理逻辑 | [01](01-logic/)–[04](04-counting-recurrences/) | 01 无前置；02 接 01；03 接 01–02；04 接 01–03 | 能读简单条件即可，与 C 并行 |
+| 图论 | [05](05-graphs-degrees/)–[11](11-shortest-path-proofs/) | 05 接 02–04；其后以各章「本关定位」为准 | 学到图、队列或堆再读；实现仍回 DSA |
+| 计算理论 | [12](12-automata-languages/)–[14](14-complexity-reductions/) | 12 接 01–03、05、10；13 接 12；14 还要大 O | 要问模型边界时再读 |
+
+各章页眉写的前置是本主题内部的依赖，不是实践主线的门槛。概率、数值分析和范畴论等还不在这 14 章里。
+
+## 两条读法
+
+### 刚开始写程序
+
+先走 [零基础入门](../getting-started/) 和 [编程入门](../programming-basics/) 里的 C。本主题不排在它们前面。能读「如果…就…」和简单整数以后，可以从 [命题与谓词](01-logic/) 并行看。证明还不稳时，先不要跳到图论定理。
+
+### 已经在做工程
+
+不必从 01 重读到 14。按正在看的题目跳：
+
+| 正在看 | 理论里先读 | 实践笔记仍在 |
+|--------|------------|--------------|
+| 算法与复杂度 | [图的度数](05-graphs-degrees/) 起到 [最短路](11-shortest-path-proofs/)；问难度类别再读 [复杂度](14-complexity-reductions/) | [数据结构与算法](../cs-basics/06-data-structures-algorithms/) |
+| 操作系统 | [证明与归纳](03-proofs-induction/)；依赖成圈再读 [有向图](10-digraphs-dag/) | [操作系统](../cs-basics/02-operating-systems/) |
+| 数据库 | [集合、关系与函数](02-sets-relations-functions/) | [数据库基础](../cs-basics/07-databases/)；二值逻辑不覆盖 SQL 的 NULL |
+| 分布式与服务依赖 | [有向图](10-digraphs-dag/)；路径代价再读 [最短路](11-shortest-path-proofs/) | [系统](../systems/) 仍是骨架；实践在 [微服务](../microservices/) 的分布式事务 |
+
+左列不是右列的先修。这些理论章只在网站上，不在小程序打包的 35 篇里。
 
 ## 子目录
 
@@ -47,6 +76,7 @@ flowchart LR
 - [计算机网络](../cs-basics/05-networking/) 讲协议；这里研究静态图的连通性和最短路，不冒充完整路由协议。
 - [DSA](../cs-basics/06-data-structures-algorithms/) 负责容器、复杂度和 C 实现；这里重点是定理条件、反例和正确性证明。
 - [数据库基础](../cs-basics/07-databases/) 讲 SQL、索引与事务；数学关系不替代关系数据库教程，经典二值逻辑也不覆盖 NULL 的三值语义。
+- [系统](../systems/) 计划写分布式，目前还是空目录。[微服务](../microservices/) 里已有分布式事务的实践；依赖能否排成顺序，回到本主题第 10 章，而不是先读完 14 章。
 
 ## 使用方式
 
