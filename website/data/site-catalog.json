@@ -30,6 +30,7 @@
   },
   "generated_surfaces": [
     "website/index.md topic rows",
+    "homepage terminal tree",
     "topic README status tables",
     "english nav and english home",
     "slice chapter status line",

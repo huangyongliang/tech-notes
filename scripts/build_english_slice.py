@@ -218,16 +218,19 @@ def render_home(catalog: dict) -> str:
         "",
         "Editorial status is the publishing state. Translation is separate. Neither one is on-device quest progress.",
         "",
-        "| Topic | Editorial | Translation | Page |",
-        "|-------|-----------|-------------|------|",
+        sc.terminal_html(catalog, "en", order),
+        "",
+        "| Topic | Subtopics | Editorial | Translation | Page |",
+        "|-------|-----------|-----------|-------------|------|",
     ]
     for path in order:
         page = by_path[path]
         title = page["title_zh"]
         rel = english_url(path).removeprefix("/en/")
         roll = sc.translation_rollup(page, catalog["pages"])
+        count = sc.subtopic_count(catalog, path)
         lines.append(
-            f"| {title} | {labels[page['editorial']]['en']} | "
+            f"| {title} | {count} | {labels[page['editorial']]['en']} | "
             f"{sc.TR_LABELS[roll]['en']} | [Open]({rel}) |"
         )
     lines += [
@@ -457,6 +460,12 @@ def build(
                 encoding="utf-8",
             )
         sc.write_status_tables(site_src, catalog)
+        topic_index = site_src / "topics" / "README.md"
+        if topic_index.is_file():
+            topic_index.write_text(
+                sc.apply_topic_index(topic_index.read_text(encoding="utf-8"), catalog),
+                encoding="utf-8",
+            )
         copied_en = site_src / "en"
         if copied_en.exists():
             shutil.rmtree(copied_en)

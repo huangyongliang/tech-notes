@@ -275,6 +275,10 @@ html.tn-mode-read .tn-g-slim { display: none !important; }
 .tn-g .mode-fab { display: none; }
 html.tn-mode-read .tn-g .mode-fab { display: grid; }
 html.tn-mode-game .tn-g .mode-fab { display: none !important; }
+/* The stacked homepage buttons sit in the bottom-right corner only after the hero becomes one column. */
+@media (max-width: 900px) {
+  html.tn-mode-read .tn-g .mode-fab { bottom: 96px; }
+}
 
 /* 游戏模式下的文章页：顶部瘦 HUD（Material header 已隐藏，侧栏保留） */
 .tn-g-slim { position: sticky; top: 0; z-index: 4; }

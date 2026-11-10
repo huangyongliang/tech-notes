@@ -46,6 +46,7 @@ FALLBACK_BANNER = "English translation unavailable. Showing the Chinese original
 # Surfaces this generator rewrites. Topic README emoji tables are not in it.
 GENERATED_SURFACES = (
     "website/index.md topic rows",
+    "homepage terminal tree",
     "topic README status tables",
     "english nav and english home",
     "slice chapter status line",
@@ -300,8 +301,111 @@ def status_paragraph(page: dict, lang: str) -> str:
     )
 
 
+def topic_slug(path: str) -> str:
+    parts = path.split("/")
+    if len(parts) < 3 or parts[0] != "topics":
+        raise ValueError(f"not a topic path: {path}")
+    return parts[1]
+
+
+def subtopic_count(catalog: dict, topic_path: str) -> int:
+    """Catalog pages under a topic, not counting the topic page itself."""
+    prefix = topic_path[: -len("README.md")]
+    return sum(
+        1
+        for page in catalog["pages"]
+        if page["path"].startswith(prefix) and page["path"] != topic_path
+    )
+
+
+def status_comment(page: dict, count: int, lang: str) -> str:
+    label = LABELS[page["editorial"]][lang]
+    if lang == "zh":
+        return f"# {count} 个子主题 · {label}"
+    return f"# {count} subtopics · {label}"
+
+
+def topic_order_from(text: str) -> list[str]:
+    order = [match.group("href") for match in INDEX_ROW_RE.finditer(text)]
+    if len(order) != 13:
+        raise ValueError(f"expected 13 homepage topic rows, found {len(order)}")
+    return order
+
+
+def render_terminal_body(catalog: dict, lang: str, order: list[str]) -> str:
+    by_path = {page["path"]: page for page in catalog["pages"]}
+    lines = ["<b>$</b> tree -L 1 topics/", "topics/"]
+    for index, path in enumerate(order):
+        page = by_path[path]
+        slug = topic_slug(path)
+        branch = "└──" if index == len(order) - 1 else "├──"
+        comment = status_comment(page, subtopic_count(catalog, path), lang)
+        lines.append(f"{branch} <em>{slug}/</em> <s>{comment}</s>")
+    shown = by_path["topics/java/README.md"]["title_zh"]
+    lines += [
+        "",
+        "<b>$</b> cat java/README.md | head -1",
+        f"# {shown}",
+        '<b>$</b> <span class="tn2-caret"></span>',
+    ]
+    return "\n".join(lines)
+
+
+def terminal_html(catalog: dict, lang: str, order: list[str]) -> str:
+    body = render_terminal_body(catalog, lang, order)
+    return (
+        '<div class="tn2-term">\n'
+        '<div class="tn2-term__bar"><i></i><i></i><i></i><span>~/tech-notes</span></div>\n'
+        f"<pre><code>{body}</code></pre>\n"
+        "</div>"
+    )
+
+
+def apply_terminal(text: str, catalog: dict, lang: str = "zh") -> str:
+    """Replace the homepage tree. Every topic line uses the catalog count and status."""
+    body = render_terminal_body(catalog, lang, topic_order_from(text))
+    pattern = re.compile(
+        r'(<div class="tn2-term">.*?<pre><code>)(.*?)(</code></pre>)',
+        re.S,
+    )
+    updated, count = pattern.subn(lambda match: match.group(1) + body + match.group(3), text, count=1)
+    if count != 1:
+        raise ValueError("homepage terminal missing")
+    return updated
+
+
+def with_subtopic_count(text: str, count: int) -> str:
+    """Put the catalog page count into a phrase, once."""
+    phrase = f"{count} 个子主题"
+    if re.search(r"\d+\s*(?:个子主题|章)", text):
+        return re.sub(r"\d+\s*(?:个子主题|章)", phrase, text, count=1)
+    return text.rstrip() + f" · {phrase}"
+
+
+def apply_homepage_counts(text: str, catalog: dict) -> str:
+    """Replace homepage sentences that state a topic's page count."""
+    java = subtopic_count(catalog, "topics/java/README.md")
+    micro = subtopic_count(catalog, "topics/microservices/README.md")
+    text = re.sub(
+        r"Java \d+ 个子主题、微服务 \d+ 个子主题",
+        f"Java {java} 个子主题、微服务 {micro} 个子主题",
+        text,
+    )
+    text = re.sub(
+        r"\d+ 个子主题，从架构拆分",
+        f"{micro} 个子主题，从架构拆分",
+        text,
+    )
+    text = re.sub(
+        r"看全部 \d+ 个子主题",
+        f"看全部 {micro} 个子主题",
+        text,
+    )
+    return text
+
+
 def apply_homepage(text: str, catalog: dict) -> str:
-    """Rewrite topic-row badges from the catalog. Ignores the badge text already in `text`."""
+    """Rewrite topic-row badges, counts, and the terminal from the catalog."""
     by_path = {page["path"]: page for page in catalog["pages"]}
     pages = catalog["pages"]
 
@@ -312,13 +416,14 @@ def apply_homepage(text: str, catalog: dict) -> str:
         if editorial not in LABELS:
             raise ValueError(f"bad editorial for {href}")
         title = re.sub(r"<small>.*?</small>", "", match.group("title")).strip()
+        desc = with_subtopic_count(match.group("desc"), subtopic_count(catalog, href))
         wip = " s--wip" if editorial == "building" else ""
         todo = "{ .tn2-todo }" if editorial == "planned" else ""
         roll = translation_rollup(page, pages)
         return (
             f'[<span class="n">{match.group("num")}</span>'
             f'<span class="t">{title}</span>'
-            f'<span class="d">{match.group("desc")}</span>'
+            f'<span class="d">{desc}</span>'
             f'<span class="s-pair"><span class="s{wip}">{LABELS[editorial]["zh"]}</span>'
             f'<span class="s s--tr">{TR_LABELS[roll]["zh"]}</span></span>]({href}){todo}'
         )
@@ -337,7 +442,8 @@ def apply_homepage(text: str, catalog: dict) -> str:
         if marker not in rewritten:
             raise ValueError("homepage lede missing")
         rewritten = rewritten.replace(marker, marker + "\n\n" + note, 1)
-    return rewritten
+    rewritten = apply_terminal(rewritten, catalog)
+    return apply_homepage_counts(rewritten, catalog)
 
 
 def chapter_statuses(root: Path | None = None) -> dict[str, str]:
@@ -641,6 +747,63 @@ def _rewrite_link_line(line: str, link_re: re.Pattern) -> str:
     return link_re.sub(repl, line)
 
 
+README_ROW_RE = re.compile(
+    r"^(\|.*?\]\(topics/([A-Za-z0-9-]+)/\)\s*\|)[ \t]*([^|]*)\|[ \t]*[🟢🟡⚪][^|]*\|[ \t]*$",
+    re.M,
+)
+
+
+def apply_readme(text: str, catalog: dict) -> str:
+    """Rewrite the root README status column and any topic page count from the catalog."""
+    by_slug = {
+        topic_slug(page["path"]): page
+        for page in catalog["pages"]
+        if page["kind"] == "topic"
+    }
+
+    def repl(match: re.Match) -> str:
+        page = by_slug[match.group(2)]
+        count = subtopic_count(catalog, page["path"])
+        desc = with_subtopic_count(match.group(3).strip(), count)
+        label = f"{EMOJI_FOR[page['editorial']]} {LABELS[page['editorial']]['zh']}"
+        return f"{match.group(1)} {desc} | {label} |"
+
+    updated, count = README_ROW_RE.subn(repl, text)
+    if count != 13:
+        raise ValueError(f"expected 13 README topic rows, rewrote {count}")
+    theory = subtopic_count(catalog, "topics/cs-theory/README.md")
+    updated, tip = re.subn(
+        r"这 (?:\d+ 章|\d+ 个子主题)",
+        f"这 {theory} 个子主题",
+        updated,
+        count=1,
+    )
+    if tip != 1:
+        raise ValueError("README theory count sentence missing")
+    return updated
+
+
+def apply_topic_index(text: str, catalog: dict) -> str:
+    """Rewrite the topic-index sentences that state how many pages Web and Systems have."""
+    web = subtopic_count(catalog, "topics/web/README.md")
+    systems = subtopic_count(catalog, "topics/systems/README.md")
+    updated, web_n = re.subn(
+        r"浏览器里的源已有\s*(?:一章|\d+\s*个子主题)",
+        f"浏览器里的源已有 {web} 个子主题",
+        text,
+        count=1,
+    )
+    updated, systems_n = re.subn(
+        r"分布式系统模型已有\s*(?:一章|\d+\s*个子主题)",
+        f"分布式系统模型已有 {systems} 个子主题",
+        updated,
+        count=1,
+    )
+    if web_n != 1 or systems_n != 1:
+        raise ValueError("topic index count sentences missing")
+    return updated
+
+
 def main() -> int:
     catalog = derive_catalog()
     text = json.dumps(catalog, ensure_ascii=False, indent=2) + "\n"
@@ -661,6 +824,10 @@ def main() -> int:
         catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
         path = ROOT / "website" / "index.md"
         path.write_text(apply_homepage(path.read_text(encoding="utf-8"), catalog), encoding="utf-8")
+        readme = ROOT / "README.md"
+        readme.write_text(apply_readme(readme.read_text(encoding="utf-8"), catalog), encoding="utf-8")
+        index = ROOT / "topics" / "README.md"
+        index.write_text(apply_topic_index(index.read_text(encoding="utf-8"), catalog), encoding="utf-8")
         print(f"wrote {path}")
         return 0
     if "--check" in sys.argv:

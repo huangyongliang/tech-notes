@@ -17,24 +17,24 @@
 
 | 主题 | 内容 | 状态 |
 |------|------|------|
-| 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
+| 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 · 0 个子主题 | 🟡 搭建中 |
 | 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法，5 个子主题 | 🟡 搭建中 |
-| 🧮 [计算机基础](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | 🟡 搭建中 |
-| 📐 [理论基础 Theoretical Foundations](topics/cs-theory/) | 数理逻辑、图论、计算理论，14 章；独立主题，网站阅读 | 🟡 搭建中 |
+| 🧮 [计算机基础](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 · 7 个子主题 | 🟡 搭建中 |
+| 📐 [理论基础 Theoretical Foundations](topics/cs-theory/) | 数理逻辑、图论、计算理论，14 个子主题；独立主题，网站阅读 | 🟡 搭建中 |
 | 🔧 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C，6 个子主题 | 🟡 搭建中 |
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | 🟡 搭建中 |
 | 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署，21 个子主题 | 🟡 搭建中 |
-| 💻 [编程 Programming](topics/programming/) | 编程语言、算法、设计 | ⚪ 待开始 |
-| 🌐 [Web](topics/web/) | 浏览器里的源；前端与后端目录仍空 | 🟡 搭建中 |
-| 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 | 🟡 搭建中 |
-| 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 | ⚪ 待开始 |
-| 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、技术选型 | ⚪ 待开始 |
+| 💻 [编程 Programming](topics/programming/) | 编程语言、算法、设计 · 0 个子主题 | ⚪ 待开始 |
+| 🌐 [Web](topics/web/) | 浏览器里的源；前端与后端目录仍空 · 1 个子主题 | 🟡 搭建中 |
+| 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟡 搭建中 |
+| 🚀 [DevOps](topics/devops/) | CI/CD、容器、云 · 0 个子主题 | ⚪ 待开始 |
+| 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、技术选型 · 0 个子主题 | ⚪ 待开始 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 > [!TIP]
-> 完全零基础从 [学习路线](topics/roadmap/) 开始；已经会编程的从 [Java 技术栈](topics/java/) 开始。[理论基础](topics/cs-theory/) 是独立主题，用来理解更深的技术为什么成立。它不挡第一个 C 程序，这 14 章也还不是全部理论，并且不在小程序打包的 35 篇里。
+> 完全零基础从 [学习路线](topics/roadmap/) 开始；已经会编程的从 [Java 技术栈](topics/java/) 开始。[理论基础](topics/cs-theory/) 是独立主题，用来理解更深的技术为什么成立。它不挡第一个 C 程序，这 14 个子主题也还不是全部理论，并且不在小程序打包的 35 篇里。
 
 ## 学习路线
 

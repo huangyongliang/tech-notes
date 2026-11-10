@@ -25,19 +25,19 @@ hide:
 <div class="tn2-term__bar"><i></i><i></i><i></i><span>~/tech-notes</span></div>
 <pre><code><b>$</b> tree -L 1 topics/
 topics/
-├── roadmap/
+├── <em>roadmap/</em> <s># 0 个子主题 · 搭建中</s>
 ├── <em>getting-started/</em> <s># 5 个子主题 · 搭建中</s>
-├── <em>cs-basics/</em>        <s># 7 个子主题 · 搭建中</s>
-├── <em>cs-theory/</em>       <s># 理论基础 · 14 章 · 网站</s>
+├── <em>cs-basics/</em> <s># 7 个子主题 · 搭建中</s>
+├── <em>cs-theory/</em> <s># 14 个子主题 · 搭建中</s>
 ├── <em>programming-basics/</em> <s># 6 个子主题 · 搭建中</s>
-├── <em>java/</em>            <s># 12 个子主题 · 搭建中</s>
-├── <em>microservices/</em>   <s># 16 个子主题 · 搭建中</s>
-├── ai/
-├── programming/
-├── web/
-├── systems/
-├── devops/
-└── product-research/
+├── <em>java/</em> <s># 12 个子主题 · 搭建中</s>
+├── <em>microservices/</em> <s># 16 个子主题 · 搭建中</s>
+├── <em>ai/</em> <s># 21 个子主题 · 搭建中</s>
+├── <em>programming/</em> <s># 0 个子主题 · 待开始</s>
+├── <em>web/</em> <s># 1 个子主题 · 搭建中</s>
+├── <em>systems/</em> <s># 1 个子主题 · 搭建中</s>
+├── <em>devops/</em> <s># 0 个子主题 · 待开始</s>
+└── <em>product-research/</em> <s># 0 个子主题 · 待开始</s>
 
 <b>$</b> cat java/README.md | head -1
 # Java 技术栈
@@ -169,13 +169,13 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 <div class="tn2-index" markdown>
 
-[<span class="n">00</span><span class="t">学习路线</span><span class="d">从零到 AI · 六个阶段总览</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/roadmap/README.md)
+[<span class="n">00</span><span class="t">学习路线</span><span class="d">从零到 AI · 六个阶段总览 · 0 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/roadmap/README.md)
 
 [<span class="n">01</span><span class="t">零基础入门</span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">部分</span></span>](topics/getting-started/README.md)
 
-[<span class="n">02</span><span class="t">计算机基础</span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-basics/README.md)
+[<span class="n">02</span><span class="t">计算机基础</span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库 · 7 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-basics/README.md)
 
-[<span class="n">03</span><span class="t">理论基础</span><span class="d">数理逻辑 · 图论 · 计算理论，14 章，只在网站</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-theory/README.md)
+[<span class="n">03</span><span class="t">理论基础</span><span class="d">数理逻辑 · 图论 · 计算理论，14 个子主题，只在网站</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-theory/README.md)
 
 [<span class="n">04</span><span class="t">编程入门</span><span class="d">第一门语言 C，6 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/programming-basics/README.md)
 
@@ -185,15 +185,15 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">07</span><span class="t">AI 技术栈</span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/ai/README.md)
 
-[<span class="n">08</span><span class="t">编程</span><span class="d">编程语言、算法、设计</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/programming/README.md){ .tn2-todo }
+[<span class="n">08</span><span class="t">编程</span><span class="d">编程语言、算法、设计 · 0 个子主题</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/programming/README.md){ .tn2-todo }
 
-[<span class="n">09</span><span class="t">Web</span><span class="d">浏览器里的源；前端与后端仍空</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
+[<span class="n">09</span><span class="t">Web</span><span class="d">浏览器里的源；前端与后端仍空 · 1 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
 
-[<span class="n">10</span><span class="t">系统</span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/systems/README.md)
+[<span class="n">10</span><span class="t">系统</span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础 · 1 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/systems/README.md)
 
-[<span class="n">11</span><span class="t">DevOps</span><span class="d">CI/CD、容器、云</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/devops/README.md){ .tn2-todo }
+[<span class="n">11</span><span class="t">DevOps</span><span class="d">CI/CD、容器、云 · 0 个子主题</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/devops/README.md){ .tn2-todo }
 
-[<span class="n">12</span><span class="t">产品调研</span><span class="d">产品、竞品、技术选型</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md){ .tn2-todo }
+[<span class="n">12</span><span class="t">产品调研</span><span class="d">产品、竞品、技术选型 · 0 个子主题</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md){ .tn2-todo }
 
 </div>
 

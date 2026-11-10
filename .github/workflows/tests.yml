@@ -21,6 +21,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Catalog
         run: python3 scripts/test_site_catalog.py
+      - name: Homepage status data
+        run: python3 scripts/test_homepage_status.py
       - name: Anchors against main fixture
         run: python3 scripts/test_anchors.py
       - name: Locale routes source
@@ -41,3 +43,5 @@ jobs:
         run: python3 scripts/test_anchors.py site
       - name: Locale routes against the built site
         run: python3 scripts/test_locale_routes.py site
+      - name: Homepage status against the built site
+        run: python3 scripts/test_homepage_status.py site
