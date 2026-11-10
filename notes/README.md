@@ -1,4 +1,4 @@
-# 笔记 Notes
+# 笔记 {#notes}
 
 这里放跨主题或篇幅较长的笔记。单一主题的笔记优先放在 `topics/<topic>/` 下。请使用 `templates/note.md` 模板。
 

@@ -1,10 +1,10 @@
-# Python 速成 Python Bridge
+# Python 速成 {#python-python-bridge}
 
 > [AI](../) › Python 速成
 
 已经会 C 和 Java，用最短时间补齐 AI 阶段要用的 Python：动态类型、内置结构、venv / pip、NumPy 入门。
 
-> 相关主题：[学习路线 Roadmap](../../roadmap/) · [Java 技术栈](../../java/)
+> 相关主题：[学习路线](../../roadmap/) · [Java 技术栈](../../java/)
 
 ## 本关定位
 

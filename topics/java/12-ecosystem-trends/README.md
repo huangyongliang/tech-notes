@@ -1,4 +1,4 @@
-# 生态与新趋势 Ecosystem & Trends
+# 生态与新趋势 {#ecosystem-trends}
 
 > [Java](../) › 生态与新趋势
 

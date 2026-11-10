@@ -1,4 +1,4 @@
-# 有向图与依赖顺序 Digraphs and DAGs
+# 有向图与依赖顺序 {#digraphs-and-dags}
 
 > [计算机理论](../) › 有向图与依赖顺序
 

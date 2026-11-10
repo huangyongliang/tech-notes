@@ -1,4 +1,4 @@
-# Linux 与 Shell Linux & Shell
+# Linux 与 Shell {#linux-shell-linux-shell}
 
 > [计算机基础](../) › Linux 与 Shell
 

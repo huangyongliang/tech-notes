@@ -1,4 +1,4 @@
-# 异常、泛型、反射与注解 Core Advanced
+# 异常、泛型、反射与注解 {#core-advanced}
 
 > [Java](../) › 异常、泛型、反射与注解
 

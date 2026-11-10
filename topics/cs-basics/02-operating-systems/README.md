@@ -1,4 +1,4 @@
-# 操作系统 Operating Systems
+# 操作系统 {#operating-systems}
 
 > [计算机基础](../) › 操作系统
 

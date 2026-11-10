@@ -1,4 +1,4 @@
-# 复杂度与归约 Complexity and Reductions
+# 复杂度与归约 {#complexity-and-reductions}
 
 > [计算机理论](../) › 复杂度与归约
 

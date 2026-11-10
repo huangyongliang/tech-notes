@@ -1,8 +1,8 @@
-# AI 技术栈 AI Stack
+# AI 技术栈 {#ai-ai-stack}
 
 从数学基础到大模型应用工程的完整技术栈：模型原理、提示与上下文、API 编程、RAG、Agent、MCP、AI 编程、微调、推理部署、评测、安全治理。偏实用工程，以 Python 与 Java 为主要实现语言。进入本主题前先完成预备关 [Python 速成](00-python-bridge/)（第一门语言是 C，Python 作 AI 桥接）。
 
-> 相关主题：[Java 技术栈](../java/) · [Spring 框架](../java/09-spring/) · [微服务 Microservices](../microservices/) · [DevOps](../devops/) · [学习路线 Roadmap](../roadmap/)
+> 相关主题：[Java 技术栈](../java/) · [Spring 框架](../java/09-spring/) · [微服务](../microservices/) · [DevOps](../devops/) · [学习路线](../roadmap/)
 
 ## 学习路径
 
@@ -29,28 +29,27 @@ flowchart TD
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 00 | [Python 速成 Python Bridge](00-python-bridge/) | AI 前置：对照 C / Java 速成 Python | 🟡 |
-| 01 | [数学与机器学习基础 Foundations](01-foundations/) | 线性代数、概率、优化、经典 ML | 🟡 |
-| 02 | [深度学习框架 DL Frameworks](02-dl-frameworks/) | PyTorch / JAX / Transformers | 🟡 |
-| 03 | [Transformer 与大模型原理 Transformer & LLM](03-transformer-llm/) | 注意力、MoE、推理模型 | 🟡 |
-| 04 | [模型全景 Model Landscape](04-model-landscape/) | 闭源与开放权重、国产模型 | 🟡 |
-| 05 | [提示词与上下文工程 Prompt & Context](05-prompt-context/) | 结构化提示、上下文管理、DSPy | 🟡 |
-| 06 | [LLM API 编程模式 API Programming](06-llm-api-programming/) | 流式、结构化输出、函数调用、多语言 SDK | 🟡 |
-| 07 | [应用开发框架 App Frameworks](07-app-frameworks/) | LangChain / Spring AI / LangChain4j / AI SDK | 🟡 |
+| 00 | [Python 速成](00-python-bridge/) | AI 前置：对照 C / Java 速成 Python | 🟡 |
+| 01 | [数学与机器学习基础](01-foundations/) | 线性代数、概率、优化、经典 ML | 🟡 |
+| 02 | [深度学习框架 DL](02-dl-frameworks/) | PyTorch / JAX / Transformers | 🟡 |
+| 03 | [Transformer 与大模型原理](03-transformer-llm/) | 注意力、MoE、推理模型 | 🟡 |
+| 04 | [模型全景](04-model-landscape/) | 闭源与开放权重、国产模型 | 🟡 |
+| 05 | [提示词与上下文工程](05-prompt-context/) | 结构化提示、上下文管理、DSPy | 🟡 |
+| 06 | [LLM API 编程模式](06-llm-api-programming/) | 流式、结构化输出、函数调用、多语言 SDK | 🟡 |
+| 07 | [应用开发框架](07-app-frameworks/) | LangChain / Spring AI / LangChain4j / AI SDK | 🟡 |
 | 08 | [检索增强生成 RAG](08-rag/) | 向量库、混合检索、重排、GraphRAG | 🟡 |
-| 09 | [智能体 Agents](09-agents/) | Agent 模式、多 Agent、A2A | 🟡 |
-| 10 | [MCP 协议与开发 MCP](10-mcp/) | Server / Client 开发、官方 SDK | 🟡 |
-| 11 | [AI 编程助手与 IDE AI Coding Tools](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟡 |
-| 12 | [编程智能体工作流 Coding Agent Workflows](12-coding-agents/) | AGENTS.md、Spec 驱动、CI 集成 | 🟡 |
-| 13 | [代码模型与评测 Code Models & Benchmarks](13-code-models-evals/) | SWE-bench Pro、Terminal-Bench | 🟡 |
-| 14 | [微调与对齐 Fine-tuning](14-fine-tuning/) | LoRA / SFT / DPO / GRPO | 🟡 |
-| 15 | [推理与服务 Inference & Serving](15-inference-serving/) | vLLM / SGLang / 量化 / KV Cache | 🟡 |
-| 16 | [多模态 Multimodal](16-multimodal/) | 视觉、语音、图像与视频生成 | 🟡 |
-| 17 | [评测与可观测 Evals & Observability](17-evals-observability/) | LLM-as-judge、Langfuse、OTel GenAI | 🟡 |
-| 18 | [LLMOps 与 GPU 基础设施 LLMOps & GPU Infra](18-llmops-infra/) | KServe / Ray / Kueue / GPU Operator | 🟡 |
-| 19 | [安全与治理 Security & Governance](19-security-governance/) | OWASP LLM Top 10、EU AI Act、国内法规 | 🟡 |
-| 20 | [前沿与趋势 Trends](20-trends/) | 长程 Agent、开放权重、新架构 | 🟡 |
-
+| 09 | [智能体](09-agents/) | Agent 模式、多 Agent、A2A | 🟡 |
+| 10 | [MCP 协议与开发](10-mcp/) | Server / Client 开发、官方 SDK | 🟡 |
+| 11 | [AI 编程助手与 IDE](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟡 |
+| 12 | [编程智能体工作流](12-coding-agents/) | AGENTS.md、Spec 驱动、CI 集成 | 🟡 |
+| 13 | [代码模型与评测](13-code-models-evals/) | SWE-bench Pro、Terminal-Bench | 🟡 |
+| 14 | [微调与对齐](14-fine-tuning/) | LoRA / SFT / DPO / GRPO | 🟡 |
+| 15 | [推理与服务](15-inference-serving/) | vLLM / SGLang / 量化 / KV Cache | 🟡 |
+| 16 | [多模态](16-multimodal/) | 视觉、语音、图像与视频生成 | 🟡 |
+| 17 | [评测与可观测](17-evals-observability/) | LLM-as-judge、Langfuse、OTel GenAI | 🟡 |
+| 18 | [LLMOps 与 GPU 基础设施](18-llmops-infra/) | KServe / Ray / Kueue / GPU Operator | 🟡 |
+| 19 | [安全与治理](19-security-governance/) | OWASP LLM Top 10、EU AI Act、国内法规 | 🟡 |
+| 20 | [前沿与趋势](20-trends/) | 长程 Agent、开放权重、新架构 | 🟡 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 ## 与 Java、微服务的衔接

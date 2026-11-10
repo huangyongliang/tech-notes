@@ -1,4 +1,4 @@
-# 用好电脑 Using a Computer
+# 用好电脑 {#using-a-computer}
 
 > [零基础入门](../) › 用好电脑
 

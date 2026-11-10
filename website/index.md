@@ -40,7 +40,7 @@ topics/
 └── product-research/
 
 <b>$</b> cat java/README.md | head -1
-# Java 技术栈 Java Stack
+# Java 技术栈
 <b>$</b> <span class="tn2-caret"></span></code></pre>
 </div>
 

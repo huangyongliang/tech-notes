@@ -1,8 +1,8 @@
-# 微服务 Microservices
+# 微服务 {#microservices}
 
 微服务架构的完整技术体系：拆分、网关、治理、通信、数据、消息、可观测、安全和部署运维。语言中立讲原理，以 Java / Spring 为主要实现。
 
-> 相关主题：[Java 技术栈](../java/) · [Spring 框架](../java/09-spring/) · [系统 Systems](../systems/) · [DevOps](../devops/)
+> 相关主题：[Java 技术栈](../java/) · [Spring 框架](../java/09-spring/) · [系统](../systems/) · [DevOps](../devops/)
 
 ## 学习路径
 
@@ -27,23 +27,22 @@ flowchart TD
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 01 | [架构基础与拆分 Architecture](01-architecture/) | DDD、限界上下文、单体到微服务 | 🟡 |
-| 02 | [API 网关 API Gateway](02-api-gateway/) | Spring Cloud Gateway / Kong / APISIX / Envoy | 🟡 |
-| 03 | [注册发现与配置 Discovery & Config](03-discovery-config/) | Nacos / Consul / Config / K8s 原生 | 🟡 |
-| 04 | [服务通信 Communication](04-communication/) | HTTP Interface / OpenFeign / gRPC / Dubbo | 🟡 |
-| 05 | [容错与流量治理 Resilience](05-resilience/) | Resilience4j / Sentinel | 🟡 |
-| 06 | [消息与事件驱动 Messaging](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟡 |
-| 07 | [分布式事务 Distributed Transactions](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟡 |
-| 08 | [缓存 Caching](08-caching/) | Redis / 多级缓存 | 🟡 |
-| 09 | [数据库与分库分表 Database & Sharding](09-database-sharding/) | MySQL / PostgreSQL / ShardingSphere | 🟡 |
-| 10 | [可观测性 Observability](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟡 |
-| 11 | [安全 Security](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟡 |
-| 12 | [容器与编排 Containers & K8s](12-containers-k8s/) | Docker / Kubernetes / Helm | 🟡 |
-| 13 | [服务网格 Service Mesh](13-service-mesh/) | Istio ambient / Linkerd | 🟡 |
-| 14 | [持续交付与 GitOps CI/CD & GitOps](14-cicd-gitops/) | GitHub Actions / Argo CD | 🟡 |
-| 15 | [测试 Testing](15-testing/) | 契约测试 / Testcontainers | 🟡 |
-| 16 | [性能与云原生 Java Performance & Cloud-Native Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | 🟡 |
-
+| 01 | [架构基础与拆分](01-architecture/) | DDD、限界上下文、单体到微服务 | 🟡 |
+| 02 | [API 网关](02-api-gateway/) | Spring Cloud Gateway / Kong / APISIX / Envoy | 🟡 |
+| 03 | [注册发现与配置](03-discovery-config/) | Nacos / Consul / Config / K8s 原生 | 🟡 |
+| 04 | [服务通信](04-communication/) | HTTP Interface / OpenFeign / gRPC / Dubbo | 🟡 |
+| 05 | [容错与流量治理](05-resilience/) | Resilience4j / Sentinel | 🟡 |
+| 06 | [消息与事件驱动](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟡 |
+| 07 | [分布式事务](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟡 |
+| 08 | [缓存](08-caching/) | Redis / 多级缓存 | 🟡 |
+| 09 | [数据库与分库分表](09-database-sharding/) | MySQL / PostgreSQL / ShardingSphere | 🟡 |
+| 10 | [可观测性](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟡 |
+| 11 | [安全](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟡 |
+| 12 | [容器与编排](12-containers-k8s/) | Docker / Kubernetes / Helm | 🟡 |
+| 13 | [服务网格](13-service-mesh/) | Istio ambient / Linkerd | 🟡 |
+| 14 | [持续交付与 GitOps CI/CD](14-cicd-gitops/) | GitHub Actions / Argo CD | 🟡 |
+| 15 | [测试](15-testing/) | 契约测试 / Testcontainers | 🟡 |
+| 16 | [性能与云原生 Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | 🟡 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 ## 三套主流技术选型

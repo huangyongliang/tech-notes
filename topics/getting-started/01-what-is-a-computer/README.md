@@ -1,4 +1,4 @@
-# 认识计算机 What Is a Computer
+# 认识计算机 {#what-is-a-computer}
 
 > [零基础入门](../) › 认识计算机
 

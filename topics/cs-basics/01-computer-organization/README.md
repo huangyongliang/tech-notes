@@ -1,4 +1,4 @@
-# 计算机组成 Computer Organization
+# 计算机组成 {#computer-organization}
 
 > [计算机基础](../) › 计算机组成
 

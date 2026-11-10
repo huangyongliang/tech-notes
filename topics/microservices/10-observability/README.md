@@ -1,4 +1,4 @@
-# 可观测性 Observability
+# 可观测性 {#observability}
 
 > [微服务](../) › 可观测性
 

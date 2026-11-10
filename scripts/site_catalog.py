@@ -17,9 +17,9 @@ Existing prose does not imply editorial "complete". A page is translated
 only when this catalog says so and website/en has a matching Markdown
 file. Showing the Chinese body on an English URL is not translated.
 
-PR 33 is recorded under pending_integrations and is not applied.
-After it merges, update the catalog (Web and Systems become building,
-and the two new chapters are untranslated) and regenerate the homepage.
+PR 33 is merged. Web and Systems are building. The two new chapters
+are untranslated. Topic status tables and the homepage rows are written
+from this catalog.
 """
 from __future__ import annotations
 
@@ -46,10 +46,12 @@ FALLBACK_BANNER = "English translation unavailable. Showing the Chinese original
 # Surfaces this generator rewrites. Topic README emoji tables are not in it.
 GENERATED_SURFACES = (
     "website/index.md topic rows",
+    "topic README status tables",
     "english nav and english home",
     "slice chapter status line",
     "fallback banner and search title",
 )
+EMOJI_FOR = {"planned": "⚪", "building": "🟡", "complete": "🟢"}
 HOMEPAGE_STATUS = {"搭建中": "building", "待开始": "planned", "已完成": "complete"}
 EMOJI_STATUS = {"🟡": "building", "⚪": "planned", "🟢": "complete"}
 
@@ -81,11 +83,11 @@ PENDING_INTEGRATIONS = [
         "url": "https://github.com/huangyongliang/tech-notes/pull/33",
         "head": "3b56fcd5dcf65274afbc4d95fd186517ddac8b4b",
         "base": "b95578b67fcc79e5bed0056b713a4cd846e7b109",
-        "merged": False,
+        "merged": True,
         "summary": (
-            "Open Chinese batch. After it merges, Web and Systems become "
-            "building, and two new Chinese chapters exist. Those chapters "
-            "are not English and are not part of the frozen miniapp 35."
+            "Merged on main. Web and Systems are building. The two new "
+            "Chinese chapters are in the catalog as untranslated, and they "
+            "are not part of the frozen miniapp 35."
         ),
         "when_merged": [
             {
@@ -167,11 +169,66 @@ def split_title(title: str) -> tuple[str, str | None]:
 
 
 def read_h1(path: Path) -> str:
-    text = path.read_text(encoding="utf-8")
-    found = H1_RE.search(text)
-    if not found:
-        raise ValueError(f"missing H1: {path}")
-    return found.group(1).strip()
+    fence = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith("```") or line.startswith("~~~"):
+            fence = not fence
+            continue
+        if fence:
+            continue
+        found = re.match(r"^#\s+(.+)$", line)
+        if found:
+            title = re.sub(r"\s*\{#[^}]+\}\s*$", "", found.group(1)).strip()
+            return title
+    raise ValueError(f"missing H1: {path}")
+
+
+_TOKEN_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9+#./-]*")
+_PROPER_NAMES = {
+    "AI", "API", "C", "CD", "CI", "CSS", "DSA", "DevOps", "Docker", "Git",
+    "GitOps", "Go", "GPU", "HTML", "HTTP", "HTTPS", "IDE", "IO", "JSON",
+    "JVM", "K8s", "Kubernetes", "Linux", "LLM", "MCP", "NIO", "Python",
+    "RAG", "SQL", "Shell", "Spring", "TCP", "TLS", "XML", "YAML", "Java",
+}
+
+
+def _proper_token(token: str) -> bool:
+    if token in _PROPER_NAMES:
+        return True
+    if re.fullmatch(r"[A-Z][A-Z0-9]{1,7}(?:/[A-Z0-9]+)?", token):
+        return True
+    return bool(re.match(r"[A-Z]", token) and re.search(r"[A-Z]", token[1:]))
+
+
+def strip_gloss(title: str) -> str:
+    """Drop a trailing English gloss. Proper names inside the Chinese title stay.
+
+    A repeated proper name, or an ordinary English word, starts the gloss.
+    A proper name that is only in the tail, such as JVM or IDE, stays.
+    """
+    raw = re.sub(r"\s*\{#[^}]+\}\s*$", "", title).strip()
+    raw = re.sub(r"\s*\([A-Za-z][^)]*\)\s*$", "", raw).strip()
+    if not HAN_RE.search(raw):
+        return raw
+    last = max(i for i, char in enumerate(raw) if HAN_RE.match(char))
+    head, tail = raw[: last + 1], raw[last + 1 :]
+    tokens = list(_TOKEN_RE.finditer(tail))
+    if not tokens:
+        return raw
+    seen = set(_TOKEN_RE.findall(head))
+    cut = None
+    for index, match in enumerate(tokens):
+        token = match.group(0)
+        repeated = token in seen
+        if not _proper_token(token) or (repeated and index == 0) or (repeated and index > 0):
+            cut = match.start()
+            break
+        seen.add(token)
+    if cut is None:
+        return raw
+    kept = (head + tail[:cut]).strip()
+    kept = re.sub(r"[\s&/+:,.-]+$", "", kept).strip()
+    return re.sub(r"\s+", " ", kept).strip()
 
 
 def homepage_statuses(root: Path | None = None) -> dict[str, str]:
@@ -209,18 +266,14 @@ def translation_rollup(page: dict, pages: list[dict]) -> str:
 
 
 def mixed_h1_paths(root: Path | None = None) -> list[str]:
-    """Chinese H1s that still carry a Latin gloss. Not rewritten in bulk.
-
-    Proper names inside a Chinese title are included in this count so the
-    leftover set stays visible. DevOps-style English-only titles are not.
-    """
+    """H1s that still append an English gloss. Proper names inside the Chinese title are not glosses."""
     root = root or ROOT
     found = []
     for rel in content_paths(root):
         if rel == "website/index.md":
             continue
         h1 = read_h1(root / rel)
-        if HAN_RE.search(h1) and re.search(r"[A-Za-z]{2,}", h1):
+        if strip_gloss(h1) != h1:
             found.append(rel)
     return found
 
@@ -355,9 +408,9 @@ def derive_catalog(root: Path | None = None) -> dict:
             "translation is separate. partial is computed for topic rows and is not stored per page. "
             "complete is never inferred from prose. "
             "On-device quest progress is not in this file. "
-            "Topic README emoji tables are handwritten and are not a generated surface. "
-            "pending_integrations is not applied to pages. "
-            "mixed_h1_remaining still uses a Chinese title plus a Latin gloss; do not bulk-rewrite it."
+            "Topic README status tables are generated from this catalog. "
+            "PR 33 is merged; its chapters are untranslated. "
+            "mixed_h1_remaining lists H1s that still append an English gloss."
         ),
         "mixed_h1_remaining": mixed_h1_paths(root),
         "pages": pages,
@@ -422,27 +475,170 @@ def coverage_errors(root: Path | None = None, catalog: dict | None = None) -> li
     for rel in TRANSLATED:
         if rel not in paths:
             errors.append(f"TRANSLATED path missing from catalog: {rel}")
-    pending_new = []
-    for item in catalog["pending_integrations"]:
-        if item.get("merged"):
-            errors.append(f"pending integration marked merged: PR {item.get('pr')}")
-        for change in item["when_merged"]:
-            if change["translation"] != "untranslated":
-                errors.append(f"pending page counted as English: {change['path']}")
-            if change.get("new_file"):
-                pending_new.append(change["path"])
-                if (root / change["path"]).exists():
-                    errors.append(f"pending new file already on this tree: {change['path']}")
-                if change["path"] in paths:
-                    errors.append(f"pending new file already catalogued: {change['path']}")
-    # Current main still shows Web and Systems as planned.
     by_path = {p["path"]: p for p in catalog["pages"]}
-    for rel in ("topics/web/README.md", "topics/systems/README.md"):
-        if by_path[rel]["editorial"] != "planned":
-            errors.append(f"{rel} should stay planned until PR 33 merges")
-        if by_path[rel]["translation"] != "untranslated":
-            errors.append(f"{rel} is not an English page")
+    for item in catalog["pending_integrations"]:
+        if item.get("pr") == 33 and not item.get("merged"):
+            errors.append("PR 33 is on main but the catalog still says it is open")
+        for change in item.get("when_merged") or []:
+            page = by_path.get(change["path"])
+            if page is None:
+                errors.append(f"merged page missing from catalog: {change['path']}")
+                continue
+            if page["editorial"] != change["editorial"]:
+                errors.append(f"{change['path']} editorial is {page['editorial']}")
+            if page["translation"] != change["translation"]:
+                errors.append(f"{change['path']} translation is {page['translation']}")
+            if change.get("new_file") and not (root / change["path"]).is_file():
+                errors.append(f"merged chapter missing on disk: {change['path']}")
     return errors
+
+
+def chapter_path(readme: Path, href: str, root: Path) -> str | None:
+    target = (readme.parent / href).resolve()
+    try:
+        rel = target.relative_to(root.resolve())
+    except ValueError:
+        return None
+    path = rel.as_posix()
+    if path.endswith("/"):
+        path += "README.md"
+    elif not path.endswith(".md"):
+        path = path.rstrip("/") + "/README.md"
+    return path
+
+
+STATUS_ROW_RE = re.compile(
+    r"^(\|\s*\d+\s*\|\s*\[)([^\]]+)(\]\()([^)]+)(\)\s*\|.*\|\s*)([🟢🟡⚪])(\s*\|)\s*$",
+    re.M,
+)
+
+
+def apply_status_tables(text: str, catalog: dict, readme_rel: str, root: Path | None = None) -> str:
+    """Rewrite the status emoji in a topic table from the catalog. Link text is left alone."""
+    root = root or ROOT
+    by_path = {page["path"]: page for page in catalog["pages"]}
+    readme = root / readme_rel
+
+    def repl(match: re.Match) -> str:
+        path = chapter_path(readme, match.group(4), root)
+        page = by_path.get(path or "")
+        if page is None:
+            return match.group(0)
+        emoji = EMOJI_FOR[page["editorial"]]
+        return (
+            match.group(1)
+            + match.group(2)
+            + match.group(3)
+            + match.group(4)
+            + match.group(5)
+            + emoji
+            + match.group(7)
+        )
+
+    return STATUS_ROW_RE.sub(repl, text)
+
+
+def write_status_tables(root: Path | None = None, catalog: dict | None = None) -> int:
+    root = root or ROOT
+    catalog = catalog or json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    changed = 0
+    for readme in sorted((root / "topics").rglob("README.md")):
+        rel = readme.relative_to(root).as_posix()
+        text = readme.read_text(encoding="utf-8")
+        updated = apply_status_tables(text, catalog, rel, root)
+        if updated != text:
+            readme.write_text(updated, encoding="utf-8")
+            changed += 1
+    return changed
+
+
+def apply_chinese_titles(root: Path | None = None, snapshot: dict | None = None) -> list[dict]:
+    """Remove appended English glosses from H1s and link labels. Pin the old H1 id."""
+    root = root or ROOT
+    snapshot = snapshot or json.loads((root / "website/data/h1-anchors.json").read_text(encoding="utf-8"))
+    by_path = {page["path"]: page for page in snapshot["pages"]}
+    link_re = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
+    changes = []
+    files = [root / rel for rel in content_paths(root)]
+    for path in files:
+        rel = path.relative_to(root).as_posix()
+        original = path.read_text(encoding="utf-8")
+        anchor = (by_path.get(rel) or {}).get("h1_id")
+        updated, detail = _rewrite_chinese_text(original, anchor, link_re)
+        if rel == "website/index.md":
+            sample = updated.replace("# Java 技术栈 Java Stack", "# Java 技术栈")
+            if sample != updated:
+                detail = detail or {"path": rel, "kind": "sample"}
+                updated = sample
+        if updated != original:
+            path.write_text(updated, encoding="utf-8")
+            if detail:
+                detail["path"] = rel
+                changes.append(detail)
+            else:
+                changes.append({"path": rel, "kind": "links"})
+    return changes
+
+
+def _rewrite_chinese_text(text: str, anchor: str | None, link_re: re.Pattern) -> tuple[str, dict | None]:
+    lines = text.splitlines(keepends=True)
+    fence = False
+    pre = 0
+    titled = False
+    detail = None
+    out = []
+    for line in lines:
+        opener = line.lstrip()
+        if opener.startswith("```") or opener.startswith("~~~"):
+            fence = not fence
+            out.append(line)
+            continue
+        if not fence and "<pre" in line:
+            pre += line.count("<pre")
+        if not fence and pre == 0 and not titled and re.match(r"^#\s+\S", line):
+            newline, detail = _rewrite_h1(line, anchor)
+            out.append(newline)
+            titled = True
+        elif not fence and pre == 0:
+            out.append(_rewrite_link_line(line, link_re))
+        else:
+            out.append(line)
+        if not fence and "</pre>" in line:
+            pre = max(0, pre - line.count("</pre>"))
+    return "".join(out), detail
+
+
+def _rewrite_h1(line: str, anchor: str | None) -> tuple[str, dict | None]:
+    ending = "\n" if line.endswith("\n") else ""
+    match = re.match(r"^#\s+(.+?)\s*$", line.rstrip("\n"))
+    if not match:
+        return line, None
+    body = match.group(1)
+    existing = re.search(r"\{#([^}]+)\}\s*$", body)
+    visible = re.sub(r"\s*\{#[^}]+\}\s*$", "", body).strip()
+    if "<" in visible or ">" in visible:
+        return line, None
+    chinese = strip_gloss(visible)
+    if chinese == visible:
+        return line, None
+    pinned = existing.group(1) if existing else anchor
+    if not pinned:
+        raise ValueError(f"no previous anchor for heading: {visible}")
+    rewritten = f"# {chinese} {{#{pinned}}}{ending}"
+    return rewritten, {"old": visible, "new": chinese, "id": pinned}
+
+
+def _rewrite_link_line(line: str, link_re: re.Pattern) -> str:
+    def repl(match: re.Match) -> str:
+        label, href = match.group(1), match.group(2)
+        if "<" in label:
+            return match.group(0)
+        chinese = strip_gloss(label)
+        if chinese == label:
+            return match.group(0)
+        return f"[{chinese}]({href})"
+
+    return link_re.sub(repl, line)
 
 
 def main() -> int:
@@ -452,6 +648,14 @@ def main() -> int:
         CATALOG_PATH.parent.mkdir(parents=True, exist_ok=True)
         CATALOG_PATH.write_text(text, encoding="utf-8")
         print(f"wrote {CATALOG_PATH} {catalog['counts']}")
+        return 0
+    if "--write-tables" in sys.argv:
+        catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+        print(f"updated status tables in {write_status_tables(ROOT, catalog)} files")
+        return 0
+    if "--write-titles" in sys.argv:
+        changes = apply_chinese_titles()
+        print(f"retitled {len(changes)} files")
         return 0
     if "--write-homepage" in sys.argv:
         catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))

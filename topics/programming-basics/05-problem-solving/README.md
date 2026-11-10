@@ -1,4 +1,4 @@
-# 问题求解 Problem Solving
+# 问题求解 {#problem-solving}
 
 > [编程入门](../) › 问题求解
 

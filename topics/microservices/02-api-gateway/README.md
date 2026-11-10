@@ -1,4 +1,4 @@
-# API 网关 API Gateway
+# API 网关 {#api-api-gateway}
 
 > [微服务](../) › API 网关
 

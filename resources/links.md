@@ -1,4 +1,4 @@
-# 链接表 Links
+# 链接表 {#links}
 
 | title | url | topic | notes |
 |-------|-----|-------|-------|

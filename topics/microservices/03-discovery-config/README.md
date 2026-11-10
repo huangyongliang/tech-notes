@@ -1,4 +1,4 @@
-# 注册发现与配置 Discovery & Config
+# 注册发现与配置 {#discovery-config}
 
 > [微服务](../) › 注册发现与配置
 

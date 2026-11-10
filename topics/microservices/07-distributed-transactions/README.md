@@ -1,8 +1,8 @@
-# 分布式事务与一致性 Distributed Transactions
+# 分布式事务与一致性 {#distributed-transactions}
 
 > [微服务](../) › 分布式事务与一致性
 
-微服务下放弃强一致，用 Saga、TCC、Outbox 实现最终一致。理论部分链接 [系统 Systems](../../systems/)。
+微服务下放弃强一致，用 Saga、TCC、Outbox 实现最终一致。理论部分链接 [系统](../../systems/)。
 
 ## 本关定位
 
@@ -61,7 +61,7 @@ Apache Seata 2.6.0 提供 AT / TCC / Saga / XA。AT 对业务侵入较低但依�
 ## 资料索引
 
 - [Microservices.io 模式目录](https://microservices.io/patterns/) — Saga / Outbox 等
-- [Seata 文档：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 模式总览
+- [Seata 文档：何为](https://seata.apache.org/docs/overview/what-is-seata/) — 模式总览
 - [Debezium 稳定版文档](https://debezium.io/documentation/reference/stable/) — CDC
 - [Debezium Maven 元数据](https://repo1.maven.org/maven2/io/debezium/debezium-core/maven-metadata.xml) — 版本核对（Final）
 

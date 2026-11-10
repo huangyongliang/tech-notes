@@ -38,122 +38,126 @@ extra_javascript:
 nav:
   - Home: index.md
   - Roadmap:
-    - Learning Roadmap: topics/roadmap/README.md
+    - 'Chinese original: 从零到 AI 学习路线': topics/roadmap/README.md
   - Foundations:
-    - Getting Started: topics/getting-started/README.md
-    - What Is a Computer: topics/getting-started/01-what-is-a-computer/README.md
-    - Using a Computer: topics/getting-started/02-using-a-computer/README.md
-    - Internet Basics: topics/getting-started/03-internet-basics/README.md
-    - Learning to Learn: topics/getting-started/04-learning-to-learn/README.md
+    - 'Chinese original: 零基础入门': topics/getting-started/README.md
+    - 'Chinese original: 认识计算机': topics/getting-started/01-what-is-a-computer/README.md
+    - 'Chinese original: 用好电脑': topics/getting-started/02-using-a-computer/README.md
+    - 'Chinese original: 互联网常识': topics/getting-started/03-internet-basics/README.md
+    - 'Chinese original: 学会学习与提问': topics/getting-started/04-learning-to-learn/README.md
     - Tech English: topics/getting-started/05-tech-english/README.md
-    - CS Basics: topics/cs-basics/README.md
-    - Computer Organization: topics/cs-basics/01-computer-organization/README.md
-    - Operating Systems: topics/cs-basics/02-operating-systems/README.md
-    - Shell Linux & Shell: topics/cs-basics/03-linux-shell/README.md
-    - Git: topics/cs-basics/04-git/README.md
-    - Networking: topics/cs-basics/05-networking/README.md
-    - DSA: topics/cs-basics/06-data-structures-algorithms/README.md
-    - Databases: topics/cs-basics/07-databases/README.md
-    - Programming Basics: topics/programming-basics/README.md
-    - 'First Language: C': topics/programming-basics/01-first-language-c/README.md
-    - Core Concepts: topics/programming-basics/02-core-concepts/README.md
-    - Memory & Data: topics/programming-basics/03-memory-and-data/README.md
-    - Tools & Debugging: topics/programming-basics/04-tools-debugging/README.md
-    - Problem Solving: topics/programming-basics/05-problem-solving/README.md
-    - Small Projects: topics/programming-basics/06-small-projects/README.md
+    - 'Chinese original: 计算机基础': topics/cs-basics/README.md
+    - 'Chinese original: 计算机组成': topics/cs-basics/01-computer-organization/README.md
+    - 'Chinese original: 操作系统': topics/cs-basics/02-operating-systems/README.md
+    - 'Chinese original: Linux 与': topics/cs-basics/03-linux-shell/README.md
+    - 'Chinese original: Git 版本控制': topics/cs-basics/04-git/README.md
+    - 'Chinese original: 计算机网络': topics/cs-basics/05-networking/README.md
+    - 'Chinese original: 数据结构与算法': topics/cs-basics/06-data-structures-algorithms/README.md
+    - 'Chinese original: 数据库基础': topics/cs-basics/07-databases/README.md
+    - 'Chinese original: 编程入门': topics/programming-basics/README.md
+    - 'Chinese original: 第一门语言 C 与环境': topics/programming-basics/01-first-language-c/README.md
+    - 'Chinese original: 核心概念': topics/programming-basics/02-core-concepts/README.md
+    - 'Chinese original: 内存与数据': topics/programming-basics/03-memory-and-data/README.md
+    - 'Chinese original: 工具、调试与测试': topics/programming-basics/04-tools-debugging/README.md
+    - 'Chinese original: 问题求解': topics/programming-basics/05-problem-solving/README.md
+    - 'Chinese original: C 小项目': topics/programming-basics/06-small-projects/README.md
   - Theory:
-    - Theoretical Foundations: topics/cs-theory/README.md
-    - Logic: topics/cs-theory/01-logic/README.md
-    - Sets, Relations and Functions: topics/cs-theory/02-sets-relations-functions/README.md
-    - Proofs and Induction: topics/cs-theory/03-proofs-induction/README.md
-    - Counting and Recurrences: topics/cs-theory/04-counting-recurrences/README.md
-    - Graphs and Degrees: topics/cs-theory/05-graphs-degrees/README.md
-    - Walks, Connectivity and Tours: topics/cs-theory/06-walks-connectivity-euler/README.md
-    - Trees and Spanning Trees: topics/cs-theory/07-trees-spanning/README.md
-    - Bipartite Graphs and Matchings: topics/cs-theory/08-bipartite-matching/README.md
-    - Coloring and Planarity: topics/cs-theory/09-coloring-planarity/README.md
-    - Digraphs and DAGs: topics/cs-theory/10-digraphs-dag/README.md
-    - Shortest Paths and Correctness: topics/cs-theory/11-shortest-path-proofs/README.md
-    - Automata and Formal Languages: topics/cs-theory/12-automata-languages/README.md
-    - Computability and Halting: topics/cs-theory/13-computability/README.md
-    - Complexity and Reductions: topics/cs-theory/14-complexity-reductions/README.md
+    - 'Chinese original: 理论基础': topics/cs-theory/README.md
+    - 'Chinese original: 命题与谓词': topics/cs-theory/01-logic/README.md
+    - 'Chinese original: 集合、关系与函数': topics/cs-theory/02-sets-relations-functions/README.md
+    - 'Chinese original: 证明与归纳': topics/cs-theory/03-proofs-induction/README.md
+    - 'Chinese original: 组合计数与递推': topics/cs-theory/04-counting-recurrences/README.md
+    - 'Chinese original: 图的建模与度数': topics/cs-theory/05-graphs-degrees/README.md
+    - 'Chinese original: 路径、连通与遍历': topics/cs-theory/06-walks-connectivity-euler/README.md
+    - 'Chinese original: 树与生成树': topics/cs-theory/07-trees-spanning/README.md
+    - 'Chinese original: 二分图与匹配': topics/cs-theory/08-bipartite-matching/README.md
+    - 'Chinese original: 着色与平面图': topics/cs-theory/09-coloring-planarity/README.md
+    - 'Chinese original: 有向图与依赖顺序': topics/cs-theory/10-digraphs-dag/README.md
+    - 'Chinese original: 最短路与算法证明': topics/cs-theory/11-shortest-path-proofs/README.md
+    - 'Chinese original: 自动机与形式语言': topics/cs-theory/12-automata-languages/README.md
+    - 'Chinese original: 可计算性与停机问题': topics/cs-theory/13-computability/README.md
+    - 'Chinese original: 复杂度与归约': topics/cs-theory/14-complexity-reductions/README.md
   - Java:
-    - Java Stack: topics/java/README.md
-    - Language Basics: topics/java/01-language-basics/README.md
-    - Collections: topics/java/02-collections/README.md
-    - Core Advanced: topics/java/03-core-advanced/README.md
-    - IO & NIO: topics/java/04-io-nio/README.md
-    - Concurrency: topics/java/05-concurrency/README.md
-    - JVM: topics/java/06-jvm/README.md
-    - Build Tools: topics/java/07-build-tools/README.md
-    - Testing: topics/java/08-testing/README.md
-    - Spring: topics/java/09-spring/README.md
-    - Persistence: topics/java/10-persistence/README.md
-    - Performance & Diagnostics: topics/java/11-performance-diagnostics/README.md
-    - Ecosystem & Trends: topics/java/12-ecosystem-trends/README.md
+    - 'Chinese original: Java 技术栈': topics/java/README.md
+    - 'Chinese original: 语言基础与新特性': topics/java/01-language-basics/README.md
+    - 'Chinese original: 集合框架': topics/java/02-collections/README.md
+    - 'Chinese original: 异常、泛型、反射与注解': topics/java/03-core-advanced/README.md
+    - 'Chinese original: 输入输出': topics/java/04-io-nio/README.md
+    - 'Chinese original: 并发': topics/java/05-concurrency/README.md
+    - 'Chinese original: Java 虚拟机': topics/java/06-jvm/README.md
+    - 'Chinese original: 构建工具': topics/java/07-build-tools/README.md
+    - 'Chinese original: 测试': topics/java/08-testing/README.md
+    - 'Chinese original: Spring 框架': topics/java/09-spring/README.md
+    - 'Chinese original: 持久层': topics/java/10-persistence/README.md
+    - 'Chinese original: 性能与诊断': topics/java/11-performance-diagnostics/README.md
+    - 'Chinese original: 生态与新趋势': topics/java/12-ecosystem-trends/README.md
   - Microservices:
-    - Microservices: topics/microservices/README.md
-    - Architecture & Decomposition: topics/microservices/01-architecture/README.md
-    - API Gateway: topics/microservices/02-api-gateway/README.md
-    - Discovery & Config: topics/microservices/03-discovery-config/README.md
-    - Service Communication: topics/microservices/04-communication/README.md
-    - Resilience & Traffic: topics/microservices/05-resilience/README.md
-    - Messaging & Events: topics/microservices/06-messaging/README.md
-    - Distributed Transactions: topics/microservices/07-distributed-transactions/README.md
-    - Caching: topics/microservices/08-caching/README.md
-    - Database & Sharding: topics/microservices/09-database-sharding/README.md
-    - Observability: topics/microservices/10-observability/README.md
-    - Security: topics/microservices/11-security/README.md
-    - Containers & Kubernetes: topics/microservices/12-containers-k8s/README.md
-    - Service Mesh: topics/microservices/13-service-mesh/README.md
-    - GitOps CI/CD & GitOps: topics/microservices/14-cicd-gitops/README.md
-    - Testing: topics/microservices/15-testing/README.md
-    - Java Performance & Cloud-Native Java: topics/microservices/16-cloud-native-java/README.md
+    - 'Chinese original: 微服务': topics/microservices/README.md
+    - 'Chinese original: 架构基础与拆分': topics/microservices/01-architecture/README.md
+    - 'Chinese original: API 网关': topics/microservices/02-api-gateway/README.md
+    - 'Chinese original: 注册发现与配置': topics/microservices/03-discovery-config/README.md
+    - 'Chinese original: 服务通信': topics/microservices/04-communication/README.md
+    - 'Chinese original: 容错与流量治理': topics/microservices/05-resilience/README.md
+    - 'Chinese original: 消息与事件驱动': topics/microservices/06-messaging/README.md
+    - 'Chinese original: 分布式事务与一致性': topics/microservices/07-distributed-transactions/README.md
+    - 'Chinese original: 缓存': topics/microservices/08-caching/README.md
+    - 'Chinese original: 数据库与分库分表': topics/microservices/09-database-sharding/README.md
+    - 'Chinese original: 可观测性': topics/microservices/10-observability/README.md
+    - 'Chinese original: 安全': topics/microservices/11-security/README.md
+    - 'Chinese original: 容器与编排': topics/microservices/12-containers-k8s/README.md
+    - 'Chinese original: 服务网格': topics/microservices/13-service-mesh/README.md
+    - 'Chinese original: 持续交付与': topics/microservices/14-cicd-gitops/README.md
+    - 'Chinese original: 测试': topics/microservices/15-testing/README.md
+    - 'Chinese original: 性能与云原生': topics/microservices/16-cloud-native-java/README.md
   - AI:
-    - AI Stack: topics/ai/README.md
-    - Python Bridge: topics/ai/00-python-bridge/README.md
-    - Foundations & Math: topics/ai/01-foundations/README.md
-    - Deep Learning Frameworks: topics/ai/02-dl-frameworks/README.md
-    - Transformer & LLM: topics/ai/03-transformer-llm/README.md
-    - Model Landscape: topics/ai/04-model-landscape/README.md
-    - Prompt & Context Engineering: topics/ai/05-prompt-context/README.md
-    - LLM API Programming: topics/ai/06-llm-api-programming/README.md
-    - LLM App Frameworks: topics/ai/07-app-frameworks/README.md
-    - RAG: topics/ai/08-rag/README.md
-    - Agents: topics/ai/09-agents/README.md
-    - Model Context Protocol: topics/ai/10-mcp/README.md
-    - IDE AI Coding Tools: topics/ai/11-ai-coding-tools/README.md
-    - Coding Agent Workflows: topics/ai/12-coding-agents/README.md
-    - Code Models & Benchmarks: topics/ai/13-code-models-evals/README.md
-    - Fine-tuning & Alignment: topics/ai/14-fine-tuning/README.md
-    - Inference & Serving: topics/ai/15-inference-serving/README.md
-    - Multimodal: topics/ai/16-multimodal/README.md
-    - Evals & Observability: topics/ai/17-evals-observability/README.md
-    - LLMOps & GPU Infra: topics/ai/18-llmops-infra/README.md
-    - Security & Governance: topics/ai/19-security-governance/README.md
-    - Trends: topics/ai/20-trends/README.md
+    - 'Chinese original: AI 技术栈': topics/ai/README.md
+    - 'Chinese original: Python 速成': topics/ai/00-python-bridge/README.md
+    - 'Chinese original: 数学与机器学习基础': topics/ai/01-foundations/README.md
+    - 'Chinese original: 深度学习框架': topics/ai/02-dl-frameworks/README.md
+    - 'Chinese original: Transformer 与大模型原理': topics/ai/03-transformer-llm/README.md
+    - 'Chinese original: 模型全景': topics/ai/04-model-landscape/README.md
+    - 'Chinese original: 提示词与上下文工程': topics/ai/05-prompt-context/README.md
+    - 'Chinese original: LLM API 编程模式': topics/ai/06-llm-api-programming/README.md
+    - 'Chinese original: 应用开发框架': topics/ai/07-app-frameworks/README.md
+    - 'Chinese original: 检索增强生成': topics/ai/08-rag/README.md
+    - 'Chinese original: 智能体': topics/ai/09-agents/README.md
+    - 'Chinese original: MCP 协议与开发': topics/ai/10-mcp/README.md
+    - 'Chinese original: AI 编程助手与': topics/ai/11-ai-coding-tools/README.md
+    - 'Chinese original: 编程智能体工作流': topics/ai/12-coding-agents/README.md
+    - 'Chinese original: 代码模型与评测': topics/ai/13-code-models-evals/README.md
+    - 'Chinese original: 微调与对齐': topics/ai/14-fine-tuning/README.md
+    - 'Chinese original: 推理与服务': topics/ai/15-inference-serving/README.md
+    - 'Chinese original: 多模态': topics/ai/16-multimodal/README.md
+    - 'Chinese original: 评测与可观测': topics/ai/17-evals-observability/README.md
+    - 'Chinese original: LLMOps 与 GPU 基础设施': topics/ai/18-llmops-infra/README.md
+    - 'Chinese original: 安全与治理': topics/ai/19-security-governance/README.md
+    - 'Chinese original: 前沿与趋势': topics/ai/20-trends/README.md
   - All topics:
-    - Topics: topics/README.md
-    - Learning Roadmap: topics/roadmap/README.md
-    - Getting Started: topics/getting-started/README.md
-    - CS Basics: topics/cs-basics/README.md
-    - Theoretical Foundations: topics/cs-theory/README.md
-    - Programming Basics: topics/programming-basics/README.md
-    - Microservices: topics/microservices/README.md
-    - Programming: topics/programming/README.md
-    - 'Chinese original: Web 开发': topics/web/README.md
-    - Systems: topics/systems/README.md
-    - DevOps: topics/devops/README.md
-    - AI Stack: topics/ai/README.md
-    - Product Research: topics/product-research/README.md
-    - Inbox: topics/inbox/README.md
-  - Notes: notes/README.md
+    - 'Chinese original: 主题索引': topics/README.md
+    - 'Chinese original: 从零到 AI 学习路线': topics/roadmap/README.md
+    - 'Chinese original: 零基础入门': topics/getting-started/README.md
+    - 'Chinese original: 计算机基础': topics/cs-basics/README.md
+    - 'Chinese original: 理论基础': topics/cs-theory/README.md
+    - 'Chinese original: 编程入门': topics/programming-basics/README.md
+    - 'Chinese original: 微服务': topics/microservices/README.md
+    - 'Chinese original: 编程': topics/programming/README.md
+    - Web:
+      - 'Chinese original: Web 开发': topics/web/README.md
+      - 'Chinese original: 浏览器里的源': topics/web/origin/README.md
+    - Systems:
+      - 'Chinese original: 系统': topics/systems/README.md
+      - 'Chinese original: 分布式系统模型': topics/systems/distributed/README.md
+    - 'Chinese original: DevOps': topics/devops/README.md
+    - 'Chinese original: AI 技术栈': topics/ai/README.md
+    - 'Chinese original: 产品调研': topics/product-research/README.md
+    - 'Chinese original: 收件箱': topics/inbox/README.md
+  - 'Chinese original: 笔记': notes/README.md
   - Sources:
-    - Resources: resources/README.md
-    - Links: resources/links.md
+    - 'Chinese original: 资料': resources/README.md
+    - 'Chinese original: 链接表': resources/links.md
   - About:
-    - 'Chinese original: 贡献指南 (Contributing)': CONTRIBUTING.md
-    - Markdown Display Guide: STYLE.md
+    - 'Chinese original: 贡献指南': CONTRIBUTING.md
+    - 'Chinese original: Markdown 展示规范': STYLE.md
   - Coverage: not-translated.md
 plugins:
   - search:

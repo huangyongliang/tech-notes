@@ -1,4 +1,4 @@
-# 可计算性与停机问题 Computability and Halting
+# 可计算性与停机问题 {#computability-and-halting}
 
 > [计算机理论](../) › 可计算性与停机问题
 

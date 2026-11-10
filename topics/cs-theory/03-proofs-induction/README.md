@@ -1,4 +1,4 @@
-# 证明与归纳 Proofs and Induction
+# 证明与归纳 {#proofs-and-induction}
 
 > [计算机理论](../) › 证明与归纳
 

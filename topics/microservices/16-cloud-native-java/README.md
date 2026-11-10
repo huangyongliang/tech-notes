@@ -1,8 +1,8 @@
-# 性能与云原生 Java Performance & Cloud-Native Java
+# 性能与云原生 Java {#java-performance-cloud-native-java}
 
 > [微服务](../) › 性能与云原生 Java
 
-缩短启动、降低内存：原生镜像、CRaC 检查点恢复、虚拟线程提升吞吐。链接 [并发 Concurrency](../../java/05-concurrency/)、[生态与新趋势 Ecosystem & Trends](../../java/12-ecosystem-trends/)。
+缩短启动、降低内存：原生镜像、CRaC 检查点恢复、虚拟线程提升吞吐。链接 [并发](../../java/05-concurrency/)、[生态与新趋势](../../java/12-ecosystem-trends/)。
 
 ## 本关定位
 

@@ -1,4 +1,4 @@
-# 数学与机器学习基础 Foundations & Math
+# 数学与机器学习基础 {#foundations-math}
 
 > [AI](../) › 数学与机器学习基础
 

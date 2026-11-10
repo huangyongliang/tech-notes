@@ -1,4 +1,4 @@
-# 安全与治理 Security & Governance
+# 安全与治理 {#security-governance}
 
 > [AI](../) › 安全与治理
 

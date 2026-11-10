@@ -1,4 +1,4 @@
-# AI 编程助手与 IDE AI Coding Tools
+# AI 编程助手与 IDE {#ai-ide-ai-coding-tools}
 
 > [AI](../) › AI 编程助手与 IDE
 

@@ -1,4 +1,4 @@
-# 二分图与匹配 Bipartite Graphs and Matchings
+# 二分图与匹配 {#bipartite-graphs-and-matchings}
 
 > [计算机理论](../) › 二分图与匹配
 

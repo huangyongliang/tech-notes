@@ -1,4 +1,4 @@
-# 容错与流量治理 Resilience & Traffic
+# 容错与流量治理 {#resilience-traffic}
 
 > [微服务](../) › 容错与流量治理
 

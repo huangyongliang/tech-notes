@@ -1,4 +1,4 @@
-# 性能与诊断 Performance & Diagnostics
+# 性能与诊断 {#performance-diagnostics}
 
 > [Java](../) › 性能与诊断
 

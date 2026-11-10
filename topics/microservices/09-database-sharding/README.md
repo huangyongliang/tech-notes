@@ -1,8 +1,8 @@
-# 数据库与分库分表 Database & Sharding
+# 数据库与分库分表 {#database-sharding}
 
 > [微服务](../) › 数据库与分库分表
 
-每服务一库原则、读写分离、分库分表与分布式 ID。ORM 用法链接 [持久层 Persistence](../../java/10-persistence/)。
+每服务一库原则、读写分离、分库分表与分布式 ID。ORM 用法链接 [持久层](../../java/10-persistence/)。
 
 ## 本关定位
 

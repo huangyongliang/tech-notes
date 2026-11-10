@@ -1,4 +1,4 @@
-# 构建工具 Build Tools
+# 构建工具 {#build-tools}
 
 > [Java](../) › 构建工具
 

@@ -1,4 +1,4 @@
-# 语言基础与新特性 Language Basics
+# 语言基础与新特性 {#language-basics}
 
 > [Java](../) › 语言基础与新特性
 

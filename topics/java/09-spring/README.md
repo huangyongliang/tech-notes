@@ -1,8 +1,8 @@
-# Spring 框架 Spring
+# Spring 框架 {#spring-spring}
 
 > [Java](../) › Spring 框架
 
-> 相关主题：[微服务 Microservices](../../microservices/) — Spring Cloud 在微服务体系中的选型与落地
+> 相关主题：[微服务](../../microservices/) — Spring Cloud 在微服务体系中的选型与落地
 
 IoC / AOP 原理、Spring Boot 自动配置和 Actuator、Spring MVC / WebFlux、Spring Security，以及 Spring Cloud（Gateway、Config、OpenFeign 等）。版本以 Boot 4.x / Framework 7 为主，并记录 3.x → 4.x 的迁移要点。
 

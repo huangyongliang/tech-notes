@@ -1,4 +1,4 @@
-# 图的建模与度数 Graphs and Degrees
+# 图的建模与度数 {#graphs-and-degrees}
 
 > [理论基础](../) › 图的建模与度数
 

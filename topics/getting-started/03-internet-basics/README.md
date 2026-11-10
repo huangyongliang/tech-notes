@@ -1,4 +1,4 @@
-# 互联网常识 Internet Basics
+# 互联网常识 {#internet-basics}
 
 > [零基础入门](../) › 互联网常识
 

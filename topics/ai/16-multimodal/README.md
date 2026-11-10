@@ -1,4 +1,4 @@
-# 多模态 Multimodal
+# 多模态 {#multimodal}
 
 > [AI](../) › 多模态
 

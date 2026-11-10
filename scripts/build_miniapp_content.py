@@ -21,6 +21,7 @@ import sys
 from pathlib import Path
 
 import render_mermaid
+import site_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "miniprogram" / "data" / "catalog.ts"
@@ -516,6 +517,7 @@ def parse_markdown(markdown: str) -> tuple[str, list[dict], list[dict]]:
     for line in lines:
         if not seen_h1 and H1_RE.match(line) and not line.startswith("##"):
             title = H1_RE.match(line).group(1).strip()  # type: ignore[union-attr]
+            title = re.sub(r"\s*\{#[^}]+\}\s*$", "", title).strip()
             seen_h1 = True
             continue
         body.append(line)
@@ -554,7 +556,8 @@ def assert_whitelist(docs: dict[str, dict]) -> None:
 def load_doc(path: Path, *, doc_id: str, kind: str, topic_id: str, num: str) -> dict:
     markdown = path.read_text(encoding="utf-8")
     title, blocks, toc = parse_markdown(markdown)
-    title_zh, title_en = split_title(title)
+    title_zh = site_catalog.strip_gloss(title)
+    title_en = None
     if not title_zh:
         raise SystemExit(f"missing H1: {path}")
     han = count_han(markdown)

@@ -1,4 +1,4 @@
-# 贡献指南 (Contributing)
+# 贡献指南 {#contributing}
 
 项目负责人：小鼠。欢迎队友补充笔记。
 

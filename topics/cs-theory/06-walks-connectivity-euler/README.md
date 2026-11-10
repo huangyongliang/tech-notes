@@ -1,4 +1,4 @@
-# 路径、连通与遍历 Walks, Connectivity and Tours
+# 路径、连通与遍历 {#walks-connectivity-and-tours}
 
 > [理论基础](../) › 路径、连通与遍历
 

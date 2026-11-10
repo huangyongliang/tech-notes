@@ -1,4 +1,4 @@
-# 着色与平面图 Coloring and Planarity
+# 着色与平面图 {#coloring-and-planarity}
 
 > [计算机理论](../) › 着色与平面图
 

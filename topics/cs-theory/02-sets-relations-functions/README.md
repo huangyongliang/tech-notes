@@ -1,4 +1,4 @@
-# 集合、关系与函数 Sets, Relations and Functions
+# 集合、关系与函数 {#sets-relations-and-functions}
 
 > [计算机理论](../) › 集合、关系与函数
 

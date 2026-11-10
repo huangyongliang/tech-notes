@@ -1,4 +1,4 @@
-# 核心概念 Core Concepts
+# 核心概念 {#core-concepts}
 
 > [编程入门](../) › 核心概念
 
@@ -262,7 +262,7 @@ gcc mathx.o main.o -o app                  # 链接
 - [CS50x Week 1: C](https://cs50.harvard.edu/x/weeks/1/) — 变量、条件、循环、函数；Week 2 讲数组和命令行参数（英文）
 - [Beej's Guide to C Programming](https://beej.us/guide/bgc/) — 变量、运算符、函数、指针、多文件项目各有专章（英文，免费）
 - [Modern C](https://gustedt.gitlabpages.inria.fr/modern-c/) — 按照现代 C 标准讲解类型、表达式和函数，对未定义行为讲得很细（英文，免费电子版）
-- [GCC 手册：Warning Options](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html) — 每个警告选项检查什么，看不懂某条警告时查阅（英文）
+- [GCC 手册：](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html) — 每个警告选项检查什么，看不懂某条警告时查阅（英文）
 
 ## 通关自测
 

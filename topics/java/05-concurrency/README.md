@@ -1,4 +1,4 @@
-# 并发 Concurrency
+# 并发 {#concurrency}
 
 > [Java](../) › 并发
 

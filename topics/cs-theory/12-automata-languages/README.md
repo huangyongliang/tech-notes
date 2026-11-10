@@ -1,4 +1,4 @@
-# 自动机与形式语言 Automata and Formal Languages
+# 自动机与形式语言 {#automata-and-formal-languages}
 
 > [计算机理论](../) › 自动机与形式语言
 

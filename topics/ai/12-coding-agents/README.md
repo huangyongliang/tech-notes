@@ -1,4 +1,4 @@
-# 编程智能体工作流 Coding Agent Workflows
+# 编程智能体工作流 {#coding-agent-workflows}
 
 > [AI](../) › 编程智能体工作流
 

@@ -1,4 +1,4 @@
-# 集合框架 Collections
+# 集合框架 {#collections}
 
 > [Java](../) › 集合框架
 

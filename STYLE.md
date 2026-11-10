@@ -1,4 +1,4 @@
-# Markdown 展示规范 Markdown Display Guide
+# Markdown 展示规范 {#markdown-markdown-display-guide}
 
 > 适用仓库：[huangyongliang/tech-notes](https://github.com/huangyongliang/tech-notes)（公开）
 > 目标：只靠 GitHub 原生 Markdown 渲染，做到好看、统一、好导航。不用 HTML 排版、不用外部图床、不用 shields 徽章服务。
@@ -145,7 +145,7 @@ flowchart LR
 - [标题](链接) — 一句话说明
 ```
 
-- 子目录表的链接文字用「中文 English」，不再直接显示目录名。
+- 子目录表的链接文字用中文。专名（Java、API、Git、Spring、HTTP）保留原文，不再在标题末尾加英文释义。改标题时用 `{#原来的锚点}` 保住旧地址。
 - 序号统一两位：`01`…`12`。
 
 ## 6. 子主题 README 结构（如 `05-concurrency/README.md`）

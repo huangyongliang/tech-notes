@@ -1,4 +1,4 @@
-# 微调与对齐 Fine-tuning & Alignment
+# 微调与对齐 {#fine-tuning-alignment}
 
 > [AI](../) › 微调与对齐
 

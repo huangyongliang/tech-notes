@@ -593,7 +593,10 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 }
 
 .md-typeset h1,
-.md-tabs__link { overflow-wrap: anywhere; }
+.md-tabs__link,
+.md-nav__link,
+.md-header__title,
+.md-ellipsis { overflow-wrap: anywhere; }
 .md-typeset .highlight,
 .md-typeset pre,
 .md-typeset .md-typeset__scrollwrap { max-width: 100%; overflow-x: auto; }

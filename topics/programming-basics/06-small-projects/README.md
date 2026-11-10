@@ -1,4 +1,4 @@
-# C 小项目 Small Projects
+# C 小项目 {#c-small-projects}
 
 > [编程入门](../) › C 小项目
 

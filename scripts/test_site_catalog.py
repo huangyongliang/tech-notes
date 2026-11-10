@@ -45,14 +45,12 @@ def main() -> int:
         "website/index.md",
     ]:
         fail(f"translated set changed: {translated}")
-    if "topics/getting-started/05-tech-english/README.md" in catalog["mixed_h1_remaining"]:
-        fail("slice chapter is still counted as a mixed title")
-    if len(catalog["mixed_h1_remaining"]) < 40:
-        fail("mixed H1 remainder was bulk-cleared")
+    if catalog["mixed_h1_remaining"]:
+        fail("an H1 still appends an English gloss: " + ", ".join(catalog["mixed_h1_remaining"][:8]))
 
     pending = catalog["pending_integrations"][0]
-    if pending["pr"] != 33 or pending["merged"] or pending["head"] != "3b56fcd5dcf65274afbc4d95fd186517ddac8b4b":
-        fail("PR 33 pending record changed")
+    if pending["pr"] != 33 or not pending["merged"] or pending["head"] != "3b56fcd5dcf65274afbc4d95fd186517ddac8b4b":
+        fail("PR 33 merged record changed")
     new_paths = [row["path"] for row in pending["when_merged"] if row.get("new_file")]
     if new_paths != [
         "topics/web/origin/README.md",
@@ -81,8 +79,25 @@ def main() -> int:
     if "部分" not in gs or "已译" in gs:
         fail(f"getting-started rollup should be partial: {gs}")
     web = [line for line in home_text.splitlines() if "](topics/web/README.md)" in line][0]
-    if "待开始" not in web or "未译" not in web or "s--wip" in web:
-        fail(f"web must stay planned and untranslated until PR 33: {web}")
+    systems = [line for line in home_text.splitlines() if "](topics/systems/README.md)" in line][0]
+    if "搭建中" not in web or "未译" not in web or "待开始" in web:
+        fail(f"web must be in progress and untranslated: {web}")
+    if "搭建中" not in systems or "未译" not in systems:
+        fail(f"systems must be in progress and untranslated: {systems}")
+    for rel in ("topics/web/origin/README.md", "topics/systems/distributed/README.md"):
+        page = by_path[rel]
+        if page["editorial"] != "building" or page["translation"] != "untranslated":
+            fail(f"new chapter has the wrong status: {page}")
+    web_table = (ROOT / "topics/web/README.md").read_text(encoding="utf-8")
+    if sc.apply_status_tables(web_table, catalog, "topics/web/README.md") != web_table:
+        fail("web status table drifted from the catalog")
+    moved = json.loads(json.dumps(catalog))
+    for page in moved["pages"]:
+        if page["path"] == "topics/web/origin/README.md":
+            page["editorial"] = "planned"
+    rewritten = sc.apply_status_tables(web_table, moved, "topics/web/README.md")
+    if "⚪" not in rewritten or rewritten == web_table:
+        fail("status table generator ignored the catalog")
 
     mutated = json.loads(json.dumps(catalog))
     for page in mutated["pages"]:
@@ -147,8 +162,13 @@ def main() -> int:
             fail("builder coverage mismatch")
         if "Not started" not in home or "In progress" not in home or "Partial" not in home:
             fail("english home missing editorial or translation labels")
-        if "topics/systems/distributed" in home or "topics/web/origin" in missing:
-            fail("PR 33 pages were counted before merge")
+        if "topics/web/origin" not in missing or "topics/systems/distributed" not in missing:
+            fail("merged Chinese chapters are missing from the untranslated list")
+        if "Chinese original: 语言基础与新特性" not in built_java.split("title:", 1)[1][:80]:
+            fail("fallback search title is not the Chinese title")
+        h1 = next(line for line in built_java.splitlines() if line.startswith("# "))
+        if "Language Basics" in h1 or "语言基础与新特性" not in h1:
+            fail(f"fallback H1 is mixed or missing: {h1}")
         if BANNER in built_chapter or BANNER not in built_java:
             fail("builder swapped translated and fallback pages")
         if "Chinese original:" not in built_java.split("\n", 3)[1]:
@@ -157,6 +177,8 @@ def main() -> int:
             fail("English site still depends on a search-limit map")
         if "locale" in built_chapter and "TREEIFY" in built_chapter:
             fail("english slice picked up unrelated chapters")
+    if "Chinese original: 语言基础与新特性" not in flat:
+        fail("English nav still shows the gloss instead of the Chinese original")
 
     print(
         f"ok pages={counts['pages']} translated={counts['translated']} "

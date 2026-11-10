@@ -1,4 +1,4 @@
-# 最短路与算法证明 Shortest Paths and Correctness
+# 最短路与算法证明 {#shortest-paths-and-correctness}
 
 > [计算机理论](../) › 最短路与算法证明
 

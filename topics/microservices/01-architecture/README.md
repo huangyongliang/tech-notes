@@ -1,10 +1,10 @@
-# 架构基础与拆分 Architecture & Decomposition
+# 架构基础与拆分 {#architecture-decomposition}
 
 > [微服务](../) › 架构基础与拆分
 
 从单体到微服务的动因与代价，用 DDD 的限界上下文划分服务边界。涵盖绞杀者模式、模块化单体（Spring Modulith）和康威定律。
 
-理论部分参见 [系统 Systems](../../systems/)（CAP、一致性、共识）。
+理论部分参见 [系统](../../systems/)（CAP、一致性、共识）。
 
 ## 本关定位
 

@@ -1,4 +1,4 @@
-# 组合计数与递推 Counting and Recurrences
+# 组合计数与递推 {#counting-and-recurrences}
 
 > [计算机理论](../) › 组合计数与递推
 

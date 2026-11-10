@@ -27,6 +27,8 @@ SECTION_EN = {
     "微服务": "Microservices",
     "AI": "AI",
     "全部主题": "All topics",
+    "Web": "Web",
+    "系统": "Systems",
     "资料": "Sources",
     "关于": "About",
 }
@@ -77,8 +79,6 @@ def nav_label(nav_path: str, by_path: dict) -> str:
         raise SystemExit(f"nav path missing from catalog: {nav_path}")
     if page["translation"] == "translated":
         return page["title_en"] or page["title_zh"]
-    if page["title_en"]:
-        return page["title_en"]
     return "Chinese original: " + page["title_zh"]
 
 
@@ -132,8 +132,7 @@ def _set_title(front_matter: str, title: str) -> str:
 
 def fallback_markdown(page: dict, text: str) -> str:
     front_matter, body = sc.split_front_matter(text)
-    name = page["title_en"] or page["title_zh"]
-    front_matter = _set_title(front_matter, f"Chinese original: {name}")
+    front_matter = _set_title(front_matter, "Chinese original: " + page["title_zh"])
     banner = (
         '<div class="tn-fallback" lang="en" role="status">'
         + sc.FALLBACK_BANNER
@@ -188,7 +187,7 @@ def render_home(catalog: dict) -> str:
     ]
     for path in order:
         page = by_path[path]
-        title = page["title_en"] or ("Chinese original: " + page["title_zh"])
+        title = "Chinese original: " + page["title_zh"]
         rel = english_url(path).removeprefix("/en/")
         roll = sc.translation_rollup(page, catalog["pages"])
         lines.append(
@@ -222,9 +221,7 @@ def render_not_translated(catalog: dict) -> str:
         "Editorial status is the publishing state of the Chinese page. "
         f"None are marked {labels['complete']['en']}.",
         "",
-        "PR 33 is open and not merged. It would mark Web and Systems as in progress and add two Chinese chapters. "
-        "Those files are not on this site, and they are not counted as English. "
-        "After it merges, regenerate the catalog before the next site build.",
+        "PR 33 is merged. Web and Systems are in progress, and their two new chapters are Chinese originals, not translations.",
         "",
     ]
     groups = {"building": [], "planned": [], "complete": []}
@@ -241,7 +238,7 @@ def render_not_translated(catalog: dict) -> str:
             lines.append("")
             continue
         for page in rows:
-            title = page["title_en"] or ("Chinese original: " + page["title_zh"])
+            title = "Chinese original: " + page["title_zh"]
             rel = english_url(page["path"]).removeprefix("/en/")
             lines.append(
                 f"- <span id=\"{anchor_for(page['path'])}\"></span>"
@@ -421,6 +418,7 @@ def build(
                 translated_markdown(page, chapter.read_text(encoding="utf-8"), "zh"),
                 encoding="utf-8",
             )
+        sc.write_status_tables(site_src, catalog)
         copied_en = site_src / "en"
         if copied_en.exists():
             shutil.rmtree(copied_en)

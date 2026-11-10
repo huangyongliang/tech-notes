@@ -1,4 +1,4 @@
-# 产品调研 Product Research
+# 产品调研 {#product-research}
 
 这里放产品分析、竞品调研、用户研究和技术选型记录，帮助把技术和产品决策联系起来。
 

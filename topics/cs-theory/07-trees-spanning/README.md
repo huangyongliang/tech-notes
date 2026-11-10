@@ -1,4 +1,4 @@
-# 树与生成树 Trees and Spanning Trees
+# 树与生成树 {#trees-and-spanning-trees}
 
 > [理论基础](../) › 树与生成树
 
