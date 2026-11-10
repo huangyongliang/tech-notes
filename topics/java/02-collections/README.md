@@ -16,16 +16,208 @@ List / Set / Map / Queue 的实现与选型，`HashMap` 原理、并发集合，
 
 **奖励**：+100 XP · 徽章「容器大师」（徽章名暂定，内容建设中）
 
-## 建议先收的资料
+## 知识要点
 
-- Javadoc
-- 实现源码阅读笔记
-- 复杂度速查表
-- 面试笔记
+先问数据怎么被用，再选容器。下面的程序都可单独编译。2026-11-10 在 JDK 21.0.12.1 上执行 `javac --release 21` 后运行，输出与下文一致。未连接外部服务。
+
+### 按访问模式选型
+
+| 你要的访问 | 常见选择 | 不要拿它当默认 |
+|------------|----------|----------------|
+| 按下标读写 | `ArrayList` | `LinkedList` |
+| 去重、不关心顺序 | `HashSet` | `ArrayList` 里手写去重 |
+| 去重且保留插入顺序 | `LinkedHashSet` | `HashSet` |
+| 键查找 | `HashMap` | `Hashtable` |
+| 键有序 | `TreeMap` | `HashMap` |
+| 键查找且记住插入顺序 | `LinkedHashMap` | `HashMap` |
+| 队首队尾 | `ArrayDeque` | `Stack` |
+
+`LinkedHashMap` 在默认构造下按插入顺序迭代。再次 `put` 已有的键只更新值，不把键挪到末尾。
+
+```java
+import java.util.LinkedHashMap;
+
+public class UpdateOrder {
+    public static void main(String[] args) {
+        var linked = new LinkedHashMap<String, Integer>();
+        linked.put("c", 1);
+        linked.put("a", 1);
+        linked.put("c", 2);
+        System.out.println(String.join(",", linked.keySet()));
+        System.out.println(linked.get("c"));
+    }
+}
+```
+
+运行输出：
+
+```text
+c,a
+2
+```
+
+### HashMap：桶、扩容，以及必须成对的 equals / hashCode
+
+`HashMap` 用键的 `hashCode` 选桶。桶里冲突变长时，OpenJDK 的实现会在链表长度达到 8 且数组容量至少 64 时把这个桶改成红黑树；容量不够时先扩容。默认负载因子是 0.75，元素个数超过「容量 × 负载因子」就大约扩成两倍。平均查找接近常数，冲突严重时会变差。
+
+`equals` 为真的两个键必须有相同的 `hashCode`，否则它们会进不同的桶，`get` 找不到已经放进去的值。下面的 `Tag` 只写了 `equals`，`hashCode` 仍是对象身份。
+
+```java
+import java.util.HashMap;
+
+public class HashKeyDemo {
+    static final class Tag {
+        final String name;
+        Tag(String name) { this.name = name; }
+        @Override public boolean equals(Object o) {
+            return o instanceof Tag t && name.equals(t.name);
+        }
+    }
+
+    public static void main(String[] args) {
+        var map = new HashMap<Tag, String>();
+        var first = new Tag("a");
+        var second = new Tag("a");
+        map.put(first, "ok");
+        System.out.println(first.equals(second));
+        System.out.println(map.get(second));
+    }
+}
+```
+
+运行输出：
+
+```text
+true
+null
+```
+
+补上按 `name` 计算的 `hashCode` 之后，同样的 `get` 得到 `ok`。这段也在同一 JDK 上编译并运行过：
+
+```java
+import java.util.HashMap;
+import java.util.Objects;
+
+public class HashKeyFixed {
+    static final class Tag {
+        final String name;
+        Tag(String name) { this.name = name; }
+        @Override public boolean equals(Object o) {
+            return o instanceof Tag t && name.equals(t.name);
+        }
+        @Override public int hashCode() {
+            return Objects.hashCode(name);
+        }
+    }
+
+    public static void main(String[] args) {
+        var map = new HashMap<Tag, String>();
+        map.put(new Tag("a"), "ok");
+        System.out.println(map.get(new Tag("a")));
+    }
+}
+```
+
+运行输出：
+
+```text
+ok
+```
+
+### 读多写少时的快照，不是万能锁
+
+`CopyOnWriteArrayList` 在写入时复制底层数组。迭代器看到的是创建那一刻的快照，不会抛 `ConcurrentModificationException`。适合名单很少改、读取和遍历很多的场景。写很多时，每次复制都贵。
+
+```java
+import java.util.concurrent.CopyOnWriteArrayList;
+
+public class CowDemo {
+    public static void main(String[] args) {
+        var list = new CopyOnWriteArrayList<String>();
+        list.add("a");
+        var it = list.iterator();
+        list.add("b");
+        while (it.hasNext()) {
+            System.out.print(it.next());
+        }
+        System.out.println();
+        System.out.println(list);
+    }
+}
+```
+
+运行输出：
+
+```text
+a
+[a, b]
+```
+
+这个程序是单线程的，只为看清「迭代器不跟着后面的 `add` 走」。`ConcurrentHashMap` 适合并发的键值读写；「先 `containsKey` 再 `put`」这种组合动作仍然不是原子的，需要方法本身提供的原子操作，或者你自己的同步。
+
+### JDK 21 的首尾和反转
+
+> [!WARNING]
+> `getFirst`、`getLast`、`reversed` 来自 Sequenced Collections，JDK 21 起才有。JDK 8、11、17 没有这些方法。
+
+`List`、`Deque`、`LinkedHashSet` 以及 `LinkedHashMap` 的键视图都走这套统一叫法，不必再记每种容器各自的 `get(0)` 或 `descendingIterator`。
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class SequencedDemo {
+    public static void main(String[] args) {
+        var list = new ArrayList<>(List.of("a", "b", "c"));
+        System.out.println(list.getFirst());
+        System.out.println(list.getLast());
+        System.out.println(list.reversed());
+    }
+}
+```
+
+运行输出：
+
+```text
+a
+c
+[c, b, a]
+```
+
+`reversed()` 是反序视图，不是另一份拷贝。把视图下标 0 设为 `z` 后，原列表变成 `[a, b, z]`，视图变成 `[z, b, a]`。这步也在同一 JDK 上运行过。
+
+### 复杂度对照
+
+| 操作 | ArrayList | LinkedList | HashMap | TreeMap |
+|------|-----------|------------|---------|---------|
+| 按下标读 | O(1) | O(n) | 不适用 | 不适用 |
+| 按键读 | 不适用 | 不适用 | 平均接近 O(1) | O(log n) |
+| 尾部追加 | 均摊 O(1) | O(1) | 平均接近 O(1) 的 put | O(log n) 的 put |
+
+`HashMap` 的「平均接近 O(1)」依赖散列质量。键的 `hashCode` 写错时，这个假设不成立。
+
+## 常见误区
+
+- 只改 `equals` 不改 `hashCode`，查找得到 `null` 还以为没放进去。
+- 需要稳定顺序时用 `HashMap`，再把某次遍历顺序当成承诺。
+- 新代码继续用 `Hashtable` 或 `Vector`。它们是遗留的整表同步容器。
+- 以为 `ConcurrentHashMap` 让任意两行业务代码都变成原子操作。
+- 用 `LinkedList` 做大量 `get(i)`，然后觉得 List 都很慢。
+
+## 实践任务
+
+1. 运行 `HashKeyDemo`，确认输出是 `true` 和 `null`。再换成 `HashKeyFixed`，确认变成 `ok`。
+2. 用 `LinkedHashMap` 按 `c`、`a`、`b` 插入，打印键的顺序；把已有键 `c` 的值改成 2，再看顺序有没有变成末尾。
+3. 准备一个会在迭代途中 `add` 的 `ArrayList`，观察 `ConcurrentModificationException`；换成 `CopyOnWriteArrayList` 后对照 `CowDemo` 的快照行为。JDK 21 上再调用一次 `getFirst` 和 `reversed`。
 
 ## 资料索引
 
-<!-- - [标题](相对路径或链接) — 一句话说明 -->
+- [The Collections Framework](https://docs.oracle.com/javase/tutorial/collections/index.html) — Oracle Java 教程里的集合总览
+- [HashMap（JDK 21 Javadoc）](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HashMap.html) — 负载因子、树化和实现说明
+- [JEP 431: Sequenced Collections](https://openjdk.org/jeps/431) — `getFirst` / `reversed` 的正式说明
+- [SequencedCollection（JDK 21 Javadoc）](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SequencedCollection.html) — 统一接口
+- [Algorithms, 4th Edition](https://algs4.cs.princeton.edu/home/) — 普林斯顿 COS 226 教材站点，用 Java 讲数据结构和算法
+- [UC Berkeley CS 61B](https://inst.eecs.berkeley.edu/~cs61b/) — 伯克利数据结构课程（Java）
 
 ## 通关自测
 

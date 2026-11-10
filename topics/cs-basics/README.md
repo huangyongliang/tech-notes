@@ -2,7 +2,7 @@
 
 理解计算机、操作系统、网络和数据库怎么工作，掌握 Linux 命令行和 Git。与深入专题 [系统 Systems](../systems/) 分工：这里是入门闯关路径。
 
-> 相关主题：[零基础入门 Getting Started](../getting-started/) · [编程入门 Programming Basics](../programming-basics/) · [系统 Systems](../systems/) · [学习路线 Roadmap](../roadmap/)
+> 相关主题：[零基础入门 Getting Started](../getting-started/) · [编程入门 Programming Basics](../programming-basics/) · [计算机理论 CS Theory](../cs-theory/) · [系统 Systems](../systems/) · [学习路线 Roadmap](../roadmap/)
 
 ## 学习路径
 
@@ -25,6 +25,19 @@ flowchart LR
 | 07 | [数据库基础 Databases](07-databases/) | SQL、索引、事务 | 🟡 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
+
+## 理论选修
+
+[计算机理论](../cs-theory/) 与上面的 01–07 并行，不插入学习路径，也不是写出第一个 C 程序的前置。需要追问「为什么成立」时再跳过去。
+
+| 实践关 | 可选理论 | 它补充什么 |
+|--------|----------|------------|
+| 01 组成 | [命题与谓词](../cs-theory/01-logic/) · [可计算性](../cs-theory/13-computability/) | 条件的真假；无界模型与有限机器的差别 |
+| 02 操作系统 | [证明与归纳](../cs-theory/03-proofs-induction/) · [有向图](../cs-theory/10-digraphs-dag/) | 不变式与终止；依赖成圈时为什么排不出顺序 |
+| 04 Git | [关系](../cs-theory/02-sets-relations-functions/) · [有向图](../cs-theory/10-digraphs-dag/) | 偏序和 DAG 只作背景，命令仍以 Git 章为准 |
+| 05 网络 | [图与度数](../cs-theory/05-graphs-degrees/) · [最短路](../cs-theory/11-shortest-path-proofs/) | 静态图上的连通和最短路，不代替协议 |
+| 06 DSA | [图论入口](../cs-theory/05-graphs-degrees/) · [复杂度](../cs-theory/14-complexity-reductions/) | 定理条件和反例；实现仍在本关和 C |
+| 07 数据库 | [集合、关系与函数](../cs-theory/02-sets-relations-functions/) | 数学关系；不覆盖 SQL 的 NULL |
 
 ## 资料索引
 

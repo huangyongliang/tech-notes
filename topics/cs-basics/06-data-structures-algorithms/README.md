@@ -11,7 +11,7 @@
 | 所属阶段 | 阶段 1 计算机基础 · 第 6 关（第二章「数据与网络」） |
 | 前置要求 | C 的数组、指针、`struct` 和 `malloc`（[内存与数据](../../programming-basics/03-memory-and-data/)） |
 | 建议用时 | 4–6 周入门，之后长期刷题巩固 |
-| 后续衔接 | 编程入门的 [问题求解](../../programming-basics/05-problem-solving/) 会用 C 亲手实现栈、队列、哈希表和排序；Java 阶段的 [集合框架](../../java/02-collections/) 就是这些结构的标准库实现 |
+| 后续衔接 | 编程入门的 [问题求解](../../programming-basics/05-problem-solving/) 会用 C 亲手实现栈、队列、哈希表和排序；Java 阶段的 [集合框架](../../java/02-collections/) 就是这些结构的标准库实现。定理条件和反例可选读 [图论](../../cs-theory/05-graphs-degrees/) 与 [复杂度](../../cs-theory/14-complexity-reductions/)，不是本关前置 |
 
 数据结构是组织数据的方式，算法是解决问题的步骤，两者决定了程序在数据量变大时是否还跑得动。这一关的目标是建立「看到问题先想用什么结构、复杂度多少」的习惯；具体实现放在 C 里练，因为 C 没有现成的容器，你必须亲手管理每一个节点和每一块内存。
 
