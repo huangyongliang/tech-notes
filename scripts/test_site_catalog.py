@@ -42,7 +42,7 @@ def main() -> int:
         fail(f"translated set changed: {translated}")
 
     pending = catalog["pending_integrations"][0]
-    if pending["pr"] != 33 or pending["merged"] or pending["head"] != "e7e6fdebf1ac5c3b197a6950dd403e7bb44e9735":
+    if pending["pr"] != 33 or pending["merged"] or pending["head"] != "ea769011e3af96324ba5deeeb22da3b98f2e035a":
         fail("PR 33 pending record changed")
     new_paths = [row["path"] for row in pending["when_merged"] if row.get("new_file")]
     if new_paths != [
