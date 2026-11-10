@@ -89,6 +89,8 @@ def nav_label(nav_path: str, by_path: dict) -> str:
     page = by_path.get(catalog_path(nav_path))
     if page is None:
         raise SystemExit(f"nav path missing from catalog: {nav_path}")
+    if page.get("kind") == "topic" and page.get("title_en"):
+        return page["title_en"]
     if page["translation"] == "translated":
         return page["title_en"] or page["title_zh"]
     return page["title_zh"]
@@ -191,8 +193,38 @@ def translated_markdown(page: dict, text: str, lang: str) -> str:
     return paragraph + text
 
 
-def render_home(catalog: dict) -> str:
+def topic_table(catalog: dict, order: list[str]) -> str:
+    """Labelled rows. Narrow screens stack each cell with its column name."""
     labels = catalog["labels"]
+    by_path = {page["path"]: page for page in catalog["pages"]}
+    rows = [
+        "<div class=\"tn-en-topics\">",
+        "<table>",
+        "<thead><tr><th>Topic</th><th>Subtopics</th><th>Editorial</th><th>Translation</th><th>Page</th></tr></thead>",
+        "<tbody>",
+    ]
+    for path in order:
+        page = by_path[path]
+        title = page.get("title_en") or page["title_zh"]
+        count = sc.subtopic_count(catalog, path)
+        phrase = sc.subtopic_phrase(count, "en")
+        editorial = labels[page["editorial"]]["en"]
+        translation = sc.TR_LABELS[sc.translation_rollup(page, catalog["pages"])]["en"]
+        rel = english_url(path).removeprefix("/en/")
+        rows.append(
+            "<tr>"
+            f'<td data-label="Topic">{title}</td>'
+            f'<td data-label="Subtopics">{phrase}</td>'
+            f'<td data-label="Editorial">{editorial}</td>'
+            f'<td data-label="Translation">{translation}</td>'
+            f'<td data-label="Page"><a href="{rel}">Open</a></td>'
+            "</tr>"
+        )
+    rows += ["</tbody>", "</table>", "</div>"]
+    return "\n".join(rows)
+
+
+def render_home(catalog: dict) -> str:
     counts = catalog["counts"]
     by_path = {page["path"]: page for page in catalog["pages"]}
     home = by_path["website/index.md"]
@@ -220,19 +252,8 @@ def render_home(catalog: dict) -> str:
         "",
         sc.terminal_html(catalog, "en", order),
         "",
-        "| Topic | Subtopics | Editorial | Translation | Page |",
-        "|-------|-----------|-----------|-------------|------|",
+        topic_table(catalog, order),
     ]
-    for path in order:
-        page = by_path[path]
-        title = page["title_zh"]
-        rel = english_url(path).removeprefix("/en/")
-        roll = sc.translation_rollup(page, catalog["pages"])
-        count = sc.subtopic_count(catalog, path)
-        lines.append(
-            f"| {title} | {count} | {labels[page['editorial']]['en']} | "
-            f"{sc.TR_LABELS[roll]['en']} | [Open]({rel}) |"
-        )
     lines += [
         "",
         "The quest map and experience points stay on the [Chinese home](../). "

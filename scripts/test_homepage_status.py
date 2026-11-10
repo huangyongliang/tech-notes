@@ -106,13 +106,24 @@ def main() -> int:
         if label not in row or f"{count} 个子主题" not in row:
             fail(f"Chinese topic row drifted: {row}")
         en_label = sc.LABELS[page["editorial"]]["en"]
-        en_row = next(line for line in english.splitlines() if line.startswith(f"| {page['title_zh']} |"))
-        if en_row != (
-            f"| {page['title_zh']} | {count} | {en_label} | "
-            f"{sc.TR_LABELS[sc.translation_rollup(page, catalog['pages'])]['en']} | "
-            f"[Open]({bes.english_url(path).removeprefix('/en/')}) |"
-        ):
-            fail(f"English topic row drifted: {en_row}")
+        phrase = sc.subtopic_phrase(count, "en")
+        title_en = page.get("title_en") or ""
+        if not title_en:
+            fail(f"topic has no English name: {path}")
+        if page["translation"] != "untranslated":
+            fail(f"English topic name counted as translated: {path}")
+        if title_en not in english:
+            fail(f"English home missing {title_en}")
+        if page["title_zh"] not in title_en and page["title_zh"] in english:
+            fail(f"English home still shows the Chinese title: {page['title_zh']}")
+        en_row = (
+            f'<td data-label="Topic">{title_en}</td>'
+            f'<td data-label="Subtopics">{phrase}</td>'
+            f'<td data-label="Editorial">{en_label}</td>'
+            f'<td data-label="Translation">{sc.TR_LABELS[sc.translation_rollup(page, catalog["pages"])]["en"]}</td>'
+        )
+        if en_row not in english:
+            fail(f"English topic row drifted: {title_en}")
 
     for path in (home_path, readme_path, index_path):
         assert_converted(path, catalog)
@@ -121,6 +132,29 @@ def main() -> int:
     for line in english.splitlines():
         if re.search(r"\d+\s*章", line):
             fail(f"English home still has a hard-coded chapter count: {line}")
+    topics = [page for page in catalog["pages"] if page["kind"] == "topic"]
+    if len(topics) != 13 or any(not page.get("title_en") for page in topics):
+        fail("expected 13 topics with English display names")
+    if catalog["counts"]["translated"] != 2 or catalog["counts"]["untranslated"] != catalog["counts"]["pages"] - 2:
+        fail("title_en changed the translation counts")
+    phrases = {
+        sc.subtopic_phrase(sc.subtopic_count(catalog, page["path"]), "en")
+        for page in topics
+    }
+    if "1 subtopic" not in phrases or "1 subtopics" in phrases:
+        fail(f"English subtopic phrase is not singular for one page: {sorted(phrases)}")
+    if "0 subtopics" not in phrases or "5 subtopics" not in phrases:
+        fail("English plural subtopic phrase drifted")
+    if re.search(r"(?<!\d)1 subtopics", english):
+        fail("English home uses the plural for one subtopic")
+    css_extra = (ROOT / "website/stylesheets/extra.css").read_text(encoding="utf-8")
+    narrow = css_extra.split("@media (max-width: 900px)", 1)
+    if len(narrow) != 2 or "white-space: pre-wrap;" not in narrow[1] or "overflow-wrap: anywhere;" not in narrow[1]:
+        fail("narrow terminal does not wrap")
+    if "padding-right: calc(1.1rem + 6px);" not in narrow[1]:
+        fail("narrow terminal is missing right breathing room")
+    if ".tn-en-topics td::before" not in narrow[1] or 'content: attr(data-label);' not in narrow[1]:
+        fail("narrow English topic table does not show column labels")
 
     mutated = json.loads(json.dumps(catalog))
     removed = False
@@ -141,7 +175,7 @@ def main() -> int:
     changed_en = bes.render_home(mutated)
     if "# 21 subtopics · Not started" not in changed_en:
         fail("English terminal ignored a catalog status change")
-    if "| 11 | In progress |" not in changed_en or "| 12 | In progress |" in changed_en:
+    if "11 subtopics" not in changed_en or "12 subtopics" in changed_en:
         fail("English topic table ignored a catalog page-count change")
 
     css = (ROOT / "website/stylesheets/game.css").read_text(encoding="utf-8")
@@ -192,8 +226,15 @@ def main() -> int:
             description = re.search(r'class="d">([^<]+)', row).group(1)
             if description not in zh_html:
                 fail(f"built Chinese topic list missing {description}")
-            if f"{count}" not in en_html or sc.LABELS[page["editorial"]]["en"] not in en_html:
-                fail(f"built English topic list missing {page['title_zh']}")
+            if page.get("title_en") and page["title_en"] not in en_html:
+                fail(f"built English home missing {page['title_en']}")
+            shown = en_html[en_html.find("tn2-term"):en_html.find("tn-en-topics")] + en_html[en_html.find("tn-en-topics"):en_html.find("</table>")]
+            if page["title_zh"] not in (page.get("title_en") or "") and page["title_zh"] in shown:
+                fail(f"built English home still shows {page['title_zh']}")
+            if sc.subtopic_phrase(count, "en") not in en_html:
+                fail(f"built English home missing {sc.subtopic_phrase(count, 'en')}")
+        if 'aria-label="Next: Roadmap"' not in en_html or "从零到 AI 学习路线" in en_html:
+            fail("English footer Next is still the Chinese topic title")
         if desc is None:
             fail("no counted description")
     print("ok", len(order), "topics")

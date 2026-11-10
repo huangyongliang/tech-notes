@@ -242,6 +242,29 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   .tn2-hero > *,
   .tn2-term,
   .md-typeset .tn2-term pre { min-width: 0; max-width: 100%; }
+  .tn2-term,
+  .md-typeset .tn2-term pre,
+  .md-typeset .tn2-term pre > code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow: visible;
+  }
+  .md-typeset .tn2-term pre > code { padding-right: calc(1.1rem + 6px); }
+  .tn-en-topics thead { display: none; }
+  .tn-en-topics tr { display: block; margin: 0 0 .8rem; border: 2px solid var(--tn-rule); padding: .35rem .6rem; }
+  .tn-en-topics td {
+    display: grid;
+    grid-template-columns: 7.2rem minmax(0, 1fr);
+    gap: .35rem;
+    border: 0;
+    padding: .15rem 0;
+  }
+  .tn-en-topics td::before {
+    content: attr(data-label);
+    font-family: var(--tn-mono);
+    font-size: .66rem;
+    font-weight: 700;
+  }
   .md-typeset .tn2-hero h1 { font-size: 2rem; }
   .tn2-term { transform: none; }
   /* 关键词条：不换行，横向滚动 */

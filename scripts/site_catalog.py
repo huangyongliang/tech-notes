@@ -68,6 +68,24 @@ META_EDITORIAL = {
     "STYLE.md": "building",
 }
 
+# English display names for the 13 topic rows. These are not translations:
+# the topic page stays untranslated until TRANSLATED says otherwise.
+TOPIC_TITLE_EN = {
+    "topics/roadmap/README.md": "Roadmap",
+    "topics/getting-started/README.md": "Getting Started",
+    "topics/cs-basics/README.md": "Computer Basics",
+    "topics/cs-theory/README.md": "Theory",
+    "topics/programming-basics/README.md": "Programming Basics",
+    "topics/java/README.md": "Java",
+    "topics/microservices/README.md": "Microservices",
+    "topics/ai/README.md": "AI",
+    "topics/programming/README.md": "Programming",
+    "topics/web/README.md": "Web",
+    "topics/systems/README.md": "Systems",
+    "topics/devops/README.md": "DevOps",
+    "topics/product-research/README.md": "Product Research",
+}
+
 # Reviewed English sources. Anything else is untranslated, including
 # pages that merely contain English words inside Chinese prose.
 # The English home is generated from this catalog so its topic table
@@ -318,11 +336,17 @@ def subtopic_count(catalog: dict, topic_path: str) -> int:
     )
 
 
+def subtopic_phrase(count: int, lang: str) -> str:
+    if lang == "zh":
+        return f"{count} 个子主题"
+    if count == 1:
+        return "1 subtopic"
+    return f"{count} subtopics"
+
+
 def status_comment(page: dict, count: int, lang: str) -> str:
     label = LABELS[page["editorial"]][lang]
-    if lang == "zh":
-        return f"# {count} 个子主题 · {label}"
-    return f"# {count} subtopics · {label}"
+    return f"# {subtopic_phrase(count, lang)} · {label}"
 
 
 def topic_order_from(text: str) -> list[str]:
@@ -341,7 +365,8 @@ def render_terminal_body(catalog: dict, lang: str, order: list[str]) -> str:
         branch = "└──" if index == len(order) - 1 else "├──"
         comment = status_comment(page, subtopic_count(catalog, path), lang)
         lines.append(f"{branch} <em>{slug}/</em> <s>{comment}</s>")
-    shown = by_path["topics/java/README.md"]["title_zh"]
+    java = by_path["topics/java/README.md"]
+    shown = java["title_zh"] if lang == "zh" else (java.get("title_en") or java["title_zh"])
     lines += [
         "",
         "<b>$</b> cat java/README.md | head -1",
@@ -493,6 +518,10 @@ def derive_catalog(root: Path | None = None) -> dict:
         elif rel in TRANSLATED:
             title_en = read_h1(english_source(rel))
             title_zh = strip_gloss(h1)
+        if rel in TOPIC_TITLE_EN:
+            if rel in TRANSLATED:
+                raise ValueError(f"a translated page is also a display name: {rel}")
+            title_en = TOPIC_TITLE_EN[rel]
         pages.append(
             {
                 "path": rel,

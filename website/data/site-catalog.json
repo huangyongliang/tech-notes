@@ -218,7 +218,7 @@
     {
       "path": "topics/ai/README.md",
       "title_zh": "AI 技术栈",
-      "title_en": null,
+      "title_en": "AI",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -282,7 +282,7 @@
     {
       "path": "topics/cs-basics/README.md",
       "title_zh": "计算机基础",
-      "title_en": null,
+      "title_en": "Computer Basics",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -402,7 +402,7 @@
     {
       "path": "topics/cs-theory/README.md",
       "title_zh": "理论基础",
-      "title_en": null,
+      "title_en": "Theory",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -410,7 +410,7 @@
     {
       "path": "topics/devops/README.md",
       "title_zh": "DevOps",
-      "title_en": null,
+      "title_en": "DevOps",
       "editorial": "planned",
       "translation": "untranslated",
       "kind": "topic"
@@ -458,7 +458,7 @@
     {
       "path": "topics/getting-started/README.md",
       "title_zh": "零基础入门",
-      "title_en": null,
+      "title_en": "Getting Started",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -570,7 +570,7 @@
     {
       "path": "topics/java/README.md",
       "title_zh": "Java 技术栈",
-      "title_en": null,
+      "title_en": "Java",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -706,7 +706,7 @@
     {
       "path": "topics/microservices/README.md",
       "title_zh": "微服务",
-      "title_en": null,
+      "title_en": "Microservices",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -714,7 +714,7 @@
     {
       "path": "topics/product-research/README.md",
       "title_zh": "产品调研",
-      "title_en": null,
+      "title_en": "Product Research",
       "editorial": "planned",
       "translation": "untranslated",
       "kind": "topic"
@@ -722,7 +722,7 @@
     {
       "path": "topics/programming/README.md",
       "title_zh": "编程",
-      "title_en": null,
+      "title_en": "Programming",
       "editorial": "planned",
       "translation": "untranslated",
       "kind": "topic"
@@ -778,7 +778,7 @@
     {
       "path": "topics/programming-basics/README.md",
       "title_zh": "编程入门",
-      "title_en": null,
+      "title_en": "Programming Basics",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -786,7 +786,7 @@
     {
       "path": "topics/roadmap/README.md",
       "title_zh": "从零到 AI 学习路线",
-      "title_en": null,
+      "title_en": "Roadmap",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -794,7 +794,7 @@
     {
       "path": "topics/systems/README.md",
       "title_zh": "系统",
-      "title_en": null,
+      "title_en": "Systems",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
@@ -810,7 +810,7 @@
     {
       "path": "topics/web/README.md",
       "title_zh": "Web 开发",
-      "title_en": null,
+      "title_en": "Web",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
