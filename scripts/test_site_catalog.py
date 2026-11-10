@@ -30,7 +30,7 @@ def main() -> int:
         fail("\n".join(errors))
 
     counts = catalog["counts"]
-    if counts["translated"] != 2 or counts["untranslated"] != counts["pages"] - 2:
+    if counts["translated"] != 7 or counts["untranslated"] != counts["pages"] - 7:
         fail(f"unexpected coverage {counts}")
     if counts["editorial"]["complete"] != 0:
         fail("a page is marked complete")
@@ -41,7 +41,12 @@ def main() -> int:
 
     translated = [p["path"] for p in catalog["pages"] if p["translation"] == "translated"]
     if translated != [
+        "topics/getting-started/01-what-is-a-computer/README.md",
+        "topics/getting-started/02-using-a-computer/README.md",
+        "topics/getting-started/03-internet-basics/README.md",
+        "topics/getting-started/04-learning-to-learn/README.md",
         "topics/getting-started/05-tech-english/README.md",
+        "topics/getting-started/README.md",
         "website/index.md",
     ]:
         fail(f"translated set changed: {translated}")
@@ -76,8 +81,8 @@ def main() -> int:
     if "清掉记录不会改变编辑状态" not in home_text:
         fail("homepage does not separate personal progress from editorial status")
     gs = [line for line in home_text.splitlines() if "topics/getting-started/README.md" in line][0]
-    if "部分" not in gs or "已译" in gs:
-        fail(f"getting-started rollup should be partial: {gs}")
+    if "已译" not in gs or "部分" in gs:
+        fail(f"getting-started rollup should be translated: {gs}")
     web = [line for line in home_text.splitlines() if "](topics/web/README.md)" in line][0]
     systems = [line for line in home_text.splitlines() if "](topics/systems/README.md)" in line][0]
     if "搭建中" not in web or "未译" not in web or "待开始" in web:
@@ -164,10 +169,13 @@ def main() -> int:
         missing = (built / "not-translated.md").read_text(encoding="utf-8")
         built_chapter = (built / "topics/getting-started/05-tech-english/README.md").read_text(encoding="utf-8")
         built_java = (built / "topics/java/01-language-basics/README.md").read_text(encoding="utf-8")
-        if counts["translated"] != 2:
+        if counts["translated"] != 7:
             fail("builder coverage mismatch")
-        if "Not started" not in home or "In progress" not in home or "Partial" not in home:
+        if "Not started" not in home or "In progress" not in home or "Translated" not in home:
             fail("english home missing editorial or translation labels")
+        gs_row = next(line for line in home.splitlines() if 'data-label="Topic">Getting Started<' in line)
+        if 'data-label="Translation">Translated<' not in gs_row or "Partial" in gs_row:
+            fail(f"getting-started row is not fully translated: {gs_row}")
         if "topics/web/origin" not in missing or "topics/systems/distributed" not in missing:
             fail("merged Chinese chapters are missing from the untranslated list")
         if 'title: "Chinese original:' in built_java:

@@ -171,7 +171,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">00</span><span class="t">学习路线</span><span class="d">从零到 AI · 六个阶段总览 · 0 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/roadmap/README.md)
 
-[<span class="n">01</span><span class="t">零基础入门</span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">部分</span></span>](topics/getting-started/README.md)
+[<span class="n">01</span><span class="t">零基础入门</span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">已译</span></span>](topics/getting-started/README.md)
 
 [<span class="n">02</span><span class="t">计算机基础</span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库 · 7 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-basics/README.md)
 

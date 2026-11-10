@@ -420,7 +420,7 @@
       "title_zh": "认识计算机",
       "title_en": "What a computer is",
       "editorial": "building",
-      "translation": "untranslated",
+      "translation": "translated",
       "kind": "chapter"
     },
     {
@@ -428,7 +428,7 @@
       "title_zh": "用好电脑",
       "title_en": "Using a computer",
       "editorial": "building",
-      "translation": "untranslated",
+      "translation": "translated",
       "kind": "chapter"
     },
     {
@@ -436,7 +436,7 @@
       "title_zh": "互联网常识",
       "title_en": "Internet basics",
       "editorial": "building",
-      "translation": "untranslated",
+      "translation": "translated",
       "kind": "chapter"
     },
     {
@@ -444,7 +444,7 @@
       "title_zh": "学会学习与提问",
       "title_en": "Learning and asking questions",
       "editorial": "building",
-      "translation": "untranslated",
+      "translation": "translated",
       "kind": "chapter"
     },
     {
@@ -460,7 +460,7 @@
       "title_zh": "零基础入门",
       "title_en": "Getting Started",
       "editorial": "building",
-      "translation": "untranslated",
+      "translation": "translated",
       "kind": "topic"
     },
     {
@@ -874,8 +874,8 @@
   ],
   "counts": {
     "pages": 104,
-    "translated": 2,
-    "untranslated": 102,
+    "translated": 7,
+    "untranslated": 97,
     "editorial": {
       "planned": 3,
       "building": 101,
