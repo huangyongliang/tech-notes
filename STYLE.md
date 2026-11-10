@@ -91,7 +91,7 @@ flowchart LR
 | 🌐 [Web](topics/web/) | 源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ | 🟡 搭建中 |
 | 🖥️ [系统 Systems](topics/systems/) | OS、网络、数据库、分布式 | ⚪ 待开始 |
 | 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 | ⚪ 待开始 |
-| 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、选型 | ⚪ 待开始 |
+| 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 | 🟡 搭建中 |
 
 ## 学习路线
 

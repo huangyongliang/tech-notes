@@ -171,8 +171,12 @@ def main() -> int:
         built_java = (built / "topics/java/01-language-basics/README.md").read_text(encoding="utf-8")
         if counts["translated"] != 7:
             fail("builder coverage mismatch")
-        if "Not started" not in home or "In progress" not in home or "Translated" not in home:
+        if "In progress" not in home or "Translated" not in home:
             fail("english home missing editorial or translation labels")
+        if "Not started" in home:
+            fail("english home still lists a not-started topic")
+        if "## Not started (0)" not in missing:
+            fail("coverage should show that no page is not started")
         gs_row = next(line for line in home.splitlines() if 'data-label="Topic">Getting Started<' in line)
         if 'data-label="Translation">Translated<' not in gs_row or "Partial" in gs_row:
             fail(f"getting-started row is not fully translated: {gs_row}")

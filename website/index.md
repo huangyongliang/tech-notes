@@ -37,7 +37,7 @@ topics/
 ├── <em>web/</em> <s># 4 个子主题 · 搭建中</s>
 ├── <em>systems/</em> <s># 1 个子主题 · 搭建中</s>
 ├── <em>devops/</em> <s># 4 个子主题 · 搭建中</s>
-└── <em>product-research/</em> <s># 0 个子主题 · 待开始</s>
+└── <em>product-research/</em> <s># 4 个子主题 · 搭建中</s>
 
 <b>$</b> cat java/README.md | head -1
 # Java 技术栈
@@ -193,7 +193,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">11</span><span class="t">DevOps</span><span class="d">流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/devops/README.md)
 
-[<span class="n">12</span><span class="t">产品调研</span><span class="d">产品、竞品、技术选型 · 0 个子主题</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md){ .tn2-todo }
+[<span class="n">12</span><span class="t">产品调研</span><span class="d">调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md)
 
 </div>
 

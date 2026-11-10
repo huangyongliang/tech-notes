@@ -31,6 +31,7 @@ SECTION_EN = {
     "Web": "Web",
     "编程": "Programming",
     "DevOps": "DevOps",
+    "产品调研": "Product Research",
     "系统": "Systems",
     "资料": "Sources",
     "关于": "About",

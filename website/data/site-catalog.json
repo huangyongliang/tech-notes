@@ -744,10 +744,42 @@
       "kind": "topic"
     },
     {
+      "path": "topics/product-research/01-problem-constraints/README.md",
+      "title_zh": "问题与约束",
+      "title_en": "Problems and Constraints",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/product-research/02-comparison/README.md",
+      "title_zh": "对照与条件",
+      "title_en": "Comparison under Conditions",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/product-research/03-selection-records/README.md",
+      "title_zh": "选型记录",
+      "title_en": "Selection Records",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/product-research/04-invalidation/README.md",
+      "title_zh": "失效与修订",
+      "title_en": "Invalidation and Revision",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
       "path": "topics/product-research/README.md",
       "title_zh": "产品调研",
       "title_en": "Product Research",
-      "editorial": "planned",
+      "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -961,12 +993,12 @@
     }
   ],
   "counts": {
-    "pages": 115,
+    "pages": 119,
     "translated": 7,
-    "untranslated": 108,
+    "untranslated": 112,
     "editorial": {
-      "planned": 1,
-      "building": 114,
+      "planned": 0,
+      "building": 119,
       "complete": 0
     }
   },

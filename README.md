@@ -29,7 +29,7 @@
 | 🌐 [Web](topics/web/) | 源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题 | 🟡 搭建中 |
 | 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟡 搭建中 |
 | 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟡 搭建中 |
-| 🔍 [产品调研 Product Research](topics/product-research/) | 产品、竞品、技术选型 · 0 个子主题 | ⚪ 待开始 |
+| 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题 | 🟡 搭建中 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 

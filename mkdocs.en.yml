@@ -165,7 +165,12 @@ nav:
       - Promotion and Gating: topics/devops/03-promotion-gating/README.md
       - Rollback and Audit: topics/devops/04-rollback-audit/README.md
     - AI: topics/ai/README.md
-    - Product Research: topics/product-research/README.md
+    - Product Research:
+      - Product Research: topics/product-research/README.md
+      - Problems and Constraints: topics/product-research/01-problem-constraints/README.md
+      - Comparison under Conditions: topics/product-research/02-comparison/README.md
+      - Selection Records: topics/product-research/03-selection-records/README.md
+      - Invalidation and Revision: topics/product-research/04-invalidation/README.md
     - Inbox: topics/inbox/README.md
   - Notes: notes/README.md
   - Sources:

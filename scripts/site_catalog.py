@@ -179,6 +179,10 @@ PAGE_TITLE_EN = {
     "topics/devops/03-promotion-gating/README.md": "Promotion and Gating",
     "topics/devops/04-rollback-audit/README.md": "Rollback and Audit",
     "topics/product-research/README.md": "Product Research",
+    "topics/product-research/01-problem-constraints/README.md": "Problems and Constraints",
+    "topics/product-research/02-comparison/README.md": "Comparison under Conditions",
+    "topics/product-research/03-selection-records/README.md": "Selection Records",
+    "topics/product-research/04-invalidation/README.md": "Invalidation and Revision",
 }
 
 # Reviewed English sources. Anything else is untranslated, including

@@ -182,7 +182,12 @@ nav:
           - 03 晋级与门禁: topics/devops/03-promotion-gating/README.md
           - 04 回滚与审计: topics/devops/04-rollback-audit/README.md
       - AI: topics/ai/README.md
-      - 产品调研: topics/product-research/README.md
+      - 产品调研:
+          - topics/product-research/README.md
+          - 01 问题与约束: topics/product-research/01-problem-constraints/README.md
+          - 02 对照与条件: topics/product-research/02-comparison/README.md
+          - 03 选型记录: topics/product-research/03-selection-records/README.md
+          - 04 失效与修订: topics/product-research/04-invalidation/README.md
       - Inbox: topics/inbox/README.md
   - 笔记: notes/README.md
   - 资料:
