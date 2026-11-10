@@ -102,7 +102,7 @@ nav:
       - 01 语言基础与新特性: topics/java/01-language-basics/README.md
       - 02 集合框架: topics/java/02-collections/README.md
       - 03 异常、泛型、反射与注解: topics/java/03-core-advanced/README.md
-      - 04 输入输出: topics/java/04-io-nio/README.md
+      - 04 IO 与 NIO: topics/java/04-io-nio/README.md
       - 05 并发: topics/java/05-concurrency/README.md
       - 06 Java 虚拟机: topics/java/06-jvm/README.md
       - 07 构建工具: topics/java/07-build-tools/README.md

@@ -31,13 +31,13 @@ flowchart TD
 |---|--------|------|------|
 | 00 | [Python 速成](00-python-bridge/) | AI 前置：对照 C / Java 速成 Python | 🟡 |
 | 01 | [数学与机器学习基础](01-foundations/) | 线性代数、概率、优化、经典 ML | 🟡 |
-| 02 | [深度学习框架 DL](02-dl-frameworks/) | PyTorch / JAX / Transformers | 🟡 |
+| 02 | [深度学习框架](02-dl-frameworks/) | PyTorch / JAX / Transformers | 🟡 |
 | 03 | [Transformer 与大模型原理](03-transformer-llm/) | 注意力、MoE、推理模型 | 🟡 |
 | 04 | [模型全景](04-model-landscape/) | 闭源与开放权重、国产模型 | 🟡 |
 | 05 | [提示词与上下文工程](05-prompt-context/) | 结构化提示、上下文管理、DSPy | 🟡 |
 | 06 | [LLM API 编程模式](06-llm-api-programming/) | 流式、结构化输出、函数调用、多语言 SDK | 🟡 |
 | 07 | [应用开发框架](07-app-frameworks/) | LangChain / Spring AI / LangChain4j / AI SDK | 🟡 |
-| 08 | [检索增强生成 RAG](08-rag/) | 向量库、混合检索、重排、GraphRAG | 🟡 |
+| 08 | [检索增强生成](08-rag/) | 向量库、混合检索、重排、GraphRAG | 🟡 |
 | 09 | [智能体](09-agents/) | Agent 模式、多 Agent、A2A | 🟡 |
 | 10 | [MCP 协议与开发](10-mcp/) | Server / Client 开发、官方 SDK | 🟡 |
 | 11 | [AI 编程助手与 IDE](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟡 |

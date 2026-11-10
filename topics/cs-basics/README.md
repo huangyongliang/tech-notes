@@ -2,7 +2,7 @@
 
 理解计算机、操作系统、网络和数据库怎么工作，掌握 Linux 命令行和 Git。与深入专题 [系统](../systems/) 分工：这里是入门闯关路径。
 
-> 相关主题：[零基础入门](../getting-started/) · [编程入门](../programming-basics/) · [计算机理论 CS](../cs-theory/) · [系统](../systems/) · [学习路线](../roadmap/)
+> 相关主题：[零基础入门](../getting-started/) · [编程入门](../programming-basics/) · [计算机理论](../cs-theory/) · [系统](../systems/) · [学习路线](../roadmap/)
 
 ## 学习路径
 
@@ -21,7 +21,7 @@ flowchart LR
 | 03 | [Linux 与 Shell](03-linux-shell/) | 终端、管道、权限、脚本 | 🟡 |
 | 04 | [Git 版本控制](04-git/) | 提交、分支、合并、远程与 PR | 🟡 |
 | 05 | [计算机网络](05-networking/) | TCP/IP、DNS、HTTP / HTTPS | 🟡 |
-| 06 | [数据结构与算法 DSA](06-data-structures-algorithms/) | 复杂度、线性结构、树、图；用 C 练习 | 🟡 |
+| 06 | [数据结构与算法](06-data-structures-algorithms/) | 复杂度、线性结构、树、图；用 C 练习 | 🟡 |
 | 07 | [数据库基础](07-databases/) | SQL、索引、事务 | 🟡 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 

@@ -4,7 +4,7 @@
 
 在 Kubernetes 上运行训练与推理的平台能力：GPU 驱动与调度、批作业排队、模型服务化与弹性、模型版本与发布流程。
 
-> 相关主题：[容器与 Kubernetes](../../microservices/12-containers-k8s/) · [CI/CD 与 GitOps](../../microservices/14-cicd-gitops/) · [推理与服务](../15-inference-serving/) · [微调与对齐](../14-fine-tuning/)
+> 相关主题：[容器与 Kubernetes](../../microservices/12-containers-k8s/) · [持续交付与 GitOps](../../microservices/14-cicd-gitops/) · [推理与服务](../15-inference-serving/) · [微调与对齐](../14-fine-tuning/)
 
 ## 本关定位
 
@@ -196,7 +196,7 @@ flowchart LR
 ```
 
 - 模型仓库：Hugging Face Hub 或私有仓库，记录版本、数据来源、评测结果。
-- 发布：模型版本与推理配置一起走 GitOps，灰度比例逐步放大，见 [CI/CD 与 GitOps](../../microservices/14-cicd-gitops/)。
+- 发布：模型版本与推理配置一起走 GitOps，灰度比例逐步放大，见 [持续交付与 GitOps](../../microservices/14-cicd-gitops/)。
 - 回滚：保留上一版本的副本或镜像，评测分数或线上指标异常时快速切回；评测与监控见 [评测与可观测](../17-evals-observability/)。
 
 ### 让模型真正可接流量：预热、排空与回滚
@@ -209,7 +209,7 @@ flowchart LR
 
 ### 复用已经学过的云原生交付
 
-配置 / secret 沿用 [配置管理](../../microservices/03-discovery-config/)；探针、资源限制、网络策略接 [容器与 Kubernetes](../../microservices/12-containers-k8s/)；模型制品与评测门禁接 [CI/CD 与 GitOps](../../microservices/14-cicd-gitops/)。AI 特有的 GPU、KV 和质量门禁是在已有平台上增加的能力，不是替换整套微服务运维。
+配置 / secret 沿用 [配置管理](../../microservices/03-discovery-config/)；探针、资源限制、网络策略接 [容器与 Kubernetes](../../microservices/12-containers-k8s/)；模型制品与评测门禁接 [持续交付与 GitOps](../../microservices/14-cicd-gitops/)。AI 特有的 GPU、KV 和质量门禁是在已有平台上增加的能力，不是替换整套微服务运维。
 
 ## 选型对比
 

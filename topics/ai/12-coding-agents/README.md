@@ -4,7 +4,7 @@
 
 把编程 Agent 当作团队成员来用的工程方法：怎么写规则和规格、怎么拆任务、怎么让它在 CI 里自动修复与评审，以及如何控制风险。目标是可复现、可审查，而不是「一把梭」。
 
-> 相关主题：[AI 编程助手与 IDE](../11-ai-coding-tools/) · [CI/CD 与 GitOps](../../microservices/14-cicd-gitops/) · [安全与治理](../19-security-governance/)
+> 相关主题：[AI 编程助手与 IDE](../11-ai-coding-tools/) · [持续交付与 GitOps](../../microservices/14-cicd-gitops/) · [安全与治理](../19-security-governance/)
 
 ## 本关定位
 

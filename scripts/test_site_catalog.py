@@ -115,8 +115,10 @@ def main() -> int:
         fail("fallback chapter counted as translated")
     java_src = (ROOT / java["path"]).read_text(encoding="utf-8")
     java_out = bes.fallback_markdown(java, java_src)
-    if java_out.count(BANNER) != 1 or not java_out.split("title:", 1)[1].startswith(' "Chinese original:'):
-        fail("fallback page missing the exact banner or search label")
+    if java_out.count(BANNER) != 1:
+        fail("fallback page missing the exact banner")
+    if 'title: "Chinese original:' in java_out:
+        fail("the Chinese-original label belongs in search, not the page title")
     if bes.english_url(java["path"]) != "/en/topics/java/01-language-basics/":
         fail("untranslated chapter was redirected")
     if bes.chinese_url("/en/topics/java/01-language-basics/") != "/topics/java/01-language-basics/":
@@ -164,21 +166,36 @@ def main() -> int:
             fail("english home missing editorial or translation labels")
         if "topics/web/origin" not in missing or "topics/systems/distributed" not in missing:
             fail("merged Chinese chapters are missing from the untranslated list")
-        if "Chinese original: 语言基础与新特性" not in built_java.split("title:", 1)[1][:80]:
-            fail("fallback search title is not the Chinese title")
+        if 'title: "Chinese original:' in built_java:
+            fail("fallback markdown title is prefixed")
         h1 = next(line for line in built_java.splitlines() if line.startswith("# "))
         if "Language Basics" in h1 or "语言基础与新特性" not in h1:
             fail(f"fallback H1 is mixed or missing: {h1}")
         if BANNER in built_chapter or BANNER not in built_java:
             fail("builder swapped translated and fallback pages")
-        if "Chinese original:" not in built_java.split("\n", 3)[1]:
-            fail("built fallback is missing its search title")
+        labeled = bes.label_search_index(
+            {"docs": [
+                {"location": "topics/java/01-language-basics/", "title": "语言基础与新特性"},
+                {"location": "topics/java/01-language-basics/#x", "title": "闯关任务"},
+                {"location": "topics/getting-started/05-tech-english/", "title": "Tech English"},
+            ]},
+            catalog,
+        )
+        titles = [doc["title"] for doc in labeled["docs"]]
+        if titles != [
+            "Chinese original: 语言基础与新特性",
+            "Chinese original: 闯关任务",
+            "Tech English",
+        ]:
+            fail(f"search labels drifted: {titles}")
         if (built / "javascripts" / "lang-map.js").exists():
             fail("English site still depends on a search-limit map")
         if "locale" in built_chapter and "TREEIFY" in built_chapter:
             fail("english slice picked up unrelated chapters")
-    if "Chinese original: 语言基础与新特性" not in flat:
-        fail("English nav still shows the gloss instead of the Chinese original")
+    if "Chinese original:" in flat:
+        fail("English navigation still prefixes untranslated titles")
+    if "语言基础与新特性" not in flat:
+        fail("English nav dropped the Chinese title")
 
     print(
         f"ok pages={counts['pages']} translated={counts['translated']} "

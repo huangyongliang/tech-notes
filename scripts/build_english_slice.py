@@ -79,7 +79,7 @@ def nav_label(nav_path: str, by_path: dict) -> str:
         raise SystemExit(f"nav path missing from catalog: {nav_path}")
     if page["translation"] == "translated":
         return page["title_en"] or page["title_zh"]
-    return "Chinese original: " + page["title_zh"]
+    return page["title_zh"]
 
 
 def english_nav(catalog: dict, chinese_nav: list) -> list:
@@ -130,9 +130,33 @@ def _set_title(front_matter: str, title: str) -> str:
     return front_matter.replace("---\n", f"---\n{line}\n", 1)
 
 
+def english_page_location(path: str) -> str:
+    url = site_url(path)
+    if url == "/":
+        return ""
+    return url.strip("/") + "/"
+
+
+def label_search_index(index: dict, catalog: dict) -> dict:
+    """Prefix search hits from untranslated pages. Navigation titles stay plain."""
+    untranslated = {
+        english_page_location(page["path"])
+        for page in catalog["pages"]
+        if page["translation"] == "untranslated"
+    }
+    for doc in index.get("docs") or []:
+        location = doc.get("location") or ""
+        page = location.split("#", 1)[0]
+        if page and not page.endswith("/"):
+            page += "/"
+        title = doc.get("title") or ""
+        if page in untranslated and not title.startswith("Chinese original:"):
+            doc["title"] = "Chinese original: " + title
+    return index
+
+
 def fallback_markdown(page: dict, text: str) -> str:
     front_matter, body = sc.split_front_matter(text)
-    front_matter = _set_title(front_matter, "Chinese original: " + page["title_zh"])
     banner = (
         '<div class="tn-fallback" lang="en" role="status">'
         + sc.FALLBACK_BANNER
@@ -187,7 +211,7 @@ def render_home(catalog: dict) -> str:
     ]
     for path in order:
         page = by_path[path]
-        title = "Chinese original: " + page["title_zh"]
+        title = page["title_zh"]
         rel = english_url(path).removeprefix("/en/")
         roll = sc.translation_rollup(page, catalog["pages"])
         lines.append(
@@ -238,7 +262,7 @@ def render_not_translated(catalog: dict) -> str:
             lines.append("")
             continue
         for page in rows:
-            title = "Chinese original: " + page["title_zh"]
+            title = page["title_zh"]
             rel = english_url(page["path"]).removeprefix("/en/")
             lines.append(
                 f"- <span id=\"{anchor_for(page['path'])}\"></span>"
@@ -425,7 +449,24 @@ def build(
     return catalog["counts"]
 
 
+def label_built_search(site_dir: Path, root: Path | None = None) -> int:
+    import json
+
+    root = root or sc.ROOT
+    catalog = json.loads((root / "website" / "data" / "site-catalog.json").read_text(encoding="utf-8"))
+    path = site_dir / "search" / "search_index.json"
+    index = json.loads(path.read_text(encoding="utf-8"))
+    label_search_index(index, catalog)
+    path.write_text(json.dumps(index, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    labeled = sum(1 for doc in index["docs"] if str(doc.get("title", "")).startswith("Chinese original:"))
+    print(f"labeled {labeled} search titles in {path}")
+    return labeled
+
+
 def main() -> int:
+    if len(sys.argv) >= 3 and sys.argv[1] == "--label-search":
+        label_built_search(Path(sys.argv[2]))
+        return 0
     root = sc.ROOT
     site = root / "_site_src"
     if not site.is_dir():

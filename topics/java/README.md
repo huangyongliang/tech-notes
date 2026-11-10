@@ -30,9 +30,9 @@ flowchart LR
 | 01 | [语言基础与新特性](01-language-basics/) | 语法与新特性（8 → 11 → 17 → 21 → 25 LTS） | 🟡 |
 | 02 | [集合框架](02-collections/) | 集合框架与选型 | 🟡 |
 | 03 | [异常、泛型、反射与注解](03-core-advanced/) | 异常、泛型、反射、注解 | 🟡 |
-| 04 | [输入输出 IO & NIO](04-io-nio/) | IO / NIO / NIO.2 / HttpClient | 🟡 |
+| 04 | [IO 与 NIO](04-io-nio/) | IO / NIO / NIO.2 / HttpClient | 🟡 |
 | 05 | [并发](05-concurrency/) | 并发、线程池、虚拟线程 | 🟡 |
-| 06 | [Java 虚拟机 JVM](06-jvm/) | 内存模型、GC、类加载、调优工具 | 🟡 |
+| 06 | [Java 虚拟机](06-jvm/) | 内存模型、GC、类加载、调优工具 | 🟡 |
 | 07 | [构建工具](07-build-tools/) | Maven / Gradle | 🟡 |
 | 08 | [测试](08-testing/) | JUnit 5 / Mockito / Testcontainers | 🟡 |
 | 09 | [Spring 框架](09-spring/) | Spring Framework / Boot / Cloud | 🟡 |

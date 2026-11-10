@@ -369,7 +369,7 @@ def derive_catalog(root: Path | None = None) -> dict:
     pages = []
     for rel in content_paths(root):
         h1 = read_h1(root / rel)
-        title_zh, title_en = split_title(h1)
+        title_zh, title_en = strip_gloss(h1), None
         if rel in home:
             editorial = home[rel]
             kind = "topic"
@@ -386,7 +386,7 @@ def derive_catalog(root: Path | None = None) -> dict:
             kind = "home"
         elif rel in TRANSLATED:
             title_en = read_h1(english_source(rel))
-            title_zh, _gloss = split_title(h1)
+            title_zh = strip_gloss(h1)
         pages.append(
             {
                 "path": rel,

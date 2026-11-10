@@ -31,6 +31,8 @@ jobs:
         run: mkdocs build --strict --site-dir site
       - name: Build English site (strict)
         run: mkdocs build --strict -f mkdocs.en.yml --site-dir site/en
+      - name: Label untranslated English search hits
+        run: python3 scripts/build_english_slice.py --label-search site/en
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site

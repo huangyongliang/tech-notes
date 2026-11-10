@@ -105,7 +105,7 @@
     {
       "path": "topics/ai/07-app-frameworks/README.md",
       "title_zh": "应用开发框架",
-      "title_en": "LLM",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -113,7 +113,7 @@
     {
       "path": "topics/ai/08-rag/README.md",
       "title_zh": "检索增强生成",
-      "title_en": "RAG",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -136,8 +136,8 @@
     },
     {
       "path": "topics/ai/11-ai-coding-tools/README.md",
-      "title_zh": "AI 编程助手与",
-      "title_en": "IDE",
+      "title_zh": "AI 编程助手与 IDE",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -240,8 +240,8 @@
     },
     {
       "path": "topics/cs-basics/03-linux-shell/README.md",
-      "title_zh": "Linux 与",
-      "title_en": "Shell",
+      "title_zh": "Linux 与 Shell",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -265,7 +265,7 @@
     {
       "path": "topics/cs-basics/06-data-structures-algorithms/README.md",
       "title_zh": "数据结构与算法",
-      "title_en": "DSA",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -409,7 +409,7 @@
     {
       "path": "topics/devops/README.md",
       "title_zh": "DevOps",
-      "title_en": "DevOps",
+      "title_en": null,
       "editorial": "planned",
       "translation": "untranslated",
       "kind": "topic"
@@ -496,8 +496,8 @@
     },
     {
       "path": "topics/java/04-io-nio/README.md",
-      "title_zh": "输入输出",
-      "title_en": "IO & NIO",
+      "title_zh": "IO 与 NIO",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -513,7 +513,7 @@
     {
       "path": "topics/java/06-jvm/README.md",
       "title_zh": "Java 虚拟机",
-      "title_en": "JVM",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -680,8 +680,8 @@
     },
     {
       "path": "topics/microservices/14-cicd-gitops/README.md",
-      "title_zh": "持续交付与",
-      "title_en": "GitOps CI/CD",
+      "title_zh": "持续交付与 GitOps",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -696,8 +696,8 @@
     },
     {
       "path": "topics/microservices/16-cloud-native-java/README.md",
-      "title_zh": "性能与云原生",
-      "title_en": "Java",
+      "title_zh": "性能与云原生 Java",
+      "title_en": null,
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"

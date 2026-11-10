@@ -1,4 +1,4 @@
-# 应用开发框架 LLM {#llm-app-frameworks}
+# 应用开发框架 {#llm-app-frameworks}
 
 > [AI](../) › 应用开发框架
 

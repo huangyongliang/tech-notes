@@ -19,7 +19,7 @@
 |------|------|------|
 | 🗺️ [学习路线 Roadmap](topics/roadmap/) | 从零到 AI 的六个阶段总览 | 🟡 搭建中 |
 | 🌱 [零基础入门 Getting Started](topics/getting-started/) | 电脑、网络、自学方法，5 个子主题 | 🟡 搭建中 |
-| 🧮 [计算机基础 CS Basics](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | 🟡 搭建中 |
+| 🧮 [计算机基础](topics/cs-basics/) | 组成、OS、Linux、Git、网络、DSA、数据库 | 🟡 搭建中 |
 | 📐 [理论基础 Theoretical Foundations](topics/cs-theory/) | 数理逻辑、图论、计算理论，14 章；独立主题，网站阅读 | 🟡 搭建中 |
 | 🔧 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C，6 个子主题 | 🟡 搭建中 |
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
