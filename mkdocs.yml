@@ -169,6 +169,9 @@ nav:
       - Web:
           - topics/web/README.md
           - 浏览器里的源: topics/web/origin/README.md
+          - 02 界面与渲染模型: topics/web/02-rendering/README.md
+          - 03 请求处理与中间件: topics/web/03-request-handling/README.md
+          - 04 跨越源边界: topics/web/04-crossing-boundary/README.md
       - 系统:
           - topics/systems/README.md
           - 分布式模型: topics/systems/distributed/README.md

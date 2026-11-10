@@ -168,6 +168,9 @@ PAGE_TITLE_EN = {
     "topics/programming/04-evaluation-memory/README.md": "Evaluation and Memory Models",
     "topics/web/README.md": "Web",
     "topics/web/origin/README.md": "Origins in the browser",
+    "topics/web/02-rendering/README.md": "UI and Rendering Models",
+    "topics/web/03-request-handling/README.md": "Request Handling and Middleware",
+    "topics/web/04-crossing-boundary/README.md": "Crossing the Origin Boundary",
     "topics/systems/README.md": "Systems",
     "topics/systems/distributed/README.md": "Distributed systems model",
     "topics/devops/README.md": "DevOps",
@@ -910,23 +913,20 @@ def apply_readme(text: str, catalog: dict) -> str:
 
 
 def apply_topic_index(text: str, catalog: dict) -> str:
-    """Rewrite the topic-index sentences that state how many pages Web and Systems have."""
-    web = subtopic_count(catalog, "topics/web/README.md")
+    """Rewrite the systems page-count sentence.
+
+    The web row is a fixed blurb. The old 「浏览器里的源已有 N 个子主题」
+    sentence is not put back.
+    """
     systems = subtopic_count(catalog, "topics/systems/README.md")
-    updated, web_n = re.subn(
-        r"浏览器里的源已有\s*(?:一章|\d+\s*个子主题)",
-        f"浏览器里的源已有 {web} 个子主题",
-        text,
-        count=1,
-    )
     updated, systems_n = re.subn(
         r"分布式系统模型已有\s*(?:一章|\d+\s*个子主题)",
         f"分布式系统模型已有 {systems} 个子主题",
-        updated,
+        text,
         count=1,
     )
-    if web_n != 1 or systems_n != 1:
-        raise ValueError("topic index count sentences missing")
+    if systems_n != 1:
+        raise ValueError("topic index systems count sentence missing")
     return updated
 
 

@@ -152,6 +152,9 @@ nav:
     - Web:
       - Web: topics/web/README.md
       - Origins in the browser: topics/web/origin/README.md
+      - UI and Rendering Models: topics/web/02-rendering/README.md
+      - Request Handling and Middleware: topics/web/03-request-handling/README.md
+      - Crossing the Origin Boundary: topics/web/04-crossing-boundary/README.md
     - Systems:
       - Systems: topics/systems/README.md
       - Distributed systems model: topics/systems/distributed/README.md

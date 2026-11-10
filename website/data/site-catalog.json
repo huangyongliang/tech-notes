@@ -872,6 +872,30 @@
       "kind": "chapter"
     },
     {
+      "path": "topics/web/02-rendering/README.md",
+      "title_zh": "界面与渲染模型",
+      "title_en": "UI and Rendering Models",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/web/03-request-handling/README.md",
+      "title_zh": "请求处理与中间件",
+      "title_en": "Request Handling and Middleware",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/web/04-crossing-boundary/README.md",
+      "title_zh": "跨越源边界",
+      "title_en": "Crossing the Origin Boundary",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
       "path": "topics/web/README.md",
       "title_zh": "Web 开发",
       "title_en": "Web",
@@ -937,12 +961,12 @@
     }
   ],
   "counts": {
-    "pages": 112,
+    "pages": 115,
     "translated": 7,
-    "untranslated": 105,
+    "untranslated": 108,
     "editorial": {
       "planned": 1,
-      "building": 111,
+      "building": 114,
       "complete": 0
     }
   },

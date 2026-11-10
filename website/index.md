@@ -34,7 +34,7 @@ topics/
 ├── <em>microservices/</em> <s># 16 个子主题 · 搭建中</s>
 ├── <em>ai/</em> <s># 21 个子主题 · 搭建中</s>
 ├── <em>programming/</em> <s># 4 个子主题 · 搭建中</s>
-├── <em>web/</em> <s># 1 个子主题 · 搭建中</s>
+├── <em>web/</em> <s># 4 个子主题 · 搭建中</s>
 ├── <em>systems/</em> <s># 1 个子主题 · 搭建中</s>
 ├── <em>devops/</em> <s># 4 个子主题 · 搭建中</s>
 └── <em>product-research/</em> <s># 0 个子主题 · 待开始</s>
@@ -187,7 +187,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">08</span><span class="t">编程</span><span class="d">语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/programming/README.md)
 
-[<span class="n">09</span><span class="t">Web</span><span class="d">浏览器里的源；前端与后端仍空 · 1 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
+[<span class="n">09</span><span class="t">Web</span><span class="d">源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
 
 [<span class="n">10</span><span class="t">系统</span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础 · 1 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/systems/README.md)
 
