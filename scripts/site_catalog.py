@@ -79,11 +79,6 @@ PAGE_TITLE_EN = {
     "CONTRIBUTING.md": "Contributing",
     "STYLE.md": "Style guide",
     "topics/roadmap/README.md": "Roadmap",
-    "topics/getting-started/README.md": "Getting Started",
-    "topics/getting-started/01-what-is-a-computer/README.md": "What is a computer",
-    "topics/getting-started/02-using-a-computer/README.md": "Using a computer",
-    "topics/getting-started/03-internet-basics/README.md": "Internet basics",
-    "topics/getting-started/04-learning-to-learn/README.md": "Learning and asking questions",
     "topics/cs-basics/README.md": "Computer Basics",
     "topics/cs-basics/01-computer-organization/README.md": "Computer organization",
     "topics/cs-basics/02-operating-systems/README.md": "Operating systems",
@@ -181,6 +176,11 @@ PAGE_TITLE_EN = {
 # cannot drift. The chapter file is hand-written.
 TRANSLATED = {
     "website/index.md",
+    "topics/getting-started/README.md",
+    "topics/getting-started/01-what-is-a-computer/README.md",
+    "topics/getting-started/02-using-a-computer/README.md",
+    "topics/getting-started/03-internet-basics/README.md",
+    "topics/getting-started/04-learning-to-learn/README.md",
     "topics/getting-started/05-tech-english/README.md",
 }
 GENERATED_EN = {"website/index.md"}

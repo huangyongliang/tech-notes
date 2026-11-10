@@ -110,8 +110,8 @@ def main() -> int:
         title_en = page.get("title_en") or ""
         if not title_en:
             fail(f"topic has no English name: {path}")
-        if page["translation"] != "untranslated":
-            fail(f"English topic name counted as translated: {path}")
+        if (page["translation"] == "translated") != (path in sc.TRANSLATED):
+            fail(f"topic translation does not follow the translated set: {path}")
         if title_en not in english:
             fail(f"English home missing {title_en}")
         if page["title_zh"] not in title_en and page["title_zh"] in english:
@@ -135,8 +135,8 @@ def main() -> int:
     topics = [page for page in catalog["pages"] if page["kind"] == "topic"]
     if len(topics) != 13 or any(not page.get("title_en") for page in topics):
         fail("expected 13 topics with English display names")
-    if catalog["counts"]["translated"] != 2 or catalog["counts"]["untranslated"] != catalog["counts"]["pages"] - 2:
-        fail("title_en changed the translation counts")
+    if catalog["counts"]["translated"] != 7 or catalog["counts"]["untranslated"] != catalog["counts"]["pages"] - 7:
+        fail("translation counts drifted")
     phrases = {
         sc.subtopic_phrase(sc.subtopic_count(catalog, page["path"]), "en")
         for page in topics

@@ -1,21 +1,21 @@
-# Tech English
+# Tech English {#tech-english}
 
-> [Getting Started](../../) › Tech English · [中文原文](../../../../topics/getting-started/05-tech-english/)
+> [Getting Started](../) › Tech English · [Chinese original](../../../../topics/getting-started/05-tech-english/)
 
 How to read error messages and official documentation. API and command names stay in English on purpose.
 
-## Where this chapter sits
+## Where this chapter fits {#_1}
 
 | Item | Content |
 |------|---------|
-| Stage | Stage 0, Getting Started · lesson 5 (last lesson of this stage) |
-| Before | [Learning to Learn](../04-learning-to-learn/); school-level English. That chapter has no English body yet. |
-| Time | 3–5 days to start, then daily reading |
-| Next | [CS Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
+| Stage | Stage 0, Getting Started · Chapter 5 (last chapter of this stage) |
+| Prerequisites | [Learning and asking questions](../04-learning-to-learn/); school-level English. |
+| Suggested time | 3–5 days to start, then daily reading |
+| What's next | [Computer Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
 
 Keywords, compiler errors, official docs, and most primary sources are in English. The useful vocabulary is small and the sentence patterns repeat. You do not need exam-level English. The goal is narrower: do not freeze on an English error, and finish one page of official documentation with a dictionary.
 
-## Quest tasks
+## Quest tasks {#_2}
 
 - [ ] Recognize and explain at least 30 frequent technical words (for example `deprecated`, `argument`, `dependency`).
 - [ ] Take a compiler diagnostic apart: file, line, severity, and reason, then find the fault.
@@ -23,9 +23,9 @@ Keywords, compiler errors, official docs, and most primary sources are in Englis
 - [ ] Use a manual in the order overview, lookup, then close reading, and state what `MUST`, `SHOULD`, and `MAY` mean.
 - [ ] Search with English keywords and write one plain English problem statement.
 
-## What to know
+## What to know {#_3}
 
-### Frequent words, by situation
+### Frequent words, by situation {#_4}
 
 | Situation | Words | Meaning |
 |-----------|-------|---------|
@@ -40,7 +40,7 @@ Keywords, compiler errors, official docs, and most primary sources are in Englis
 
 Also learn the short forms: `e.g.` (for example), `i.e.` (that is), `etc.` (and the rest), `TL;DR` (a short summary), `WIP` (work in progress), `FAQ` (frequently asked questions).
 
-### How to read one compiler diagnostic
+### How to read one compiler diagnostic {#_5}
 
 This is real GCC 14 output for a program that omitted a semicolon:
 
@@ -59,7 +59,7 @@ How to read it:
 3. `expected ‘,’ or ‘;’ before ‘printf’` means the compiler wanted a comma or a semicolon before `printf`. It reports line 5, but the missing semicolon is on the previous line. That delay is the main habit to learn.
 4. The warning is a consequence of the first fault. Fix the first diagnostic before chasing the rest.
 
-### Runtime errors you will see
+### Runtime errors you will see {#_6}
 
 | Message | Meaning | Usual cause |
 |---------|---------|-------------|
@@ -70,7 +70,7 @@ How to read it:
 | `Connection refused` | The remote side rejected the connection | Nothing is listening on that port |
 | `Address already in use` | That address is taken | Another process already holds the port |
 
-### How to read an official manual
+### How to read an official manual {#_7}
 
 1. **Overview first.** Read the table of contents and Getting Started, Quick Start, or Tutorial. Ten minutes is enough to see how the book is split.
 2. **Look up next.** For a specific question, use the Reference or API section. The site search and `Ctrl` + `F` are the tools.
@@ -88,7 +88,7 @@ In specifications (RFCs and language standards), the capital words `MUST`, `SHOU
 > [!TIP]
 > A translator can give you the shape of a paragraph. Keep the term itself in English. In programming, `argument` is the value passed into a function, not a dispute. `statement` is a program statement, not a press statement.
 
-### Describe a problem in English
+### Describe a problem in English {#_8}
 
 A fixed pattern is enough:
 
@@ -98,14 +98,14 @@ When I run `gcc hello.c -o hello`, I get the error: "undefined reference to `mai
 I have checked that the file is saved. What am I missing?
 ```
 
-## Common mistakes
+## Common mistakes {#_9}
 
 - **Stopping at the red text.** The diagnostic is the clue. Read the first one, word by word.
 - **Reading only the last line.** Many tools end with "failed". The cause is above that line.
 - **Trusting a machine translation for terms.** Translators regularly pick the wrong sense. Check the original sentence for the term.
 - **Studying a word list in isolation.** These words stick when they show up in a manual or an error you are fixing.
 
-## Practice
+## Practice {#_10}
 
 1. Keep a glossary grouped by the situations above. Add three words a day from a manual or an error.
 2. Cause three errors on purpose: a missing command, `ls` of a missing directory, and `cat` of a file you cannot read. Record the message and the meaning.
@@ -113,7 +113,7 @@ I have checked that the file is saved. What am I missing?
 4. Write three to five English sentences describing a computer problem you actually hit.
 5. Stage output: create a GitHub account, make a repository in the web UI, and write a short Markdown learning log for stage 0.
 
-## Sources
+## Sources {#_11}
 
 - [Google Technical Writing Courses](https://developers.google.com/tech-writing) — free courses on technical writing, also useful as reading practice
 - [MDN Glossary](https://developer.mozilla.org/en-US/docs/Glossary) — Web terms, with a Chinese glossary you can compare
@@ -121,9 +121,9 @@ I have checked that the file is saved. What am I missing?
 - [Microsoft Writing Style Guide](https://learn.microsoft.com/en-us/style-guide/welcome/) — usage of common technical terms
 - [Cambridge Dictionary](https://dictionary.cambridge.org/) — definitions, examples, and audio
 
-## Check yourself
+## Check yourself {#_12}
 
-Answer first, then open the fold. A short answer is enough when it has the point. 80% is the bar for the next lesson.
+Answer first, then open the fold. A short answer is enough when it has the point. 80% is the bar for the next chapter.
 
 1. A manual calls a function `deprecated`. That means:
     - A. It has been deleted and cannot be called
@@ -155,4 +155,4 @@ Answer first, then open the fold. A short answer is enough when it has the point
 
 ---
 
-[中文原文](../../../../topics/getting-started/05-tech-english/) · [English coverage list](../../../not-translated.md)
+[Chinese original](../../../../topics/getting-started/05-tech-english/) · [English coverage list](../../../not-translated.md)
