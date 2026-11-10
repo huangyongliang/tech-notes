@@ -720,10 +720,42 @@
       "kind": "topic"
     },
     {
+      "path": "topics/programming/01-syntax/README.md",
+      "title_zh": "语法",
+      "title_en": "Syntax",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming/02-semantics/README.md",
+      "title_zh": "语义",
+      "title_en": "Semantics",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming/03-types/README.md",
+      "title_zh": "类型系统",
+      "title_en": "Type Systems",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
+      "path": "topics/programming/04-evaluation-memory/README.md",
+      "title_zh": "求值与内存模型",
+      "title_en": "Evaluation and Memory Models",
+      "editorial": "building",
+      "translation": "untranslated",
+      "kind": "chapter"
+    },
+    {
       "path": "topics/programming/README.md",
       "title_zh": "编程",
       "title_en": "Programming",
-      "editorial": "planned",
+      "editorial": "building",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -873,12 +905,12 @@
     }
   ],
   "counts": {
-    "pages": 104,
+    "pages": 108,
     "translated": 7,
-    "untranslated": 97,
+    "untranslated": 101,
     "editorial": {
-      "planned": 3,
-      "building": 101,
+      "planned": 2,
+      "building": 106,
       "complete": 0
     }
   },

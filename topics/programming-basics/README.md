@@ -1,6 +1,6 @@
 # 编程入门 {#programming-basics}
 
-以 **C** 为第一门语言建立编程思维，看清程序和内存打交道的方式，能独立写出、调试小程序。阶段 3 再学 Java；进入 AI 前用 [Python 速成](../ai/00-python-bridge/) 补齐 Python。与深入专题 [编程](../programming/) 分工。
+以 **C** 为第一门语言建立编程思维，看清程序和内存打交道的方式，能独立写出、调试小程序。阶段 3 再学 Java；进入 AI 前用 [Python 速成](../ai/00-python-bridge/) 补齐 Python。与深入专题 [编程](../programming/) 分工。语言定义规定了什么，写在 [编程](../programming/)。
 
 > 相关主题：[计算机基础](../cs-basics/) · [Java 技术栈](../java/) · [编程](../programming/) · [学习路线](../roadmap/)
 

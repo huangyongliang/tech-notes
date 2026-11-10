@@ -29,6 +29,7 @@ SECTION_EN = {
     "AI": "AI",
     "全部主题": "All topics",
     "Web": "Web",
+    "编程": "Programming",
     "系统": "Systems",
     "资料": "Sources",
     "关于": "About",

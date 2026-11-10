@@ -143,7 +143,12 @@ nav:
     - Theory: topics/cs-theory/README.md
     - Programming Basics: topics/programming-basics/README.md
     - Microservices: topics/microservices/README.md
-    - Programming: topics/programming/README.md
+    - Programming:
+      - Programming: topics/programming/README.md
+      - Syntax: topics/programming/01-syntax/README.md
+      - Semantics: topics/programming/02-semantics/README.md
+      - Type Systems: topics/programming/03-types/README.md
+      - Evaluation and Memory Models: topics/programming/04-evaluation-memory/README.md
     - Web:
       - Web: topics/web/README.md
       - Origins in the browser: topics/web/origin/README.md

@@ -160,7 +160,12 @@ nav:
       - 理论基础: topics/cs-theory/README.md
       - 编程入门: topics/programming-basics/README.md
       - 微服务: topics/microservices/README.md
-      - 编程: topics/programming/README.md
+      - 编程:
+          - topics/programming/README.md
+          - 01 语法: topics/programming/01-syntax/README.md
+          - 02 语义: topics/programming/02-semantics/README.md
+          - 03 类型系统: topics/programming/03-types/README.md
+          - 04 求值与内存模型: topics/programming/04-evaluation-memory/README.md
       - Web:
           - topics/web/README.md
           - 浏览器里的源: topics/web/origin/README.md
