@@ -25,9 +25,14 @@
     return path === "/en/" || path.indexOf("/en/") === 0;
   }
   function englishHref(path) {
-    if (onEnglish(path)) return path;
-    if (path === "/") return "/en/";
-    return "/en" + path;
+    /* lang.js lives at the root of the site that is open. On /en/ that root
+     * is already inside /en/, so the English link must not add another en/. */
+    if (onEnglish(path)) {
+      var rest = path.slice("/en/".length);
+      return rest || "./";
+    }
+    if (path === "/") return "en/";
+    return "en" + path;
   }
   var EN_ONLY = { "/en/not-translated/": "/" };
   function chineseHref(path) {
@@ -41,9 +46,18 @@
     var cut = url.indexOf("#");
     if (cut !== -1) { hash = url.slice(cut); url = url.slice(0, cut); }
     if (url.charAt(0) === "/") url = url.slice(1);
+    if (!url) url = "./";
     var prefix = root;
     if (fromEnglish && url.indexOf("en/") !== 0) prefix += "../";
     return prefix + url + hash;
+  }
+  function linksFor(pageUrl, scriptSrc) {
+    var root = String(scriptSrc).replace(/javascripts\/lang\.js.*$/, "");
+    var en = onEnglish(pageUrl);
+    return {
+      zh: withRoot(root, chineseHref(pageUrl), en),
+      en: withRoot(root, englishHref(pageUrl), false)
+    };
   }
   function render() {
     var path = pagePath();
@@ -58,7 +72,7 @@
       var zh = document.createElement("a");
       var enLink = document.createElement("a");
       zh.href = withRoot(root, chineseHref(path), en);
-      enLink.href = withRoot(root, englishHref(path), en);
+      enLink.href = withRoot(root, englishHref(path), false);
       zh.textContent = "中文";
       enLink.textContent = "English";
       zh.setAttribute("lang", "zh");
@@ -77,6 +91,9 @@
       if (inner) inner.setAttribute("lang", "zh");
     }
   }
+  var api = { linksFor: linksFor };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  if (typeof document === "undefined") return;
   if (window.document$ && document$.subscribe) document$.subscribe(render);
   else document.addEventListener("DOMContentLoaded", render);
 })();

@@ -44,7 +44,7 @@ nav:
     - Roadmap: topics/roadmap/README.md
   - Foundations:
     - Getting Started: topics/getting-started/README.md
-    - What a computer is: topics/getting-started/01-what-is-a-computer/README.md
+    - What is a computer: topics/getting-started/01-what-is-a-computer/README.md
     - Using a computer: topics/getting-started/02-using-a-computer/README.md
     - Internet basics: topics/getting-started/03-internet-basics/README.md
     - Learning and asking questions: topics/getting-started/04-learning-to-learn/README.md
@@ -82,12 +82,12 @@ nav:
     - Complexity and reductions: topics/cs-theory/14-complexity-reductions/README.md
   - Java:
     - Java: topics/java/README.md
-    - Language basics: topics/java/01-language-basics/README.md
+    - Language basics and new features: topics/java/01-language-basics/README.md
     - Collections: topics/java/02-collections/README.md
     - Exceptions, generics, reflection, and annotations: topics/java/03-core-advanced/README.md
     - IO and NIO: topics/java/04-io-nio/README.md
     - Concurrency: topics/java/05-concurrency/README.md
-    - The JVM: topics/java/06-jvm/README.md
+    - JVM: topics/java/06-jvm/README.md
     - Build tools: topics/java/07-build-tools/README.md
     - Testing: topics/java/08-testing/README.md
     - Spring: topics/java/09-spring/README.md
@@ -111,7 +111,7 @@ nav:
     - Service mesh: topics/microservices/13-service-mesh/README.md
     - Continuous delivery and GitOps: topics/microservices/14-cicd-gitops/README.md
     - Testing: topics/microservices/15-testing/README.md
-    - Cloud-native Java: topics/microservices/16-cloud-native-java/README.md
+    - Cloud-native Java and performance: topics/microservices/16-cloud-native-java/README.md
   - AI:
     - AI: topics/ai/README.md
     - Python bridge: topics/ai/00-python-bridge/README.md

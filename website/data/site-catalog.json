@@ -418,7 +418,7 @@
     {
       "path": "topics/getting-started/01-what-is-a-computer/README.md",
       "title_zh": "认识计算机",
-      "title_en": "What a computer is",
+      "title_en": "What is a computer",
       "editorial": "building",
       "translation": "translated",
       "kind": "chapter"
@@ -474,7 +474,7 @@
     {
       "path": "topics/java/01-language-basics/README.md",
       "title_zh": "语言基础与新特性",
-      "title_en": "Language basics",
+      "title_en": "Language basics and new features",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -514,7 +514,7 @@
     {
       "path": "topics/java/06-jvm/README.md",
       "title_zh": "Java 虚拟机",
-      "title_en": "The JVM",
+      "title_en": "JVM",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
@@ -698,7 +698,7 @@
     {
       "path": "topics/microservices/16-cloud-native-java/README.md",
       "title_zh": "性能与云原生 Java",
-      "title_en": "Cloud-native Java",
+      "title_en": "Cloud-native Java and performance",
       "editorial": "building",
       "translation": "untranslated",
       "kind": "chapter"
