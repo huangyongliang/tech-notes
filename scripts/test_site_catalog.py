@@ -135,8 +135,12 @@ def main() -> int:
         fail("english chapter still contains the Chinese body")
 
     lang_js = (ROOT / "website/javascripts/lang.js").read_text(encoding="utf-8")
-    if "not-translated" in lang_js or "English translation unavailable" in lang_js:
-        fail("language switch is still a list redirect or a string translator")
+    if "English translation unavailable" in lang_js:
+        fail("language switch injects the banner instead of leaving it in the page")
+    if 'return "/en/not-translated' in lang_js or "return '/en/not-translated" in lang_js:
+        fail("an article without English is sent to the coverage list")
+    if '"/en/not-translated/": "/"' not in lang_js:
+        fail("the coverage page itself has no Chinese destination")
     boot = (ROOT / "website/javascripts/mode-boot.js").read_text(encoding="utf-8")
     if 'return stored() || "game"' not in boot:
         fail("default mode is no longer game")

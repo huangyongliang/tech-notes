@@ -238,6 +238,10 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 }
 @media (max-width: 900px) {
   .tn2-hero { grid-template-columns: 1fr; }
+  .tn2-hero,
+  .tn2-hero > *,
+  .tn2-term,
+  .md-typeset .tn2-term pre { min-width: 0; max-width: 100%; }
   .md-typeset .tn2-hero h1 { font-size: 2rem; }
   .tn2-term { transform: none; }
   /* 关键词条：不换行，横向滚动 */

@@ -1,0 +1,43 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install -r requirements.txt
+      - name: Catalog
+        run: python3 scripts/test_site_catalog.py
+      - name: Anchors against main fixture
+        run: python3 scripts/test_anchors.py
+      - name: Locale routes source
+        run: python3 scripts/test_locale_routes.py
+      - name: Dialogs
+        run: python3 scripts/test_build_dialogs.py
+      - name: Quest store
+        run: node scripts/test_quest_store.js
+      - name: Miniapp content and None check
+        run: python3 scripts/test_miniapp_content.py
+      - name: Prepare and build both sites
+        run: |
+          bash scripts/prepare_site_src.sh
+          mkdocs build --strict --site-dir site
+          mkdocs build --strict -f mkdocs.en.yml --site-dir site/en
+          python3 scripts/build_english_slice.py --label-search site/en
+      - name: Anchors against the built site
+        run: python3 scripts/test_anchors.py site
+      - name: Locale routes against the built site
+        run: python3 scripts/test_locale_routes.py site
