@@ -79,7 +79,7 @@ PENDING_INTEGRATIONS = [
     {
         "pr": 33,
         "url": "https://github.com/huangyongliang/tech-notes/pull/33",
-        "head": "ea769011e3af96324ba5deeeb22da3b98f2e035a",
+        "head": "3b56fcd5dcf65274afbc4d95fd186517ddac8b4b",
         "base": "b95578b67fcc79e5bed0056b713a4cd846e7b109",
         "merged": False,
         "summary": (
