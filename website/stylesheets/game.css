@@ -287,10 +287,9 @@ html.tn-mode-game .tn-g .mode-fab { display: none !important; }
     overflow: visible;
   }
   html.tn-mode-read .tn-g.tn-g-fab { overflow: visible; }
-  /* 3px outline + 3px offset = 6px, inside the 16px viewport gutter. */
-  html.tn-mode-read .tn-g .mode-fab:focus,
+  /* Same ring as the site focus style in extra.css: 3px solid ink, 6px inside the 16px gutter. */
   html.tn-mode-read .tn-g .mode-fab:focus-visible {
-    outline: 3px dashed var(--hot);
+    outline: 3px solid var(--tn-ink);
     outline-offset: 3px;
   }
   /* Keep 全部主题 left of the button: 16px right inset + 48px target + 8px gap + 4px topic-button shadow. */

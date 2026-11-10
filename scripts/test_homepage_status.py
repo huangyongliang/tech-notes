@@ -160,7 +160,7 @@ def main() -> int:
         "min-width: 44px;",
         "min-height: 44px;",
         "overflow: visible;",
-        "outline: 3px dashed var(--hot);",
+        "outline: 3px solid var(--tn-ink);",
         "outline-offset: 3px;",
         "padding-right: calc(16px + 48px + 8px + 4px);",
         "padding-bottom: calc(16px + 48px + 8px + env(safe-area-inset-bottom, 0px));",
@@ -168,6 +168,8 @@ def main() -> int:
     for snippet in needed:
         if snippet not in mobile[1]:
             fail(f"mobile game button rule missing: {snippet}")
+    if ".mode-fab:focus," in mobile[1] or ".mode-fab:focus {" in mobile[1]:
+        fail("game button focus ring must be :focus-visible only")
 
     if len(sys.argv) > 1:
         site = Path(sys.argv[1])
