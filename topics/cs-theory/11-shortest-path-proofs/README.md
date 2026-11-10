@@ -89,6 +89,74 @@ assert bellman_ford(3, [(0, 1, 0), (1, 2, -2), (2, 1, 1)], 0)[1]
 print("shortest-path checks passed")
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.util.Arrays;
+
+class SyncBellmanFord {
+    // 有限标签用 long。INF 只表示「还没有有限距离」，加法只在有限标签上进行，不用浮点无穷。
+    static final long INF = Long.MAX_VALUE;
+
+    static long[] bellmanFord(int n, int[][] edges, int source, boolean[] negative) {
+        if (source < 0 || source >= n) {
+            throw new AssertionError();
+        }
+        long[] dist = new long[n];
+        Arrays.fill(dist, INF);
+        dist[source] = 0;
+        for (int round = 0; round < n - 1; round++) {
+            long[] nxt = dist.clone();
+            for (int[] edge : edges) {
+                int u = edge[0], v = edge[1], weight = edge[2];
+                if (u < 0 || u >= n || v < 0 || v >= n) {
+                    throw new AssertionError();
+                }
+                if (dist[u] != INF) {
+                    long candidate = dist[u] + weight;
+                    if (candidate < nxt[v]) {
+                        nxt[v] = candidate;
+                    }
+                }
+            }
+            dist = nxt;
+        }
+        boolean reachableNegativeCycle = false;
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], weight = edge[2];
+            if (dist[u] != INF && dist[v] > dist[u] + weight) {
+                reachableNegativeCycle = true;
+            }
+        }
+        negative[0] = reachableNegativeCycle;
+        return dist;
+    }
+
+    static void check(int n, int[][] edges, int source, long[] expect, Boolean expectFlag) {
+        boolean[] flag = new boolean[1];
+        long[] dist = bellmanFord(n, edges, source, flag);
+        if (expect != null && !Arrays.equals(dist, expect)) {
+            throw new AssertionError(Arrays.toString(dist));
+        }
+        if (expectFlag != null && flag[0] != expectFlag) {
+            throw new AssertionError(flag[0]);
+        }
+    }
+
+    public static void main(String[] args) {
+        check(4, new int[][] {{0, 1, 6}, {0, 2, 2}, {2, 1, 1}, {1, 3, 2}, {2, 3, 8}},
+                0, new long[] {0, 3, 2, 5}, false);
+        check(3, new int[][] {{0, 1, 2}, {1, 2, -4}},
+                0, new long[] {0, 2, -2}, false);
+        check(3, new int[][] {{1, 2, -2}, {2, 1, 1}},
+                0, new long[] {0, INF, INF}, false);
+        check(3, new int[][] {{0, 1, 0}, {1, 2, -2}, {2, 1, 1}},
+                0, null, true);
+        System.out.println("shortest-path checks passed");
+    }
+}
+```
+
 本程序返回负圈标志为真时，标签只代表有限轮次内的结果，**不能当作全部最终最短距离**；它没有继续标出每个受影响目标。时间为 `O(nm+n²)`（同步复制数组的代价也算入），额外空间 O(n)。这里按一次整数运算为常数计算，大整数的位运算成本另计。常见原地 Bellman–Ford 计入初始化和外层循环后为 `O(nm+n)` 时间，当 m≥1 时简写 `O(nm)`，额外空间 O(n)；本例不为简短忽略数组复制成本。
 
 ### 例二：负边击穿「确定就不改」

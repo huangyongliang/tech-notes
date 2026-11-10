@@ -119,6 +119,23 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+class ResolveName {
+    public static void main(String[] args) throws UnknownHostException {
+        String host = args.length > 0 ? args[0] : "example.com";
+        // 只解析名称。不建立连接，也不使用端口。
+        for (InetAddress address : InetAddress.getAllByName(host)) {
+            System.out.printf("%s -> %s%n", host, address.getHostAddress());
+        }
+    }
+}
+```
+
 `= {}` 把结构体全部清零，是 C23 新增的写法；旧标准可写 `= {0}`。用 C 写网络程序的完整教程见 Beej's Guide to Network Programming。
 
 ### HTTP

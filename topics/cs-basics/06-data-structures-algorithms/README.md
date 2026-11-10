@@ -108,6 +108,33 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class BinarySearch {
+    // 在升序数组 a[0..n-1] 中查找 key，找到返回下标，否则返回 -1
+    static int binarySearch(int[] a, int key) {
+        int lo = 0, hi = a.length;             // 搜索区间 [lo, hi)
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;      // 避免 lo + hi 溢出
+            if (a[mid] < key) {
+                lo = mid + 1;
+            } else if (a[mid] > key) {
+                hi = mid;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] a = {2, 3, 5, 7, 11, 13, 17};
+        System.out.printf("%d %d%n", binarySearch(a, 11), binarySearch(a, 4)); // 4 -1
+    }
+}
+```
+
 | 排序算法 | 平均时间 | 最坏时间 | 额外空间 | 稳定 |
 |----------|----------|----------|----------|------|
 | 冒泡 / 插入排序 | O(n²) | O(n²) | O(1) | 是 |
@@ -136,6 +163,24 @@ int main(void) {
     }
     putchar('\n');                            // -7 0 3 19 42
     return 0;
+}
+```
+
+同一点的 Java 对照：
+
+```java
+import java.util.Arrays;
+
+class SortInts {
+    public static void main(String[] args) {
+        Integer[] a = {42, -7, 19, 0, 3};
+        // Integer.compare 对应 (a > b) - (a < b)，不用减法，避免溢出。
+        Arrays.sort(a, (x, y) -> Integer.compare(x, y));
+        for (int i = 0; i < a.length; i++) {
+            System.out.printf("%d ", a[i]);
+        }
+        System.out.println();                 // -7 0 3 19 42
+    }
 }
 ```
 

@@ -86,6 +86,30 @@ int main(void) {
 
 输出的三列为 P、Q、蕴含式：依次是 `0 0 1`、`0 1 1`、`1 0 0`、`1 1 1`。C 的 `&&`、`||` 有短路求值，含自增、函数调用等副作用时，不能仅凭真值等价就重排求值；语法见 [C 核心概念](../../programming-basics/02-core-concepts/)。
 
+同一点的 Java 对照：
+
+```java
+class Implication {
+    public static void main(String[] args) {
+        for (int p = 0; p <= 1; ++p) {
+            for (int q = 0; q <= 1; ++q) {
+                boolean pb = p != 0;
+                boolean qb = q != 0;
+                boolean implication = !pb || qb;
+                boolean contrapositive = qb || !pb;
+                if (implication != contrapositive) {
+                    throw new AssertionError();
+                }
+                if ((!(pb && qb)) != (!pb || !qb)) {
+                    throw new AssertionError();
+                }
+                System.out.printf("%d %d %d%n", p, q, implication ? 1 : 0);
+            }
+        }
+    }
+}
+```
+
 ### 例二：否定一个带条件的保证
 
 「每个已发布包都有校验文件」写为 `∀x (Published(x) → HasChecksum(x))`。否定它得到 `∃x (Published(x) ∧ ¬HasChecksum(x))`：找出一个已发布却缺校验文件的包即可，不能只找一个未发布包。

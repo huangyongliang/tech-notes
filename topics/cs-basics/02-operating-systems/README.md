@@ -67,6 +67,8 @@ int main(void) {
 }
 ```
 
+Java 启动外部进程用 `ProcessBuilder`，没有 `fork`／`exec` 这对原语。
+
 `nullptr` 是 C23 新增的空指针常量；在不支持 C23 的旧编译器上可以写 `NULL`。
 
 ### 调度
@@ -120,6 +122,34 @@ int main(void) {
     pthread_join(t2, nullptr);
     printf("counter = %ld\n", counter);   // 加锁后稳定输出 2000000
     return 0;
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class CounterRace {
+    static long counter = 0;
+    static final Object lock = new Object();
+
+    static void worker() {
+        for (int i = 0; i < 1_000_000; i++) {
+            synchronized (lock) {
+                counter++;
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Thread(CounterRace::worker);
+        Thread t2 = new Thread(CounterRace::worker);
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+        System.out.printf("counter = %d%n", counter); // 加锁后稳定输出 2000000
+        // 去掉 synchronized 再跑几次，结果通常小于 2000000，且每次不同。
+    }
 }
 ```
 

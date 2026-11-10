@@ -155,6 +155,59 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class Hierholzer {
+    static final int N = 5, M = 7;
+    static final char[] name = {'A', 'B', 'C', 'D', 'E'};
+    static final int[] from = {0, 1, 2, 2, 3, 4, 4};
+    static final int[] to = {1, 2, 0, 3, 4, 2, 4}; // 最后一条是 E 的自环
+
+    public static void main(String[] args) {
+        int[] deg = new int[N];
+        for (int e = 0; e < M; e++) {
+            deg[from[e]]++;
+            deg[to[e]]++; // 自环在这里被加 2
+        }
+        for (int v = 0; v < N; v++) {
+            if (deg[v] % 2 != 0) {
+                System.out.printf("%c 是奇度顶点，没有欧拉回路%n", name[v]);
+                return;
+            }
+        }
+
+        int[] used = new int[M], nextEdge = new int[N];
+        int[] stack = new int[M + 1], circuit = new int[M + 1];
+        int top = 0, len = 0;
+        stack[top++] = from[0];
+        while (top > 0) {
+            int v = stack[top - 1];
+            while (nextEdge[v] < M
+                    && (used[nextEdge[v]] != 0
+                        || (from[nextEdge[v]] != v && to[nextEdge[v]] != v))) {
+                nextEdge[v]++;
+            }
+            if (nextEdge[v] == M) {
+                circuit[len++] = v;
+                top--;
+            } else {
+                int e = nextEdge[v];
+                used[e] = 1;
+                stack[top++] = (from[e] == v) ? to[e] : from[e];
+            }
+        }
+        if (len != M + 1) {
+            System.out.println("有边没有走到：非零度部分不连通");
+            return;
+        }
+        for (int i = len - 1; i >= 0; i--) {
+            System.out.printf("%c%s", name[circuit[i]], i > 0 ? " " : "\n");
+        }
+    }
+}
+```
+
 程序输出 `A B C D E E C A`。实现上的三个对应关系：
 
 - `deg` 检查对应「全为偶数」这一必要条件；`len != M + 1` 检查对应连通性：若非零度部分分成两块，从起点出发只能用完自己那一块的边。

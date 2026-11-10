@@ -100,6 +100,36 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class EndsWith10 {
+    static boolean endsWith10(String text) {
+        int[][] next = {{0, 1}, {2, 1}, {0, 1}};
+        int state = 0;
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            if (ch != '0' && ch != '1') {
+                return false;
+            }
+            state = next[state][ch - '0'];
+        }
+        return state == 2;
+    }
+
+    public static void main(String[] args) {
+        if (endsWith10("")) throw new AssertionError();
+        if (endsWith10("1")) throw new AssertionError();
+        if (!endsWith10("10")) throw new AssertionError();
+        if (!endsWith10("110")) throw new AssertionError();
+        if (endsWith10("100")) throw new AssertionError();
+        if (!endsWith10("1010")) throw new AssertionError();
+        if (endsWith10("102")) throw new AssertionError();
+        System.out.println("dfa checks passed");
+    }
+}
+```
+
 ### 例二：固定比例的分块标记不正则
 
 令 `L={UⁿV²ⁿ : n≥0}`，U、V 是两个不同符号。假设 L 正则，取泵长度 p，选择 `s=UᵖV²ᵖ`。任意合法分解 s=xyz 都有 `|xy|≤p`，故非空 y 只包含 U。取 i=0 后，U 数减少而 V 数不变，不再满足 V 数恰为 U 数的 2 倍，所以不在 L，矛盾。这个论证覆盖所有允许分解，而不依赖我们挑中哪一段。

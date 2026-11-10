@@ -78,6 +78,34 @@ int8_t -1 的比特 = 0xFF
 0x01020304 在内存中的第一个字节 = 0x04（小端）
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+class Numbers {
+    public static void main(String[] args) {
+        // Java 没有 uint8_t。0–255 用 int 保存，回绕用掩码；不用有符号 byte 溢出冒充无符号回绕。
+        int u = 255;
+        u = (u + 1) & 0xFF;
+        System.out.printf("uint8_t 255 + 1 = %d%n", u);
+
+        byte n = -1;
+        System.out.printf("int8_t -1 的比特 = 0x%02X%n", Byte.toUnsignedInt(n));
+
+        double a = 0.1 + 0.2;
+        System.out.printf("0.1 + 0.2 = %.17f, == 0.3 ? %s%n", a, a == 0.3 ? "是" : "否");
+
+        ByteBuffer buf = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+        buf.putInt(0x01020304);
+        int first = Byte.toUnsignedInt(buf.get(0));
+        System.out.printf("0x01020304 在内存中的第一个字节 = 0x%02X（%s）%n",
+                first, first == 0x04 ? "小端" : "大端");
+    }
+}
+```
+
 ### 字节序
 
 多字节整数在内存中的排列顺序：**小端**（little-endian）把低位字节放在低地址，x86-64 和常见的 ARM 系统都是小端；**大端**（big-endian）反之，网络协议传输整数时约定用大端，所以叫「网络字节序」。
