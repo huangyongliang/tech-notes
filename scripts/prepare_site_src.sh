@@ -18,6 +18,7 @@ python3 scripts/build_dialogs.py --topics _site_src/topics \
 python3 scripts/build_dialogs.py --topics _site_src/topics \
   --out _site_src/javascripts/dialogs-basics.js \
   --only-topic getting-started,cs-basics,programming-basics --merge
-# English slice: real pages only where the catalog says translated.
-# Other English URLs are the not-translated list, not Chinese prose.
+# English site: real English where the catalog says translated.
+# Other /en/ URLs keep the same article, with the fallback banner.
+# _site_src/en is the copied source tree and is not the English site.
 python3 scripts/build_english_slice.py

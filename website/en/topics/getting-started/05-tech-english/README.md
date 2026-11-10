@@ -1,6 +1,6 @@
 # Tech English
 
-> [Getting Started](../../../not-translated.md#topics-getting-started) (Chinese chapter index, not translated) · [中文原文](../../../../topics/getting-started/05-tech-english/)
+> [Getting Started](../../) › Tech English · [中文原文](../../../../topics/getting-started/05-tech-english/)
 
 How to read error messages and official documentation. API and command names stay in English on purpose.
 
@@ -9,9 +9,9 @@ How to read error messages and official documentation. API and command names sta
 | Item | Content |
 |------|---------|
 | Stage | Stage 0, Getting Started · lesson 5 (last lesson of this stage) |
-| Before | [Learning to Learn](../../../not-translated.md#topics-getting-started-04-learning-to-learn) (not translated); school-level English |
+| Before | [Learning to Learn](../04-learning-to-learn/); school-level English. That chapter has no English body yet. |
 | Time | 3–5 days to start, then daily reading |
-| Next | [CS Basics](../../../not-translated.md#topics-cs-basics) (not translated): manuals, man pages, and compiler errors |
+| Next | [CS Basics](../../../cs-basics/): manuals, man pages, and compiler errors. That section has no English body yet. |
 
 Keywords, compiler errors, official docs, and most primary sources are in English. The useful vocabulary is small and the sentence patterns repeat. You do not need exam-level English. The goal is narrower: do not freeze on an English error, and finish one page of official documentation with a dictionary.
 
@@ -155,4 +155,4 @@ Answer first, then open the fold. A short answer is enough when it has the point
 
 ---
 
-[中文原文](../../../../topics/getting-started/05-tech-english/) · [English coverage](../../../not-translated.md)
+[中文原文](../../../../topics/getting-started/05-tech-english/) · [English coverage list](../../../not-translated.md)

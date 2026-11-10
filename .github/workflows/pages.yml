@@ -27,8 +27,10 @@ jobs:
         uses: actions/configure-pages@v6
       - name: Prepare _site_src
         run: bash scripts/prepare_site_src.sh
-      - name: Build (strict)
+      - name: Build Chinese site (strict)
         run: mkdocs build --strict --site-dir site
+      - name: Build English site (strict)
+        run: mkdocs build --strict -f mkdocs.en.yml --site-dir site/en
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site

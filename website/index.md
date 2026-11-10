@@ -108,7 +108,7 @@ Java 12 个子主题、微服务 16 个子主题都按先后编号，后一节�
 
 <span class="tn2-tag">START HERE · QUEST MAP</span>
 
-### Java 技术栈 <small>Java Stack</small>
+### Java 技术栈
 
 Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末尾一个 BOSS 章节测验。
 
@@ -128,7 +128,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 <span class="tn2-tag tn2-tag--ghost">NEXT · 02</span>
 
-### 学完进阶：微服务 <small>Microservices</small>
+### 学完进阶：微服务
 
 16 个子主题，从架构拆分、服务治理、可观测性到云原生 Java，原理语言中立，以 Java / Spring 实现。
 
@@ -165,33 +165,35 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 <p class="tn2-lede">整个笔记本的目录。高亮的正在搭建，灰色的还没开始。</p>
 
+<p class="tn-status">编辑状态是待开始、搭建中、已完成。翻译是已译、部分、未译。本机已学进度只在这台浏览器里，清掉记录不会改变编辑状态。</p>
+
 <div class="tn2-index" markdown>
 
-[<span class="n">00</span><span class="t">学习路线<small>Roadmap</small></span><span class="d">从零到 AI · 六个阶段总览</span><span class="s s--wip">搭建中</span>](topics/roadmap/README.md)
+[<span class="n">00</span><span class="t">学习路线</span><span class="d">从零到 AI · 六个阶段总览</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/roadmap/README.md)
 
-[<span class="n">01</span><span class="t">零基础入门<small>Getting Started</small></span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s s--wip">搭建中</span>](topics/getting-started/README.md)
+[<span class="n">01</span><span class="t">零基础入门</span><span class="d">电脑 · 网络 · 自学方法，5 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">部分</span></span>](topics/getting-started/README.md)
 
-[<span class="n">02</span><span class="t">计算机基础<small>CS Basics</small></span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s s--wip">搭建中</span>](topics/cs-basics/README.md)
+[<span class="n">02</span><span class="t">计算机基础</span><span class="d">组成 · OS · Linux · Git · 网络 · DSA · 数据库</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-basics/README.md)
 
-[<span class="n">03</span><span class="t">理论基础<small>CS Theory</small></span><span class="d">数理逻辑 · 图论 · 计算理论，14 章，只在网站</span><span class="s s--wip">搭建中</span>](topics/cs-theory/README.md)
+[<span class="n">03</span><span class="t">理论基础</span><span class="d">数理逻辑 · 图论 · 计算理论，14 章，只在网站</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/cs-theory/README.md)
 
-[<span class="n">04</span><span class="t">编程入门<small>Programming Basics</small></span><span class="d">第一门语言 C，6 个子主题</span><span class="s s--wip">搭建中</span>](topics/programming-basics/README.md)
+[<span class="n">04</span><span class="t">编程入门</span><span class="d">第一门语言 C，6 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/programming-basics/README.md)
 
-[<span class="n">05</span><span class="t">Java 技术栈<small>Java Stack</small></span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s s--wip">搭建中</span>](topics/java/README.md)
+[<span class="n">05</span><span class="t">Java 技术栈</span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/java/README.md)
 
-[<span class="n">06</span><span class="t">微服务<small>Microservices</small></span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s s--wip">搭建中</span>](topics/microservices/README.md)
+[<span class="n">06</span><span class="t">微服务</span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/microservices/README.md)
 
-[<span class="n">07</span><span class="t">AI 技术栈<small>AI Stack</small></span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s s--wip">搭建中</span>](topics/ai/README.md)
+[<span class="n">07</span><span class="t">AI 技术栈</span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/ai/README.md)
 
-[<span class="n">08</span><span class="t">编程<small>Programming</small></span><span class="d">编程语言、算法、设计</span><span class="s">待开始</span>](topics/programming/README.md){ .tn2-todo }
+[<span class="n">08</span><span class="t">编程</span><span class="d">编程语言、算法、设计</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/programming/README.md){ .tn2-todo }
 
-[<span class="n">09</span><span class="t">Web<small>Web</small></span><span class="d">前端、后端、协议</span><span class="s">待开始</span>](topics/web/README.md){ .tn2-todo }
+[<span class="n">09</span><span class="t">Web</span><span class="d">前端、后端、协议</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/web/README.md){ .tn2-todo }
 
-[<span class="n">10</span><span class="t">系统<small>Systems</small></span><span class="d">操作系统、网络、数据库、分布式</span><span class="s">待开始</span>](topics/systems/README.md){ .tn2-todo }
+[<span class="n">10</span><span class="t">系统</span><span class="d">操作系统、网络、数据库、分布式</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/systems/README.md){ .tn2-todo }
 
-[<span class="n">11</span><span class="t">DevOps<small>DevOps</small></span><span class="d">CI/CD、容器、云</span><span class="s">待开始</span>](topics/devops/README.md){ .tn2-todo }
+[<span class="n">11</span><span class="t">DevOps</span><span class="d">CI/CD、容器、云</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/devops/README.md){ .tn2-todo }
 
-[<span class="n">12</span><span class="t">产品调研<small>Product Research</small></span><span class="d">产品、竞品、技术选型</span><span class="s">待开始</span>](topics/product-research/README.md){ .tn2-todo }
+[<span class="n">12</span><span class="t">产品调研</span><span class="d">产品、竞品、技术选型</span><span class="s-pair"><span class="s">待开始</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md){ .tn2-todo }
 
 </div>
 

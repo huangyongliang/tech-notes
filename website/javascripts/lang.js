@@ -1,6 +1,8 @@
-/* Language switch. Default URLs stay Chinese.
- * English pages live under en/. A Chinese page with no English twin
- * goes to en/not-translated/#anchor, never to Chinese text labeled as English.
+/* Language switch. Chinese URLs stay on the Chinese site.
+ * English is the same article under /en/.
+ * If that article has no English body, /en/ still shows that article
+ * plus the banner written into the page. This file does not translate
+ * interface strings and does not send the reader to the home page.
  * No network. */
 (function () {
   "use strict";
@@ -19,77 +21,58 @@
     if (!path.endsWith("/")) path += "/";
     return path || "/";
   }
-  function map() {
-    return window.TN_LANG || { translated: {}, anchors: {} };
+  function onEnglish(path) {
+    return path === "/en/" || path.indexOf("/en/") === 0;
   }
   function englishHref(path) {
-    var data = map();
-    var urls = Object.keys(data.translated || {});
-    for (var i = 0; i < urls.length; i++) {
-      if (data.translated[urls[i]] === path) return path;
-    }
-    if (data.translated[path]) return data.translated[path];
-    if (path.indexOf("/en/") === 0) return path;
-    var id = (data.anchors || {})[path] || "";
-    return "/en/not-translated/" + (id ? "#" + id : "");
+    if (onEnglish(path)) return path;
+    if (path === "/") return "/en/";
+    return "/en" + path;
   }
   function chineseHref(path) {
-    var data = map();
-    var urls = Object.keys(data.translated || {});
-    for (var i = 0; i < urls.length; i++) {
-      if (data.translated[urls[i]] === path) return urls[i];
-    }
-    if (path.indexOf("/en/not-translated/") === 0) {
-      var id = (location.hash || "").replace(/^#/, "");
-      var keys = Object.keys(data.anchors || {});
-      for (var j = 0; j < keys.length; j++) {
-        if (data.anchors[keys[j]] === id) return keys[j];
-      }
-      return "/";
-    }
-    if (path.indexOf("/en/") === 0) return "/";
+    if (path === "/en/") return "/";
+    if (path.indexOf("/en/") === 0) return path.slice(3);
     return path;
   }
-  function withRoot(root, url) {
+  function withRoot(root, url, fromEnglish) {
     var hash = "";
     var cut = url.indexOf("#");
     if (cut !== -1) { hash = url.slice(cut); url = url.slice(0, cut); }
     if (url.charAt(0) === "/") url = url.slice(1);
-    return root + url + hash;
+    var prefix = root;
+    if (fromEnglish && url.indexOf("en/") !== 0) prefix += "../";
+    return prefix + url + hash;
   }
   function render() {
-    var data = map();
-    if (!data.translated) return;
     var path = pagePath();
     var root = siteRoot();
-    var onEnglish = path === "/en/" || path.indexOf("/en/") === 0;
-    if (onEnglish) document.documentElement.lang = "en";
+    var en = onEnglish(path);
+    if (en) document.documentElement.lang = "en";
     var header = document.querySelector(".md-header__inner");
     if (header && !header.querySelector(".tn-lang")) {
       var nav = document.createElement("nav");
       nav.className = "tn-lang";
-      nav.setAttribute("aria-label", onEnglish ? "Language" : "语言");
+      nav.setAttribute("aria-label", en ? "Language" : "语言");
       var zh = document.createElement("a");
-      var en = document.createElement("a");
-      zh.href = withRoot(root, chineseHref(path));
-      en.href = withRoot(root, englishHref(path));
+      var enLink = document.createElement("a");
+      zh.href = withRoot(root, chineseHref(path), en);
+      enLink.href = withRoot(root, englishHref(path), en);
       zh.textContent = "中文";
-      en.textContent = "English";
-      if (!onEnglish) zh.setAttribute("aria-current", "true");
-      else en.setAttribute("aria-current", "true");
+      enLink.textContent = "English";
+      zh.setAttribute("lang", "zh");
+      enLink.setAttribute("lang", "en");
+      (en ? enLink : zh).setAttribute("aria-current", "page");
       nav.appendChild(zh);
       nav.appendChild(document.createTextNode(" · "));
-      nav.appendChild(en);
+      nav.appendChild(enLink);
       header.appendChild(nav);
     }
-    if (onEnglish && data.searchLimit && !document.querySelector(".tn-lang-limit")) {
-      var host = document.querySelector(".md-content__inner");
-      if (host) {
-        var note = document.createElement("p");
-        note.className = "tn-lang-limit";
-        note.textContent = data.searchLimit;
-        host.insertBefore(note, host.firstChild);
-      }
+    var banner = document.querySelector(".tn-fallback");
+    if (banner) {
+      document.documentElement.lang = "en";
+      banner.setAttribute("lang", "en");
+      var inner = document.querySelector(".md-content__inner");
+      if (inner) inner.setAttribute("lang", "zh");
     }
   }
   if (window.document$ && document$.subscribe) document$.subscribe(render);

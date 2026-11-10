@@ -188,7 +188,7 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 
 /* § 03 主题索引：目录行 */
 .md-typeset .tn2-index > p { margin: 0; }
-.md-typeset .tn2-index a { display: grid; grid-template-columns: 3.2rem 1.3fr 2fr 5rem; align-items: center; gap: 1rem; padding: 1rem .6rem; border-bottom: 1px solid color-mix(in srgb, var(--tn-ink) 25%, transparent); color: var(--tn-ink); text-decoration: none; transition: padding .12s, opacity .12s; }
+.md-typeset .tn2-index a { display: grid; grid-template-columns: 3.2rem 1.3fr 2fr auto; align-items: center; gap: 1rem; padding: 1rem .6rem; border-bottom: 1px solid color-mix(in srgb, var(--tn-ink) 25%, transparent); color: var(--tn-ink); text-decoration: none; transition: padding .12s, opacity .12s; }
 .md-typeset .tn2-index a:hover,
 .md-typeset .tn2-index a:focus-visible { background: var(--tn-ink); color: var(--tn-paper); opacity: 1; }
 .md-typeset .tn2-index a:focus-visible { transition: none; }
@@ -198,7 +198,9 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset .tn2-index a:focus-visible .d,
 .md-typeset .tn2-index a:focus-visible small { color: color-mix(in srgb, var(--tn-paper) 70%, transparent); }
 .tn2-index .n { font-family: var(--tn-mono); font-size: 1.4rem; font-weight: 800; color: var(--tn-hot); }
-.tn2-index .t { font-size: 1.02rem; font-weight: 800; }
+.tn2-index .t { font-size: 1.02rem; font-weight: 800; overflow-wrap: anywhere; }
+.tn2-index .s-pair { justify-self: end; display: flex; flex-wrap: wrap; gap: .35rem; justify-content: flex-end; max-width: 12rem; }
+.tn2-index .s-pair .s { justify-self: auto; }
 .tn2-index .t small { display: block; font-family: var(--tn-mono); font-size: .62rem; font-weight: 400; color: var(--tn-ink-2); letter-spacing: .04em; text-transform: uppercase; }
 .tn2-index .d { font-size: .76rem; color: var(--tn-ink-2); }
 .tn2-index .s { justify-self: end; font-family: var(--tn-mono); font-size: .6rem; padding: .15em .6em; border: 1.5px solid currentColor; white-space: nowrap; }
@@ -391,9 +393,9 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
 .md-typeset.tn2-q-mapmode .mermaid { display: none; }
 
 /* Language switch. Same paper, ink, and hard edge as the rest of the header. */
-.tn-lang { margin-left: auto; font-family: var(--tn-mono); font-size: .68rem; font-weight: 700; }
-.md-header__inner .tn-lang a { color: var(--tn-ink); text-decoration: none; border-bottom: 2px solid transparent; }
-.md-header__inner .tn-lang a[aria-current="true"] { border-bottom-color: var(--tn-hot); }
+.tn-lang { margin-left: auto; font-family: var(--tn-mono); font-size: .68rem; font-weight: 700; display: flex; align-items: center; }
+.md-header__inner .tn-lang a { color: var(--tn-ink); text-decoration: none; border-bottom: 2px solid transparent; display: inline-flex; align-items: center; min-height: 48px; min-width: 44px; padding: 0 .7rem; justify-content: center; }
+.md-header__inner .tn-lang a[aria-current="page"] { border-bottom-color: var(--tn-hot); }
 .md-header__inner .tn-lang a:focus-visible { outline: 3px solid var(--tn-ink); outline-offset: 3px; }
 .tn-lang-limit { font-size: .8rem; line-height: 1.7; color: var(--tn-ink-2); border: 2px solid var(--tn-rule); background: var(--tn-paper-2); padding: .6rem .8rem; box-shadow: 4px 4px 0 var(--tn-rule); }
 
@@ -589,3 +591,32 @@ code, kbd, pre, .md-typeset code { font-family: var(--tn-mono); }
   .md-typeset .tn2-qnode:hover .tn2-qnode__dot { transform: none; }
   .md-typeset .tn2-qnode--boss:hover .tn2-qnode__dot { transform: rotate(45deg); }
 }
+
+.md-typeset h1,
+.md-tabs__link { overflow-wrap: anywhere; }
+.md-typeset .highlight,
+.md-typeset pre,
+.md-typeset .md-typeset__scrollwrap { max-width: 100%; overflow-x: auto; }
+.tn-fallback,
+.tn-status {
+  font-size: .8rem;
+  line-height: 1.8;
+  color: var(--tn-ink);
+}
+.tn-fallback {
+  border: 2px solid var(--tn-rule);
+  background: var(--tn-paper-2);
+  padding: .7rem .9rem;
+  box-shadow: 4px 4px 0 var(--tn-rule);
+  margin: 0 0 1rem;
+}
+html[lang="en"] .md-typeset .admonition.note > .admonition-title::after { content: "Note"; color: var(--tn-ink); }
+html[lang="en"] .md-typeset .admonition.important > .admonition-title::after { content: "Important"; color: var(--tn-ink); }
+html[lang="en"] .md-typeset .admonition.tip > .admonition-title::after { content: "Tip"; color: #14110f; background: var(--tn-mark); padding: .05em .45em; }
+html[lang="en"] .md-typeset .admonition.warning > .admonition-title::after,
+html[lang="en"] .md-typeset .admonition.danger > .admonition-title::after { content: "Warning"; color: var(--tn-hot-text); }
+html[lang="en"]:has(.tn-fallback) .md-typeset .admonition.note > .admonition-title::after { content: "注意"; color: var(--tn-ink); }
+html[lang="en"]:has(.tn-fallback) .md-typeset .admonition.important > .admonition-title::after { content: "重要"; color: var(--tn-ink); }
+html[lang="en"]:has(.tn-fallback) .md-typeset .admonition.tip > .admonition-title::after { content: "提示"; color: #14110f; background: var(--tn-mark); padding: .05em .45em; }
+html[lang="en"]:has(.tn-fallback) .md-typeset .admonition.warning > .admonition-title::after,
+html[lang="en"]:has(.tn-fallback) .md-typeset .admonition.danger > .admonition-title::after { content: "警告"; color: var(--tn-hot-text); }

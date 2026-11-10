@@ -21,6 +21,7 @@ __pycache__/
 node_modules/
 *.log
 _site_src/
+_site_en/
 site/
 # WeChat DevTools
 miniprogram/miniprogram_npm/

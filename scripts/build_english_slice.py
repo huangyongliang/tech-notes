@@ -1,35 +1,35 @@
 #!/usr/bin/env python3
-"""Write the English slice into _site_src from the site catalog.
+"""Build the English site from the catalog.
 
-Translated pages are copied from website/en/. Every other catalog page
-becomes an entry on en/not-translated.md. Chinese pages are not copied
-into the English tree.
+Translated pages are the English sources. Every other catalog page is the
+same article under /en/, with the Chinese body and an explicit banner.
+The banner is not a translation. English chrome comes from a second MkDocs
+config (theme language en), not from rewriting interface strings in JavaScript.
 """
 from __future__ import annotations
 
-import json
+import shutil
 import sys
 from pathlib import Path
+
+import yaml
 
 sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import site_catalog as sc  # noqa: E402
 
-SEARCH_LIMIT = (
-    "Search on these English pages still returns Chinese pages, because "
-    "the search index is the whole site. Only the pages linked as English "
-    "below are English. Any other hit is a Chinese source, not an English translation."
-)
-
-
-def anchor_for(path: str) -> str:
-    text = path
-    if text.endswith("/README.md"):
-        text = text[: -len("/README.md")]
-    elif text.endswith(".md"):
-        text = text[: -len(".md")]
-    return text.replace("/", "-")
+SECTION_EN = {
+    "学习路线": "Roadmap",
+    "基础": "Foundations",
+    "理论基础": "Theory",
+    "Java": "Java",
+    "微服务": "Microservices",
+    "AI": "AI",
+    "全部主题": "All topics",
+    "资料": "Sources",
+    "关于": "About",
+}
 
 
 def site_url(path: str) -> str:
@@ -55,22 +55,125 @@ def english_url(path: str) -> str:
     return "/en" + url
 
 
+def chinese_url(english_path: str) -> str:
+    if english_path == "/en/":
+        return "/"
+    if english_path.startswith("/en/"):
+        return english_path[3:]
+    return english_path
+
+
+def catalog_path(nav_path: str) -> str:
+    if nav_path == "index.md":
+        return "website/index.md"
+    return nav_path
+
+
+def nav_label(nav_path: str, by_path: dict) -> str:
+    if nav_path == "index.md":
+        return "Home"
+    page = by_path.get(catalog_path(nav_path))
+    if page is None:
+        raise SystemExit(f"nav path missing from catalog: {nav_path}")
+    if page["translation"] == "translated":
+        return page["title_en"] or page["title_zh"]
+    if page["title_en"]:
+        return page["title_en"]
+    return "Chinese original: " + page["title_zh"]
+
+
+def english_nav(catalog: dict, chinese_nav: list) -> list:
+    by_path = {page["path"]: page for page in catalog["pages"]}
+
+    def walk(node):
+        if isinstance(node, list):
+            out = []
+            for item in node:
+                if isinstance(item, dict) and list(item.keys()) == ["English"]:
+                    continue
+                out.append(walk(item))
+            return out
+        if isinstance(node, dict):
+            out = {}
+            for key, value in node.items():
+                if key == "English":
+                    continue
+                if isinstance(value, str):
+                    label = nav_label(value, by_path)
+                    if label in out:
+                        label = f"{label} ({value})"
+                    out[label] = value
+                elif isinstance(value, list):
+                    if key not in SECTION_EN:
+                        raise SystemExit(f"no English section label for {key}")
+                    out[SECTION_EN[key]] = walk(value)
+                else:
+                    raise SystemExit(f"unsupported nav node: {key}")
+            return out
+        if isinstance(node, str):
+            label = nav_label(node, by_path)
+            return {label: node}
+        raise SystemExit(f"unsupported nav node: {node!r}")
+
+    nav = walk(chinese_nav)
+    nav.append({"Coverage": "not-translated.md"})
+    return nav
+
+
+def _set_title(front_matter: str, title: str) -> str:
+    safe = title.replace('"', "'")
+    line = f'title: "{safe}"'
+    if not front_matter:
+        return f"---\n{line}\n---\n"
+    if "\ntitle:" in "\n" + front_matter:
+        return __import__("re").sub(r"(?m)^title:.*$", line, front_matter, count=1)
+    return front_matter.replace("---\n", f"---\n{line}\n", 1)
+
+
+def fallback_markdown(page: dict, text: str) -> str:
+    front_matter, body = sc.split_front_matter(text)
+    name = page["title_en"] or page["title_zh"]
+    front_matter = _set_title(front_matter, f"Chinese original: {name}")
+    banner = (
+        '<div class="tn-fallback" lang="en" role="status">'
+        + sc.FALLBACK_BANNER
+        + "</div>\n"
+        '<script>var n=document.currentScript.closest(".md-content__inner");'
+        'if(n)n.lang="zh";document.documentElement.lang="en";</script>\n\n'
+    )
+    return front_matter.rstrip() + "\n\n" + banner + body.lstrip("\n")
+
+
+def translated_markdown(page: dict, text: str, lang: str) -> str:
+    if sc.FALLBACK_BANNER in text:
+        raise SystemExit(f"translated page contains the fallback banner: {page['path']}")
+    front_matter, body = sc.split_front_matter(text)
+    if 'class="tn-status"' in body:
+        return text if text.endswith("\n") else text + "\n"
+    paragraph = sc.status_paragraph(page, lang)
+    if front_matter:
+        return front_matter.rstrip() + "\n\n" + paragraph + body.lstrip("\n")
+    return paragraph + text
+
+
 def render_home(catalog: dict) -> str:
     labels = catalog["labels"]
     counts = catalog["counts"]
     by_path = {page["path"]: page for page in catalog["pages"]}
+    home = by_path["website/index.md"]
     order = list(sc.homepage_statuses().keys())
     lines = [
         "# tech-notes",
         "",
-        "[中文](../) · English",
+        sc.status_paragraph(home, "en").rstrip(),
         "",
         "A public engineering notebook: short notes, links, and a record of what was actually understood.",
         "",
-        f"English coverage on this deploy: **{counts['translated']}** pages "
-        f"({counts['translated'] - 1} chapter plus this home page). "
-        f"**{counts['untranslated']}** pages have no English text. "
-        "They are listed on [Not translated](not-translated.md), not filled in with Chinese.",
+        f"English coverage: **{counts['translated']}** of **{counts['pages']}** catalog pages have an English body. "
+        f"**{counts['untranslated']}** do not. Opening English stays on that article. "
+        "The Chinese body shown there is not counted as translated.",
+        "",
+        "Search titles that start with “Chinese original” are those untranslated pages.",
         "",
         "## Translated now",
         "",
@@ -78,25 +181,27 @@ def render_home(catalog: dict) -> str:
         "",
         "## Topics",
         "",
-        "Status here is the editorial state of the Chinese page. It is not your reading progress, and it is not a translation badge.",
+        "Editorial status is the publishing state. Translation is separate. Neither one is on-device quest progress.",
         "",
-        "| Topic | Chinese title | Editorial status | English |",
-        "|-------|---------------|------------------|---------|",
+        "| Topic | Editorial | Translation | Page |",
+        "|-------|-----------|-------------|------|",
     ]
     for path in order:
         page = by_path[path]
-        en_title = page["title_en"] or "No English title yet"
-        status = labels[page["editorial"]]["en"]
-        if page["translation"] == "translated" and path != "website/index.md":
-            link = f"[English page]({english_url(path).removeprefix('/en/')})"
-        else:
-            link = f"[Not translated](not-translated.md#{anchor_for(path)})"
+        title = page["title_en"] or ("Chinese original: " + page["title_zh"])
+        rel = english_url(path).removeprefix("/en/")
+        roll = sc.translation_rollup(page, catalog["pages"])
         lines.append(
-            f"| {en_title} | {page['title_zh']} | {status} | {link} |"
+            f"| {title} | {labels[page['editorial']]['en']} | "
+            f"{sc.TR_LABELS[roll]['en']} | [Open]({rel}) |"
         )
     lines += [
         "",
-        "The quest map, game entrance, and experience points stay on the [Chinese home](../). This English page does not change them.",
+        "The quest map and experience points stay on the [Chinese home](../). "
+        "Clearing on-device progress does not change editorial status, and this English page does not change the XP curve.",
+        "",
+        "Pages with no English body are also listed on [Coverage](not-translated.md). "
+        "That list is an index. The language switch does not send you there.",
         "",
     ]
     return "\n".join(lines)
@@ -106,20 +211,20 @@ def render_not_translated(catalog: dict) -> str:
     labels = catalog["labels"]
     counts = catalog["counts"]
     lines = [
-        "# Not translated",
+        "# Coverage",
         "",
-        "[中文 home](../) · [English home](./)",
+        "[English home](./) · [Chinese home](../)",
         "",
-        f"**{counts['untranslated']}** of **{counts['pages']}** catalog pages have no English body. "
-        f"**{counts['translated']}** are translated. "
-        "Opening English does not show the Chinese chapter in its place.",
+        f"**{counts['translated']}** of **{counts['pages']}** catalog pages are translated. "
+        f"**{counts['untranslated']}** are not. "
+        "A Chinese body on the English URL is the original article, not a translation.",
         "",
         "Editorial status is the publishing state of the Chinese page. "
-        f"None are marked {labels['complete']['en']}. "
-        "A page can contain Chinese prose and still be in progress.",
+        f"None are marked {labels['complete']['en']}.",
         "",
         "PR 33 is open and not merged. It would mark Web and Systems as in progress and add two Chinese chapters. "
-        "Those files are not on this site, and they are not counted as English.",
+        "Those files are not on this site, and they are not counted as English. "
+        "After it merges, regenerate the catalog before the next site build.",
         "",
     ]
     groups = {"building": [], "planned": [], "complete": []}
@@ -136,61 +241,198 @@ def render_not_translated(catalog: dict) -> str:
             lines.append("")
             continue
         for page in rows:
-            en_title = page["title_en"] or "No English title yet"
+            title = page["title_en"] or ("Chinese original: " + page["title_zh"])
+            rel = english_url(page["path"]).removeprefix("/en/")
             lines.append(
                 f"- <span id=\"{anchor_for(page['path'])}\"></span>"
-                f"**{en_title}** — Chinese title: {page['title_zh']}. "
-                f"[Chinese page]({_chinese_href(page['path'])})"
+                f"**{title}** — Chinese title: {page['title_zh']}. "
+                f"[Same article]({rel}) · [Chinese URL]({_chinese_href(page['path'])})"
             )
         lines.append("")
     return "\n".join(lines) + "\n"
 
 
+def anchor_for(path: str) -> str:
+    text = path
+    if text.endswith("/README.md"):
+        text = text[: -len("/README.md")]
+    elif text.endswith(".md"):
+        text = text[: -len(".md")]
+    return text.replace("/", "-")
+
+
 def _chinese_href(path: str) -> str:
-    """Link from en/not-translated.md back to the Chinese page."""
     url = site_url(path)
     if url == "/":
         return "../"
     return ".." + url
 
 
-def render_lang_map(catalog: dict) -> str:
-    translated = {}
-    anchors = {}
-    for page in catalog["pages"]:
-        zh = site_url(page["path"])
-        if page["translation"] == "translated":
-            translated[zh] = english_url(page["path"])
-        else:
-            anchors[zh] = anchor_for(page["path"])
-    payload = {"translated": translated, "anchors": anchors, "searchLimit": SEARCH_LIMIT}
-    return "window.TN_LANG = " + json.dumps(payload, ensure_ascii=False, indent=2) + ";\n"
+def render_mkdocs_en(nav: list) -> str:
+    nav_yaml = yaml.safe_dump(nav, allow_unicode=True, sort_keys=False).rstrip()
+    return f"""# Generated by scripts/build_english_slice.py. Do not hand-edit.
+site_name: tech-notes
+site_url: https://huangyongliang.github.io/tech-notes/en/
+repo_url: https://github.com/huangyongliang/tech-notes
+repo_name: tech-notes
+docs_dir: _site_en
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: {{icon: material/weather-night, name: Switch to dark}}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle: {{icon: material/weather-sunny, name: Switch to light}}
+  font: false
+  icon: {{repo: fontawesome/brands/github, logo: material/notebook-outline}}
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+    - navigation.instant
+    - navigation.tracking
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - javascripts/lang.js
+nav:
+{indent(nav_yaml)}
+plugins:
+  - search:
+      lang: [en, zh]
+      separator: '[\\s\\u200b\\-_,:!=\\[\\]()"`/]+|\\.(?!\\d)|&[lg]t;|(?!\\b)(?=[A-Z][a-z])'
+markdown_extensions:
+  - admonition
+  - github-callouts
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.tasklist: {{custom_checkbox: true, clickable_checkbox: true}}
+  - toc: {{permalink: true}}
+  - pymdownx.highlight: {{anchor_linenums: true}}
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+site_author: tech-notes contributors
+copyright: "© tech-notes contributors · CC BY 4.0"
+edit_uri: edit/main/
+validation:
+  omitted_files: warn
+  absolute_links: info
+  unrecognized_links: info
+  anchors: warn
+"""
 
 
-def build(site_src: Path, root: Path | None = None) -> dict:
+def indent(text: str) -> str:
+    return "\n".join("  " + line if line else line for line in text.splitlines())
+
+
+def _output(english_dir: Path, rel: str) -> Path:
+    if rel == "website/index.md":
+        return english_dir / "index.md"
+    return english_dir / rel
+
+
+def _load_mkdocs_nav(root: Path) -> list:
+    class Loader(yaml.SafeLoader):
+        pass
+
+    Loader.add_multi_constructor("tag:yaml.org,2002:python/name:", lambda loader, suffix, node: suffix)
+    data = yaml.load((root / "mkdocs.yml").read_text(encoding="utf-8"), Loader=Loader)
+    return data["nav"]
+
+
+def build(
+    english_dir: Path,
+    root: Path | None = None,
+    site_src: Path | None = None,
+    write_config: bool = True,
+) -> dict:
     root = root or sc.ROOT
+    import json
+
     catalog = json.loads((root / "website" / "data" / "site-catalog.json").read_text(encoding="utf-8"))
     errors = sc.coverage_errors(root, catalog)
     if errors:
         raise SystemExit("catalog check failed:\n" + "\n".join(errors))
-    en_dir = site_src / "en"
-    chapter = en_dir / "topics" / "getting-started" / "05-tech-english"
-    chapter.mkdir(parents=True, exist_ok=True)
-    (en_dir / "index.md").write_text(render_home(catalog), encoding="utf-8")
-    source = sc.english_source("topics/getting-started/05-tech-english/README.md")
-    (chapter / "README.md").write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
-    (en_dir / "not-translated.md").write_text(render_not_translated(catalog), encoding="utf-8")
-    js = site_src / "javascripts"
-    js.mkdir(parents=True, exist_ok=True)
-    (js / "lang-map.js").write_text(render_lang_map(catalog), encoding="utf-8")
+    by_path = {page["path"]: page for page in catalog["pages"]}
+    if english_dir.exists():
+        shutil.rmtree(english_dir)
+    english_dir.mkdir(parents=True)
+    for page in catalog["pages"]:
+        dest = _output(english_dir, page["path"])
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if page["translation"] == "translated" and page["path"] == "website/index.md":
+            dest.write_text(render_home(catalog), encoding="utf-8")
+            continue
+        if page["translation"] == "translated":
+            source = sc.english_source(page["path"]).read_text(encoding="utf-8")
+            dest.write_text(translated_markdown(page, source, "en"), encoding="utf-8")
+            continue
+        source = (root / page["path"]).read_text(encoding="utf-8")
+        written = fallback_markdown(page, source)
+        if page["translation"] != "untranslated":
+            raise SystemExit(page["path"])
+        if sc.FALLBACK_BANNER not in written:
+            raise SystemExit(f"fallback missing banner: {page['path']}")
+        dest.write_text(written, encoding="utf-8")
+    (english_dir / "not-translated.md").write_text(render_not_translated(catalog), encoding="utf-8")
+    styles = english_dir / "stylesheets"
+    scripts = english_dir / "javascripts"
+    styles.mkdir()
+    scripts.mkdir()
+    shutil.copy(root / "website" / "stylesheets" / "extra.css", styles / "extra.css")
+    shutil.copy(root / "website" / "javascripts" / "lang.js", scripts / "lang.js")
+    nav = english_nav(catalog, _load_mkdocs_nav(root))
+    config = render_mkdocs_en(nav)
+    if "language: en" not in config or "首页:" in config:
+        raise SystemExit("English MkDocs config is not English")
+    if write_config:
+        (root / "mkdocs.en.yml").write_text(config, encoding="utf-8")
+    if site_src is not None:
+        index = site_src / "index.md"
+        if index.is_file():
+            index.write_text(
+                sc.apply_homepage(index.read_text(encoding="utf-8"), catalog),
+                encoding="utf-8",
+            )
+        chapter = site_src / "topics" / "getting-started" / "05-tech-english" / "README.md"
+        if chapter.is_file():
+            page = by_path["topics/getting-started/05-tech-english/README.md"]
+            chapter.write_text(
+                translated_markdown(page, chapter.read_text(encoding="utf-8"), "zh"),
+                encoding="utf-8",
+            )
+        copied_en = site_src / "en"
+        if copied_en.exists():
+            shutil.rmtree(copied_en)
     return catalog["counts"]
 
 
 def main() -> int:
-    site = sc.ROOT / "_site_src"
+    root = sc.ROOT
+    site = root / "_site_src"
     if not site.is_dir():
         raise SystemExit("_site_src is missing; run scripts/prepare_site_src.sh first")
-    print(build(site))
+    print(build(root / "_site_en", root, site_src=site, write_config=True))
     return 0
 
 

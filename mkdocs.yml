@@ -53,7 +53,6 @@ extra_javascript:
   - javascripts/explore.js
   - javascripts/scene-data.js
   - javascripts/game.js
-  - javascripts/lang-map.js
   - javascripts/lang.js
 
 nav:
@@ -175,10 +174,6 @@ nav:
   - 关于:
       - 贡献指南: CONTRIBUTING.md
       - 展示规范: STYLE.md
-  - English:
-      - English home: en/index.md
-      - Tech English: en/topics/getting-started/05-tech-english/README.md
-      - Not translated: en/not-translated.md
 plugins:
   - search:
       lang: [zh, en]
