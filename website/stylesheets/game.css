@@ -275,9 +275,32 @@ html.tn-mode-read .tn-g-slim { display: none !important; }
 .tn-g .mode-fab { display: none; }
 html.tn-mode-read .tn-g .mode-fab { display: grid; }
 html.tn-mode-game .tn-g .mode-fab { display: none !important; }
-/* The stacked homepage buttons sit in the bottom-right corner only after the hero becomes one column. */
+/* Read mode, narrow layout only. Wider than 900px keeps the base .mode-fab rule. */
 @media (max-width: 900px) {
-  html.tn-mode-read .tn-g .mode-fab { bottom: 96px; }
+  html.tn-mode-read .tn-g .mode-fab {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 48px;
+    height: 48px;
+    min-width: 44px;
+    min-height: 44px;
+    overflow: visible;
+  }
+  html.tn-mode-read .tn-g.tn-g-fab { overflow: visible; }
+  /* 3px outline + 3px offset = 6px, inside the 16px viewport gutter. */
+  html.tn-mode-read .tn-g .mode-fab:focus,
+  html.tn-mode-read .tn-g .mode-fab:focus-visible {
+    outline: 3px dashed var(--hot);
+    outline-offset: 3px;
+  }
+  /* Keep 全部主题 left of the button: 16px right inset + 48px target + 8px gap + 4px topic-button shadow. */
+  html.tn-mode-read .md-typeset .tn2-hero__text p:has(> a.tn2-btn) {
+    padding-right: calc(16px + 48px + 8px + 4px);
+  }
+  /* Last line and the prev/next footer sit above the button when scrolled to the end. */
+  html.tn-mode-read body {
+    padding-bottom: calc(16px + 48px + 8px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* 游戏模式下的文章页：顶部瘦 HUD（Material header 已隐藏，侧栏保留） */

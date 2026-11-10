@@ -148,10 +148,26 @@ def main() -> int:
     if ".tn-g .mode-fab { position: fixed; right: 16px; bottom: 16px;" not in css:
         fail("desktop game button position changed")
     mobile = css.split("@media (max-width: 900px)", 1)
-    if len(mobile) != 2 or "html.tn-mode-read .tn-g .mode-fab { bottom: 96px; }" not in mobile[1]:
-        fail("mobile game button offset is missing")
-    if "bottom: 96px" in mobile[0]:
-        fail("game button offset is not limited to the mobile query")
+    if len(mobile) != 2:
+        fail("mobile game button query missing")
+    if "env(safe-area-inset-bottom" in mobile[0] or "padding-right: calc(16px + 48px + 8px + 4px)" in mobile[0]:
+        fail("mobile game button rules leaked above the 900px query")
+    needed = [
+        "right: 16px;",
+        "bottom: calc(16px + env(safe-area-inset-bottom, 0px));",
+        "width: 48px;",
+        "height: 48px;",
+        "min-width: 44px;",
+        "min-height: 44px;",
+        "overflow: visible;",
+        "outline: 3px dashed var(--hot);",
+        "outline-offset: 3px;",
+        "padding-right: calc(16px + 48px + 8px + 4px);",
+        "padding-bottom: calc(16px + 48px + 8px + env(safe-area-inset-bottom, 0px));",
+    ]
+    for snippet in needed:
+        if snippet not in mobile[1]:
+            fail(f"mobile game button rule missing: {snippet}")
 
     if len(sys.argv) > 1:
         site = Path(sys.argv[1])
