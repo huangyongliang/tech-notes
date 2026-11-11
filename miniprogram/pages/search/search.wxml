@@ -14,7 +14,7 @@
   </view>
   <view wx:if="{{phase === 'idle'}}" class="tn-empty">
     <view class="tn-empty__t">输入关键词</view>
-    <view class="tn-muted">查这 35 篇的标题和正文。摘要不含代码块和参考答案。</view>
+    <view class="tn-muted">查已收录篇目的标题和正文。摘要不含代码块和参考答案。</view>
   </view>
   <view wx:elif="{{phase === 'none'}}" class="tn-empty">
     <view class="tn-empty__t">没找到，换个关键词试试</view>

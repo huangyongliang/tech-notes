@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Build the fixed 35-doc miniapp catalog from Markdown.
+"""Build the miniapp catalog from the merged-topic manifest.
 
 Reads only the manifest below, which must match miniprogram/content-selection.json
-(roadmap + 零基础 / 计算机基础 / 编程入门 / Java, 35 paths).
-Writes miniprogram/data/catalog.ts: title metadata plus a block tree
-(callout / code / diagram / fold / paragraphs). ```mermaid fences are rendered
-to PNGs by scripts/render_mermaid.py (mmdc). The miniapp shows those images
-with native components. No network, no web-view, no runtime Markdown parser.
+(111 paths: roadmap, the original four topics, and the other merged topics).
+Writes miniprogram/data/catalog.ts with topic cards and the full search index.
+Chapter block trees go to per-topic subpackages under miniprogram/packages/.
+```mermaid fences are rendered to PNGs in the reader subpackage by
+scripts/render_mermaid.py (mmdc). The miniapp shows those images with native
+components. No network, no web-view, no runtime Markdown parser.
 
 Usage:
   python3 scripts/build_miniapp_content.py
@@ -27,8 +28,17 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "miniprogram" / "data" / "catalog.ts"
 SELECTION = ROOT / "miniprogram" / "content-selection.json"
 
-# Locked content set. Adding or removing a path must stay at 35 docs.
-EXPECTED_DOC_COUNT = 35
+# Merged knowledge topics on this main. Inbox and site chrome stay out.
+EXPECTED_DOC_COUNT = 111
+
+# Site table numbers for directories that are not NN-prefixed.
+DISPLAY_NUM = {
+    ("web", "origin"): "01",
+    ("systems", "distributed"): "01",
+}
+
+# Subpackage ids. Chapter ASTs for the listed topics share that package.
+PACKAGE_ORDER = ("basics", "theory", "java", "microservices", "ai", "rest")
 
 TOPICS = [
     {
@@ -39,6 +49,7 @@ TOPICS = [
         "title_en": "Getting Started",
         "blurb": "电脑、网络、自学方法",
         "status": "wip",
+        "package": "basics",
         "chapters": [
             "01-what-is-a-computer",
             "02-using-a-computer",
@@ -55,6 +66,7 @@ TOPICS = [
         "title_en": "CS Basics",
         "blurb": "组成 · OS · Linux · Git · 网络 · DSA",
         "status": "wip",
+        "package": "basics",
         "chapters": [
             "01-computer-organization",
             "02-operating-systems",
@@ -66,13 +78,40 @@ TOPICS = [
         ],
     },
     {
-        "id": "programming-basics",
+        "id": "cs-theory",
         "group": "基础",
         "num": "03",
+        "title_zh": "理论基础",
+        "title_en": "Theory",
+        "blurb": "数理逻辑 · 图论 · 计算理论",
+        "status": "wip",
+        "package": "theory",
+        "chapters": [
+            "01-logic",
+            "02-sets-relations-functions",
+            "03-proofs-induction",
+            "04-counting-recurrences",
+            "05-graphs-degrees",
+            "06-walks-connectivity-euler",
+            "07-trees-spanning",
+            "08-bipartite-matching",
+            "09-coloring-planarity",
+            "10-digraphs-dag",
+            "11-shortest-path-proofs",
+            "12-automata-languages",
+            "13-computability",
+            "14-complexity-reductions",
+        ],
+    },
+    {
+        "id": "programming-basics",
+        "group": "基础",
+        "num": "04",
         "title_zh": "编程入门",
         "title_en": "Programming Basics",
         "blurb": "第一门语言 C · 核心概念 · 小项目",
         "status": "wip",
+        "package": "basics",
         "chapters": [
             "01-first-language-c",
             "02-core-concepts",
@@ -85,11 +124,12 @@ TOPICS = [
     {
         "id": "java",
         "group": "技术栈",
-        "num": "04",
+        "num": "05",
         "title_zh": "Java 技术栈",
         "title_en": "Java Stack",
         "blurb": "语言 · JVM · 并发 · Spring",
         "status": "wip",
+        "package": "java",
         "chapters": [
             "01-language-basics",
             "02-collections",
@@ -103,6 +143,144 @@ TOPICS = [
             "10-persistence",
             "11-performance-diagnostics",
             "12-ecosystem-trends",
+        ],
+    },
+    {
+        "id": "microservices",
+        "group": "技术栈",
+        "num": "06",
+        "title_zh": "微服务",
+        "title_en": "Microservices",
+        "blurb": "架构拆分 · 服务治理 · 可观测性",
+        "status": "wip",
+        "package": "microservices",
+        "chapters": [
+            "01-architecture",
+            "02-api-gateway",
+            "03-discovery-config",
+            "04-communication",
+            "05-resilience",
+            "06-messaging",
+            "07-distributed-transactions",
+            "08-caching",
+            "09-database-sharding",
+            "10-observability",
+            "11-security",
+            "12-containers-k8s",
+            "13-service-mesh",
+            "14-cicd-gitops",
+            "15-testing",
+            "16-cloud-native-java",
+        ],
+    },
+    {
+        "id": "ai",
+        "group": "技术栈",
+        "num": "07",
+        "title_zh": "AI 技术栈",
+        "title_en": "AI Stack",
+        "blurb": "大模型 · RAG · Agent · MCP",
+        "status": "wip",
+        "package": "ai",
+        "chapters": [
+            "00-python-bridge",
+            "01-foundations",
+            "02-dl-frameworks",
+            "03-transformer-llm",
+            "04-model-landscape",
+            "05-prompt-context",
+            "06-llm-api-programming",
+            "07-app-frameworks",
+            "08-rag",
+            "09-agents",
+            "10-mcp",
+            "11-ai-coding-tools",
+            "12-coding-agents",
+            "13-code-models-evals",
+            "14-fine-tuning",
+            "15-inference-serving",
+            "16-multimodal",
+            "17-evals-observability",
+            "18-llmops-infra",
+            "19-security-governance",
+            "20-trends",
+        ],
+    },
+    {
+        "id": "programming",
+        "group": "专题",
+        "num": "08",
+        "title_zh": "编程",
+        "title_en": "Programming",
+        "blurb": "语法 · 语义 · 类型 · 求值与内存",
+        "status": "wip",
+        "package": "rest",
+        "chapters": [
+            "01-syntax",
+            "02-semantics",
+            "03-types",
+            "04-evaluation-memory",
+        ],
+    },
+    {
+        "id": "web",
+        "group": "专题",
+        "num": "09",
+        "title_zh": "Web 开发",
+        "title_en": "Web",
+        "blurb": "源 · 渲染 · 请求处理 · 跨越边界",
+        "status": "wip",
+        "package": "rest",
+        "chapters": [
+            "origin",
+            "02-rendering",
+            "03-request-handling",
+            "04-crossing-boundary",
+        ],
+    },
+    {
+        "id": "systems",
+        "group": "专题",
+        "num": "10",
+        "title_zh": "系统",
+        "title_en": "Systems",
+        "blurb": "分布式模型",
+        "status": "wip",
+        "package": "rest",
+        "chapters": [
+            "distributed",
+        ],
+    },
+    {
+        "id": "devops",
+        "group": "专题",
+        "num": "11",
+        "title_zh": "DevOps",
+        "title_en": "DevOps",
+        "blurb": "可重复 · 来源 · 晋级 · 回滚",
+        "status": "wip",
+        "package": "rest",
+        "chapters": [
+            "01-repeatability",
+            "02-provenance",
+            "03-promotion-gating",
+            "04-rollback-audit",
+        ],
+    },
+    {
+        "id": "product-research",
+        "group": "专题",
+        "num": "12",
+        "title_zh": "产品调研",
+        "title_en": "Product Research",
+        "blurb": "问题约束 · 对照 · 选型 · 失效",
+        "status": "wip",
+        "package": "rest",
+        "chapters": [
+            "01-problem-constraints",
+            "02-comparison",
+            "03-selection-records",
+            "04-invalidation",
         ],
     },
 ]
@@ -501,6 +679,38 @@ def title_parts(*values) -> list[str]:
     return parts
 
 
+def prose_from_blocks(blocks: list[dict]) -> str:
+    """Snippet prose. Drops fenced code, diagrams, and 参考答案 folds."""
+    parts: list[str] = []
+
+    def walk(items: list[dict]) -> None:
+        for block in items:
+            kind = block.get("t")
+            if kind in {"code", "fold", "diagram"}:
+                continue
+            if kind == "h":
+                parts.append(block.get("text") or "")
+            elif kind == "p":
+                parts.append(plain(block.get("inlines") or []))
+            elif kind in {"ul", "ol"}:
+                for item in block.get("items") or []:
+                    parts.append(plain(item.get("inlines") or []))
+                    nested = item.get("blocks")
+                    if isinstance(nested, list):
+                        walk(nested)
+            elif kind == "table":
+                for cell in block.get("header") or []:
+                    parts.append(plain(cell))
+                for row in block.get("rows") or []:
+                    for cell in row:
+                        parts.append(plain(cell))
+            elif kind in {"quote", "callout"}:
+                walk(block.get("blocks") or [])
+
+    walk(blocks)
+    return "\n".join(part for part in parts if part.strip())
+
+
 def search_entry(doc: dict) -> dict:
     title = " ".join(title_parts(doc.get("titleZh"), doc.get("titleEn")))
     return {
@@ -511,6 +721,7 @@ def search_entry(doc: dict) -> dict:
         "path": doc["path"],
         "titleText": "\n".join(title_parts(doc.get("titleZh"), doc.get("titleEn"))).lower(),
         "bodyText": block_text(doc["blocks"]).lower(),
+        "prose": prose_from_blocks(doc["blocks"]),
     }
 
 
@@ -598,13 +809,38 @@ def chapter_dirs_on_disk(topic_id: str) -> list[str]:
     return names
 
 
+def chapter_num(topic_id: str, slug: str) -> str:
+    """Site-table number. Unprefixed dirs keep the number the site already shows."""
+    forced = DISPLAY_NUM.get((topic_id, slug))
+    if forced:
+        return forced
+    head = slug.split("-", 1)[0]
+    if not head.isdigit():
+        raise SystemExit(f"{topic_id}/{slug} has no display number")
+    return head
+
+
+def package_topics() -> dict[str, list[str]]:
+    grouped = {package_id: [] for package_id in PACKAGE_ORDER}
+    for topic in TOPICS:
+        package_id = topic["package"]
+        if package_id not in grouped:
+            raise SystemExit(f"unknown package {package_id}")
+        grouped[package_id].append(topic["id"])
+    return grouped
+
+
 def build_catalog() -> dict:
+    packages = package_topics()
+    if list(packages) != list(PACKAGE_ORDER):
+        raise SystemExit("package order drifted")
     for topic in TOPICS:
         disk = chapter_dirs_on_disk(topic["id"])
-        if disk != topic["chapters"]:
+        wanted = list(topic["chapters"])
+        if len(wanted) != len(set(wanted)) or sorted(wanted) != disk:
             raise SystemExit(
                 f"{topic['id']} chapters drifted from the fixed manifest.\n"
-                f"  manifest: {topic['chapters']}\n"
+                f"  manifest: {wanted}\n"
                 f"  disk:     {disk}"
             )
 
@@ -632,7 +868,7 @@ def build_catalog() -> dict:
         chapters = []
         for slug in topic["chapters"]:
             path = ROOT / "topics" / topic["id"] / slug / "README.md"
-            num = slug.split("-", 1)[0]
+            num = chapter_num(topic["id"], slug)
             chapter = load_doc(
                 path,
                 doc_id=f"{topic['id']}/{slug}",
@@ -640,6 +876,7 @@ def build_catalog() -> dict:
                 topic_id=topic["id"],
                 num=num,
             )
+            chapter["packageId"] = topic["package"]
             docs[chapter["id"]] = chapter
             chapters.append(
                 {
@@ -660,6 +897,7 @@ def build_catalog() -> dict:
             "blurb": topic["blurb"],
             "status": topic["status"],
             "statusLabel": STATUS_LABEL[topic["status"]],
+            "packageId": topic["package"],
             "summary": topic_doc["summary"],
             "count": len(chapters),
             "chapters": chapters,
@@ -695,32 +933,82 @@ def build_catalog() -> dict:
     }
 
 
-def render_ts(catalog: dict) -> str:
+def json_module(export_name: str, payload: dict) -> str:
     # JSON.parse keeps the generated module typed as `any` so `tsc` does not
     # infer a giant literal. Content is still static data, not a remote fetch.
-    public = {key: value for key, value in catalog.items() if key != "_diagrams"}
-    payload = json.dumps(public, ensure_ascii=False, separators=(",", ":"))
-    payload = (
-        payload.replace("\u2028", "\\u2028")
+    encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    encoded = (
+        encoded.replace("\u2028", "\\u2028")
         .replace("\u2029", "\\u2029")
         .replace("<", "\\u003c")
     )
-    literal = json.dumps(payload, ensure_ascii=False)
+    literal = json.dumps(encoded, ensure_ascii=False)
     return (
         "/* Generated by scripts/build_miniapp_content.py. Do not edit. */\n"
-        "export const CATALOG = JSON.parse("
+        f"export const {export_name} = JSON.parse("
         + literal
         + ");\n"
     )
+
+
+def slim_doc(doc: dict) -> dict:
+    """Main-package copy. Chapter and topic bodies live elsewhere or in search."""
+    if doc["kind"] == "roadmap":
+        return doc
+    kept = {key: value for key, value in doc.items() if key not in {"blocks", "toc"}}
+    kept["blocks"] = []
+    kept["toc"] = []
+    return kept
+
+
+def main_payload(catalog: dict) -> dict:
+    return {
+        "version": catalog["version"],
+        "docCount": catalog["docCount"],
+        "groups": catalog["groups"],
+        "roadmap": catalog["roadmap"],
+        "docs": {doc_id: slim_doc(doc) for doc_id, doc in catalog["docs"].items()},
+        "search": catalog["search"],
+    }
+
+
+def package_payload(catalog: dict, package_id: str) -> dict:
+    topic_ids = set(package_topics()[package_id])
+    docs = {}
+    for doc in catalog["docs"].values():
+        if doc["kind"] != "chapter" or doc["topicId"] not in topic_ids:
+            continue
+        docs[doc["id"]] = {
+            "blocks": doc["blocks"],
+            "toc": doc["toc"],
+        }
+    return {"id": package_id, "docs": docs}
+
+
+def render_ts(catalog: dict) -> str:
+    return json_module("CATALOG", main_payload(catalog))
+
+
+def render_package(catalog: dict, package_id: str) -> str:
+    return json_module("CONTENT", package_payload(catalog, package_id))
+
+
+def package_path(package_id: str) -> Path:
+    return ROOT / "miniprogram" / "packages" / package_id / "content.ts"
 
 
 def main() -> None:
     catalog = build_catalog()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(render_ts(catalog), encoding="utf-8")
+    for package_id in PACKAGE_ORDER:
+        dest = package_path(package_id)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(render_package(catalog, package_id), encoding="utf-8")
     stats = catalog.get("_diagrams") or {}
     print(
         f"wrote {OUT.relative_to(ROOT)} ({catalog['docCount']} docs, "
+        f"{len(PACKAGE_ORDER)} chapter packages, "
         f"{stats.get('count', 0)} diagrams, {stats.get('bytes', 0)} png bytes, "
         f"{stats.get('failures', 0)} render failures)"
     )

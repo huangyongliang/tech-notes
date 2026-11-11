@@ -1,4 +1,5 @@
 import { chapterIdSet, getCatalog } from "../../data/index";
+import { loadChapterPack } from "../../data/packages";
 import type { TopicGroup } from "../../data/types";
 import { openAbout, openCategory, openReader, openSearch } from "../../utils/nav";
 import { loadProgress, progressView } from "../../utils/progress";
@@ -63,6 +64,14 @@ Page({
   onTopic(event: WechatMiniprogram.TouchEvent) {
     const id = String(event.currentTarget.dataset.id || "");
     if (!id) return;
+    const catalog = getCatalog();
+    for (const group of catalog.groups) {
+      const topic = group.topics.find((item) => item.id === id);
+      if (topic && topic.packageId) {
+        loadChapterPack(topic.packageId).catch(() => {});
+        break;
+      }
+    }
     openCategory(id);
   },
   onRoadmap() {

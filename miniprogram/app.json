@@ -11,6 +11,36 @@
       "root": "pages/reader",
       "name": "reader",
       "pages": ["reader"]
+    },
+    {
+      "root": "packages/basics",
+      "name": "basics",
+      "pages": ["index"]
+    },
+    {
+      "root": "packages/theory",
+      "name": "theory",
+      "pages": ["index"]
+    },
+    {
+      "root": "packages/java",
+      "name": "java",
+      "pages": ["index"]
+    },
+    {
+      "root": "packages/microservices",
+      "name": "microservices",
+      "pages": ["index"]
+    },
+    {
+      "root": "packages/ai",
+      "name": "ai",
+      "pages": ["index"]
+    },
+    {
+      "root": "packages/rest",
+      "name": "rest",
+      "pages": ["index"]
     }
   ],
   "preloadRule": {
