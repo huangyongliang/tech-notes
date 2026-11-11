@@ -53,6 +53,7 @@ export interface TopicCard {
   blurb: string;
   status: "wip" | "todo";
   statusLabel: string;
+  packageId: string;
   summary: string;
   count: number;
   chapters: ChapterRef[];
@@ -75,6 +76,7 @@ export interface Doc {
   minutes: number;
   han: number;
   path: string;
+  packageId?: string;
   blocks: Block[];
   toc: TocItem[];
 }
@@ -88,6 +90,7 @@ export interface SearchEntry {
   path: string;
   titleText: string;
   bodyText: string;
+  prose: string;
 }
 
 export interface CatalogFile {

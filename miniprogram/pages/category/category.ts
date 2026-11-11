@@ -1,4 +1,5 @@
 import { getCatalog } from "../../data/index";
+import { loadChapterPack } from "../../data/packages";
 import type { ChapterRef, TopicCard } from "../../data/types";
 import { openReader } from "../../utils/nav";
 
@@ -30,6 +31,10 @@ Page({
       return;
     }
     wx.setNavigationBarTitle({ title: card.titleZh });
+    if (card.packageId) {
+      // Start the chapter subpackage before the first chapter tap.
+      loadChapterPack(card.packageId).catch(() => {});
+    }
     this.setData({
       missing: false,
       kicker: `TOPIC / ${card.num} · ${card.count} 篇 · 易 → 深`,

@@ -1,17 +1,20 @@
 {
   "version": 1,
-  "status": "frozen-for-d1",
+  "status": "synced",
   "approvedBy": "小鼠",
   "approvedDate": "2026-11-05",
   "appId": "wx9982c4527dbdc2e3",
-  "sourceCommit": "13ee382cd565a13f2bb6bcf88a65ce338fcaf450",
+  "sourceCommit": "1403e5374ffd1e66d1f90374389f5c34e67a3732",
   "repo": "huangyongliang/tech-notes",
+  "developmentVersion": "1.0.9",
+  "onlineVersion": "1.0.7",
   "notes": [
-    "首发仅收录下列 35 个源文档；后续新增 Markdown 不自动进入本版。",
-    "未收录公开主题不出现在主题页、正文或搜索。",
-    "构建和搜索索引只允许 included 里的 35 个路径。"
+    "D1 曾把收录冻结在 35 篇。冻结已解除：收录这份 sourceCommit 上已经合并的知识主题。",
+    "主包放主题卡和全部搜索索引。章节正文在 packages 分包里，阅读页用 require.async 打开。",
+    "不收录 inbox、STYLE、CONTRIBUTING、notes、resources，以及尚未合并的主题。",
+    "developmentVersion 1.0.9 是下一份开发版号。线上版本仍是 1.0.7。这不是上传，也不是发布。"
   ],
-  "documentCount": 35,
+  "documentCount": 111,
   "included": [
     "topics/roadmap/README.md",
     "topics/getting-started/README.md",
@@ -28,6 +31,21 @@
     "topics/cs-basics/05-networking/README.md",
     "topics/cs-basics/06-data-structures-algorithms/README.md",
     "topics/cs-basics/07-databases/README.md",
+    "topics/cs-theory/README.md",
+    "topics/cs-theory/01-logic/README.md",
+    "topics/cs-theory/02-sets-relations-functions/README.md",
+    "topics/cs-theory/03-proofs-induction/README.md",
+    "topics/cs-theory/04-counting-recurrences/README.md",
+    "topics/cs-theory/05-graphs-degrees/README.md",
+    "topics/cs-theory/06-walks-connectivity-euler/README.md",
+    "topics/cs-theory/07-trees-spanning/README.md",
+    "topics/cs-theory/08-bipartite-matching/README.md",
+    "topics/cs-theory/09-coloring-planarity/README.md",
+    "topics/cs-theory/10-digraphs-dag/README.md",
+    "topics/cs-theory/11-shortest-path-proofs/README.md",
+    "topics/cs-theory/12-automata-languages/README.md",
+    "topics/cs-theory/13-computability/README.md",
+    "topics/cs-theory/14-complexity-reductions/README.md",
     "topics/programming-basics/README.md",
     "topics/programming-basics/01-first-language-c/README.md",
     "topics/programming-basics/02-core-concepts/README.md",
@@ -47,16 +65,70 @@
     "topics/java/09-spring/README.md",
     "topics/java/10-persistence/README.md",
     "topics/java/11-performance-diagnostics/README.md",
-    "topics/java/12-ecosystem-trends/README.md"
+    "topics/java/12-ecosystem-trends/README.md",
+    "topics/microservices/README.md",
+    "topics/microservices/01-architecture/README.md",
+    "topics/microservices/02-api-gateway/README.md",
+    "topics/microservices/03-discovery-config/README.md",
+    "topics/microservices/04-communication/README.md",
+    "topics/microservices/05-resilience/README.md",
+    "topics/microservices/06-messaging/README.md",
+    "topics/microservices/07-distributed-transactions/README.md",
+    "topics/microservices/08-caching/README.md",
+    "topics/microservices/09-database-sharding/README.md",
+    "topics/microservices/10-observability/README.md",
+    "topics/microservices/11-security/README.md",
+    "topics/microservices/12-containers-k8s/README.md",
+    "topics/microservices/13-service-mesh/README.md",
+    "topics/microservices/14-cicd-gitops/README.md",
+    "topics/microservices/15-testing/README.md",
+    "topics/microservices/16-cloud-native-java/README.md",
+    "topics/ai/README.md",
+    "topics/ai/00-python-bridge/README.md",
+    "topics/ai/01-foundations/README.md",
+    "topics/ai/02-dl-frameworks/README.md",
+    "topics/ai/03-transformer-llm/README.md",
+    "topics/ai/04-model-landscape/README.md",
+    "topics/ai/05-prompt-context/README.md",
+    "topics/ai/06-llm-api-programming/README.md",
+    "topics/ai/07-app-frameworks/README.md",
+    "topics/ai/08-rag/README.md",
+    "topics/ai/09-agents/README.md",
+    "topics/ai/10-mcp/README.md",
+    "topics/ai/11-ai-coding-tools/README.md",
+    "topics/ai/12-coding-agents/README.md",
+    "topics/ai/13-code-models-evals/README.md",
+    "topics/ai/14-fine-tuning/README.md",
+    "topics/ai/15-inference-serving/README.md",
+    "topics/ai/16-multimodal/README.md",
+    "topics/ai/17-evals-observability/README.md",
+    "topics/ai/18-llmops-infra/README.md",
+    "topics/ai/19-security-governance/README.md",
+    "topics/ai/20-trends/README.md",
+    "topics/programming/README.md",
+    "topics/programming/01-syntax/README.md",
+    "topics/programming/02-semantics/README.md",
+    "topics/programming/03-types/README.md",
+    "topics/programming/04-evaluation-memory/README.md",
+    "topics/web/README.md",
+    "topics/web/origin/README.md",
+    "topics/web/02-rendering/README.md",
+    "topics/web/03-request-handling/README.md",
+    "topics/web/04-crossing-boundary/README.md",
+    "topics/systems/README.md",
+    "topics/systems/distributed/README.md",
+    "topics/devops/README.md",
+    "topics/devops/01-repeatability/README.md",
+    "topics/devops/02-provenance/README.md",
+    "topics/devops/03-promotion-gating/README.md",
+    "topics/devops/04-rollback-audit/README.md",
+    "topics/product-research/README.md",
+    "topics/product-research/01-problem-constraints/README.md",
+    "topics/product-research/02-comparison/README.md",
+    "topics/product-research/03-selection-records/README.md",
+    "topics/product-research/04-invalidation/README.md"
   ],
   "topics": [
-    {
-      "id": "roadmap",
-      "title": "学习路线",
-      "sourcePaths": [
-        "topics/roadmap/README.md"
-      ]
-    },
     {
       "id": "getting-started",
       "title": "零基础入门",
@@ -84,6 +156,27 @@
       ]
     },
     {
+      "id": "cs-theory",
+      "title": "理论基础",
+      "sourcePaths": [
+        "topics/cs-theory/README.md",
+        "topics/cs-theory/01-logic/README.md",
+        "topics/cs-theory/02-sets-relations-functions/README.md",
+        "topics/cs-theory/03-proofs-induction/README.md",
+        "topics/cs-theory/04-counting-recurrences/README.md",
+        "topics/cs-theory/05-graphs-degrees/README.md",
+        "topics/cs-theory/06-walks-connectivity-euler/README.md",
+        "topics/cs-theory/07-trees-spanning/README.md",
+        "topics/cs-theory/08-bipartite-matching/README.md",
+        "topics/cs-theory/09-coloring-planarity/README.md",
+        "topics/cs-theory/10-digraphs-dag/README.md",
+        "topics/cs-theory/11-shortest-path-proofs/README.md",
+        "topics/cs-theory/12-automata-languages/README.md",
+        "topics/cs-theory/13-computability/README.md",
+        "topics/cs-theory/14-complexity-reductions/README.md"
+      ]
+    },
+    {
       "id": "programming-basics",
       "title": "编程入门",
       "sourcePaths": [
@@ -98,7 +191,7 @@
     },
     {
       "id": "java",
-      "title": "Java",
+      "title": "Java 技术栈",
       "sourcePaths": [
         "topics/java/README.md",
         "topics/java/01-language-basics/README.md",
@@ -114,29 +207,117 @@
         "topics/java/11-performance-diagnostics/README.md",
         "topics/java/12-ecosystem-trends/README.md"
       ]
+    },
+    {
+      "id": "microservices",
+      "title": "微服务",
+      "sourcePaths": [
+        "topics/microservices/README.md",
+        "topics/microservices/01-architecture/README.md",
+        "topics/microservices/02-api-gateway/README.md",
+        "topics/microservices/03-discovery-config/README.md",
+        "topics/microservices/04-communication/README.md",
+        "topics/microservices/05-resilience/README.md",
+        "topics/microservices/06-messaging/README.md",
+        "topics/microservices/07-distributed-transactions/README.md",
+        "topics/microservices/08-caching/README.md",
+        "topics/microservices/09-database-sharding/README.md",
+        "topics/microservices/10-observability/README.md",
+        "topics/microservices/11-security/README.md",
+        "topics/microservices/12-containers-k8s/README.md",
+        "topics/microservices/13-service-mesh/README.md",
+        "topics/microservices/14-cicd-gitops/README.md",
+        "topics/microservices/15-testing/README.md",
+        "topics/microservices/16-cloud-native-java/README.md"
+      ]
+    },
+    {
+      "id": "ai",
+      "title": "AI 技术栈",
+      "sourcePaths": [
+        "topics/ai/README.md",
+        "topics/ai/00-python-bridge/README.md",
+        "topics/ai/01-foundations/README.md",
+        "topics/ai/02-dl-frameworks/README.md",
+        "topics/ai/03-transformer-llm/README.md",
+        "topics/ai/04-model-landscape/README.md",
+        "topics/ai/05-prompt-context/README.md",
+        "topics/ai/06-llm-api-programming/README.md",
+        "topics/ai/07-app-frameworks/README.md",
+        "topics/ai/08-rag/README.md",
+        "topics/ai/09-agents/README.md",
+        "topics/ai/10-mcp/README.md",
+        "topics/ai/11-ai-coding-tools/README.md",
+        "topics/ai/12-coding-agents/README.md",
+        "topics/ai/13-code-models-evals/README.md",
+        "topics/ai/14-fine-tuning/README.md",
+        "topics/ai/15-inference-serving/README.md",
+        "topics/ai/16-multimodal/README.md",
+        "topics/ai/17-evals-observability/README.md",
+        "topics/ai/18-llmops-infra/README.md",
+        "topics/ai/19-security-governance/README.md",
+        "topics/ai/20-trends/README.md"
+      ]
+    },
+    {
+      "id": "programming",
+      "title": "编程",
+      "sourcePaths": [
+        "topics/programming/README.md",
+        "topics/programming/01-syntax/README.md",
+        "topics/programming/02-semantics/README.md",
+        "topics/programming/03-types/README.md",
+        "topics/programming/04-evaluation-memory/README.md"
+      ]
+    },
+    {
+      "id": "web",
+      "title": "Web 开发",
+      "sourcePaths": [
+        "topics/web/README.md",
+        "topics/web/origin/README.md",
+        "topics/web/02-rendering/README.md",
+        "topics/web/03-request-handling/README.md",
+        "topics/web/04-crossing-boundary/README.md"
+      ]
+    },
+    {
+      "id": "systems",
+      "title": "系统",
+      "sourcePaths": [
+        "topics/systems/README.md",
+        "topics/systems/distributed/README.md"
+      ]
+    },
+    {
+      "id": "devops",
+      "title": "DevOps",
+      "sourcePaths": [
+        "topics/devops/README.md",
+        "topics/devops/01-repeatability/README.md",
+        "topics/devops/02-provenance/README.md",
+        "topics/devops/03-promotion-gating/README.md",
+        "topics/devops/04-rollback-audit/README.md"
+      ]
+    },
+    {
+      "id": "product-research",
+      "title": "产品调研",
+      "sourcePaths": [
+        "topics/product-research/README.md",
+        "topics/product-research/01-problem-constraints/README.md",
+        "topics/product-research/02-comparison/README.md",
+        "topics/product-research/03-selection-records/README.md",
+        "topics/product-research/04-invalidation/README.md"
+      ]
     }
   ],
   "excludedFromReader": {
-    "showNameOnly": [
-      "microservices",
-      "ai",
-      "programming",
-      "web",
-      "systems",
-      "devops",
-      "product-research"
-    ],
+    "showNameOnly": [],
     "hidden": [
       "inbox"
     ],
     "labelsZh": [
-      "微服务",
-      "AI",
-      "编程",
-      "Web",
-      "系统",
-      "DevOps",
-      "产品调研",
       "Inbox"
     ]
   },

@@ -1,4 +1,5 @@
 import { chapterIdSet, getCatalog, getDoc } from "../../data/index";
+import { loadChapterPack } from "../../data/packages";
 import type { Block, TocItem } from "../../data/types";
 import { clearHint as hintFor, loadProgress, toggleChapter } from "../../utils/progress";
 import { pushRecent } from "../../utils/recent";
@@ -55,7 +56,9 @@ Page({
     canClear: false,
     cleared: false,
     clearHint: "",
+    loading: false,
   },
+  ticket: 0,
   onLoad(query: Record<string, string | undefined>) {
     this.load(decodeURIComponent(query.id || ""));
   },
@@ -77,6 +80,7 @@ Page({
       this.setData({
         docId: id,
         missing: true,
+        loading: false,
         blocks: [],
         tocOpen: false,
         canClear: false,
@@ -94,19 +98,22 @@ Page({
     const navTitle = doc.num ? `${doc.num} ${doc.titleZh}` : doc.titleZh;
     wx.setNavigationBarTitle({ title: navTitle });
     const edge = neighbors(doc.id);
+    const mine = ++this.ticket;
+    const chapter = doc.kind === "chapter";
     this.setData({
       docId: doc.id,
       missing: false,
+      loading: chapter,
       title: doc.titleEn ? `${doc.titleZh} ${doc.titleEn}` : doc.titleZh,
       crumb: doc.num ? `${topicName} › ${doc.num}` : topicName || "路线",
       minutesLabel: `约 ${doc.minutes} 分钟`,
-      toc: doc.toc,
+      toc: chapter ? [] : doc.toc,
       tocOpen: false,
-      blocks: doc.blocks,
+      blocks: chapter ? [] : doc.blocks,
       prev: edge.prev,
       next: edge.next,
       anchor: "",
-      ...progressFields(doc.id, doc.kind === "chapter"),
+      ...progressFields(doc.id, chapter),
     });
     pushRecent({
       id: doc.id,
@@ -114,6 +121,22 @@ Page({
       pathLabel: doc.id,
       ts: Date.now(),
     });
+    if (!chapter) return;
+    const packageId = doc.packageId || "";
+    loadChapterPack(packageId)
+      .then((pack) => {
+        if (mine !== this.ticket) return;
+        const body = pack.docs[doc.id];
+        if (!body) {
+          this.setData({ missing: true, loading: false, blocks: [] });
+          return;
+        }
+        this.setData({ loading: false, blocks: body.blocks, toc: body.toc });
+      })
+      .catch(() => {
+        if (mine !== this.ticket) return;
+        this.setData({ missing: true, loading: false, blocks: [] });
+      });
   },
   retry() {
     this.load(this.data.docId);

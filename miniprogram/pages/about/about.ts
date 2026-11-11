@@ -1,3 +1,4 @@
+import { getCatalog } from "../../data/index";
 import { copyText } from "../../utils/privacy";
 import { clearLocalRecords } from "../../utils/recent";
 
@@ -11,7 +12,7 @@ function copyLink(data: string): void {
 
 Page({
   data: {
-    docCount: 35,
+    docCount: getCatalog().docCount,
   },
   onCopySite() {
     copyLink(SITE_URL);

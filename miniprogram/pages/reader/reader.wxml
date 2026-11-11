@@ -4,6 +4,10 @@
     <view>没有这篇，或它不在当前固定篇目里。</view>
     <view class="tn-retry" bindtap="retry">重试</view>
   </view>
+  <view wx:elif="{{loading}}">
+    <view class="tn-read-h">{{title}}</view>
+    <view class="tn-muted">正在打开…</view>
+  </view>
   <block wx:else>
     <view class="tn-read-h">{{title}}</view>
     <view class="tn-meta">
