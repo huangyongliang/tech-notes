@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lock the miniapp skeleton: 35 docs, build-time nodes, no web-view.
+"""Lock the miniapp skeleton: 111 docs, build-time nodes, no web-view.
 
 Run: python3 scripts/test_miniapp_content.py
 """
@@ -215,12 +215,12 @@ def main() -> None:
     assert b.plain(grand["items"][0]["inlines"]) == "grand"
 
     catalog = b.build_catalog()
-    assert catalog["docCount"] == 35
-    assert len(catalog["docs"]) == 35
+    assert catalog["docCount"] == 111
+    assert len(catalog["docs"]) == 111
     kind_counts: dict[str, int] = {}
     for item in catalog["docs"].values():
         kind_counts[item["kind"]] = kind_counts.get(item["kind"], 0) + 1
-    assert kind_counts == {"chapter": 30, "topic": 4, "roadmap": 1}
+    assert kind_counts == {"chapter": 98, "topic": 12, "roadmap": 1}
 
     doc = catalog["docs"]["java/05-concurrency"]
     assert doc["han"] == 412
@@ -231,8 +231,7 @@ def main() -> None:
     kinds: dict = {}
     for item in catalog["docs"].values():
         assert item["path"].startswith("topics/")
-        assert not item["path"].startswith("topics/ai/")
-        assert not item["path"].startswith("topics/microservices/")
+        assert not item["path"].startswith("topics/inbox/")
         assert item["minutes"] >= 1
         walk(item["blocks"], kinds)
     assert kinds["callout:note"] >= 1
@@ -280,6 +279,7 @@ def main() -> None:
                     diagram_bytes += png.stat().st_size
                     seen_src.add(block["src"])
                     assert block["source"].lower() not in search_row["bodyText"]
+                    assert block["source"] not in search_row["prose"]
                 if block.get("t") == "code" and block.get("lang") == "mermaid":
                     fallback_count += 1
                     assert block.get("banner") == "图表未生成 · 显示源码"
@@ -311,6 +311,7 @@ def main() -> None:
         assert rel.startswith("pages/reader/diagrams/") or rel.startswith("assets/"), rel
 
     option_re = re.compile(r"^[A-D]\.\s")
+    choice_topics = {"getting-started", "cs-basics", "programming-basics", "java"}
     nested_quizzes = 0
     for item in catalog["docs"].values():
         if item["kind"] != "chapter":
@@ -328,7 +329,14 @@ def main() -> None:
                 break
             if block.get("t") == "h":
                 break
-        assert quiz_ol is not None, item["id"]
+        has_choices = bool(
+            quiz_ol
+            and any(entry.get("blocks") for entry in quiz_ol["items"])
+        )
+        if item["topicId"] in choice_topics:
+            assert has_choices, item["id"]
+        if not has_choices:
+            continue
         numbers = [entry["n"] for entry in quiz_ol["items"]]
         assert numbers == list(range(1, len(numbers) + 1)), item["id"]
         saw_options = False
@@ -354,7 +362,7 @@ def main() -> None:
         answer_numbers = [entry["n"] for entry in answers[0]["items"]]
         assert answer_numbers == list(range(1, len(answer_numbers) + 1)), item["id"]
         assert all("blocks" not in entry for entry in answers[0]["items"]), item["id"]
-    assert nested_quizzes == 30
+    assert nested_quizzes >= 30
 
     computer = catalog["docs"]["getting-started/01-what-is-a-computer"]
     practice = next(
@@ -379,13 +387,25 @@ def main() -> None:
     assert counts == {
         "getting-started": 5,
         "cs-basics": 7,
+        "cs-theory": 14,
         "programming-basics": 6,
         "java": 12,
+        "microservices": 16,
+        "ai": 21,
+        "programming": 4,
+        "web": 4,
+        "systems": 1,
+        "devops": 4,
+        "product-research": 4,
     }
+    assert catalog["docs"]["web/origin"]["num"] == "01"
+    assert catalog["docs"]["web/origin"]["path"] == "topics/web/origin/README.md"
+    assert catalog["docs"]["systems/distributed"]["num"] == "01"
+    assert catalog["docs"]["systems/distributed"]["path"] == "topics/systems/distributed/README.md"
     assert catalog["roadmap"]["id"] == "roadmap"
 
     search = catalog["search"]
-    assert len(search) == 35
+    assert len(search) == 111
     assert {item["id"] for item in search} == set(catalog["docs"])
     for item in search:
         assert set(item) == {
@@ -396,10 +416,10 @@ def main() -> None:
             "path",
             "titleText",
             "bodyText",
+            "prose",
         }
         assert item["path"] == catalog["docs"][item["id"]]["path"]
-        assert not item["path"].startswith("topics/ai/")
-        assert not item["path"].startswith("topics/microservices/")
+        assert not item["path"].startswith("topics/inbox/")
     concurrency = next(item for item in search if item["id"] == "java/05-concurrency")
     assert "并发" in concurrency["titleText"]
     assert "pinning" not in concurrency["titleText"]
@@ -414,7 +434,29 @@ def main() -> None:
     rendered = b.render_ts(catalog)
     on_disk = (MINI / "data" / "catalog.ts").read_text(encoding="utf-8")
     assert on_disk == rendered, "run python3 scripts/build_miniapp_content.py"
-    assert " None" not in on_disk
+    for doc in catalog["docs"].values():
+        assert doc["titleEn"] in {None, ""} or "None" not in doc["titleEn"]
+        assert "None" not in (doc["titleZh"] or "")
+    main_docs = b.main_payload(catalog)["docs"]
+    assert len(main_docs) == 111
+    for item in main_docs.values():
+        if item["kind"] == "chapter":
+            assert item["blocks"] == [] and item["toc"] == []
+            assert item["packageId"] in b.PACKAGE_ORDER
+        elif item["kind"] == "topic":
+            assert item["blocks"] == [] and item["toc"] == []
+        else:
+            assert item["blocks"], item["id"]
+    packed_chapters = set()
+    for package_id in b.PACKAGE_ORDER:
+        body = b.package_payload(catalog, package_id)
+        assert body["id"] == package_id and body["docs"]
+        for doc_id, chapter in body["docs"].items():
+            assert chapter["blocks"], doc_id
+            packed_chapters.add(doc_id)
+        pkg_path = MINI / "packages" / package_id / "content.ts"
+        assert pkg_path.read_text(encoding="utf-8") == b.render_package(catalog, package_id)
+    assert packed_chapters == {doc["id"] for doc in catalog["docs"].values() if doc["kind"] == "chapter"}
 
     tokens = (MINI / "styles" / "tokens.wxss").read_bytes()
     assert hashlib.sha256(tokens).hexdigest() == TOKENS_SHA256
@@ -431,6 +473,21 @@ def main() -> None:
     reader_pkg = next(item for item in app["subPackages"] if item["root"] == "pages/reader")
     assert reader_pkg["pages"] == ["reader"]
     assert reader_pkg.get("name") == "reader"
+    package_roots = [item["root"] for item in app["subPackages"]]
+    assert package_roots == [
+        "pages/reader",
+        "packages/basics",
+        "packages/theory",
+        "packages/java",
+        "packages/microservices",
+        "packages/ai",
+        "packages/rest",
+    ]
+    for item in app["subPackages"]:
+        if item["root"] == "pages/reader":
+            continue
+        assert item["pages"] == ["index"]
+        assert item["name"] == item["root"].split("/")[-1]
     for rule in (
         app["preloadRule"]["pages/topics/topics"],
         app["preloadRule"]["pages/category/category"],
@@ -506,11 +563,15 @@ def main() -> None:
         assert "towxml" not in name and "wemark" not in name
 
     selection = json.loads((MINI / "content-selection.json").read_text(encoding="utf-8"))
-    assert selection["documentCount"] == 35
+    assert selection["documentCount"] == 111
+    assert selection["developmentVersion"] == "1.0.9"
+    assert selection["onlineVersion"] == "1.0.7"
     assert selection["appId"] == "wx9982c4527dbdc2e3"
     assert isinstance(selection["included"], list)
-    assert len(selection["included"]) == 35
-    assert len(set(selection["included"])) == 35
+    assert len(selection["included"]) == 111
+    assert len(set(selection["included"])) == 111
+    assert "topics/inbox/README.md" not in selection["included"]
+    assert not any(path.startswith(("notes/", "resources/")) or path in {"STYLE.md", "CONTRIBUTING.md"} for path in selection["included"])
     assert set(selection["included"]) == {item["path"] for item in catalog["docs"].values()}
     assert set(selection["included"]) == {item["path"] for item in search}
 
@@ -613,7 +674,59 @@ def main() -> None:
         if path.suffix in {".ts", ".js"}:
             assert "wx.clearstorage" not in lowered, path
 
-    print("miniapp content ok", catalog["docCount"], "docs", kinds["fold"], "folds")
+    app_ts = (MINI / "app.ts").read_text(encoding="utf-8")
+    assert 'developmentVersion: "1.0.9"' in app_ts
+    assert 'onlineVersion: "1.0.7"' in app_ts
+    assert 'version: "2026.11"' in app_ts
+    assert "线上版本仍是 1.0.7" in (MINI / "README.md").read_text(encoding="utf-8")
+    limit = 2 * 1024 * 1024
+    sub_roots = [item["root"] for item in app["subPackages"]]
+
+    def pack_bytes(root: Path) -> int:
+        total = 0
+        for path in root.rglob("*"):
+            if not path.is_file():
+                continue
+            if "node_modules" in path.parts or "miniprogram_npm" in path.parts:
+                continue
+            total += path.stat().st_size
+        return total
+
+    sizes = {}
+    main_bytes = 0
+    for path in MINI.rglob("*"):
+        if not path.is_file():
+            continue
+        if "node_modules" in path.parts or "miniprogram_npm" in path.parts:
+            continue
+        rel = path.relative_to(MINI).as_posix()
+        placed = False
+        for root in sub_roots:
+            if rel == root or rel.startswith(root + "/"):
+                sizes[root] = sizes.get(root, 0) + path.stat().st_size
+                placed = True
+                break
+        if not placed:
+            main_bytes += path.stat().st_size
+    assert main_bytes < limit, main_bytes
+    for root, size in sizes.items():
+        assert size < limit, (root, size)
+    total_bytes = main_bytes + sum(sizes.values())
+    assert total_bytes == pack_bytes(MINI)
+    assert total_bytes < 20 * 1024 * 1024
+    print(
+        "miniapp content ok",
+        catalog["docCount"],
+        "docs",
+        kinds["fold"],
+        "folds",
+        "main",
+        main_bytes,
+        "subs",
+        sizes,
+        "total",
+        total_bytes,
+    )
 
 
 if __name__ == "__main__":

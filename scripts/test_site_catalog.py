@@ -64,8 +64,10 @@ def main() -> int:
         fail(f"pending new pages changed: {new_paths}")
 
     selection = json.loads((ROOT / "miniprogram" / "content-selection.json").read_text(encoding="utf-8"))
-    if selection["documentCount"] != 35 or len(selection["included"]) != 35:
-        fail("frozen miniapp 35 selection changed")
+    if selection["documentCount"] != 111 or len(selection["included"]) != 111:
+        fail("miniapp selection is not the synced 111 documents")
+    if selection.get("developmentVersion") != "1.0.9" or selection.get("onlineVersion") != "1.0.7":
+        fail("miniapp version pair drifted")
     by_path = {p["path"]: p for p in catalog["pages"]}
     for rel in selection["included"]:
         if rel not in by_path:

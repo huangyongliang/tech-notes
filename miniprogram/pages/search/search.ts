@@ -1,4 +1,5 @@
-import { getCatalog } from "../../data/index";
+import { getCatalog, getDoc } from "../../data/index";
+import { loadChapterPack } from "../../data/packages";
 import type { SearchEntry } from "../../data/types";
 import { openListed } from "../../utils/nav";
 import {
@@ -29,7 +30,7 @@ function index(): QueryDoc[] {
       titleText: entry.titleText,
       bodyText: entry.bodyText,
       where: chapterWhere(entry.kind, entry.id, entry.topicId, topics),
-      prose: doc ? proseFromBlocks(doc.blocks) : "",
+      prose: entry.prose || (doc ? proseFromBlocks(doc.blocks) : ""),
     };
   });
   return indexed;
@@ -57,6 +58,10 @@ Page({
     const id = String(event.currentTarget.dataset.id || "");
     const kind = String(event.currentTarget.dataset.kind || "");
     const topicId = String(event.currentTarget.dataset.topic || "");
+    if (kind === "chapter") {
+      const doc = getDoc(id);
+      if (doc && doc.packageId) loadChapterPack(doc.packageId).catch(() => {});
+    }
     if (id) openListed(kind, id, topicId);
   },
 });
