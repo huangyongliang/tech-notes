@@ -86,6 +86,47 @@ print("合并后输出一致：", diff < 1e-3)
 合并后输出一致： True
 ```
 
+同一点的 Java 对照：
+
+```java
+class LoraCount {
+    public static void main(String[] args) {
+        int in = 4096, out = 4096, r = 8, alpha = 16;
+        long trainable = (long) r * in + (long) out * r;
+        long total = (long) out * in + out + trainable;
+        System.out.printf("可训练参数 %,d / 总参数 %,d = %.2f%%%n", trainable, total, 100.0 * trainable / total);
+        if (trainable != 65536 || total != 16846848) throw new AssertionError();
+        double scale = (double) alpha / r;
+        double[] x = {0.2, -0.4, 0.1, 0.3};
+        double[][] a = {{0.01, 0, 0, 0}, {0, 0.02, 0, 0}};
+        double[][] b = {{0.3, 0}, {0, 0.4}, {-0.2, 0}, {0, 0.1}};
+        double[] via = apply(x, a, b, scale);
+        double[] merged = applyMerged(x, a, b, scale);
+        double diff = 0;
+        for (int i = 0; i < via.length; i++) diff = Math.max(diff, Math.abs(via[i] - merged[i]));
+        System.out.println("合并后输出一致： " + (diff < 1e-3));
+    }
+
+    static double[] apply(double[] x, double[][] a, double[][] b, double scale) {
+        double[] ax = new double[a.length];
+        for (int i = 0; i < a.length; i++) for (int j = 0; j < x.length; j++) ax[i] += x[j] * a[i][j];
+        double[] y = new double[b.length];
+        for (int i = 0; i < b.length; i++) for (int j = 0; j < ax.length; j++) y[i] += ax[j] * b[i][j];
+        for (int i = 0; i < y.length; i++) y[i] *= scale;
+        return y;
+    }
+
+    static double[] applyMerged(double[] x, double[][] a, double[][] b, double scale) {
+        double[][] w = new double[b.length][a[0].length];
+        for (int i = 0; i < b.length; i++) for (int j = 0; j < a[0].length; j++) for (int k = 0; k < a.length; k++) w[i][j] += scale * b[i][k] * a[k][j];
+        double[] y = new double[w.length];
+        for (int i = 0; i < w.length; i++) for (int j = 0; j < x.length; j++) y[i] += x[j] * w[i][j];
+        return y;
+    }
+}
+```
+
+
 ### SFT：用 TRL + PEFT 跑一次 LoRA 微调
 
 - 数据通常是对话格式（`messages` 列表），TRL 会套用模型的聊天模板；本例未启用 assistant-only，默认不能概括为只计算 assistant 损失，具体掩码与配置见下文。
@@ -157,6 +198,25 @@ print("更偏好 rejected：", round(dpo_loss(torch.tensor([-15.0]), torch.tenso
 更偏好 chosen： 0.3711
 更偏好 rejected： 1.0375
 ```
+
+同一点的 Java 对照：
+
+```java
+class DpoLoss {
+    static double loss(double piC, double piR, double refC, double refR) {
+        double margin = (piC - refC) - (piR - refR);
+        double sig = 1.0 / (1.0 + Math.exp(-0.1 * margin));
+        return -Math.log(sig);
+    }
+
+    public static void main(String[] args) {
+        System.out.printf("与参考模型相同： %.4f%n", loss(-12, -11, -12, -11));
+        System.out.printf("更偏好 chosen： %.4f%n", loss(-8, -15, -12, -11));
+        System.out.printf("更偏好 rejected： %.4f%n", loss(-15, -8, -12, -11));
+    }
+}
+```
+
 
 ```python
 # 示意：TRL 1.17 的 DPO 与 GRPO 训练器入口（需要 GPU 与真实数据集）

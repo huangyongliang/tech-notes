@@ -68,6 +68,8 @@ int main(void) {
 }
 ```
 
+Java 数组自带 `length`，没有指针运算，也不把数组退化为指针；`a[i]` 不是 `*(a+i)`，函数里也不能用 `sizeof` 得到数组长度。
+
 - 数组名在大多数表达式中会**退化**为指向首元素的指针，`a[i]` 就是 `*(a + i)`。
 - 指针加 1 移动的是「一个元素」的距离：`int *` 前进 `sizeof(int)` 字节，`char *` 前进 1 字节。
 - 数组传给函数时只传了首地址，函数里 `sizeof a` 得到的是指针大小，所以**必须另外传长度**。
@@ -105,6 +107,27 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class CStringPoints {
+    public static void main(String[] args) {
+        // Java 的 String 不是以 '\0' 结尾的 char 数组。== 比较引用，比较内容用 equals。没有 free。
+        String name = "Ada";
+        System.out.printf("length = %d%n", name.length());
+        String greeting = "Hello, %s!".formatted(name);
+        System.out.printf("%s（%d 个字符）%n", greeting, greeting.length());
+        if (name.equals("Ada")) {
+            System.out.println("名字相同");
+        }
+        String copy = new String(greeting);
+        copy = "J" + copy.substring(1);
+        System.out.printf("%s / %s%n", greeting, copy);
+    }
+}
+```
+
+
 - `strlen` 数到 `'\0'` 为止，不含结尾；`sizeof` 是整个数组的字节数。
 - `strcpy`、`strcat` 不检查目标空间，容易溢出；优先用 `snprintf`，它最多写入 `size - 1` 个字符并补上 `'\0'`，返回值是「本应写入」的长度，可用来判断是否被截断。
 - `gets` 已在 C11 中从标准删除，读一行用 `fgets(buf, sizeof buf, stdin)`。
@@ -138,6 +161,33 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class StudentDemo {
+    static final class Student {
+        String name;
+        int age;
+        double score;
+    }
+
+    static void birthday(Student s) {
+        s.age++;
+    }
+
+    public static void main(String[] args) {
+        // Java 没有可移植的 sizeof(Student) 填充语义，这里不编造字节数。
+        Student s = new Student();
+        s.name = "Lin";
+        s.age = 19;
+        s.score = 88.5;
+        birthday(s);
+        System.out.printf("%s %d %.1f%n", s.name, s.age, s.score);
+    }
+}
+```
+
+
 - 用 `.` 访问结构体变量的成员，用 `->` 通过指针访问。
 - 结构体的大小可能大于各成员之和，因为编译器会插入**填充**以满足对齐要求，所以总是用 `sizeof` 而不是自己相加。
 - 结构体可以整体赋值和按值传参，但较大的结构体一般传指针。
@@ -164,6 +214,8 @@ int main(void) {
     return 0;
 }
 ```
+
+Java 用 `new` 在堆上分配，由垃圾回收回收，没有 `malloc`／`free` 对。
 
 堆内存的四条铁律：
 
@@ -219,6 +271,37 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class IntVec {
+    int[] data = new int[0];
+    int len;
+    int cap;
+
+    // Java 没有「realloc 失败返回空指针且原块仍有效」。分配失败以异常体现。
+    void push(int x) {
+        if (len == cap) {
+            int newCap = cap == 0 ? 4 : cap * 2;
+            int[] next = new int[newCap];
+            System.arraycopy(data, 0, next, 0, len);
+            data = next;
+            cap = newCap;
+        }
+        data[len++] = x;
+    }
+
+    public static void main(String[] args) {
+        IntVec v = new IntVec();
+        for (int i = 1; i <= 10; i++) {
+            v.push(i * 10);
+        }
+        System.out.printf("len = %d, cap = %d, last = %d%n", v.len, v.cap, v.data[v.len - 1]);
+    }
+}
+```
+
+
 ### 单链表
 
 ```c
@@ -267,6 +350,34 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class SinglyList {
+    static final class Node {
+        int value;
+        Node next;
+        Node(int value, Node next) {
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    public static void main(String[] args) {
+        // 头插。Java 由垃圾回收回收节点，不再演示「先存 next 再 free」。
+        Node head = null;
+        for (int i = 1; i <= 3; i++) {
+            head = new Node(i, head);
+        }
+        for (Node p = head; p != null; p = p.next) {
+            System.out.printf("%d -> ", p.value);
+        }
+        System.out.println("NULL");
+    }
+}
+```
+
 
 释放链表时如果先 `free(head)` 再读 `head->next`，就是 use-after-free，所以必须先保存 `next`。
 

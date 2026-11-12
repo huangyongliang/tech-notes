@@ -111,6 +111,35 @@ print("当前占用：", used)
 当前占用： {'team-a': 12, 'team-b': 2}
 ```
 
+同一点的 Java 对照：
+
+```java
+class QuotaSim {
+    public static void main(String[] args) {
+        int qa = 8, qb = 8, ua = 0, ub = 0, borrowLimit = 4;
+        String[] names = {"训练 A1", "推理压测 B1", "训练 A2", "训练 A3"};
+        String[] team = {"team-a", "team-a", "team-a", "team-a"};
+        team[1] = "team-b";
+        int[] gpus = {8, 2, 4, 8};
+        for (int i = 0; i < names.length; i++) {
+            int used = team[i].equals("team-a") ? ua : ub;
+            int quota = team[i].equals("team-a") ? qa : qb;
+            int free = (qa + qb) - (ua + ub);
+            int borrow = Math.max(0, used + gpus[i] - quota);
+            if (gpus[i] <= free && borrow <= borrowLimit) {
+                if (team[i].equals("team-a")) ua += gpus[i]; else ub += gpus[i];
+                String note = borrow > 0 ? "，借用 " + borrow + " 张" : "";
+                System.out.printf("准入 %s（%s，%d GPU%s）%n", names[i], team[i], gpus[i], note);
+            } else {
+                System.out.printf("排队 %s（%s，%d GPU）：配额不足，整体等待而不是部分启动%n", names[i], team[i], gpus[i]);
+            }
+        }
+        System.out.printf("当前占用： {'team-a': %d, 'team-b': %d}%n", ua, ub);
+    }
+}
+```
+
+
 ### 分布式计算：Ray
 
 - Ray Core：用 `@ray.remote` 把函数和类变成分布式任务与 Actor。
@@ -179,6 +208,24 @@ print(f"每百万输出 Token 成本：{cost_per_m:.2f}（与 GPU 单价同一�
 所需副本：3，GPU：3 张
 每百万输出 Token 成本：0.32（与 GPU 单价同一货币单位）
 ```
+
+同一点的 Java 对照：
+
+```java
+class CapacityPlan {
+    public static void main(String[] args) {
+        int peakRps = 12, avgOut = 400, replicaTps = 2500, gpus = 1;
+        double headroom = 0.7;
+        int need = peakRps * avgOut;
+        int replicas = (int) Math.ceil(need / (replicaTps * headroom));
+        double cost = 2.0 * gpus / (replicaTps * headroom * 3600) * 1_000_000;
+        System.out.printf("峰值输出吞吐：%d tokens/s%n", need);
+        System.out.printf("所需副本：%d，GPU：%d 张%n", replicas, replicas * gpus);
+        System.out.printf("每百万输出 Token 成本：%.2f（与 GPU 单价同一货币单位）%n", cost);
+    }
+}
+```
+
 
 - 扩缩信号：CPU 利用率对 GPU 推理几乎无意义，应使用排队请求数、KV Cache 占用率或 TTFT。
 - 冷启动：拉取镜像和加载数十 GB 权重可能要数分钟，可用本地模型缓存、预热副本缓解；Scale-to-zero 只适合低频场景。

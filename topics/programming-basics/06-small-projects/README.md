@@ -226,6 +226,141 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class CountTests {
+
+    static boolean space(int ch) {
+        return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r' || ch == '\f' || ch == 11;
+    }
+
+    static int[] count(String s) {
+        int lines = 0, words = 0, bytes = 0;
+        boolean inWord = false;
+        for (int i = 0; i < s.length(); i++) {
+            int ch = s.charAt(i);
+            bytes++;
+            if (ch == '\n') lines++;
+            if (space(ch)) inWord = false;
+            else if (!inWord) {
+                inWord = true;
+                words++;
+            }
+        }
+        return new int[] {lines, words, bytes};
+    }
+
+    public static void main(String[] args) {
+        int[] c = count("");
+        if (c[0] != 0 || c[1] != 0 || c[2] != 0) throw new AssertionError();
+        c = count("hello world\n");
+        if (c[0] != 1 || c[1] != 2 || c[2] != 12) throw new AssertionError();
+        c = count("  leading and   multiple   spaces  ");
+        if (c[0] != 0 || c[1] != 4) throw new AssertionError();
+        c = count("a\nb\n\nc");
+        if (c[0] != 3 || c[1] != 3 || c[2] != 6) throw new AssertionError();
+        c = count("tab\tseparated\twords\n");
+        if (c[1] != 3) throw new AssertionError();
+        System.out.println("全部测试通过");
+    }
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class WcFlags {
+    public static void main(String[] args) {
+        // 不是 POSIX getopt。只复现 -l/-w/-c 与「默认三项都显示」。
+        boolean lines = false, words = false, bytes = false;
+        for (String arg : new String[] {"-l"}) {
+            for (int i = 1; i < arg.length(); i++) {
+                char ch = arg.charAt(i);
+                if (ch == 'l') lines = true;
+                else if (ch == 'w') words = true;
+                else if (ch == 'c') bytes = true;
+            }
+        }
+        if (!lines && !words && !bytes) {
+            lines = words = bytes = true;
+        }
+        if (!(lines && !words && !bytes)) throw new AssertionError("-l");
+        lines = words = bytes = false;
+        if (!lines && !words && !bytes) lines = words = bytes = true;
+        if (!(lines && words && bytes)) throw new AssertionError("default");
+        System.out.println("flags ok");
+    }
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class WcMissing {
+    public static void main(String[] args) throws Exception {
+        java.nio.file.Path dir = java.nio.file.Files.createTempDirectory("mywc");
+        java.nio.file.Path ok = dir.resolve("a.txt");
+        java.nio.file.Files.writeString(ok, "hello world\n");
+        java.nio.file.Path missing = dir.resolve("nope");
+        int status = 0;
+        int lines = 0;
+        for (java.nio.file.Path path : new java.nio.file.Path[] {missing, ok}) {
+            if (!java.nio.file.Files.exists(path)) {
+                System.err.printf("mywc: %s: No such file or directory%n", path.getFileName());
+                status = 1;
+                continue;
+            }
+            String text = java.nio.file.Files.readString(path);
+            lines = 0;
+            for (int i = 0; i < text.length(); i++) if (text.charAt(i) == 10) lines++;
+            System.out.printf("%d %s%n", lines, path.getFileName());
+        }
+        if (status != 1 || lines != 1) throw new AssertionError();
+        System.out.println("missing-file continues");
+    }
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class WcTotal {
+
+    static boolean space(int ch) {
+        return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r' || ch == '\f' || ch == 11;
+    }
+
+    static int[] count(String s) {
+        int lines = 0, words = 0, bytes = 0;
+        boolean inWord = false;
+        for (int i = 0; i < s.length(); i++) {
+            int ch = s.charAt(i);
+            bytes++;
+            if (ch == '\n') lines++;
+            if (space(ch)) inWord = false;
+            else if (!inWord) {
+                inWord = true;
+                words++;
+            }
+        }
+        return new int[] {lines, words, bytes};
+    }
+
+    public static void main(String[] args) {
+        // 无文件参数时读标准输入；这里用同一段文本代替 stdin。
+        int[] one = count("hello world\nfoo  bar baz\n");
+        int[] two = count("hello world\n");
+        int lines = one[0] + two[0];
+        int words = one[1] + two[1];
+        int bytes = one[2] + two[2];
+        System.out.printf("%d %d %d total%n", lines, words, bytes);
+        if (one[0] != 2 || one[1] != 5 || one[2] != 25) throw new AssertionError(java.util.Arrays.toString(one));
+    }
+}
+```
+
+
 Makefile 与上一关的结构相同：
 
 ```makefile
@@ -356,6 +491,67 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class Ledger {
+    static Long parseAmount(String raw) {
+        String s = raw;
+        if (s.endsWith("\n")) s = s.substring(0, s.length() - 1);
+        if (s.isEmpty()) return null;
+        boolean negative = s.charAt(0) == '-';
+        int i = negative ? 1 : 0;
+        if (i >= s.length() || !Character.isDigit(s.charAt(i))) return null;
+        long value = 0;
+        while (i < s.length() && Character.isDigit(s.charAt(i))) {
+            value = value * 10 + (s.charAt(i++) - '0');
+        }
+        value *= 100;
+        if (i < s.length() && s.charAt(i) == '.') {
+            i++;
+            for (long scale = 10; scale >= 1; scale /= 10) {
+                if (i >= s.length() || !Character.isDigit(s.charAt(i))) break;
+                value += (s.charAt(i++) - '0') * scale;
+            }
+        }
+        if (i != s.length()) return null;
+        return negative ? -value : value;
+    }
+
+    public static void main(String[] args) {
+        if (parseAmount("-35.5") != -3550L) throw new AssertionError();
+        if (parseAmount("0.05\n") != 5L) throw new AssertionError();
+        if (parseAmount("8000") != 800000L) throw new AssertionError();
+        if (parseAmount("12abc") != null || parseAmount("") != null) throw new AssertionError();
+        String[] lines = {
+            "2026-11-05,餐饮,-35.50",
+            "2026-11-05,工资,8000",
+            "坏数据"
+        };
+        long balance = 0;
+        int lineNo = 0;
+        for (String line : lines) {
+            lineNo++;
+            int c1 = line.indexOf(',');
+            int c2 = line.indexOf(',', c1 + 1);
+            if (c1 < 0 || c2 < 0 || c1 != 10) {
+                System.err.printf("第 %d 行格式错误，已跳过%n", lineNo);
+                continue;
+            }
+            Long cents = parseAmount(line.substring(c2 + 1));
+            if (cents == null) {
+                System.err.printf("第 %d 行格式错误，已跳过%n", lineNo);
+                continue;
+            }
+            balance += cents;
+        }
+        System.out.printf("余额：%d.%02d 元%n", balance / 100, balance % 100);
+        if (balance != 796450L) throw new AssertionError(balance);
+    }
+}
+```
+
 
 `sscanf` 的 `%10[^,]` 表示「最多读 10 个不是逗号的字符」，宽度限制防止写越界；`%n` 记录到目前为止消耗了多少字符，方便接着解析剩下的部分。`fgets` 读到的行如果超过缓冲区长度会被截断，要求严格时需要检查行末是否有 `'\n'`。
 

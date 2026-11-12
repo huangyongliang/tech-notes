@@ -126,6 +126,48 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class Brackets {
+    static final int CAP = 256;
+
+    static boolean balanced(String str) {
+        char[] data = new char[CAP];
+        int top = 0;
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch == '(' || ch == '[' || ch == '{') {
+                if (top == CAP) return false;
+                data[top++] = ch;
+            } else {
+                char open = switch (ch) {
+                    case ')' -> '(';
+                    case ']' -> '[';
+                    case '}' -> '{';
+                    default -> '\0';
+                };
+                if (open != '\0') {
+                    if (top == 0 || data[--top] != open) return false;
+                }
+            }
+        }
+        return top == 0;
+    }
+
+    public static void main(String[] args) {
+        if (!balanced("")) throw new AssertionError();
+        if (!balanced("{[()]}")) throw new AssertionError();
+        if (!balanced("int main(void) { return a[0]; }")) throw new AssertionError();
+        if (balanced("([)]")) throw new AssertionError();
+        if (balanced("((")) throw new AssertionError();
+        if (balanced(")")) throw new AssertionError();
+        System.out.println("brackets ok");
+    }
+}
+```
+
+
 注意 `strchr` 会把字符串结尾的 `'\0'` 也当作可查找的字符，这里因为循环条件已排除 `'\0'`，所以不会误判。
 
 ### 环形队列
@@ -179,6 +221,48 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class RingQueue {
+    static final int CAP = 4;
+    int[] data = new int[CAP];
+    int head;
+    int len;
+
+    boolean enqueue(int x) {
+        if (len == CAP) return false;
+        data[(head + len) % CAP] = x;
+        len++;
+        return true;
+    }
+
+    int dequeue() {
+        if (len == 0) throw new AssertionError("empty");
+        int x = data[head];
+        head = (head + 1) % CAP;
+        len--;
+        return x;
+    }
+
+    public static void main(String[] args) {
+        RingQueue q = new RingQueue();
+        for (int i = 1; i <= 4; i++) {
+            if (!q.enqueue(i)) throw new AssertionError();
+        }
+        if (q.enqueue(5)) throw new AssertionError();
+        if (q.dequeue() != 1) throw new AssertionError();
+        if (!q.enqueue(5)) throw new AssertionError();
+        for (int want = 2; want <= 5; want++) {
+            if (q.dequeue() != want) throw new AssertionError();
+        }
+        if (q.len != 0) throw new AssertionError();
+        System.out.println("queue ok");
+    }
+}
+```
+
 
 用「队首下标 + 元素个数」表示状态，可以清楚地区分队列空和满，比只用首尾两个下标更不容易出错。
 
@@ -291,6 +375,75 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class WordHash {
+    static final class Entry {
+        final String key;
+        int value;
+        Entry next;
+        Entry(String key, int value, Entry next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+    }
+
+    final Entry[] buckets;
+
+    WordHash(int n) { buckets = new Entry[n]; }
+
+    static int fnv1a(String s) {
+        int h = (int) 2166136261L;
+        for (int i = 0; i < s.length(); i++) {
+            h ^= s.charAt(i) & 0xFF;
+            h *= 16777619;
+        }
+        return h;
+    }
+
+    Entry find(String key) {
+        int i = Integer.remainderUnsigned(fnv1a(key), buckets.length);
+        for (Entry e = buckets[i]; e != null; e = e.next) {
+            if (e.key.equals(key)) return e;
+        }
+        return null;
+    }
+
+    void put(String key, int value) {
+        Entry e = find(key);
+        if (e != null) {
+            e.value = value;
+            return;
+        }
+        // 复制键，不保存调用方的字符串引用。手动释放由垃圾回收代替。
+        String copy = new String(key);
+        int i = Integer.remainderUnsigned(fnv1a(copy), buckets.length);
+        buckets[i] = new Entry(copy, value, buckets[i]);
+    }
+
+    Integer get(String key) {
+        Entry e = find(key);
+        return e == null ? null : e.value;
+    }
+
+    public static void main(String[] args) {
+        WordHash m = new WordHash(8);
+        String[] words = {"the", "cat", "the", "dog", "the", "cat"};
+        for (String w : words) {
+            Integer count = m.get(w);
+            m.put(w, (count == null ? 0 : count) + 1);
+        }
+        if (m.get("the") != 3 || m.get("cat") != 2 || m.get("bird") != null) {
+            throw new AssertionError();
+        }
+        System.out.println("hash ok");
+    }
+}
+```
+
+
 这个版本桶数固定。真正的实现会在负载因子超过某个阈值（如 0.75）时把桶数翻倍并重新插入所有条目，这是本关的练习之一。
 
 ### 排序与查找
@@ -378,6 +531,59 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class HandSort {
+    static void insertionSort(int[] a) {
+        for (int i = 1; i < a.length; i++) {
+            int key = a[i];
+            int j = i;
+            while (j > 0 && a[j - 1] > key) {
+                a[j] = a[j - 1];
+                j--;
+            }
+            a[j] = key;
+        }
+    }
+
+    static void mergeSortRec(int[] a, int[] tmp, int lo, int hi) {
+        if (hi - lo < 2) return;
+        int mid = lo + (hi - lo) / 2;
+        mergeSortRec(a, tmp, lo, mid);
+        mergeSortRec(a, tmp, mid, hi);
+        int i = lo, j = mid, k = lo;
+        while (i < mid && j < hi) {
+            tmp[k++] = a[i] <= a[j] ? a[i++] : a[j++];
+        }
+        while (i < mid) tmp[k++] = a[i++];
+        while (j < hi) tmp[k++] = a[j++];
+        System.arraycopy(tmp, lo, a, lo, hi - lo);
+    }
+
+    static boolean sorted(int[] a) {
+        for (int i = 1; i < a.length; i++) if (a[i - 1] > a[i]) return false;
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int[] a = {5, -1, 3, 3, 0, 9, -7};
+        int[] b = a.clone();
+        insertionSort(a);
+        int[] tmp = new int[b.length];
+        mergeSortRec(b, tmp, 0, b.length);
+        if (!sorted(a) || !java.util.Arrays.equals(a, b)) throw new AssertionError();
+        java.util.Random rng = new java.util.Random(42); // 不是 C 的 rand，只要求可重复且有序
+        int[] big = new int[10_000];
+        for (int i = 0; i < big.length; i++) big[i] = rng.nextInt(1000) - 500;
+        mergeSortRec(big, new int[big.length], 0, big.length);
+        if (!sorted(big)) throw new AssertionError();
+        System.out.println("sort ok");
+    }
+}
+```
+
 
 二分查找的写法见 [数据结构与算法](../../cs-basics/06-data-structures-algorithms/)。测试排序时，常用的技巧是**和一个确定正确的实现对拍**：对同一组随机数据分别用自己的函数和 `qsort` 排序，比较结果是否一致。
 

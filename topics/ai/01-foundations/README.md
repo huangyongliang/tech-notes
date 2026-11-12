@@ -80,6 +80,55 @@ KL(p||r) 0.0851 KL(r||p) 0.092
 余弦相似度 0.9993
 ```
 
+同一点的 Java 对照：
+
+```java
+class SoftmaxDemo {
+    static double[] softmax(double[] z, double t) {
+        double max = z[0];
+        for (double v : z) max = Math.max(max, v);
+        double[] e = new double[z.length];
+        double sum = 0;
+        for (int i = 0; i < z.length; i++) {
+            e[i] = Math.exp(z[i] / t - max / t);
+            sum += e[i];
+        }
+        for (int i = 0; i < e.length; i++) e[i] /= sum;
+        return e;
+    }
+
+    static String round3(double[] a) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < a.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(String.format("%.3f", a[i]));
+        }
+        return sb.append(']').toString();
+    }
+
+    public static void main(String[] args) {
+        double[] logits = {2.0, 1.0, 0.1};
+        for (double t : new double[] {0.5, 1.0, 2.0}) {
+            System.out.println("T=" + t + ": " + round3(softmax(logits, t)));
+        }
+        double[] q = softmax(logits, 1.0);
+        double ce = -Math.log(q[0]);
+        System.out.printf("交叉熵 %.4f 困惑度 %.4f%n", ce, Math.exp(ce));
+        double[] p = {0.7, 0.2, 0.1}, r = {0.5, 0.3, 0.2};
+        double klpr = 0, klrp = 0;
+        for (int i = 0; i < 3; i++) {
+            klpr += p[i] * Math.log(p[i] / r[i]);
+            klrp += r[i] * Math.log(r[i] / p[i]);
+        }
+        double dot = 1*2 + 2*4 + 3*6.5;
+        double na = Math.sqrt(1+4+9), nb = Math.sqrt(4+16+42.25);
+        System.out.printf("KL(p||r) %.4f KL(r||p) %.4f%n", klpr, klrp);
+        System.out.printf("余弦相似度 %.4f%n", dot / (na * nb));
+    }
+}
+```
+
+
 ### 优化：梯度下降到 AdamW
 
 ```mermaid
@@ -126,6 +175,44 @@ step 100 loss 0.0104 w 2.987 b 1.992
 step 150 loss 0.0104 w 2.987 b 1.992
 step 200 loss 0.0104 w 2.987 b 1.992
 ```
+
+同一点的 Java 对照：
+
+```java
+class GradientFit {
+    public static void main(String[] args) {
+        // java.util.Random 不是 NumPy default_rng，逐步数字不必与原文逐位相同。
+        java.util.Random rng = new java.util.Random(0);
+        double[] x = new double[200], y = new double[200];
+        for (int i = 0; i < 200; i++) {
+            x[i] = rng.nextDouble() * 2 - 1;
+            y[i] = 3 * x[i] + 2 + rng.nextGaussian() * 0.1;
+        }
+        double w = 0, b = 0, lr = 0.5;
+        double loss = 0;
+        for (int step = 0; step < 201; step++) {
+            double se = 0, gw = 0, gb = 0;
+            for (int i = 0; i < 200; i++) {
+                double pred = w * x[i] + b;
+                double err = pred - y[i];
+                se += err * err;
+                gw += 2 * err * x[i];
+                gb += 2 * err;
+            }
+            loss = se / 200;
+            w -= lr * (gw / 200);
+            b -= lr * (gb / 200);
+            if (step % 50 == 0) {
+                System.out.printf("step %3d loss %.4f w %.3f b %.3f%n", step, loss, w, b);
+            }
+        }
+        if (!(loss < 0.05 && Math.abs(w - 3) < 0.2 && Math.abs(b - 2) < 0.2)) {
+            throw new AssertionError("loss=" + loss + " w=" + w + " b=" + b);
+        }
+    }
+}
+```
+
 
 ### 经典机器学习：泛化才是目标
 

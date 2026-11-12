@@ -148,6 +148,44 @@ E1042 是什么意思
   RRF 第一名: 错误码 E1042 表示支付渠道超时，请稍后重试。
 ```
 
+同一点的 Java 对照：
+
+```java
+class RrfDemo {
+    static int[] rrf(int[][] rankings, int k) {
+        java.util.Map<Integer, Double> score = new java.util.LinkedHashMap<>();
+        for (int[] ranking : rankings) {
+            for (int pos = 0; pos < ranking.length; pos++) {
+                score.merge(ranking[pos], 1.0 / (k + pos + 1), Double::sum);
+            }
+        }
+        return score.entrySet().stream()
+                .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
+                .mapToInt(java.util.Map.Entry::getKey)
+                .toArray();
+    }
+
+    public static void main(String[] args) {
+        String[] docs = {
+            "退款申请通过后，款项一般 3 到 5 个工作日原路退回。",
+            "订单发货后无法修改收货地址，请联系快递改派。",
+            "错误码 E1042 表示支付渠道超时，请稍后重试。"
+        };
+        int[] money = rrf(new int[][] {{0, 1}, {0, 4}}, 60);
+        int[] code = rrf(new int[][] {{2, 0}, {2, 5}}, 60);
+        if (money[0] != 0 || money[1] != 1) throw new AssertionError(java.util.Arrays.toString(money));
+        if (code[0] != 2 || code[1] != 0) throw new AssertionError(java.util.Arrays.toString(code));
+        System.out.println("钱什么时候能退回来");
+        System.out.println("  BM25 top2: [0, 1]  向量 top2: [0, 4]  RRF top2: [0, 1]");
+        System.out.println("  RRF 第一名: " + docs[money[0]]);
+        System.out.println("E1042 是什么意思");
+        System.out.println("  BM25 top2: [2, 0]  向量 top2: [2, 5]  RRF top2: [2, 0]");
+        System.out.println("  RRF 第一名: " + docs[code[0]]);
+    }
+}
+```
+
+
 ### 重排、生成与引用
 
 - 重排：Cross-encoder 把「问题 + 片段」一起编码打分，比双塔向量更准但更慢，所以只对召回的前几十条做；也可以用 LLM 重排。

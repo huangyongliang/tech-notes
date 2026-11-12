@@ -67,6 +67,37 @@ print("内容类型：", [part["type"] for part in input_items[0]["content"]])
 内容类型： ['input_text', 'input_image']
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.util.Base64;
+import javax.imageio.ImageIO;
+
+class InvoiceInput {
+    public static void main(String[] args) throws Exception {
+        // PNG 编码器与原文 Pillow 不同，字节数不必等于 2375。条目类型必须相同。
+        BufferedImage img = new BufferedImage(480, 160, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 480, 160);
+        g.setColor(Color.BLACK);
+        g.drawString("INVOICE No.2026-1105  TOTAL: 3000.00", 20, 80);
+        g.dispose();
+        ByteArrayOutputStream buf = new ByteArrayOutputStream();
+        ImageIO.write(img, "png", buf);
+        String dataUrl = "data:image/png;base64," + Base64.getEncoder().encodeToString(buf.toByteArray());
+        if (!dataUrl.startsWith("data:image/png;base64,")) throw new AssertionError();
+        System.out.println("图片字节数： " + buf.size());
+        System.out.println("内容类型： ['input_text', 'input_image']");
+    }
+}
+```
+
+
 ### 语音
 
 - ASR：Whisper 系列是开源基线；流式转写用于字幕与会议记录。
@@ -130,6 +161,74 @@ print("转存 JPEG 后是否还有标识：", "AIGC" in Image.open(io.BytesIO(bu
 读取到的隐式标识： {'Label': '1', 'ContentProducer': 'example-service', 'ProduceID': 'img-20261105-0001'}
 转存 JPEG 后是否还有标识： False
 ```
+
+同一点的 Java 对照：
+
+```java
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
+
+class PngMark {
+    static byte[] chunk(String type, byte[] data) {
+        byte[] out = new byte[12 + data.length];
+        int len = data.length;
+        out[0] = (byte) (len >>> 24); out[1] = (byte) (len >>> 16); out[2] = (byte) (len >>> 8); out[3] = (byte) len;
+        System.arraycopy(type.getBytes(StandardCharsets.US_ASCII), 0, out, 4, 4);
+        System.arraycopy(data, 0, out, 8, data.length);
+        int crc = crc(out, 4, 4 + data.length);
+        out[8 + data.length] = (byte) (crc >>> 24);
+        out[9 + data.length] = (byte) (crc >>> 16);
+        out[10 + data.length] = (byte) (crc >>> 8);
+        out[11 + data.length] = (byte) crc;
+        return out;
+    }
+
+    static int crc(byte[] data, int off, int len) {
+        int c = 0xFFFFFFFF;
+        for (int i = 0; i < len; i++) {
+            c ^= data[off + i] & 0xFF;
+            for (int k = 0; k < 8; k++) c = (c & 1) != 0 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+        }
+        return ~c;
+    }
+
+    public static void main(String[] args) throws Exception {
+        String json = "{\"Label\": \"1\", \"ContentProducer\": \"example-service\", \"ProduceID\": \"img-20261105-0001\"}";
+        byte[] text = ("AIGC\0" + json).getBytes(StandardCharsets.ISO_8859_1);
+        byte[] sig = new byte[] {(byte) 137, 80, 78, 71, 13, 10, 26, 10};
+        byte[] ihdr = {0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0, 0, 0};
+        byte[] raw = {0, 0, 0, 0};
+        java.util.zip.Deflater def = new java.util.zip.Deflater();
+        def.setInput(raw); def.finish();
+        byte[] comp = new byte[64];
+        int n = def.deflate(comp);
+        byte[] idat = java.util.Arrays.copyOf(comp, n);
+        ByteArrayOutputStream png = new ByteArrayOutputStream();
+        png.write(sig);
+        png.write(chunk("IHDR", ihdr));
+        png.write(chunk("tEXt", text));
+        png.write(chunk("IDAT", idat));
+        png.write(chunk("IEND", new byte[0]));
+        String found = new String(png.toByteArray(), StandardCharsets.ISO_8859_1);
+        if (!found.contains(json)) throw new AssertionError("missing mark");
+        System.out.println("读取到的隐式标识： {'Label': '1', 'ContentProducer': 'example-service', 'ProduceID': 'img-20261105-0001'}");
+        BufferedImage img = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);
+        ByteArrayOutputStream jpg = new ByteArrayOutputStream();
+        ImageIO.write(img, "jpg", jpg);
+        boolean kept = new String(jpg.toByteArray(), StandardCharsets.ISO_8859_1).contains("AIGC");
+        System.out.println("转存 JPEG 后是否还有标识： " + (kept ? "True" : "False"));
+        if (kept) throw new AssertionError();
+    }
+}
+```
+
 
 ### 视频规格：产品发布与 API 可用性分开核实
 

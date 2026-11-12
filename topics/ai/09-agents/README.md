@@ -114,6 +114,36 @@ step 1: refund({"order_id": "A1001", "amount": 3000}) -> refund_ok:A1001
 已为订单 A1001 发起退款 3000 元。
 ```
 
+同一点的 Java 对照：
+
+```java
+class RefundScript {
+    public static void main(String[] args) {
+        String[][] script = {
+            {"search_orders", "{\"user\": \"u42\"}"},
+            {"refund", "{\"order_id\": \"A1001\", \"amount\": 3000}"}
+        };
+        String[] results = {
+            "[{'order_id': 'A1001', 'status': '未发货', 'amount': 3000}]",
+            "refund_ok:A1001"
+        };
+        int tools = 0;
+        for (int step = 0; step < 5; step++) {
+            if (tools == script.length) {
+                System.out.println("已为订单 A1001 发起退款 3000 元。");
+                return;
+            }
+            String name = script[tools][0];
+            boolean approve = true;
+            String result = name.equals("refund") && !approve ? "error: 用户拒绝了该操作" : results[tools];
+            System.out.println("step " + step + ": " + name + "(" + script[tools][1] + ") -> " + result);
+            tools++;
+        }
+    }
+}
+```
+
+
 - 终止条件至少包括：模型给出最终答案、步数上限、Token 或费用上限、超时。
 - 有副作用的工具（退款、发邮件、删数据）需要人工审批，或在沙箱中执行。
 - 工具出错时把错误信息回填给模型，让它有机会改正，而不是让整个循环崩溃。

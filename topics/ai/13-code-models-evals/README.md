@@ -71,6 +71,35 @@ pass@1 = 0.433
 pass@5 = 0.639
 ```
 
+同一点的 Java 对照：
+
+```java
+class PassAtK {
+    static long comb(int n, int k) {
+        if (k < 0 || k > n) return 0;
+        long v = 1;
+        for (int i = 1; i <= k; i++) v = v * (n - k + i) / i;
+        return v;
+    }
+
+    static double passAtK(int n, int c, int k) {
+        if (n - c < k) return 1.0;
+        return 1.0 - (double) comb(n - c, k) / comb(n, k);
+    }
+
+    public static void main(String[] args) {
+        int[][] results = {{10, 3}, {10, 0}, {10, 10}};
+        for (int k : new int[] {1, 5}) {
+            double score = 0;
+            for (int[] rc : results) score += passAtK(rc[0], rc[1], k);
+            score /= results.length;
+            System.out.printf("pass@%d = %.3f%n", k, score);
+        }
+    }
+}
+```
+
+
 ### 自建评测：在隔离进程中跑测试
 
 - 公开基准无法代表你的代码库；从自家已合并的 PR 中抽题（Issue 描述 + 修复前代码 + PR 中的测试），最能反映真实效果。
@@ -111,6 +140,40 @@ for name, code in candidates.items():
 模型 B 失败
 模型 C 超时
 ```
+
+同一点的 Java 对照：
+
+```java
+class IsolatedChecks {
+    public static void main(String[] args) throws Exception {
+        // 在隔离进程里跑测试并设超时。不是 fork／exec 对照。
+        String[] names = {"模型 A", "模型 B", "模型 C"};
+        String[] bodies = {
+            "class T { static String slugify(String s) { return String.join(\"-\", s.toLowerCase().trim().split(\"\\\\s+\")); } public static void main(String[] a) { if (!slugify(\"Hello World\").equals(\"hello-world\") || !slugify(\"  Spring  AI \").equals(\"spring-ai\")) System.exit(1); } }",
+            "class T { static String slugify(String s) { return s.toLowerCase().replace(' ', '-'); } public static void main(String[] a) { if (!slugify(\"Hello World\").equals(\"hello-world\") || !slugify(\"  Spring  AI \").equals(\"spring-ai\")) System.exit(1); } }",
+            "class T { public static void main(String[] a) { while (true) {} } }"
+        };
+        for (int i = 0; i < names.length; i++) {
+            java.nio.file.Path dir = java.nio.file.Files.createTempDirectory("iso");
+            java.nio.file.Path src = dir.resolve("T.java");
+            java.nio.file.Files.writeString(src, bodies[i]);
+            Process compile = new ProcessBuilder("javac", src.toString()).start();
+            if (compile.waitFor() != 0) throw new AssertionError("javac");
+            Process run = new ProcessBuilder("java", "-cp", dir.toString(), "T").start();
+            boolean done = run.waitFor(2, java.util.concurrent.TimeUnit.SECONDS);
+            String verdict;
+            if (!done) {
+                run.destroyForcibly();
+                verdict = "超时";
+            } else {
+                verdict = run.exitValue() == 0 ? "通过" : "失败";
+            }
+            System.out.println(names[i] + " " + verdict);
+        }
+    }
+}
+```
+
 
 ### 进程隔离不是安全沙箱
 

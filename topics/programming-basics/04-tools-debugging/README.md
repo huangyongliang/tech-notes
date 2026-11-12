@@ -105,6 +105,29 @@ allocated by thread T0 here:
     #1 0x560d59e231fb in main /tmp/pb4/bug.c:5
 ```
 
+同一点的 Java 对照：
+
+```java
+class BoundsCheck {
+    public static void main(String[] args) {
+        int[] a = new int[5];
+        boolean rejected = false;
+        try {
+            for (int i = 0; i <= 5; i++) {
+                a[i] = i;
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            rejected = true;
+        }
+        if (!rejected) {
+            throw new AssertionError("下标 5 应被拒绝");
+        }
+        System.out.println("下标 5 被拒绝：ArrayIndexOutOfBoundsException");
+    }
+}
+```
+
+
 读法：错误类型是 `heap-buffer-overflow`（堆越界）；`WRITE of size 4` 表示写入了 4 字节（一个 `int`）；出错位置在 `bug.c` 第 10 行；越界地址紧挨在第 5 行 `malloc` 的 20 字节区域之后，也就是 `a[5]`。加 `-g` 才能看到文件名和行号。
 
 忘记 `free` 时，程序结束会得到 LeakSanitizer 报告，例如 `Direct leak of 100 byte(s) in 1 object(s) allocated from: ... in main leak.c:5`；有符号溢出则由 UBSan 报告 `runtime error: signed integer overflow: 2147483647 + 1 cannot be represented in type 'int'`。
@@ -266,6 +289,86 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class StatsMean {
+    static double statsMean(int[] a, int n) {
+        if (n == 0) {
+            return 0.0;
+        }
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += a[i];
+        }
+        return (double) sum / (double) n;
+    }
+
+    public static void main(String[] args) {
+        int[] a = {1, 2, 3, 4};
+        if (Math.abs(statsMean(a, 4) - 2.5) >= 1e-9) throw new AssertionError();
+        if (Math.abs(statsMean(a, 0) - 0.0) >= 1e-9) throw new AssertionError();
+        System.out.println("mean 2.5 / empty 0.0");
+    }
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class StatsMax {
+    static int statsMax(int[] a, int n) {
+        if (n <= 0) {
+            throw new AssertionError("stats_max 需要非空数组");
+        }
+        int m = a[0];
+        for (int i = 1; i < n; i++) {
+            if (a[i] > m) {
+                m = a[i];
+            }
+        }
+        return m;
+    }
+
+    public static void main(String[] args) {
+        if (statsMax(new int[] {-5, -2, -9}, 3) != -2) throw new AssertionError();
+        if (statsMax(new int[] {7}, 1) != 7) throw new AssertionError();
+        System.out.println("max -2 / 7");
+    }
+}
+```
+
+同一点的 Java 对照：
+
+```java
+class StatsChecks {
+    static double statsMean(int[] a, int n) {
+        if (n == 0) return 0.0;
+        long sum = 0;
+        for (int i = 0; i < n; i++) sum += a[i];
+        return (double) sum / (double) n;
+    }
+
+    static int statsMax(int[] a, int n) {
+        if (n <= 0) throw new AssertionError("stats_max 需要非空数组");
+        int m = a[0];
+        for (int i = 1; i < n; i++) if (a[i] > m) m = a[i];
+        return m;
+    }
+
+    public static void main(String[] args) {
+        // NDEBUG 关掉的是 C 的 assert。这里的检查始终执行，避免断言里藏副作用。
+        int[] a = {1, 2, 3, 4};
+        if (Math.abs(statsMean(a, 4) - 2.5) >= 1e-9) throw new AssertionError();
+        if (Math.abs(statsMean(a, 0) - 0.0) >= 1e-9) throw new AssertionError();
+        if (statsMax(new int[] {-5, -2, -9}, 3) != -2) throw new AssertionError();
+        if (statsMax(new int[] {7}, 1) != 7) throw new AssertionError();
+        System.out.println("全部测试通过");
+    }
+}
+```
+
 
 - 每个函数至少测试：正常情况、边界情况（空、一个元素、全部相同、负数、最大值）、错误输入。
 - `assert` 在定义了 `NDEBUG` 宏时（例如 `-DNDEBUG`）会被全部移除，所以**不要把有副作用的代码写在 `assert` 里**，也不要用它处理用户输入错误；它用来检查「按程序逻辑不可能发生」的情况。

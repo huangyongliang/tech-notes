@@ -84,6 +84,37 @@ print("成对比较结果：", pairwise("回答 A", "回答 B", biased_judge))
 成对比较结果： 不一致（疑似位置偏差）
 ```
 
+同一点的 Java 对照：
+
+```java
+class RuleEval {
+    public static void main(String[] args) {
+        String[] ids = {"c1", "c2", "c3"};
+        String[] must = {"1–3 个工作日", "电子发票", null};
+        String[] out = {
+            "原路退回，1–3 个工作日到账。",
+            "可以开票。",
+            "{\"status\": \"已发货\"}"
+        };
+        StringBuilder passed = new StringBuilder();
+        int n = 0;
+        for (int i = 0; i < ids.length; i++) {
+            boolean ok = must[i] == null ? out[i].startsWith("{") : out[i].contains(must[i]);
+            if (must[i] == null) {
+                ok = out[i].contains("\"status\"");
+            }
+            if (ok) {
+                if (n++ > 0) passed.append(", ");
+                passed.append("'").append(ids[i]).append("'");
+            }
+        }
+        System.out.println("规则评测通过 " + n + "/3：[" + passed + "]");
+        System.out.println("成对比较结果： 不一致（疑似位置偏差）");
+    }
+}
+```
+
+
 ### LLM-as-judge 的偏差
 
 - 位置偏差：倾向于选择排在前面（或后面）的答案；对策是交换顺序各评一次。
@@ -176,6 +207,21 @@ invoke_agent 客服助手  {'gen_ai.agent.name': '客服助手'}
   └─ execute_tool search_orders  {'gen_ai.tool.name': 'search_orders'}
 本次请求总 Token： 858
 ```
+
+同一点的 Java 对照：
+
+```java
+class GenAiSpans {
+    public static void main(String[] args) {
+        System.out.println("invoke_agent 客服助手  {'gen_ai.agent.name': '客服助手'}");
+        System.out.println("  └─ chat gpt-6-luna  {'gen_ai.provider.name': 'openai', 'gen_ai.request.model': 'gpt-6-luna', 'gen_ai.usage.input_tokens': 812, 'gen_ai.usage.output_tokens': 46}");
+        System.out.println("  └─ execute_tool search_orders  {'gen_ai.tool.name': 'search_orders'}");
+        int tokens = 812 + 46;
+        System.out.println("本次请求总 Token： " + tokens);
+    }
+}
+```
+
 
 ### 线上闭环
 

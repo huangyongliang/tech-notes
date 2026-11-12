@@ -100,6 +100,64 @@ FP4 每 32 个一组  相对误差 0.0981
 FP4 每 16 个一组  相对误差 0.0730
 ```
 
+同一点的 Java 对照：
+
+```java
+class LowPrecision {
+    static double rel(double[] q, double[] w) {
+        double num = 0, den = 0;
+        for (int i = 0; i < w.length; i++) {
+            double d = q[i] - w[i];
+            num += d * d;
+            den += w[i] * w[i];
+        }
+        return Math.sqrt(num / den);
+    }
+
+    static double[] block(double[] x, int block) {
+        double[] y = new double[x.length];
+        double[] levels = {0, 0.5, 1, 1.5, 2, 3, 4, 6};
+        for (int start = 0; start < x.length; start += block) {
+            double max = 0;
+            for (int i = start; i < start + block; i++) max = Math.max(max, Math.abs(x[i]));
+            double scale = max / 6;
+            for (int i = start; i < start + block; i++) {
+                double mag = scale == 0 ? 0 : Math.abs(x[i] / scale);
+                int idx = 0;
+                double best = Double.POSITIVE_INFINITY;
+                for (int k = 0; k < levels.length; k++) {
+                    double dist = Math.abs(mag - levels[k]);
+                    if (dist < best) { best = dist; idx = k; }
+                }
+                y[i] = levels[idx] * Math.signum(x[i]) * scale;
+            }
+        }
+        return y;
+    }
+
+    public static void main(String[] args) {
+        // 同一套按块缩放与 E2M1 码表。Java 没有 torch 的 FP8/BF16，具体误差不必等于原文数字。
+        java.util.Random rng = new java.util.Random(0);
+        double[] w = new double[4096];
+        for (int i = 0; i < w.length; i++) w[i] = rng.nextGaussian() * 0.02;
+        for (int i = 0; i < w.length; i += 512) w[i] *= 40;
+        double hi = rel(w, w);
+        double[] tensor = block(w, 4096);
+        double[] b32 = block(w, 32);
+        double[] b16 = block(w, 16);
+        double eTensor = rel(tensor, w), e32 = rel(b32, w), e16 = rel(b16, w);
+        System.out.printf("高精度相对误差 %.4f%n", hi);
+        System.out.printf("整张量一组相对误差 %.4f%n", eTensor);
+        System.out.printf("每 32 个一组相对误差 %.4f%n", e32);
+        System.out.printf("每 16 个一组相对误差 %.4f%n", e16);
+        if (!(hi < eTensor && e16 < e32 && e32 < eTensor)) {
+            throw new AssertionError(hi + " " + eTensor + " " + e32 + " " + e16);
+        }
+    }
+}
+```
+
+
 ### 新架构
 
 - 线性注意力：用线性复杂度的注意力替代部分全注意力层，降低长上下文的计算与 KV Cache 开销，如 Kimi-Linear。

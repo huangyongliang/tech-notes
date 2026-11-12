@@ -94,6 +94,47 @@ sat  1
 ['a', 'b', 'c'] ['the', 'cat']
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+class WordFreq {
+    record WordStat(String word, int count) {}
+
+    static List<WordStat> topWords(String text, int n) {
+        Matcher m = Pattern.compile("[a-z']+").matcher(text.toLowerCase());
+        Map<String, Integer> counter = new LinkedHashMap<>();
+        while (m.find()) {
+            counter.merge(m.group(), 1, Integer::sum);
+        }
+        List<WordStat> stats = new ArrayList<>();
+        counter.forEach((w, c) -> stats.add(new WordStat(w, c)));
+        stats.sort((a, b) -> Integer.compare(b.count, a.count));
+        return stats.subList(0, Math.min(n, stats.size()));
+    }
+
+    public static void main(String[] args) {
+        String text = "the cat sat on the mat. The cat is fat.";
+        for (WordStat stat : topWords(text, 3)) {
+            System.out.printf("%-5s%d%n", stat.word, stat.count);
+        }
+        Map<Integer, Integer> squares = new LinkedHashMap<>();
+        for (int x = 0; x < 5; x++) if (x % 2 == 0) squares.put(x, x * x);
+        System.out.println(squares);
+        System.out.println(new TreeSet<>(List.of("b", "a", "c")) + " "
+                + topWords(text, 2).stream().map(WordStat::word).toList());
+    }
+}
+```
+
+
 ### 函数、类、异常与类型注解
 
 - 默认参数只求值一次：不要写 `def f(items=[])`，用 `None` 再在函数里新建。
@@ -132,6 +173,42 @@ except ValueError as e:
 {"rows": 2, "total": 15.5}
 金额格式错误：'12元'
 ```
+
+同一点的 Java 对照：
+
+```java
+class Amounts {
+    static double parseAmount(String raw) {
+        try {
+            return Double.parseDouble(raw);
+        } catch (NumberFormatException e) {
+            NumberFormatException wrapped = new NumberFormatException("金额格式错误：'" + raw + "'");
+            wrapped.initCause(e);
+            throw wrapped;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Python 的类型注解运行时不检查。Java 的类型是编译期检查。
+        String csv = "date,item,amount\n2026-11-01,coffee,3.5\n2026-11-02,book,12\n";
+        String[] lines = csv.split("\n");
+        int rows = 0;
+        double total = 0;
+        for (int i = 1; i < lines.length; i++) {
+            if (lines[i].isEmpty()) continue;
+            rows++;
+            total += parseAmount(lines[i].split(",")[2]);
+        }
+        System.out.printf("{\"rows\": %d, \"total\": %s}%n", rows, total == 15.5 ? "15.5" : Double.toString(total));
+        try {
+            parseAmount("12元");
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+```
+
 
 ### 环境：venv、pip 与 Jupyter
 
@@ -201,6 +278,44 @@ print(repo["full_name"], repo["language"])
 ```text
 numpy/numpy Python
 ```
+
+同一点的 Java 对照：
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+class RepoLookup {
+    public static void main(String[] args) throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.github.com/repos/numpy/numpy"))
+                .timeout(Duration.ofSeconds(10))
+                .header("Accept", "application/vnd.github+json")
+                .header("User-Agent", "tech-notes-demo")
+                .GET()
+                .build();
+        String body = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+        String name = field(body, "full_name");
+        String language = field(body, "language");
+        System.out.println(name + " " + language);
+    }
+
+    static String field(String json, String key) {
+        String mark = "\"" + key + "\":";
+        int i = json.indexOf(mark);
+        if (i < 0) throw new IllegalStateException(key);
+        int start = json.indexOf('"', i + mark.length());
+        int end = json.indexOf('"', start + 1);
+        return json.substring(start + 1, end);
+    }
+}
+```
+
 
 实际项目里更常用 `requests` 或 `httpx`；06 关的各家 LLM SDK 底层也是这样的 HTTP + JSON 调用。
 

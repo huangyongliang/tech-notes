@@ -73,6 +73,30 @@ SmolLM2-135M: 层数 30, KV 头 3, head_dim 64
 同配置若不用 GQA（32 个 KV 头），8K × 32 并发: 128.0 GiB
 ```
 
+同一点的 Java 对照：
+
+```java
+class KvCache {
+    static double bytes(int layers, int kvHeads, int headDim, int seq, int batch) {
+        return 2.0 * layers * kvHeads * headDim * seq * batch * 2;
+    }
+
+    public static void main(String[] args) {
+        int layers = 30, kv = 3, head = 64;
+        System.out.printf("SmolLM2-135M: 层数 %d, KV 头 %d, head_dim %d%n", layers, kv, head);
+        System.out.printf("每 token KV Cache: %.1f KiB (BF16)%n", bytes(layers, kv, head, 1, 1) / 1024);
+        int[][] cases = {{8192, 1}, {8192, 32}, {131072, 1}};
+        for (int[] c : cases) {
+            System.out.printf("8B 级示例  上下文 %,7d × 并发 %2d: %6.1f GiB%n",
+                    c[0], c[1], bytes(32, 8, 128, c[0], c[1]) / 1024 / 1024 / 1024);
+        }
+        System.out.printf("同配置若不用 GQA（32 个 KV 头），8K × 32 并发: %.1f GiB%n",
+                bytes(32, 32, 128, 8192, 32) / 1024 / 1024 / 1024);
+    }
+}
+```
+
+
 ```python
 params = 8e9
 for name, bits in [("BF16", 16), ("FP8", 8), ("INT4 (AWQ/GPTQ)", 4)]:
@@ -86,6 +110,22 @@ for name, bits in [("BF16", 16), ("FP8", 8), ("INT4 (AWQ/GPTQ)", 4)]:
 8B 参数 FP8              权重约   7.5 GiB
 8B 参数 INT4 (AWQ/GPTQ)  权重约   3.7 GiB
 ```
+
+同一点的 Java 对照：
+
+```java
+class WeightBytes {
+    public static void main(String[] args) {
+        double params = 8e9;
+        String[] names = {"BF16", "FP8", "INT4 (AWQ/GPTQ)"};
+        int[] bits = {16, 8, 4};
+        for (int i = 0; i < names.length; i++) {
+            System.out.printf("8B 参数 %-16s 权重约 %5.1f GiB%n", names[i], params * bits[i] / 8 / 1024 / 1024 / 1024);
+        }
+    }
+}
+```
+
 
 ### 核心机制
 

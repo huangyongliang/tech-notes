@@ -74,6 +74,67 @@ for step in range(4):
 合并 'er'+'</w>'（3 次）-> ['low', 'e', 's', 't', '</w>']
 ```
 
+同一点的 Java 对照：
+
+```java
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+class TinyBpe {
+    static Map.Entry<String, Integer> bestPair(List<List<String>> words) {
+            return Map.entry("", 0);
+        }
+
+    public static void main(String[] args) {
+        String[] corpus = {"low", "lower", "lowest", "newer", "wider"};
+        List<List<String>> words = new ArrayList<>();
+        for (String w : corpus) {
+            List<String> chars = new ArrayList<>();
+            for (char ch : w.toCharArray()) chars.add(String.valueOf(ch));
+            chars.add("</w>");
+            words.add(chars);
+        }
+        for (int step = 0; step < 4; step++) {
+            Map<String, Integer> pairs = new LinkedHashMap<>();
+            for (List<String> w : words) {
+                for (int i = 0; i + 1 < w.size(); i++) {
+                    pairs.merge(w.get(i) + "\0" + w.get(i + 1), 1, Integer::sum);
+                }
+            }
+            String best = null;
+            int freq = -1;
+            for (var e : pairs.entrySet()) {
+                if (e.getValue() > freq) {
+                    freq = e.getValue();
+                    best = e.getKey();
+                }
+            }
+            int cut = best.indexOf('\0');
+            String a = best.substring(0, cut), b = best.substring(cut + 1);
+            List<List<String>> merged = new ArrayList<>();
+            for (List<String> w : words) {
+                List<String> out = new ArrayList<>();
+                for (int i = 0; i < w.size(); ) {
+                    if (i + 1 < w.size() && w.get(i).equals(a) && w.get(i + 1).equals(b)) {
+                        out.add(a + b);
+                        i += 2;
+                    } else {
+                        out.add(w.get(i));
+                        i++;
+                    }
+                }
+                merged.add(out);
+            }
+            words = merged;
+            System.out.println("合并 '" + a + "'+'" + b + "'（" + freq + " 次）-> " + words.get(2));
+        }
+    }
+}
+```
+
+
 真实分词器可以用 Transformers 直接查看（首次运行会下载分词器文件）：
 
 ```python
@@ -140,6 +201,63 @@ print("与 PyTorch 结果一致：", np.allclose(out, ref.numpy()))
  [0.1  0.03 0.68 0.18]]
 与 PyTorch 结果一致： True
 ```
+
+同一点的 Java 对照：
+
+```java
+class CausalAttention {
+    public static void main(String[] args) {
+        // 原文 Q/K/V 来自 NumPy default_rng(0)。这里写入同一组数，手写因果注意力，不用框架黑盒。
+        double[][] q = {
+            {0.1257302210933933, -0.13210486329130189, 0.64042265044328206, 0.10490011715303971, -0.53566937316111096, 0.36159505490948474, 1.3040000451301372, 0.94708096312924217},
+            {-0.7037352358069926, -1.2654214710460525, -0.62327446253735219, 0.041325979347243601, -2.3250307746388343, -0.21879166393254573, -1.2459109472530652, -0.73226735470345161},
+            {-0.54425898285730989, -0.31630015636915454, 0.41163053637413283, 1.0425133694426776, -0.12853466294403426, 1.3664634705496859, -0.66519467348661354, 0.35151007009301971},
+            {0.90347018165180859, 0.094012297760874566, -0.7434992493538084, -0.92172537625841944, -0.45772582566733916, 0.22019512347004941, -1.0096181835387359, -0.20917557487171307}
+        };
+        double[][] k = {
+            {-0.15922500991447772, 0.54084558468580768, 0.21465912250634089, 0.35537270903992141, -0.65382860941833942, -0.12961363369276946, 0.7839754700613295, 1.4934311452207607},
+            {-1.2590655321041202, 1.5139237747390626, 1.3458754237823045, 0.78131140070042748, 0.26445563032930353, -0.31392281453642779, 1.4580206835369587, 1.9602583164499647},
+            {1.8016348698661251, 1.31510376473437, 0.35738041065895598, -1.2083186322821715, -0.0044541331200832288, 0.65647493507633581, -1.2883614637495544, 0.39512206018200824},
+            {0.42986369482223002, 0.69604272396286848, -1.1841179667571891, -0.66170257203903493, -0.43643524714322124, -1.1698019077728641, 1.739367877130134, -0.49591072844215189}
+        };
+        int t = 4, d = 8;
+        double[][] w = new double[t][t];
+        for (int i = 0; i < t; i++) {
+            double max = Double.NEGATIVE_INFINITY;
+            double[] scores = new double[t];
+            for (int j = 0; j <= i; j++) {
+                double dot = 0;
+                for (int c = 0; c < d; c++) dot += q[i][c] * k[j][c];
+                scores[j] = dot / Math.sqrt(d);
+                max = Math.max(max, scores[j]);
+            }
+            double sum = 0;
+            for (int j = 0; j <= i; j++) {
+                w[i][j] = Math.exp(scores[j] - max);
+                sum += w[i][j];
+            }
+            for (int j = 0; j <= i; j++) w[i][j] /= sum;
+        }
+        double[][] expect = {
+            {1, 0, 0, 0},
+            {0.83, 0.17, 0, 0},
+            {0.34, 0.41, 0.25, 0},
+            {0.10, 0.03, 0.68, 0.18}
+        };
+        for (int i = 0; i < t; i++) {
+            for (int j = 0; j < t; j++) {
+                double shown = Math.round(w[i][j] * 100.0) / 100.0;
+                if (Math.abs(shown - expect[i][j]) > 0.011) {
+                    throw new AssertionError(i + "," + j + " " + shown);
+                }
+                System.out.printf("%s%.2f", j == 0 ? "" : " ", w[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
 
 ### 现代 Decoder-only 架构
 

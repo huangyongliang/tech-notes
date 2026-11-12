@@ -115,6 +115,37 @@ claude-sonnet-5-5  无缓存 $    3,300/月  缓存命中 80% $    2,004/月
 claude-haiku-5-5   无缓存 $      165/月  缓存命中 80% $      100/月
 ```
 
+同一点的 Java 对照：
+
+```java
+class MonthlyCost {
+    record Price(String name, double in, double out) {}
+
+    static double monthly(Price p, double cacheHit) {
+        double inTok = 3000, outTok = 500, cacheRate = 0.1;
+        double effIn = inTok * ((1 - cacheHit) + cacheHit * cacheRate);
+        double perReq = (effIn * p.in + outTok * p.out) / 1_000_000;
+        return perReq * 10_000 * 30;
+    }
+
+    public static void main(String[] args) {
+        Price[] prices = {
+            new Price("gpt-6-astra", 10, 50),
+            new Price("gpt-6.1-sol", 2, 10),
+            new Price("gpt-6-luna", 0.10, 0.50),
+            new Price("claude-opus-5-5", 4, 20),
+            new Price("claude-sonnet-5-5", 2, 10),
+            new Price("claude-haiku-5-5", 0.10, 0.50)
+        };
+        for (Price p : prices) {
+            System.out.printf("%-18s 无缓存 $%,9.0f/月  缓存命中 80%% $%,9.0f/月%n",
+                    p.name, monthly(p, 0), monthly(p, 0.8));
+        }
+    }
+}
+```
+
+
 ### 用能力矩阵而不是榜单决定上线
 
 - 每个候选记录：精确模型 ID / 快照、地区与账户可用性、输入模态、上下文与输出限制、工具调用、原生 JSON Schema、流式行为、数据保留政策和许可证。模型家族名不能代替可运行配置。

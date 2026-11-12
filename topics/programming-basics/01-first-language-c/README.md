@@ -79,6 +79,17 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class HelloC {
+    public static void main(String[] args) {
+        System.out.println("Hello, C!");
+    }
+}
+```
+
+
 - `#include <stdio.h>`：引入标准输入输出库的声明，`printf` 就声明在里面。
 - `int main(void)`：程序入口，`void` 表示不接收参数；返回值 `0` 表示运行成功，会成为进程的退出码。
 - `\n` 是换行符；语句以分号结尾；花括号包围函数体。

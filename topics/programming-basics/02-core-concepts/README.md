@@ -61,6 +61,28 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class TypeWidths {
+    public static void main(String[] args) {
+        // Java 没有 sizeof 运算符。下面是各基本类型的固定字节数，不是 C 的 sizeof。
+        // Java 无 typeof、无 C23 constexpr；定宽整数这里用 int / long 表达同一组打印。
+        System.out.printf("byte=%d int=%d long=%d double=%d%n",
+                Byte.BYTES, Integer.BYTES, Long.BYTES, Double.BYTES);
+        int score = 95;
+        boolean passed = score >= 60;
+        int maxScore = 100;
+        int flags = 0b1010;
+        long population = 1_400_000_000L;
+        int bonus = 5;
+        System.out.printf("%d/%d passed=%d flags=%d pop=%d bonus=%d%n",
+                score, maxScore, passed ? 1 : 0, flags, population, bonus);
+    }
+}
+```
+
+
 `printf` 的格式符要和类型匹配：`int` 用 `%d`，`unsigned` 用 `%u`，`long` 用 `%ld`，`size_t` 用 `%zu`，`double` 用 `%f`；写错是未定义行为，`-Wall` 会给出警告。
 
 ### 运算与类型转换
@@ -104,6 +126,37 @@ int main(void) {
 }
 ```
 
+同一点的 Java 对照：
+
+```java
+class FizzBuzz {
+    public static void main(String[] args) {
+        for (int i = 1; i <= 15; i++) {
+            if (i % 15 == 0) {
+                System.out.println("FizzBuzz");
+            } else if (i % 3 == 0) {
+                System.out.println("Fizz");
+            } else if (i % 5 == 0) {
+                System.out.println("Buzz");
+            } else {
+                System.out.println(i);
+            }
+        }
+        int day = 6;
+        switch (day) {
+        case 6:
+        case 7:
+            System.out.println("周末");
+            break; // 没有 break 会继续执行下一个 case
+        default:
+            System.out.println("工作日");
+            break;
+        }
+    }
+}
+```
+
+
 - C 中 `0` 为假、非 `0` 为真；`if (x = 0)` 是赋值而不是比较，`-Wall` 会警告，比较请写 `==`。
 - `while` 先判断后执行，`do … while` 至少执行一次；`break` 跳出当前循环或 `switch`，`continue` 进入下一轮循环。
 - 即使只有一条语句，也建议总是写花括号，避免以后加语句时出错。
@@ -134,6 +187,35 @@ int main(void) {
     return 0;
 }
 ```
+
+同一点的 Java 对照：
+
+```java
+class CallCounter {
+    // Java 没有函数内 static 局部变量。类的 static 字段只初始化一次，返回后仍保留。
+    private static int calls = 0;
+
+    static int counter() {
+        calls++;
+        return calls;
+    }
+
+    static void tryChange(int x) {
+        x = 100;
+        System.out.printf("函数内 x = %d%n", x);
+    }
+
+    public static void main(String[] args) {
+        int n = 1;
+        tryChange(n);
+        System.out.printf("n = %d%n", n);
+        counter();
+        counter();
+        System.out.printf("calls = %d%n", counter());
+    }
+}
+```
+
 
 - **值传递**：调用函数时，实参的值被复制给形参，函数里改形参不影响调用者。
 - **作用域**：在花括号内声明的变量只在该块中可见；在所有函数之外声明的是**全局变量**，整个文件可见。尽量少用全局变量。
@@ -167,6 +249,8 @@ int main(void) {
     return 0;
 }
 ```
+
+Java 没有指针；方法不能直接交换两个 `int` 局部变量。
 
 - 声明中的 `*` 表示「这是指针类型」，表达式中的 `*` 表示「解引用」。
 - 未初始化的指针指向随机地址，解引用空指针或野指针是未定义行为，通常导致段错误。声明指针时要么让它指向有效对象，要么设为 `nullptr`。
