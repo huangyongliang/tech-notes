@@ -2,29 +2,32 @@
 
 > [微服务](../) › API 网关
 
-统一入口，负责路由、鉴权、限流、灰度。对比 Java 原生网关与基于 Nginx / Envoy 的高性能网关。
+网关保证的是南北向入口上的路由和横切策略；它不能变成第二套单体，也不能把领域规则堆进过滤器。
 
-## 本关定位
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-网关是客户端与内部服务之间的边界：聚合路由、横切策略（鉴权、限流、观测），避免每个服务重复实现入口逻辑。本关聚焦选型与路由 / 过滤器模型，而不是把业务规则全塞进网关。
+---
 
-## 闯关任务
+## 这一页补哪一块 {#_1}
 
-- [ ] 能够说明网关与 BFF、反向代理、服务网格入口的职责差异。
-- [ ] 能够配置 Spring Cloud Gateway 的路由与常用过滤器，并说出 WebFlux / MVC 两种 starter 的区别。
-- [ ] 能够对比 Spring Cloud Gateway、Kong、APISIX、Envoy / Gateway API 的适用场景。
-- [ ] 能够设计网关层限流与鉴权的落点，并说明不应下沉到网关的业务逻辑。
-- [ ] 能够描述灰度 / 金丝雀在网关侧的常见实现方式。
+[架构基础与拆分](../01-architecture/) 要求先有稳定边界。本页写的是南北向入口：请求如何被路由到某个服务，哪些横切策略适合放在边缘。服务网格的东西向治理在 [13](../13-service-mesh/)，本页只区分「南北向入口」和「网格数据面」，不写网格操作。BFF 是面向某一类客户端的后端聚合，与通用 API 网关职责不同，点到为止。反向代理可以做 TLS 与负载，但不自动带来可版本化的路由合同和过滤器模型。编程模型差异回链 [Java 09](../../java/09-spring/) 的 MVC 与 WebFlux，本页不重讲。
 
-## 知识要点
+## 适合放在边缘的，和必须留在应用里的 {#_2}
 
-### 网关职责边界
+适合放在网关：TLS 终结、路由改写、认证校验、全局限流、请求日志与 Trace 注入、金丝雀分流。金丝雀在这里只是入口分流的条件；流水线怎么晋级，留给 [14](../14-cicd-gitops/)。
 
-适合：TLS 终结、路由改写、认证校验、全局限流、请求日志与 Trace 注入、金丝雀分流。不适合：复杂领域规则、跨多个聚合根的长事务编排（应放在应用服务或工作流）。
+不适合放在网关：计价、库存扣减这类领域规则，以及跨多个聚合根的长事务编排。那些应放在应用服务或工作流，事务见 [07](../07-distributed-transactions/)。网关可以做粗粒度的请求拼装，不能把业务流程编进过滤器，否则它会变成难测、难发布的第二套单体。
 
-### Spring Cloud Gateway（2025 起双实现）
+鉴权在边缘校验身份与入口权限。服务内部仍可能需要授权。两边策略必须一致，不能各写一套又对不上。认证授权的细节不在本页展开，见 [11](../11-security/)。
 
-Spring Cloud Gateway 5.0.4；在 Spring Cloud 2025 起分为 WebFlux 与 Server MVC 两种实现。路由前缀 `spring.cloud.gateway.server.webflux` 与 Gateway Server WebFlux 文档一致。下面的 YAML 只做了语法解析，没有启动网关。
+## Spring Cloud Gateway 是 Server，不是 Zuul {#scg}
+
+当前稳定线是 Spring Cloud Gateway **5.0.4**，随 Spring Cloud **2025.1.4**（Oakwood）发布。GitHub 非预发布的时间是 2026-10-23。官方文档写明有 Server 与 Proxy Exchange 两种形态，各有 WebFlux 与 Web MVC。本页以 Server 为主：它可以独立或内嵌。Proxy Exchange 只是注解式应用里的 `ProxyExchange` 参数，本页不另开操作课。
+
+文档推荐的 starter 是 `spring-cloud-starter-gateway-server-webflux` 与 `spring-cloud-starter-gateway-server-webmvc`。旧名 `spring-cloud-starter-gateway` 和 `spring-cloud-starter-gateway-mvc` 不再是文档推荐写法。WebFlux 版建立在 WebFlux、Reactor 和 Netty 上，不在传统 Servlet 容器或 WAR 里工作。MVC 版建立在 Spring WebMvc 上，可在 Tomcat、Jetty 等 Servlet 运行时工作。
+
+路由前缀与下面的 YAML 一致：`spring.cloud.gateway.server.webflux`。这段 YAML 只做了语法解析，没有启动网关。
 
 ```yaml
 spring:
@@ -42,73 +45,63 @@ spring:
 ```
 
 > [!WARNING]
-> Zuul 1 已废弃；推荐 starter 为 `spring-cloud-starter-gateway-server-webflux` / `spring-cloud-starter-gateway-server-webmvc`，旧名 `spring-cloud-starter-gateway` / `-gateway-mvc` 不再是文档推荐写法。
+> Zuul 1 已停止维护，新项目不要选。它不是当前 Spring Cloud 网关的默认，也不再出现在现行 Spring Cloud Netflix 参考文档的主线能力里。现行文档只把 Eureka 作为仍提供的模式。Hystrix 与 Ribbon 的废弃留给 [05](../05-resilience/)，本页不展开。Boot 4.2、Cloud 2026.0 的 RC，以及 Gateway `5.0.5-SNAPSHOT`，都不是已交付的默认。
 
-### Kubernetes Gateway API
+## 与 Kubernetes Gateway API 可以并存 {#k8s-gateway}
 
-在 K8s 原生栈中，用 Gateway API v1.7.0 + Envoy（或实现该 API 的控制器）做南北向流量，与 Spring Cloud Gateway 可并存：集群外 / 多语言入口用 Gateway API，Java 团队内聚合仍可用 SCG。
+Kubernetes Gateway API **v1.7.0**（2026-10-29，非预发布）加上 Envoy（当前稳定线 **1.40.2**，2026-10-27）可以做集群南北向入口，与 Spring Cloud Gateway 可以并存。集群外或多语言入口用 Gateway API，Java 团队内的可编程聚合仍可用 SCG。有了 Gateway API，并不因此必须拆掉 SCG。Ingress 的私有注解也不是唯一选择。
 
-## 选型对比
+## 选型看适用条件，不看口号 {#gateway-choice}
 
 | 方案 | 版本基线 | 特点 | 更适场景 |
 |------|----------|------|----------|
-| Spring Cloud Gateway | 5.0.4 | Java 生态、过滤器可编程 | Spring 技术栈、中等流量 |
-| Kong | 3.9.4 | 插件生态、Lua / PDK | 多语言、插件化治理 |
-| Apache APISIX | 3.19.0 | 动态配置、高性能 | 高流量、云原生插件 |
-| Envoy + Gateway API | Envoy 1.40.2 / GAPI v1.7.0 | 与 K8s 深度集成 | 平台团队、网格同源数据面 |
+| Spring Cloud Gateway | 5.0.4 | Java 生态、过滤器可编程 | Spring 技术栈、流量中等 |
+| Kong | 3.9.4 | 插件生态 | 多语言、插件化治理 |
+| Apache APISIX | 3.20.0 | 动态配置、高性能 | 高流量、云原生插件 |
+| Envoy + Gateway API | Envoy 1.40.2 / Gateway API v1.7.0 | 与 K8s 深度集成 | 平台团队、网格同源数据面 |
 
-## 常见误区
+版本只写稳定线。Kong 3.9.4 的日期是 2026-10-12，仍为 GitHub Latest 且非预发布。APISIX 3.20.0 在 2026-11-11 出现在 Apache 发行目录和 GitHub 非预发布发行。补丁来源放在资料索引。
 
-- 把订单计价、库存扣减等业务写进网关过滤器。
-- 网关与服务双重鉴权却不一致，导致调试困难。
-- 仅用网关限流、服务内无限流，内部扇出仍可能被打满。
-- 继续新建 Zuul 1 项目。
+## 入口限流护不住服务内部 {#rate-limit}
 
-## 实践任务
+网关限流保护入口和整体配额。服务内限流保护自身依赖、线程和连接，防止内部扇出或旁路把服务打满。只在网关限流，服务内不限，内部调用仍可能耗尽资源。库和网格上的限流留给 [05](../05-resilience/)。
 
-- [ ] 用 WebFlux starter 搭一条 `Path` 路由，加 `RequestRateLimiter` 或简单自定义过滤器。
-- [ ] 对照官方文档列出 MVC 版与 WebFlux 版在依赖与编程模型上的差异。
-- [ ] 阅读 Gateway API 的 `HTTPRoute` 示例，画一张「外部流量 → Gateway → Service」示意。
+## 常见误读 {#_3}
 
-## 资料索引
+- 「计价和库存扣减可以写进网关过滤器。」那是领域规则，网关会变成第二套单体。
+- 「边缘鉴权做了，服务里就可以不再管授权。」两边策略必须一致。
+- 「有了 Gateway API 就要拆掉 Spring Cloud Gateway。」它们可以并存，入口不同。
+- 「新项目还可以选 Zuul 1。」它已停止维护，不是当前默认。
+- 「只在网关限流就够了。」服务内扇出和旁路不经过那条入口配额。
 
-- [Spring Cloud Gateway WebFlux Starter](https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webflux/starter.html) — 推荐 starter 与路由说明
-- [Kong Gateway 文档](https://docs.konghq.com/gateway/latest/) — Kong 官方文档
-- [Apache APISIX 文档](https://apisix.apache.org/docs/) — APISIX 总览与概念
-- [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/) — 数据面代理参考
-- [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) — 南北向流量规范
+## 可选核对 {#gateway-check}
 
-## 通关自测
+职责边界已经写在上面。这两问只核对它们。
 
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】Spring Cloud 2025 起，文档推荐的 WebFlux 网关 starter 是：
-    - A. `spring-cloud-starter-zuul`
-    - B. `spring-cloud-starter-gateway`
-    - C. `spring-cloud-starter-gateway-server-webflux`
-    - D. `spring-boot-starter-web`
-2. 【单选】下列哪项更适合放在 API 网关？
-    - A. 跨服务的 Saga 补偿逻辑
-    - B. JWT 校验与路由级限流
-    - C. 数据库分片键计算
-    - D. 本地二级缓存淘汰策略
-3. 【简答】网关限流与服务内限流为什么常常需要同时存在？
-4. 【单选】在 K8s 中表达「HTTP 路径路由到某 Service」的较新标准 API 是：
-    - A. Ingress 注解私有方言（唯一选择）
-    - B. Gateway API（如 HTTPRoute）
-    - C. 仅 ConfigMap
-    - D. 仅 Service 的 ClusterIP
-5. 【简答】Zuul 1 为什么不应再用于新项目？
+1. 哪类能力适合放在 API 网关，哪类必须留在应用服务？
+2. 为什么新项目不应再选 Zuul 1？
 
 <details markdown><summary>参考答案</summary>
 
-1. C — 旧名不再是文档推荐写法。
-2. B — 鉴权与入口限流是典型横切能力。
-3. 网关保护入口与整体配额；服务内限流保护自身依赖与线程 / 连接资源，防止内部调用或旁路打满。
-4. B — Gateway API 是 Ingress 的演进方向。
-5. 已停止维护 / 废弃，缺少现代过滤器模型与长期安全修复保障。
+1. 适合放在网关的是入口横切：路由、认证校验、全局限流、日志与 Trace、有限的金丝雀分流。计价、库存扣减和跨聚合根的长事务必须留在应用服务或工作流。
+2. Zuul 1 已停止维护，不是当前 Spring Cloud 网关的默认，也不在现行 Spring Cloud Netflix 文档的主线能力里。新项目用 Gateway 的 Server starter。
 
 </details>
+
+## 资料索引 {#_4}
+
+- [Spring Cloud Gateway 总览](https://docs.spring.io/spring-cloud-gateway/reference/) — Server 与 Proxy Exchange 两种形态。本页以 Server 为主。
+- [WebFlux starter](https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webflux/starter.html) — 推荐坐标 `spring-cloud-starter-gateway-server-webflux`。基于 WebFlux / Reactor / Netty，不在传统 Servlet 容器或 WAR 中工作。
+- [Web MVC starter](https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webmvc/starter.html) — 推荐坐标 `spring-cloud-starter-gateway-server-webmvc`。基于 WebMvc，可在 Tomcat / Jetty 上工作。旧名不再是文档推荐写法。
+- [Spring Cloud 项目页](https://spring.io/projects/spring-cloud) — 2026-11-13 标题为 2025.1.4（Oakwood），适配 Boot 4.0.x 与 4.1.x。Gateway 5.0.4 随该列车发布。`5.0.5-SNAPSHOT` 不是已交付版本。
+- [Kong Gateway 文档](https://docs.konghq.com/gateway/latest/) — 多语言插件化网关。稳定线 3.9.4（2026-10-12，非预发布）。
+- [Apache APISIX 文档](https://apisix.apache.org/docs/) 与 [Apache 发行目录](https://downloads.apache.org/apisix/) — 2026-11-13 的稳定线是 3.20.0（2026-11-11），不是 3.19.0。
+- [Envoy 文档](https://www.envoyproxy.io/docs/envoy/latest/) — 当前稳定线 1.40.2（2026-10-27）。旧分支补丁不是这条主线。
+- [Kubernetes Gateway API](https://gateway-api.sigs.k8s.io/) — v1.7.0（2026-10-29）。与 SCG 可以并存。
+- [Java 09](../../java/09-spring/) — MVC 与 WebFlux 的编程模型。本页不重讲。
+- [微服务 01](../01-architecture/) — 边界先于入口。
+- [微服务 05](../05-resilience/) — 服务内限流与容错。
+- [微服务 13](../13-service-mesh/) — 网格数据面。本页只区分南北向入口。
 
 ---
 
