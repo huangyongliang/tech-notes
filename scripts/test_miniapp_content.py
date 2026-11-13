@@ -321,6 +321,8 @@ def main() -> None:
         "java/08-testing",
         "java/09-spring",
         "java/10-persistence",
+        "java/11-performance-diagnostics",
+        "java/12-ecosystem-trends",
     }
     for item in catalog["docs"].values():
         if item["kind"] != "chapter":
@@ -366,7 +368,7 @@ def main() -> None:
         answer_numbers = [entry["n"] for entry in answers[0]["items"]]
         assert answer_numbers == list(range(1, len(answer_numbers) + 1)), item["id"]
         assert all("blocks" not in entry for entry in answers[0]["items"]), item["id"]
-    assert nested_quizzes == 22
+    assert nested_quizzes == 20
 
     computer = catalog["docs"]["getting-started/01-what-is-a-computer"]
     practice = next(
