@@ -33,13 +33,13 @@ topics/
 ├── <em>java/</em> <s># 12 个子主题 · 搭建中</s>
 ├── <em>microservices/</em> <s># 16 个子主题 · 搭建中</s>
 ├── <em>ai/</em> <s># 21 个子主题 · 搭建中</s>
-├── <em>programming/</em> <s># 4 个子主题 · 搭建中</s>
-├── <em>web/</em> <s># 4 个子主题 · 搭建中</s>
-├── <em>systems/</em> <s># 1 个子主题 · 搭建中</s>
-├── <em>devops/</em> <s># 4 个子主题 · 搭建中</s>
-├── <em>product-research/</em> <s># 4 个子主题 · 搭建中</s>
-├── <em>software-engineering/</em> <s># 4 个子主题 · 搭建中</s>
-└── <em>sre/</em> <s># 4 个子主题 · 搭建中</s>
+├── <em>programming/</em> <s># 4 个子主题 · 已完成</s>
+├── <em>web/</em> <s># 4 个子主题 · 已完成</s>
+├── <em>systems/</em> <s># 1 个子主题 · 已完成</s>
+├── <em>devops/</em> <s># 4 个子主题 · 已完成</s>
+├── <em>product-research/</em> <s># 4 个子主题 · 已完成</s>
+├── <em>software-engineering/</em> <s># 4 个子主题 · 已完成</s>
+└── <em>sre/</em> <s># 4 个子主题 · 已完成</s>
 
 <b>$</b> cat java/README.md | head -1
 # Java 技术栈
@@ -187,19 +187,19 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">07</span><span class="t">AI 技术栈</span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/ai/README.md)
 
-[<span class="n">08</span><span class="t">编程</span><span class="d">语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/programming/README.md)
+[<span class="n">08</span><span class="t">编程</span><span class="d">语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/programming/README.md)
 
-[<span class="n">09</span><span class="t">Web</span><span class="d">源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
+[<span class="n">09</span><span class="t">Web</span><span class="d">源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/web/README.md)
 
-[<span class="n">10</span><span class="t">系统</span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础 · 1 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/systems/README.md)
+[<span class="n">10</span><span class="t">系统</span><span class="d">分布式模型；单机 OS 与 SQL 仍在计算机基础 · 1 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/systems/README.md)
 
-[<span class="n">11</span><span class="t">DevOps</span><span class="d">流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/devops/README.md)
+[<span class="n">11</span><span class="t">DevOps</span><span class="d">流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/devops/README.md)
 
-[<span class="n">12</span><span class="t">产品调研</span><span class="d">调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md)
+[<span class="n">12</span><span class="t">产品调研</span><span class="d">调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/product-research/README.md)
 
-[<span class="n">13</span><span class="t">软件工程理论</span><span class="d">软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/software-engineering/README.md)
+[<span class="n">13</span><span class="t">软件工程理论</span><span class="d">软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/software-engineering/README.md)
 
-[<span class="n">14</span><span class="t">SRE 与高可用</span><span class="d">可用性如何被定义与花掉（含义、目标与误差预算、冗余条件、恢复）; 不建监控工具/应急手册目录 · 4 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/sre/README.md)
+[<span class="n">14</span><span class="t">SRE 与高可用</span><span class="d">可用性如何被定义与花掉（含义、目标与误差预算、冗余条件、恢复）; 不建监控工具/应急手册目录 · 4 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/sre/README.md)
 
 </div>
 

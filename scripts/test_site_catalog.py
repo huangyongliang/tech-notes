@@ -30,12 +30,16 @@ def main() -> int:
         fail("\n".join(errors))
 
     counts = catalog["counts"]
-    if counts["translated"] != 7 or counts["untranslated"] != counts["pages"] - 7:
+    editorial = counts["editorial"]
+    if (
+        counts["pages"] != 129
+        or counts["translated"] != 7
+        or counts["untranslated"] != 122
+        or editorial["planned"] != 0
+        or editorial["building"] != 89
+        or editorial["complete"] != 40
+    ):
         fail(f"unexpected coverage {counts}")
-    if counts["editorial"]["complete"] != 0:
-        fail("a page is marked complete")
-    if counts["pages"] < 90:
-        fail("catalog dropped pages")
     if "xp" in json.dumps(catalog["counts"]) or any("xp" in page for page in catalog["pages"]):
         fail("catalog stores personal progress")
 
@@ -70,8 +74,6 @@ def main() -> int:
     for rel in selection["included"]:
         if rel not in by_path:
             fail(f"miniapp doc missing from catalog: {rel}")
-        if by_path[rel]["editorial"] == "complete":
-            fail(f"miniapp doc marked complete: {rel}")
 
     home_text = (ROOT / "website" / "index.md").read_text(encoding="utf-8")
     if sc.apply_homepage(home_text, catalog) != home_text:
@@ -85,13 +87,13 @@ def main() -> int:
         fail(f"getting-started rollup should be translated: {gs}")
     web = [line for line in home_text.splitlines() if "](topics/web/README.md)" in line][0]
     systems = [line for line in home_text.splitlines() if "](topics/systems/README.md)" in line][0]
-    if "搭建中" not in web or "未译" not in web or "待开始" in web:
-        fail(f"web must be in progress and untranslated: {web}")
-    if "搭建中" not in systems or "未译" not in systems:
-        fail(f"systems must be in progress and untranslated: {systems}")
+    if "已完成" not in web or "未译" not in web or "搭建中" in web or "待开始" in web:
+        fail(f"web must be complete and untranslated: {web}")
+    if "已完成" not in systems or "未译" not in systems or "搭建中" in systems:
+        fail(f"systems must be complete and untranslated: {systems}")
     for rel in ("topics/web/origin/README.md", "topics/systems/distributed/README.md"):
         page = by_path[rel]
-        if page["editorial"] != "building" or page["translation"] != "untranslated":
+        if page["editorial"] != "complete" or page["translation"] != "untranslated":
             fail(f"new chapter has the wrong status: {page}")
     web_table = (ROOT / "topics/web/README.md").read_text(encoding="utf-8")
     if sc.apply_status_tables(web_table, catalog, "topics/web/README.md") != web_table:

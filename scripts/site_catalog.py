@@ -13,13 +13,13 @@ Three statuses stay separate:
 - translation: 已译 / 部分 / 未译 (部分 is a topic rollup, not a page)
 - on-device quest progress, which never enters this file
 
-Existing prose does not imply editorial "complete". A page is translated
-only when this catalog says so and website/en has a matching Markdown
-file. Showing the Chinese body on an English URL is not translated.
+Existing prose does not imply editorial "complete". An explicit
+editorial mark may be complete. A page is translated only when this
+catalog says so and website/en has a matching Markdown file. Showing
+the Chinese body on an English URL is not translated.
 
-PR 33 is merged. Web and Systems are building. The two new chapters
-are untranslated. Topic status tables and the homepage rows are written
-from this catalog.
+PR 33 is merged. Its chapters stay untranslated. Topic status tables
+and the homepage rows are written from this catalog.
 """
 from __future__ import annotations
 
@@ -710,8 +710,6 @@ def coverage_errors(root: Path | None = None, catalog: dict | None = None) -> li
             errors.append(f"bad editorial: {page['path']}")
         if page["translation"] not in ("translated", "untranslated"):
             errors.append(f"bad translation: {page['path']}")
-        if page["editorial"] == "complete":
-            errors.append(f"prose must not be marked complete: {page['path']}")
         src = english_source(page["path"])
         if (
             page["translation"] == "translated"
@@ -733,8 +731,7 @@ def coverage_errors(root: Path | None = None, catalog: dict | None = None) -> li
             if page is None:
                 errors.append(f"merged page missing from catalog: {change['path']}")
                 continue
-            if page["editorial"] != change["editorial"]:
-                errors.append(f"{change['path']} editorial is {page['editorial']}")
+            # when_merged.editorial is the status recorded at merge time.
             if page["translation"] != change["translation"]:
                 errors.append(f"{change['path']} translation is {page['translation']}")
             if change.get("new_file") and not (root / change["path"]).is_file():
@@ -757,7 +754,7 @@ def chapter_path(readme: Path, href: str, root: Path) -> str | None:
 
 
 STATUS_ROW_RE = re.compile(
-    r"^(\|\s*\d+\s*\|\s*\[)([^\]]+)(\]\()([^)]+)(\)\s*\|.*\|\s*)([🟢🟡⚪])(\s*\|)\s*$",
+    r"^(\|\s*\d+\s*\|\s*\[)([^\]]+)(\]\()([^)]+)(\)\s*\|.*\|\s*)([🟢🟡⚪])([ \t]*\|)[ \t]*$",
     re.M,
 )
 

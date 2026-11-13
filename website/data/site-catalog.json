@@ -411,7 +411,7 @@
       "path": "topics/devops/01-repeatability/README.md",
       "title_zh": "可重复性",
       "title_en": "Repeatability",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -419,7 +419,7 @@
       "path": "topics/devops/02-provenance/README.md",
       "title_zh": "来源与追溯",
       "title_en": "Provenance",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -427,7 +427,7 @@
       "path": "topics/devops/03-promotion-gating/README.md",
       "title_zh": "晋级与门禁",
       "title_en": "Promotion and Gating",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -435,7 +435,7 @@
       "path": "topics/devops/04-rollback-audit/README.md",
       "title_zh": "回滚与审计",
       "title_en": "Rollback and Audit",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -443,7 +443,7 @@
       "path": "topics/devops/README.md",
       "title_zh": "DevOps",
       "title_en": "DevOps",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -523,7 +523,7 @@
       "path": "topics/java/03-core-advanced/README.md",
       "title_zh": "异常、泛型、反射与注解",
       "title_en": "Exceptions, generics, reflection, and annotations",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -531,7 +531,7 @@
       "path": "topics/java/04-io-nio/README.md",
       "title_zh": "IO 与 NIO",
       "title_en": "IO and NIO",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -539,7 +539,7 @@
       "path": "topics/java/05-concurrency/README.md",
       "title_zh": "并发",
       "title_en": "Concurrency",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -547,7 +547,7 @@
       "path": "topics/java/06-jvm/README.md",
       "title_zh": "Java 虚拟机",
       "title_en": "JVM",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -555,7 +555,7 @@
       "path": "topics/java/07-build-tools/README.md",
       "title_zh": "构建工具",
       "title_en": "Build tools",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -563,7 +563,7 @@
       "path": "topics/java/08-testing/README.md",
       "title_zh": "测试",
       "title_en": "Testing",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -571,7 +571,7 @@
       "path": "topics/java/09-spring/README.md",
       "title_zh": "Spring 框架",
       "title_en": "Spring",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -579,7 +579,7 @@
       "path": "topics/java/10-persistence/README.md",
       "title_zh": "持久层",
       "title_en": "Persistence",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -747,7 +747,7 @@
       "path": "topics/product-research/01-problem-constraints/README.md",
       "title_zh": "问题与约束",
       "title_en": "Problems and Constraints",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -755,7 +755,7 @@
       "path": "topics/product-research/02-comparison/README.md",
       "title_zh": "对照与条件",
       "title_en": "Comparison under Conditions",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -763,7 +763,7 @@
       "path": "topics/product-research/03-selection-records/README.md",
       "title_zh": "选型记录",
       "title_en": "Selection Records",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -771,7 +771,7 @@
       "path": "topics/product-research/04-invalidation/README.md",
       "title_zh": "失效与修订",
       "title_en": "Invalidation and Revision",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -779,7 +779,7 @@
       "path": "topics/product-research/README.md",
       "title_zh": "产品调研",
       "title_en": "Product Research",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -787,7 +787,7 @@
       "path": "topics/programming/01-syntax/README.md",
       "title_zh": "语法",
       "title_en": "Syntax",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -795,7 +795,7 @@
       "path": "topics/programming/02-semantics/README.md",
       "title_zh": "语义",
       "title_en": "Semantics",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -803,7 +803,7 @@
       "path": "topics/programming/03-types/README.md",
       "title_zh": "类型系统",
       "title_en": "Type Systems",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -811,7 +811,7 @@
       "path": "topics/programming/04-evaluation-memory/README.md",
       "title_zh": "求值与内存模型",
       "title_en": "Evaluation and Memory Models",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -819,7 +819,7 @@
       "path": "topics/programming/README.md",
       "title_zh": "编程",
       "title_en": "Programming",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -891,7 +891,7 @@
       "path": "topics/software-engineering/01-complexity-change/README.md",
       "title_zh": "复杂性与变化",
       "title_en": "Complexity and Change",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -899,7 +899,7 @@
       "path": "topics/software-engineering/02-modules-information-hiding/README.md",
       "title_zh": "模块与信息隐藏",
       "title_en": "Modules and Information Hiding",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -907,7 +907,7 @@
       "path": "topics/software-engineering/03-specification-implementation/README.md",
       "title_zh": "规格与实现",
       "title_en": "Specifications and Implementations",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -915,7 +915,7 @@
       "path": "topics/software-engineering/04-verification/README.md",
       "title_zh": "验证能证明什么",
       "title_en": "What Verification Can Establish",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -923,7 +923,7 @@
       "path": "topics/software-engineering/README.md",
       "title_zh": "软件工程理论",
       "title_en": "Software Engineering Theory",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -931,7 +931,7 @@
       "path": "topics/sre/01-availability/README.md",
       "title_zh": "可用性的含义",
       "title_en": "What Availability Means",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -939,7 +939,7 @@
       "path": "topics/sre/02-slo-error-budget/README.md",
       "title_zh": "服务水平与误差预算",
       "title_en": "Service Levels and Error Budgets",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -947,7 +947,7 @@
       "path": "topics/sre/03-redundancy-conditions/README.md",
       "title_zh": "冗余成立的条件",
       "title_en": "Conditions for Redundancy",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -955,7 +955,7 @@
       "path": "topics/sre/04-recovery/README.md",
       "title_zh": "恢复能挽回什么",
       "title_en": "What Recovery Can Restore",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -963,7 +963,7 @@
       "path": "topics/sre/README.md",
       "title_zh": "SRE 与高可用",
       "title_en": "SRE and High Availability",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -971,7 +971,7 @@
       "path": "topics/systems/README.md",
       "title_zh": "系统",
       "title_en": "Systems",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -979,7 +979,7 @@
       "path": "topics/systems/distributed/README.md",
       "title_zh": "分布式系统模型",
       "title_en": "Distributed systems model",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -987,7 +987,7 @@
       "path": "topics/web/02-rendering/README.md",
       "title_zh": "界面与渲染模型",
       "title_en": "UI and Rendering Models",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -995,7 +995,7 @@
       "path": "topics/web/03-request-handling/README.md",
       "title_zh": "请求处理与中间件",
       "title_en": "Request Handling and Middleware",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1003,7 +1003,7 @@
       "path": "topics/web/04-crossing-boundary/README.md",
       "title_zh": "跨越源边界",
       "title_en": "Crossing the Origin Boundary",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1011,7 +1011,7 @@
       "path": "topics/web/README.md",
       "title_zh": "Web 开发",
       "title_en": "Web",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -1019,7 +1019,7 @@
       "path": "topics/web/origin/README.md",
       "title_zh": "浏览器里的源",
       "title_en": "Origins in the browser",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 129,
-      "complete": 0
+      "building": 89,
+      "complete": 40
     }
   },
   "pending_integrations": [

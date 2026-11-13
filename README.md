@@ -25,13 +25,13 @@
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | 🟡 搭建中 |
 | 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署，21 个子主题 | 🟡 搭建中 |
-| 💻 [编程 Programming](topics/programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题 | 🟡 搭建中 |
-| 🌐 [Web](topics/web/) | 源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题 | 🟡 搭建中 |
-| 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟡 搭建中 |
-| 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟡 搭建中 |
-| 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题 | 🟡 搭建中 |
-| 🧱 [软件工程理论 Software Engineering Theory](topics/software-engineering/) | 软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题 | 🟡 搭建中 |
-| 🛟 [SRE 与高可用 SRE and High Availability](topics/sre/) | 可用性如何被定义与花掉（含义、目标与误差预算、冗余条件、恢复）; 不建监控工具/应急手册目录 · 4 个子主题 | 🟡 搭建中 |
+| 💻 [编程 Programming](topics/programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题 | 🟢 已完成 |
+| 🌐 [Web](topics/web/) | 源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题 | 🟢 已完成 |
+| 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟢 已完成 |
+| 🚀 [DevOps](topics/devops/) | 流水线保证什么（可重复、来源、晋级门禁、回滚与审计）; 不建容器/云/可观测目录 · 4 个子主题 | 🟢 已完成 |
+| 🔍 [产品调研 Product Research](topics/product-research/) | 调研记录留下什么（问题与约束、对照条件、选型、失效与修订）; 不建竞品/用户研究目录 · 4 个子主题 | 🟢 已完成 |
+| 🧱 [软件工程理论 Software Engineering Theory](topics/software-engineering/) | 软件工程约束什么（复杂性与变化、模块、规格、验证）; 不建过程框架/设计模式目录 · 4 个子主题 | 🟢 已完成 |
+| 🛟 [SRE 与高可用 SRE and High Availability](topics/sre/) | 可用性如何被定义与花掉（含义、目标与误差预算、冗余条件、恢复）; 不建监控工具/应急手册目录 · 4 个子主题 | 🟢 已完成 |
 
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
