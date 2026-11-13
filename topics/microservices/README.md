@@ -27,10 +27,10 @@ flowchart TD
 
 | # | 子目录 | 内容 | 状态 |
 |---|--------|------|------|
-| 01 | [架构基础与拆分](01-architecture/) | DDD、限界上下文、单体到微服务 | 🟡 |
-| 02 | [API 网关](02-api-gateway/) | Spring Cloud Gateway / Kong / APISIX / Envoy | 🟡 |
-| 03 | [注册发现与配置](03-discovery-config/) | Nacos / Consul / Config / K8s 原生 | 🟡 |
-| 04 | [服务通信](04-communication/) | HTTP Interface / OpenFeign / gRPC / Dubbo | 🟡 |
+| 01 | [架构基础与拆分](01-architecture/) | DDD、限界上下文、单体到微服务 | 🟢 |
+| 02 | [API 网关](02-api-gateway/) | Spring Cloud Gateway / Kong / APISIX / Envoy | 🟢 |
+| 03 | [注册发现与配置](03-discovery-config/) | Nacos / Consul / Config / K8s 原生 | 🟢 |
+| 04 | [服务通信](04-communication/) | HTTP Interface / OpenFeign / gRPC / Dubbo | 🟢 |
 | 05 | [容错与流量治理](05-resilience/) | Resilience4j / Sentinel | 🟡 |
 | 06 | [消息与事件驱动](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟡 |
 | 07 | [分布式事务](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟡 |

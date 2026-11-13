@@ -611,7 +611,7 @@
       "path": "topics/microservices/01-architecture/README.md",
       "title_zh": "架构基础与拆分",
       "title_en": "Architecture and decomposition",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -619,7 +619,7 @@
       "path": "topics/microservices/02-api-gateway/README.md",
       "title_zh": "API 网关",
       "title_en": "API gateways",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -627,7 +627,7 @@
       "path": "topics/microservices/03-discovery-config/README.md",
       "title_zh": "注册发现与配置",
       "title_en": "Discovery and configuration",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -635,7 +635,7 @@
       "path": "topics/microservices/04-communication/README.md",
       "title_zh": "服务通信",
       "title_en": "Service communication",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 87,
-      "complete": 42
+      "building": 83,
+      "complete": 46
     }
   },
   "pending_integrations": [
