@@ -327,9 +327,13 @@ def render_not_translated(catalog: dict) -> str:
         "A Chinese body on the English URL is the original article, not a translation.",
         "",
         "Editorial status is the publishing state of the Chinese page. "
-        f"None are marked {labels['complete']['en']}.",
+        + (
+            f"None are marked {labels['complete']['en']}."
+            if counts["editorial"]["complete"] == 0
+            else f"{counts['editorial']['complete']} are marked {labels['complete']['en']}."
+        ),
         "",
-        "PR 33 is merged. Web and Systems are in progress, and their two new chapters are Chinese originals, not translations.",
+        "PR 33 is merged. Its two chapters are Chinese originals, not translations.",
         "",
     ]
     groups = {"building": [], "planned": [], "complete": []}
