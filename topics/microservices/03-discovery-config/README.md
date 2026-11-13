@@ -23,7 +23,7 @@ Kubernetes 上，Service 加 DNS 就是典型的服务端发现。Spring Cloud K
 
 发现保证的是注册、健康检查和列表更新。它不选择具体的负载均衡算法，不设置超时，也不代替服务实例自己的就绪探针。列表里有实例，只说明「可以被发现」，不说明「现在调用一定成功」。调用合同在 [04](../04-communication/)。
 
-## Nacos、Consul 与仍在维护的 Eureka {#registries}
+## Nacos、Consul 与仍在维护的 Eureka {#nacos-consul}
 
 Nacos **3.3.0**（2026-10-29）同时覆盖注册与配置，是 Spring Cloud Alibaba 生态里的常见选择。2.5.5 是并行维护的 2.x 线，不要把 2.x 补丁写成 3.x 的最新版。Consul **2.1.0**（2026-10-22，非预发布）偏重服务发现、健康检查与多数据中心，配置可以用 KV。
 
@@ -54,11 +54,15 @@ Nacos 3.x 把 AI 管理中心（Skill、Agent、MCP 等）写成一等能力。�
 
 ## 推送成功不等于已经安全生效 {#config-refresh}
 
+<span id="_5"></span>
+
 改配置并推送成功，不等于业务已经无感热更新。`@RefreshScope` 靠代理刷新作用域 Bean。启动期才读取的值、连接池等有状态 Bean、安全上下文，往往需要重建或滚动发布。密钥与普通配置要分离，不要把数据库密码明文放进可被全体开发拉取的配置仓库。密钥轮换的默认路径是改 Secret（或等价物）后滚动重启，而不是假设热更新一定安全。
 
 Spring Cloud Config **5.0.6** 仍是纯配置方案，常配合 Git 后端，本身不做发现。
 
 ## 选型是条件，不是名单 {#discovery-choice}
+
+<span id="_6"></span>
 
 | 方案 | 版本基线 | 发现 | 配置 | 备注 |
 |------|----------|------|------|------|
@@ -70,6 +74,8 @@ Spring Cloud Config **5.0.6** 仍是纯配置方案，常配合 Git 后端，本
 
 ## 常见误读 {#_3}
 
+<span id="_7"></span>
+
 - 「Eureka 处于维护模式，所以已经官方弃用。」现行 Netflix 文档仍提供 Eureka。历史维护模式名单不包括它。
 - 「SCA 2025.1.0.0 已经绑定 Nacos 3.3.0。」该列车发布时 BOM 里的 nacos-client 是 3.1.1。
 - 「GitHub Latest 就是 SCA 的当前列车。」这类多列车仓库的 Latest 可能指向旧维护标签，以 Maven 和 `2025.1.0.0` 标签为准。
@@ -78,6 +84,8 @@ Spring Cloud Config **5.0.6** 仍是纯配置方案，常配合 Git 后端，本
 - 「K8s 上再挂一套与 DNS 平行的发现更保险。」说不清流量走哪条路径，就是冲突。
 
 ## 可选核对 {#discovery-check}
+
+<span id="_8"></span>
 
 发现和配置的合同已经写在上面。这两问只核对它们。
 
@@ -91,7 +99,11 @@ Spring Cloud Config **5.0.6** 仍是纯配置方案，常配合 Git 后端，本
 
 </details>
 
+<span id="_10"></span>
+
 ## 资料索引 {#_4}
+
+<span id="_9"></span>
 
 - [Nacos 文档总览](https://nacos.io/docs/latest/overview/) — 2026-11-13：3.3 起 Client API、SDK 和 gRPC 默认需要身份信息。AI 管理中心不在本章展开。当前 3.x 稳定线是 3.3.0（2026-10-29）；2.5.5 是 2.x 维护线。
 - [Consul 文档](https://developer.hashicorp.com/consul/docs) — 服务发现、健康检查与多数据中心。稳定线 2.1.0（2026-10-22，非预发布）。

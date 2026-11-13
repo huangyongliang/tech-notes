@@ -17,7 +17,7 @@
 
 同步调用把协作写在请求路径上，延迟和失败会沿调用链放大。它适合需要立即得到结果、契约稳定的查询或命令。异步把协作放到消息或事件上，适合解耦和削峰，但要把投递、顺序和幂等交给 06。异步并不因此更好。本页不罗列消息产品。
 
-## 新的 Spring 代码优先用 HTTP Interface {#http-interface}
+## 新的 Spring 代码优先用 HTTP Interface {#spring-http-interface}
 
 Spring Framework 7 提供基于接口的 HTTP Service Client。`@HttpExchange`、`@GetExchange` 等注解描述路径、方法和参数，由 `HttpServiceProxyFactory` 生成代理。底层可以是 `RestClient`、`WebClient`，或仍被支持但已不作为推荐入口的 `RestTemplate`。它保证的是「用接口表达这次 HTTP 调用」，并不自动带上发现、负载均衡或断路。那些要另叠，或由 Spring Cloud 的集成提供。
 
@@ -37,7 +37,7 @@ public interface EmployeeClient {
 
 官方参考文档写明：自 Spring Cloud 2022.0.0 起，将该项目视为 feature-complete，原则上只修缺陷、偶尔合并小型社区特性，并建议迁到 Spring HTTP Service Clients。当前稳定线仍是 **5.0.4**，随 Spring Cloud 2025.1.4 发布。存量 Feign 可以继续维护。新代码应优先评估 HTTP Interface，而不是把 Feign 当作 2026-11 的默认新选择。feature-complete 不是「已从 Maven 删除」，也不是「自动变成 gRPC」。主题首页的选型表本批不改，那里仍可能写着 OpenFeign；新代码的取舍以本页为准。
 
-## gRPC 与 Dubbo 是条件，不是目录 {#rpc}
+## gRPC 与 Dubbo 是条件，不是目录 {#grpc-dubbo}
 
 gRPC Java **1.85.1**（2026-10-20，仍为 GitHub Latest 且非预发布）用 Protobuf 契约和 HTTP/2，适合内部高 QPS、强类型、多语言的接口。浏览器与网关链路上通常更复杂。本页不教 `.proto` 写法。
 
@@ -53,6 +53,8 @@ API 版本化只写到原则：显式版本，不随意破坏已有字段。不�
 
 ## 四种客户端各自保证什么 {#comm-choice}
 
+<span id="_5"></span>
+
 | 方式 | 版本 / 状态 | 优点 | 注意 |
 |------|-------------|------|------|
 | HTTP Interface / RestClient | Framework 7.0 | 官方推荐的新代码入口 | 需自行叠发现与容错；`RestTemplate` 已弃用 |
@@ -62,6 +64,8 @@ API 版本化只写到原则：显式版本，不随意破坏已有字段。不�
 
 ## 常见误读 {#_3}
 
+<span id="_6"></span>
+
 - 「新服务仍以 OpenFeign 为默认。」官方建议新代码评估 HTTP Interface。Feign 并未从 Maven 删除。
 - 「`RestTemplate` 仍是推荐入口。」Framework 7.0 已把它标为弃用，推荐 `RestClient`。
 - 「3.3.7 还是预发布，Latest 仍指向 3.2.20。」2026-11-13 的 Latest 和 Maven `release` 都是 3.3.7。3.2.20 是 3.2 维护线。
@@ -69,6 +73,8 @@ API 版本化只写到原则：显式版本，不随意破坏已有字段。不�
 - 「同步链路可以无限重试。」非幂等的写会被重复提交。超时也必须从上游 SLA 往下压。
 
 ## 可选核对 {#comm-check}
+
+<span id="_7"></span>
 
 客户端合同和超时条件已经写在上面。这两问只核对它们。
 
@@ -82,7 +88,11 @@ API 版本化只写到原则：显式版本，不随意破坏已有字段。不�
 
 </details>
 
+<span id="_9"></span>
+
 ## 资料索引 {#_4}
+
+<span id="_8"></span>
 
 - [Spring REST Clients](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html) — RestClient、HTTP Service Clients，以及 Framework 7.0 起 `RestTemplate` 弃用。项目页标题在 2026-11-13 仍显示 7.0.8；GitHub 非预发布最新是 7.0.10（2026-10-22）。正文钉 Framework 7.0，不把 7.0.8 写成最新补丁。
 - [Spring Cloud OpenFeign](https://docs.spring.io/spring-cloud-openfeign/reference/) — 自 2022.0.0 起 feature-complete，建议迁到 HTTP Service Clients。当前稳定线 5.0.4。

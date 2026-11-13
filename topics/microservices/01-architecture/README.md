@@ -15,6 +15,8 @@ CAP、一致性与共识以 [系统](../../systems/) 为准，本页不重讲。
 
 ## 服务边界 {#_2}
 
+<span id="_5"></span>
+
 一个限界上下文通常对应一套统一语言和可独立演进的模型，再对应一个服务或一个模块。边界要对的是业务能力，不是技术分层。把「用户 Controller」和「用户 Service」拆成两个进程，切的是代码层，不是业务能力。
 
 以请假审批为例：假期额度、审批流、考勤统计可以是不同上下文，用领域事件协作，而不是共享一张大表。限界上下文是划分依据，不是「每个名词都要变成一个进程」。
@@ -33,7 +35,7 @@ flowchart LR
 
 不适合拆：领域边界尚未稳定，团队过小却强行一人一服务，还没有能力处理跨进程失败。拆开要付出的是网络延迟与部分失败、数据所有权分开、测试与排障面变大。只写「自治、独立部署」，没有写出这些代价，判断就不完整。
 
-## 模块化单体与 Spring Modulith {#modulith}
+## 模块化单体与 Spring Modulith {#spring-modulith}
 
 在彻底拆进程之前，先用包结构和模块边界强制依赖规则，降低「拆完仍是分布式单体」的风险。Spring Modulith 做的是模块验证、模块级事件和文档生成。它解决的是单进程内的边界，不是跨服务事务，也不是网关。
 
@@ -50,6 +52,8 @@ void onLeaveApproved(LeaveApprovedEvent event) {
 
 ## 绞杀者是受控替换 {#strangler}
 
+<span id="_6"></span>
+
 绞杀者把新功能放进新服务或新模块，旧路径经门面或路由逐步切流量，最后拆除遗留代码。关键是切换受控，并且读写路径的数据一致性策略事先想清楚。它不是立刻拆成上百个小服务，也不是只拆前端、后端保持原样。
 
 ## 组织会映到结构上 {#conway}
@@ -57,6 +61,8 @@ void onLeaveApproved(LeaveApprovedEvent event) {
 康威定律说的是：组织的沟通结构会映射到系统结构。拆服务要匹配团队边界和交付方式，否则协调成本更高。这不是「先改组织再谈技术」的空话，也不是「架构可以无视组织」。组织接不住独立交付时，硬拆只会把沟通成本变成网络调用。
 
 ## 三种形态各自在什么条件下成立 {#shapes}
+
+<span id="_7"></span>
 
 | 形态 | 适用 | 优点 | 代价 |
 |------|------|------|------|
@@ -68,6 +74,8 @@ void onLeaveApproved(LeaveApprovedEvent event) {
 
 ## 常见误读 {#_3}
 
+<span id="_8"></span>
+
 - 「按技术层拆就是微服务。」边界要对业务能力。按 Controller / Service 切进程，模型仍然缠在一起。
 - 「每个名词都该成为一个进程。」限界上下文是划分依据，不是名词清单。
 - 「拆开就自治。」拆开同时带来延迟、部分失败、数据所有权和更大的排障面。
@@ -75,6 +83,8 @@ void onLeaveApproved(LeaveApprovedEvent event) {
 - 「共享一个库，只要进程分开了就是微服务。」schema 和事务还绑在一起，就是分布式单体。
 
 ## 可选核对 {#arch-check}
+
+<span id="_9"></span>
 
 边界和拆分条件已经写在上面。这两问只核对它们。
 
@@ -88,7 +98,11 @@ void onLeaveApproved(LeaveApprovedEvent event) {
 
 </details>
 
+<span id="_11"></span>
+
 ## 资料索引 {#_4}
+
+<span id="_10"></span>
 
 - [Microservices.io 模式目录](https://microservices.io/patterns/) — 拆分与绞杀者等模式的条件，不是「微服务更好」的口号。
 - [按子域拆分](https://microservices.io/patterns/decomposition/decompose-by-subdomain.html) — 按业务子域划边界，而不是按技术层。

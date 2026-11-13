@@ -21,7 +21,7 @@
 
 鉴权在边缘校验身份与入口权限。服务内部仍可能需要授权。两边策略必须一致，不能各写一套又对不上。认证授权的细节不在本页展开，见 [11](../11-security/)。
 
-## Spring Cloud Gateway 是 Server，不是 Zuul {#scg}
+## Spring Cloud Gateway 是 Server，不是 Zuul {#spring-cloud-gateway2025}
 
 当前稳定线是 Spring Cloud Gateway **5.0.4**，随 Spring Cloud **2025.1.4**（Oakwood）发布。GitHub 非预发布的时间是 2026-10-23。官方文档写明有 Server 与 Proxy Exchange 两种形态，各有 WebFlux 与 Web MVC。本页以 Server 为主：它可以独立或内嵌。Proxy Exchange 只是注解式应用里的 `ProxyExchange` 参数，本页不另开操作课。
 
@@ -47,11 +47,13 @@ spring:
 > [!WARNING]
 > Zuul 1 已停止维护，新项目不要选。它不是当前 Spring Cloud 网关的默认，也不再出现在现行 Spring Cloud Netflix 参考文档的主线能力里。现行文档只把 Eureka 作为仍提供的模式。Hystrix 与 Ribbon 的废弃留给 [05](../05-resilience/)，本页不展开。Boot 4.2、Cloud 2026.0 的 RC，以及 Gateway `5.0.5-SNAPSHOT`，都不是已交付的默认。
 
-## 与 Kubernetes Gateway API 可以并存 {#k8s-gateway}
+## 与 Kubernetes Gateway API 可以并存 {#kubernetes-gateway-api}
 
 Kubernetes Gateway API **v1.7.0**（2026-10-29，非预发布）加上 Envoy（当前稳定线 **1.40.2**，2026-10-27）可以做集群南北向入口，与 Spring Cloud Gateway 可以并存。集群外或多语言入口用 Gateway API，Java 团队内的可编程聚合仍可用 SCG。有了 Gateway API，并不因此必须拆掉 SCG。Ingress 的私有注解也不是唯一选择。
 
 ## 选型看适用条件，不看口号 {#gateway-choice}
+
+<span id="_5"></span>
 
 | 方案 | 版本基线 | 特点 | 更适场景 |
 |------|----------|------|----------|
@@ -68,6 +70,8 @@ Kubernetes Gateway API **v1.7.0**（2026-10-29，非预发布）加上 Envoy（�
 
 ## 常见误读 {#_3}
 
+<span id="_6"></span>
+
 - 「计价和库存扣减可以写进网关过滤器。」那是领域规则，网关会变成第二套单体。
 - 「边缘鉴权做了，服务里就可以不再管授权。」两边策略必须一致。
 - 「有了 Gateway API 就要拆掉 Spring Cloud Gateway。」它们可以并存，入口不同。
@@ -75,6 +79,8 @@ Kubernetes Gateway API **v1.7.0**（2026-10-29，非预发布）加上 Envoy（�
 - 「只在网关限流就够了。」服务内扇出和旁路不经过那条入口配额。
 
 ## 可选核对 {#gateway-check}
+
+<span id="_7"></span>
 
 职责边界已经写在上面。这两问只核对它们。
 
@@ -88,7 +94,11 @@ Kubernetes Gateway API **v1.7.0**（2026-10-29，非预发布）加上 Envoy（�
 
 </details>
 
+<span id="_9"></span>
+
 ## 资料索引 {#_4}
+
+<span id="_8"></span>
 
 - [Spring Cloud Gateway 总览](https://docs.spring.io/spring-cloud-gateway/reference/) — Server 与 Proxy Exchange 两种形态。本页以 Server 为主。
 - [WebFlux starter](https://docs.spring.io/spring-cloud-gateway/reference/spring-cloud-gateway-server-webflux/starter.html) — 推荐坐标 `spring-cloud-starter-gateway-server-webflux`。基于 WebFlux / Reactor / Netty，不在传统 Servlet 容器或 WAR 中工作。
