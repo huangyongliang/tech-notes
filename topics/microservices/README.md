@@ -31,10 +31,10 @@ flowchart TD
 | 02 | [API 网关](02-api-gateway/) | Spring Cloud Gateway / Kong / APISIX / Envoy | 🟢 |
 | 03 | [注册发现与配置](03-discovery-config/) | Nacos / Consul / Config / K8s 原生 | 🟢 |
 | 04 | [服务通信](04-communication/) | HTTP Interface / OpenFeign / gRPC / Dubbo | 🟢 |
-| 05 | [容错与流量治理](05-resilience/) | Resilience4j / Sentinel | 🟡 |
-| 06 | [消息与事件驱动](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟡 |
-| 07 | [分布式事务](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟡 |
-| 08 | [缓存](08-caching/) | Redis / 多级缓存 | 🟡 |
+| 05 | [容错与流量治理](05-resilience/) | Resilience4j / Sentinel | 🟢 |
+| 06 | [消息与事件驱动](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟢 |
+| 07 | [分布式事务](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟢 |
+| 08 | [缓存](08-caching/) | Redis / 多级缓存 | 🟢 |
 | 09 | [数据库与分库分表](09-database-sharding/) | MySQL / PostgreSQL / ShardingSphere | 🟡 |
 | 10 | [可观测性](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟡 |
 | 11 | [安全](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟡 |

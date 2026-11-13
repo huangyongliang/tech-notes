@@ -643,7 +643,7 @@
       "path": "topics/microservices/05-resilience/README.md",
       "title_zh": "容错与流量治理",
       "title_en": "Resilience and traffic",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -651,7 +651,7 @@
       "path": "topics/microservices/06-messaging/README.md",
       "title_zh": "消息与事件驱动",
       "title_en": "Messaging and events",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -659,7 +659,7 @@
       "path": "topics/microservices/07-distributed-transactions/README.md",
       "title_zh": "分布式事务与一致性",
       "title_en": "Distributed transactions",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -667,7 +667,7 @@
       "path": "topics/microservices/08-caching/README.md",
       "title_zh": "缓存",
       "title_en": "Caching",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 83,
-      "complete": 46
+      "building": 79,
+      "complete": 50
     }
   },
   "pending_integrations": [
