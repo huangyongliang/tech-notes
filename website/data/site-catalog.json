@@ -587,7 +587,7 @@
       "path": "topics/java/11-performance-diagnostics/README.md",
       "title_zh": "性能与诊断",
       "title_en": "Performance and diagnostics",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -595,7 +595,7 @@
       "path": "topics/java/12-ecosystem-trends/README.md",
       "title_zh": "生态与新趋势",
       "title_en": "Ecosystem and trends",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 89,
-      "complete": 40
+      "building": 87,
+      "complete": 42
     }
   },
   "pending_integrations": [

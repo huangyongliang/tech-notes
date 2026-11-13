@@ -37,8 +37,8 @@ flowchart LR
 | 08 | [测试](08-testing/) | JUnit 5 / Mockito / Testcontainers | 🟢 |
 | 09 | [Spring 框架](09-spring/) | Spring Framework / Boot / Cloud | 🟢 |
 | 10 | [持久层](10-persistence/) | JDBC / MyBatis / JPA / 事务 | 🟢 |
-| 11 | [性能与诊断](11-performance-diagnostics/) | 性能分析与线上排障 | 🟡 |
-| 12 | [生态与新趋势](12-ecosystem-trends/) | GraalVM、Valhalla、Panama、Leyden | 🟡 |
+| 11 | [性能与诊断](11-performance-diagnostics/) | 性能分析与线上排障 | 🟢 |
+| 12 | [生态与新趋势](12-ecosystem-trends/) | GraalVM、Valhalla、Panama、Leyden | 🟢 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 ## 版本基线（2026-11）
