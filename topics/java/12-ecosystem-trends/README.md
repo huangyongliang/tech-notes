@@ -13,7 +13,7 @@
 
 [Java 01](../01-language-basics/) 已经按 LTS 写过 Amber 已交付的语言特性，包括 `record`、`sealed`、模式匹配、文本块。本页不重讲写法。[Java 05](../05-concurrency/) 已经写明结构化并发在 JDK 27 仍是预览。本页不另开一节，也不教那个 API。[Java 09](../09-spring/) 写装配与 Actuator。Native Image 和 Spring AOT 的问题与前提在本页，不在 09 展开。[Java 06](../06-jvm/) 写收集器和 JIT 能观察的事实。Leyden 不改收集器语义，JEP 544 也不是那一页的 JIT 课。[Java 11](../11-performance-diagnostics/) 写测量告诉你什么。本页不讲怎么排障。
 
-## Native Image 与 Spring AOT 不是同一件事 {#native-aot}
+## Native Image 与 Spring AOT 不是同一件事 {#_2}
 
 Native Image 在构建期对应用做静态可达性分析，提前编译成本地可执行文件。启动快，内存占用小，没有传统意义上的 JIT 预热，但构建慢。它在闭合世界假设下工作：分析是静态的，并不运行你的应用。构建时看不到的动态类加载、反射、资源、序列化、动态代理，运行时默认不在可执行文件里，必须用元数据或提示补全。Spring Boot 的说明还写明：应用的类路径在构建期固定，不能再变。这不是 HotSpot 的默认部署方式，也不是 JDK 25 发行版自带的默认工具链。
 
