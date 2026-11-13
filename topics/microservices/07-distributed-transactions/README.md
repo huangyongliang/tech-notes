@@ -2,29 +2,28 @@
 
 > [微服务](../) › 分布式事务与一致性
 
-微服务下放弃强一致，用 Saga、TCC、Outbox 实现最终一致。理论部分链接 [系统](../../systems/)。
+跨服务的一次业务动作，默认追求最终一致：Outbox 收的是本地提交和发事件之间的窗口，Saga 与 TCC 收的是可补偿流程，不是默认 XA。
 
-## 本关定位
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-跨服务的「一次业务动作」不能靠单库本地事务收场。本关学会在业务可接受的前提下选 Saga / TCC / Outbox，并理解 Seata 等框架的模式边界，而不是默认 XA 硬扛。
+---
 
-## 闯关任务
+## 这一页补哪一块 {#_1}
 
-- [ ] 能够说明为什么微服务默认追求最终一致而非全局强一致。
-- [ ] 能够对比编排式与协同式 Saga，以及补偿失败时的处理。
-- [ ] 能够描述 TCC 的 Try / Confirm / Cancel 与空回滚、悬挂问题。
-- [ ] 能够实现或讲清 Transactional Outbox + CDC（Debezium）的可靠发事件。
-- [ ] 能够说出 Seata AT / TCC / Saga / XA 的大致取舍。
+[架构基础与拆分](../01-architecture/) 已经要求先有稳定边界。用分布式事务掩盖错误的边界，解决不了模型耦合。[消息与事件驱动](../06-messaging/) 已经说明至少一次投递需要幂等，并发事件必须可靠发出。本页回答：一次跨越多个服务的业务动作，在放弃全局强一致之后，用什么手段得到可接受的最终一致。CAP、一致性与共识以 [系统](../../systems/) 为准，本页不重讲。分库分表、路由和分布式 ID 在 [09](../09-database-sharding/)，本页不展开。
 
-## 知识要点
+## 先拆业务，再谈组件 {#_2}
 
-### 先拆业务，再谈组件
+能改成可异步、可补偿的流程，就不要强行同步分布式事务。原页的抽象例子保留：提交请假申请，然后冻结额度（可补偿），再通知审批人。不要把这个例子扩成公司故事。
 
-能改成「可异步、可补偿」的流程，就不要强行同步分布式事务。例如：提交请假申请 → 冻结额度（可补偿）→ 通知审批人。
+## Outbox 保证的是本地提交与发事件 {#outbox}
 
-### Outbox
+本地事务同时写业务表和 outbox 表，再由轮询或 CDC 发布到消息队列。这样避免「提交成功但消息丢失」，也避免「先发消息再提交、消息已出但本地回滚」。它保证的是本地提交与「将要发出的事件」之间的近似原子性。它不保证下游已经处理成功。那仍要靠 06 的至少一次加幂等，以及事后对账。
 
-本地事务同时写业务表与 outbox 表，再由轮询或 Debezium 3.7.0.Final CDC 发布到 MQ，避免「提交成功但消息丢失」。下面的 SQL 含省略号，不是可执行脚本，未在数据库运行。
+CDC 的当前稳定线是 **Debezium 3.7.1.Final**。2026-11-13 打开的 [Releases](https://debezium.io/releases/) 写明 Latest stable 是 3.7.1.Final，Development 是 **3.8.0.Alpha1**。稳定文档在 [reference/stable](https://debezium.io/documentation/reference/stable/)，指向 3.7 线。Maven `io.debezium:debezium-core` 的 `latest` / `release` 当日指向 3.8.0.Alpha1（`lastUpdated` 2026-11-10），不得写成当前默认。主题首页的版本表本批不改，那里本来也没有 Debezium 的补丁号。
+
+下面的 SQL 含省略号，不是可执行脚本，未在数据库运行。
 
 ```sql
 -- 同一本地事务
@@ -32,70 +31,72 @@ insert into leave_request(...);
 insert into outbox(aggregate_type, aggregate_id, payload) values (...);
 ```
 
-### Seata
+## Saga 与 TCC 要可补偿 {#saga-tcc}
 
-Apache Seata 2.6.0 提供 AT / TCC / Saga / XA。AT 对业务侵入较低但依赖 undo 日志与锁；TCC 性能与控制力更强但要改业务代码；XA 成本高，慎用。Maven 上这条线的坐标是 `org.apache.seata`（`seata-core` 2.6.0 已核对）；旧坐标 `io.seata` 的发布仍停在 2.0.0，不要只看旧 groupId 的 latest。
+编排式 Saga 由中心协调器推进。协同式 Saga 由各参与方靠事件推进。补偿必须幂等。补偿失败时，重试、转入人工或对账，并告警。需要可观测的状态机，而不是自动再开一笔 XA。
 
-## 选型对比
+TCC 的 Try 预留资源，Confirm 确认提交，Cancel 释放。空回滚和悬挂是这类协议要处理的边界，不是只背三个字母。
+
+## Seata 的模式是条件 {#seata}
+
+Apache Seata **2.6.0** 是当前稳定线。2026-11-13 打开的 Maven `org.apache.seata:seata-core`，`latest` 与 `release` 都是 2.6.0，`lastUpdated` 为 2026-02-10。官方文档版本选择器当前是 v2.6。GitHub Latest 亦为 v2.6.0（2026-01-28）。不得把 GitHub 上的 **v2.7.0** 写成已交付：发行页标为预发布，名称是 Apache Seata (Incubating) 2.7.0 (RC Round4)，发布于 2026-10-14。
+
+官方站点把项目写成 Apache Seata (incubating)。这是孵化事实，不要写成「还不能用」，也不要把 incubating 和 2.7 的 RC 混成一句「尚未 GA」。2.6.0 已经交付。旧坐标 `io.seata:seata-core` 的 `latest` / `release` 仍停在 **2.0.0**（`lastUpdated` 2023-11-20），不要只看旧 groupId 的 latest。
+
+AT 对业务侵入较低，但依赖 undo 日志和锁。TCC 控制力更强，但要改业务代码。Saga 适合长流程补偿。XA / 2PC 近似强一致，成本高，慎用。不要默认所有跨服务调用都套 AT。
+
+## 四种模式各自把一致性放在哪 {#tx-choice}
+
+<span id="_5"></span>
 
 | 模式 | 一致性 | 侵入 | 典型工具 |
 |------|--------|------|----------|
-| 本地事务 + Outbox | 最终一致 | 低 | Debezium 3.7.0.Final |
+| 本地事务 + Outbox | 最终一致 | 低 | Debezium 3.7.1.Final |
 | Saga（编排 / 协同） | 最终一致 | 中 | 自研 / Seata Saga |
 | TCC | 最终一致（可资源预留） | 高 | Seata TCC |
 | XA / 2PC | 近似强一致 | 中高 | Seata XA（代价大，慎用） |
 
-## 常见误区
+## 常见误读 {#_3}
 
-- 所有跨服务调用套 Seata AT，无视锁冲突与长事务。
-- 补偿动作不可幂等，重试后状态错乱。
-- 只发消息不写 outbox，进程崩溃丢事件。
-- 用分布式事务掩盖错误的服务边界。
+<span id="_6"></span>
 
-## 实践任务
+- 「所有跨服务调用都套 Seata AT。」长事务和锁冲突不会因此消失。
+- 「补偿失败就再开一笔 XA。」补偿要幂等，失败后转入重试、对账或人工，并告警。
+- 「只发消息、不写 outbox，进程崩溃也不会丢事件。」本地提交和发消息之间仍有失败窗口。
+- 「Debezium 的 Maven `latest` 就是当前默认。」它指向 3.8.0.Alpha1。稳定线是 3.7.1.Final。
+- 「`io.seata` 的 latest 或 2.7 RC 是当前稳定线。」旧坐标停在 2.0.0。2.7.0 是 RC Round4。稳定线是 `org.apache.seata` 2.6.0。
+- 「用分布式事务就能补回划错的服务边界。」边界错了，事务组件补不回来。
 
-- [ ] 设计「申请资源 → 审批 → 生效 / 回滚」的 Saga 状态机（含补偿）。
-- [ ] 实现最小 Outbox：同库两表 + 定时发布（或 Debezium 文档走读）。
-- [ ] 列出三种不可补偿操作，并给出业务替代方案（人工工单 / 预留号段等）。
+## 可选核对 {#tx-check}
 
-## 资料索引
+<span id="_7"></span>
 
-- [Microservices.io 模式目录](https://microservices.io/patterns/) — Saga / Outbox 等
-- [Seata 文档：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 模式总览
-- [Debezium 稳定版文档](https://debezium.io/documentation/reference/stable/) — CDC
-- [Debezium Maven 元数据](https://repo1.maven.org/maven2/io/debezium/debezium-core/maven-metadata.xml) — 版本核对（Final）
+失败窗口和补偿已经写在上面。这两问只核对它们。
 
-## 通关自测
-
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】Transactional Outbox 主要解决：
-    - A. UI 换肤
-    - B. 业务库提交与发消息之间的原子性近似
-    - C. 替代所有数据库索引
-    - D. 仅用于前端埋点
-2. 【单选】TCC 中 Confirm 阶段的典型含义是：
-    - A. 预留资源
-    - B. 确认提交预留
-    - C. 仅打印日志
-    - D. 删除数据库
-3. 【简答】Saga 补偿失败时通常怎么处理？
-4. 【单选】Seata AT 模式相对 TCC 的特点更接近：
-    - A. 业务代码改动通常更少，但依赖代理数据源与 undo
-    - B. 完全不写日志
-    - C. 只能用于前端
-    - D. 不支持回滚
-5. 【简答】为什么「先发消息再提交 DB」容易出问题？
+1. Transactional Outbox 主要解决哪一个失败窗口？
+2. 为什么「先发消息再提交数据库」容易出问题？
 
 <details markdown><summary>参考答案</summary>
 
-1. B — 同事务落库，异步可靠投递。
-2. B — Try 预留，Confirm 确认，Cancel 释放。
-3. 重试补偿（幂等）、转入人工处理 / 对账、告警；需可观测的状态机。
-4. A — AT 侵入较低，依赖 undo 与锁机制。
-5. 消息已出但本地事务回滚，下游看到不存在的业务事实。
+1. 它把业务表和 outbox 放进同一个本地事务，使本地提交和「将要发出的事件」近似原子。它不保证下游已经处理成功，也不替代数据库。
+2. 消息已经发出，本地事务却回滚。下游会看到一笔并不存在的业务事实。
 
 </details>
+
+<span id="_9"></span>
+
+## 资料索引 {#_4}
+
+<span id="_8"></span>
+
+- [Microservices.io 模式目录](https://microservices.io/patterns/) — Saga 与 Outbox 的条件。
+- [Seata：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 2026-11-13 文档档是 v2.6。页上写明 Apache Seata (incubating)。2.6.0 已交付。v2.7.0 是 RC Round4，不是默认。`io.seata:seata-core` 的 `latest` / `release` 仍是 2.0.0。
+- [Debezium 稳定版文档](https://debezium.io/documentation/reference/stable/) — 指向 3.7 线。
+- [Debezium Releases](https://debezium.io/releases/) 与 [Maven 元数据](https://repo1.maven.org/maven2/io/debezium/debezium-core/maven-metadata.xml) — Latest stable 是 3.7.1.Final。`latest` / `release` 指向 3.8.0.Alpha1（`lastUpdated` 2026-11-10），不是默认。
+- [系统](../../systems/) — CAP 与共识。本页不重讲。
+- [微服务 01](../01-architecture/) — 错误的边界补不回来。
+- [微服务 06](../06-messaging/) — 至少一次与幂等。本页不重写投递语义。
+- [微服务 09](../09-database-sharding/) — 数据分区不在本页。
 
 ---
 
