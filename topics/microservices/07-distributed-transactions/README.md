@@ -11,7 +11,7 @@
 
 ## 这一页补哪一块 {#_1}
 
-[架构基础与拆分](../01-architecture/) 已经要求先有稳定边界。用分布式事务掩盖错误的边界，解决不了模型耦合。[消息与事件驱动](../06-messaging/) 已经说明至少一次投递需要幂等，并发事件必须可靠发出。本页回答：一次跨越多个服务的业务动作，在放弃全局强一致之后，用什么手段得到可接受的最终一致。CAP、一致性与共识以 [系统](../../systems/) 为准，本页不重讲。分库分表、路由和分布式 ID 在 [09](../09-database-sharding/)，本页不展开。
+[架构基础与拆分](../01-architecture/) 已经要求先有稳定边界。用分布式事务掩盖错误的边界，解决不了模型耦合。[消息与事件驱动](../06-messaging/) 已经说明至少一次投递需要幂等，并且事件必须可靠发出。本页回答：一次跨越多个服务的业务动作，在放弃全局强一致之后，用什么手段得到可接受的最终一致。CAP、一致性与共识以 [系统](../../systems/) 为准，本页不重讲。分库分表、路由和分布式 ID 在 [09](../09-database-sharding/)，本页不展开。
 
 ## 先拆业务，再谈组件 {#_2}
 
@@ -90,7 +90,7 @@ AT 对业务侵入较低，但依赖 undo 日志和锁。TCC 控制力更强，�
 <span id="_8"></span>
 
 - [Microservices.io 模式目录](https://microservices.io/patterns/) — Saga 与 Outbox 的条件。
-- [Seata：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 2026-11-13 文档档是 v2.6。页上写明 Apache Seata (incubating)。2.6.0 已交付。v2.7.0 是 RC Round4，不是默认。`io.seata:seata-core` 的 `latest` / `release` 仍是 2.0.0。
+- [Seata：何为 Seata](https://seata.apache.org/docs/overview/what-is-seata/) — 2026-11-13 文档当前是 v2.6。页上写明 Apache Seata (incubating)。2.6.0 已交付。v2.7.0 是 RC Round4，不是默认。`io.seata:seata-core` 的 `latest` / `release` 仍是 2.0.0。
 - [Debezium 稳定版文档](https://debezium.io/documentation/reference/stable/) — 指向 3.7 线。
 - [Debezium Releases](https://debezium.io/releases/) 与 [Maven 元数据](https://repo1.maven.org/maven2/io/debezium/debezium-core/maven-metadata.xml) — Latest stable 是 3.7.1.Final。`latest` / `release` 指向 3.8.0.Alpha1（`lastUpdated` 2026-11-10），不是默认。
 - [系统](../../systems/) — CAP 与共识。本页不重讲。
