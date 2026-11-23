@@ -35,10 +35,10 @@ flowchart TD
 | 06 | [消息与事件驱动](06-messaging/) | Kafka / RocketMQ / RabbitMQ / Pulsar | 🟢 |
 | 07 | [分布式事务](07-distributed-transactions/) | Saga / Outbox / TCC / Seata | 🟢 |
 | 08 | [缓存](08-caching/) | Redis / 多级缓存 | 🟢 |
-| 09 | [数据库与分库分表](09-database-sharding/) | MySQL / PostgreSQL / ShardingSphere | 🟡 |
-| 10 | [可观测性](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟡 |
-| 11 | [安全](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟡 |
-| 12 | [容器与编排](12-containers-k8s/) | Docker / Kubernetes / Helm | 🟡 |
+| 09 | [数据库与分库分表](09-database-sharding/) | MySQL / PostgreSQL / ShardingSphere | 🟢 |
+| 10 | [可观测性](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟢 |
+| 11 | [安全](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟢 |
+| 12 | [容器与编排](12-containers-k8s/) | Docker / Kubernetes / Helm | 🟢 |
 | 13 | [服务网格](13-service-mesh/) | Istio ambient / Linkerd | 🟡 |
 | 14 | [持续交付与 GitOps](14-cicd-gitops/) | GitHub Actions / Argo CD | 🟡 |
 | 15 | [测试](15-testing/) | 契约测试 / Testcontainers | 🟡 |
