@@ -2,36 +2,24 @@
 
 > [AI](../) › 深度学习框架
 
-掌握 PyTorch 的张量、自动求导和训练循环，了解 JAX 与 Keras 的定位，并会用 Hugging Face Transformers 加载和运行开源模型。这是读懂 14 微调、15 推理代码的前提。
+掌握 PyTorch 的张量、自动求导和训练循环，了解 JAX 与 Keras 的定位，并会用 Hugging Face Transformers 加载和运行开源模型。这是读懂 [微调与对齐](../14-fine-tuning/) 和 [推理与服务](../15-inference-serving/) 代码的前提。
 
-## 本关定位
+---
 
-| 项 | 内容 |
-|----|------|
-| 定位 | 从「会算公式」到「会写训练与推理代码」 |
-| 前置要求 | [Python 速成](../00-python-bridge/)、[数学与机器学习基础](../01-foundations/) |
-| 粗略用时 | 2–3 周（粗略参考） |
-| 章节 | 第四章 深入 |
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-## 闯关任务
+## 这一页补哪一块 {#_1}
 
-**QUEST 02 · 第四章 深入**
+这一页连接上一页的损失、梯度和后面的微调、推理代码。它保证的是：梯度记在哪些张量上、一次标准训练循环长什么样、编译、精度和切分各自解决什么，以及加载开源模型时模板和权重的边界。
 
-- [ ] 能够用 PyTorch 张量完成形状变换、广播与设备迁移，并解释 `requires_grad` 与 `backward()` 的作用。
-- [ ] 能够用 `nn.Module`、`DataLoader` 和优化器写出标准训练循环，包括 `train()` / `eval()` 切换和 `no_grad` 推理。
-- [ ] 能够说明 `torch.compile`、混合精度（bf16）和 FSDP 分别解决什么问题。
-- [ ] 能够比较 PyTorch、JAX、Keras 3 的编程模型与生态定位。
-- [ ] 能够用 Hugging Face Transformers 加载一个小模型，完成分词、生成与解码。
+## 张量记录的是计算，不是自动保住正确性 {#_2}
 
-**奖励**：+100 XP · 徽章「张量炼金师」（徽章名暂定，内容建设中）
+<span id="_4"></span>
 
-## 知识要点
-
-### 张量与自动求导
-
-- 张量（Tensor）是带 `dtype`、`shape`、`device` 的多维数组，接口与 NumPy 很像，但能放到 GPU 上并记录计算图。
-- 设置 `requires_grad=True` 的张量参与运算后，调用 `loss.backward()` 会沿计算图把梯度累加到 `.grad`；所以每步更新前要 `optimizer.zero_grad()`。
-- 推理时用 `torch.no_grad()`（或 `torch.inference_mode()`）关闭梯度记录，省显存也更快。
+- `requires_grad=True` 只在它参与的运算上建图。`loss.backward()` 把梯度累加到 `.grad`，所以每步更新前要 `optimizer.zero_grad()`。
+- `model.eval()` 改变 Dropout 和 BatchNorm 的行为。`torch.no_grad()` 或 `torch.inference_mode()` 关闭记录。验证时通常两个都要，职责不同。
+- 模型和 batch 必须在同一个 `device` 上。CPU 张量和 CUDA 张量对不上，不是公式算错了。
 
 ```python
 import torch
@@ -55,7 +43,9 @@ torch.Size([2, 3]) torch.Size([2, 2])
 2.15.0 False
 ```
 
-### 训练循环
+`2.15.0 False` 是原文记录的历史输出。2026-11-23 这台机器没有安装 PyTorch，这段以及后面的 MLP、`torch.compile`、JAX 和 Transformers 示例都没有重跑。
+
+## 训练循环 {#_5}
 
 ```mermaid
 flowchart LR
@@ -67,7 +57,7 @@ flowchart LR
   F --> B
 ```
 
-下面在 CPU 上训练一个两层 MLP 区分两个同心圆，结构与大模型微调脚本完全一样：
+下面在 CPU 上训练一个两层 MLP。循环的形状和微调脚本相同，不等于这一页已经做了微调。
 
 ```python
 import torch
@@ -124,12 +114,12 @@ epoch <轮次> loss <末批损失> val_acc <两类验证集准确率>
 162 个参数
 ```
 
-### 编译、精度与分布式
+## 编译、精度与分布式 {#_6}
 
-- `torch.compile(model)`：把 Python 级计算图交给编译器做算子融合，通常一行代码带来明显加速；首次调用要编译，有冷启动时间。
-- 混合精度：bf16 与 fp32 指数位相同、不易溢出，是现代 GPU 训练的默认选择；fp16 需要配合 loss scaling。
-- 数据并行 DDP：每张卡一份完整模型，同步梯度；模型放不下一张卡时用 FSDP2 把参数、梯度、优化器状态切分到多卡。DeepSpeed ZeRO 是同类方案。
-- Hugging Face Accelerate 把单卡、DDP、FSDP、DeepSpeed 的启动差异包成同一套代码。
+- 下面围栏写的是默认的 `torch.compile(model)`。默认后端是 inductor：Dynamo 捕获图，再生成并编译代码。第一次调用有冷启动，那不是稳态速度。
+- `backend="aot_eager"` 不是这条性能路径。Dynamo 捕获图，AOTAutograd 做出前向和反向，然后用 eager 执行，不做 inductor 的代码生成。它适合区分「图有没有被捕获」和「后端编译是不是慢或失败」。原文说编写环境没有 C++ 编译器，曾用 `backend="aot_eager"` 看到 `True`。那是当时的记录。本次没有安装 PyTorch，没有改围栏，也没有把 `True` 写成新的实测。
+- bf16 的指数位与 fp32 相同，范围大，通常不必为了溢出做 loss scaling。fp16 范围小，需要缩放。两者尾数都比 fp32 少，损失和归一化常常留在 fp32。bf16 不是「一定比 fp32 准」。
+- DDP 是每张卡一份完整模型，同步梯度。参数、梯度和优化器状态放不进一张卡时，要切分，例如 FSDP / FSDP2 或 DeepSpeed ZeRO。Accelerate 包的是启动差异。2026-11-23 打开的 [FSDP2 教程](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html) 仍返回 200。这里不写安装命令，也不把文档里的类名抄成新示例。
 
 ```python
 # 示意：默认 inductor 后端需要 C++ 编译器，本页环境以 aot_eager 后端验证
@@ -143,11 +133,11 @@ with torch.no_grad():
     print(torch.allclose(model(x), compiled(x), atol=1e-5))   # 期望输出 True
 ```
 
-默认的 inductor 后端会生成并编译 C++ / Triton 代码，CPU 上需要可用的 `g++`。本页编写环境没有 C++ 编译器，这段代码改用 `backend="aot_eager"` 验证过输出 `True`；`aot_eager` 只做图捕获、不做代码生成，适合排查是不是编译器问题。
+默认的 inductor 后端会生成并编译 C++ / Triton 代码，CPU 上需要可用的 `g++`。本页编写环境没有 C++ 编译器，这段代码改用 `backend="aot_eager"` 验证过输出 `True`；`aot_eager` 只做图捕获、不做代码生成，适合排查是不是编译器问题。更具体地说，图由 Dynamo 捕获，AOTAutograd 负责前向和反向，`aot_eager` 再用 eager 执行，它不是 inductor 的性能后端。2026-11-23 这次没有重跑，围栏仍是默认的 `torch.compile(model)`。
 
-### JAX：函数式变换
+## JAX：函数式变换 {#jax}
 
-JAX 用纯函数加变换：`grad` 求导、`jit` 编译、`vmap` 自动批处理。没有隐式状态，参数需要显式传入，Google 的 Gemma、Gemini 训练栈以 JAX 为主。
+JAX 用纯函数加变换：`grad` 求导、`jit` 编译、`vmap` 自动批处理。没有挂在模块上的隐式状态，参数要显式传入。2026-11-23 PyPI 当前版本是 **0.12.1**，`Requires-Python` 为 `>=3.12`，并且 `jax` 与 `jaxlib` 要成对。能安装 PyTorch 2.15.0 的 3.11 环境，不能据此安装当前 JAX。本次没有安装，不记录一对具体的 jaxlib 版本。
 
 ```python
 import jax
@@ -175,9 +165,11 @@ print(batched_dot(x, x))
 [ 5. 25.]
 ```
 
-### Hugging Face Transformers：加载开源模型
+这段没有在本次运行，输出保持原文。
 
-Transformers 5.x 是开源模型的事实标准接口：`AutoTokenizer` 负责分词，`AutoModelForCausalLM` 加载权重，`apply_chat_template` 按模型自己的对话格式拼接消息。下面在 CPU 上运行一个 1.35 亿参数的小模型（首次运行会从 Hugging Face Hub 下载约 270 MB）：
+## Hugging Face Transformers：加载开源模型 {#hugging-face-transformers}
+
+2026-11-23 PyPI 当前版本是 **5.24.0**，`Requires-Python` 为 `>=3.11.0`。[AI 总览](../) 的版本基线仍写 Transformers 5.22.1，本批不改那一页，也不再把 5.22.1 叫成当前最新。下面的 API 没有按 5.24.0 重跑，不迁移函数签名。示例会下载约 270 MB，输出是历史贪心结果。
 
 ```python
 import torch
@@ -201,83 +193,69 @@ The capital of France is Paris.
 134515008
 ```
 
-### 可信的训练实验：可复现、掩码与检查点
+## 可信的训练实验：可复现、掩码与检查点 {#_7}
 
-- 随机种子只是起点：记录 Python / NumPy / 框架种子、数据划分、DataLoader worker 初始化、模型与依赖版本。跨平台、跨版本仍不保证逐位一致；确定性算法可能降低性能。
-- `model.eval()` 改变 Dropout / BatchNorm 行为，`no_grad()` 或 `inference_mode()` 禁用梯度记录，两者职责不同，验证时通常都需要。
-- 序列批处理要区分 attention mask、因果 mask 和 loss mask；padding 不应贡献目标损失。梯度累积是多个 micro-batch 后再 `step`，损失缩放与实际有效 Token 数要一致，不能只把循环次数当有效 batch size。
-- 断点续训除权重外还需优化器、学习率调度器、步数、随机状态和数据进度；只保存 `state_dict` 足以做权重加载，但不等于完整恢复训练。
-- 不加载来源不明的 pickle 检查点，也不随意开启模型仓库的远程代码。`weights_only=True` 缩小反序列化攻击面，但不是沙箱或来源可信证明；验证发布者、哈希和许可证，安全边界见 [安全与治理](../19-security-governance/)。
+- 随机种子只是起点。记下 Python、NumPy、框架的种子，以及数据划分、DataLoader worker、模型和依赖版本。换平台或换版本仍不保证逐位一致。确定性算法可能更慢。
+- 序列批处理要分开 attention mask、因果 mask 和 loss mask。padding 不应计入目标损失。梯度累积是多个小批之后再 `step`。损失缩放要和有效 token 数一致，不能只数循环次数。
+- 断点续训除了权重要保存优化器、学习率调度器、步数、随机状态和数据进度。只保存 `state_dict` 可以加载权重，不等于恢复训练。能加载权重，也不等于训练状态已经回来。
+- 不加载来源不明的 pickle，也不随意打开仓库里的远程代码。`weights_only=True` 缩小反序列化时能执行的类型，不是沙箱，也不是来源可信的证明。发布者、哈希和许可证仍要核对，见 [安全与治理](../19-security-governance/)。
 
-## 选型对比
+## 框架怎么选 {#framework-choice}
+
+<span id="_8"></span>
 
 | 框架 | 编程模型 | 优势 | 适合 |
 |------|----------|------|------|
-| PyTorch 2.15 | 命令式（eager）+ `torch.compile` | 生态最大，论文与开源模型默认实现 | 绝大多数训练、微调、推理 |
-| JAX 0.12 | 函数式变换 `grad` / `jit` / `vmap` | TPU 友好、大规模并行表达清晰 | 研究、TPU 训练 |
-| Keras 3.15 | 高层 API，可切换 JAX / PyTorch / TensorFlow 后端 | 上手快、代码短 | 教学、快速原型 |
-| TensorFlow 2.21 | 图执行 + Keras | 存量部署（TF Serving、TFLite） | 维护已有系统 |
-| Transformers 5.22 | 模型库与统一加载接口 | 覆盖主流开源 LLM | 加载、微调、评测开源模型 |
+| PyTorch 2.15.0 | 命令式（eager）+ `torch.compile` | 生态最大，论文与开源模型默认实现 | 绝大多数训练、微调、推理 |
+| JAX 0.12.1 | 函数式变换 `grad` / `jit` / `vmap` | TPU 友好、大规模并行表达清晰 | 研究、TPU 训练 |
+| Keras 3.15.1 | 高层 API，可切换 JAX / PyTorch / TensorFlow 后端 | 上手快、代码短 | 教学、快速原型 |
+| TensorFlow 2.21.0 | 图执行 + Keras | 存量部署（TF Serving、TFLite） | 维护已有系统 |
+| Transformers 5.24.0 | 模型库与统一加载接口 | 覆盖主流开源 LLM | 加载、微调、评测开源模型 |
 
 > [!WARNING]
-> 版本基线（2026-11）：PyTorch 2.15.0、Transformers 5.22.1 来自 [AI 总览](../) 的版本表；JAX 0.12.0.1、Accelerate 1.15.0、DeepSpeed 0.19.9 为 PyPI 当前版本；Keras 在 PyPI 为 3.15.1，而 GitHub Releases 的 Latest 标签仍显示 3.12.4，以 PyPI 为准。TensorFlow 的版本与适用场景需按官方发布和部署生态判断，不能由一段时间未发新版推断已停止维护。
+> [AI 总览](../) 的版本基线仍写 PyTorch 2.15.0、Transformers 5.22.1（本批不改那一页）。总览没有列出 JAX、Accelerate、DeepSpeed、Keras 和 TensorFlow。2026-11-23 打开的 PyPI 当前是 Transformers **5.24.0**、JAX **0.12.1**、Accelerate **1.16.0**、DeepSpeed **0.20.0**、PyTorch **2.15.0**、Keras **3.15.1**、TensorFlow **2.21.0**。`torch` 的 `Requires-Python` 是 `>=3.11`；文件列表里能看到 `cp315` 标签，这不是本机安装。JAX 要求 `>=3.12`。DeepSpeed 这次读到的 `requires_python` 为空，不据此写 Python 范围。Keras 以 PyPI 的 3.15.1 为准；本次没有重开 GitHub Releases，不把 Latest 标签是否落后写成已核实。TensorFlow 的 wheel 标签见到 `cp310`–`cp313`，没有见到 `cp315`。一段时间没有新版本，不能推断已经停止维护。示例没有迁到 Transformers 5.24.0。
 
-## 常见误区
+## 常见误读 {#_3}
 
-- 忘记 `optimizer.zero_grad()`，梯度会跨步累加，损失曲线异常。
-- 评估时不切 `model.eval()`：Dropout、BatchNorm 仍按训练模式工作，指标偏低且不稳定。
-- 用 `torch.save(model)` 保存整个对象：依赖代码路径，换环境就加载失败；应保存 `state_dict` 或用 safetensors。
-- 认为 bf16 一定比 fp32 准：它节省显存和算力，但尾数位少，损失计算和归一化常要保留 fp32。
-- 用 `generate` 默认参数直接比较模型：采样参数（温度、top_p）不同，结果不可比；对比时固定 `do_sample=False` 或固定随机种子。
+<span id="_9"></span>
 
-## 实践任务
+- 忘记 `optimizer.zero_grad()`，梯度会跨步累加。
+- 评估时不切 `model.eval()`。Dropout 和 BatchNorm 仍按训练模式工作。
+- 用 `torch.save(model)` 保存整个对象。换环境往往加载失败。应保存 `state_dict`，或用 safetensors。能加载权重，不等于优化器和步数也恢复了。
+- 认为 bf16 一定比 fp32 准。它省显存和算力，尾数更少。
+- 用 `generate` 的默认采样参数直接比较模型。温度和 `top_p` 不同，结果不可比。对比时固定 `do_sample=False` 或固定种子。
+- `torch.compile` 的第一次调用等于稳态速度。`aot_eager` 也不是 inductor 的性能后端。
 
-- 跑通本页的同心圆 MLP，把隐藏层改成 4 个神经元，观察欠拟合。
-- 用 `torch.compile` 包装同一模型，比较首次与后续 100 次前向的耗时。
-- 用 JAX 重写 01 关的线性回归梯度下降，体会 `jit(grad(loss))` 的写法。
-- 用 Transformers 加载一个 1B 以下的开源 Instruct 模型，打印它的 `chat_template`，理解系统提示词和角色标记是怎么拼进输入的。
+## 可选核对 {#framework-check}
 
-## 资料索引
+<span id="_10"></span>
+
+1. `model.eval()` 和 `torch.no_grad()` 各做什么？为什么推理时两者都要？
+2. 70B 的参数、梯度和优化器状态放不进单卡时，为什么 DDP 不够，要切分？
+
+<details markdown><summary>参考答案</summary>
+
+1. `eval()` 切换 Dropout 和 BatchNorm 的行为。`no_grad()` 关闭计算图，省下显存和时间。前者影响结果，后者影响是否记录梯度。
+2. DDP 每张卡仍保存完整副本。放不下时要切分参数、梯度和优化器状态，例如 FSDP 或 ZeRO。把 batch 调成 1 不减少这份副本。
+
+</details>
+
+<span id="_12"></span>
+
+## 资料索引 {#_11}
 
 - [PyTorch 文档](https://docs.pytorch.org/docs/stable/index.html) — 官方 API 与教程入口
 - [Learn the Basics（PyTorch 教程）](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) — 张量、数据、训练循环一条龙
 - [Hugging Face Transformers 文档](https://huggingface.co/docs/transformers/index) — 加载、生成、Trainer
-- [Getting started with FSDP2](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html) — 多卡切分训练
+- [Getting started with FSDP2](https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html) — 2026-11-23 仍可打开的切分教程
 - [JAX 文档](https://docs.jax.dev/en/latest/) — 函数式变换与并行
 - [Keras 3](https://keras.io/) — 多后端高层 API
 - [PyTorch 可复现性](https://docs.pytorch.org/docs/stable/notes/randomness.html) — 随机源与跨环境限制
 - [PyTorch 序列化语义](https://docs.pytorch.org/docs/stable/notes/serialization.html) — state_dict 与 weights_only 安全边界
 - [PyTorch 性能调优](https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html) — 梯度累积、同步和推理模式
-- [PyTorch 官方版本](https://pypi.org/project/torch/) — 2026-11-05 包版本复核
-- [Keras 官方版本](https://pypi.org/project/keras/) — 不能把旧维护分支的 Latest 当最新主线
-
-## 通关自测
-
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】以下哪一步缺失会导致梯度跨批次累加？
-    - A. `model.eval()`
-    - B. `optimizer.zero_grad()`
-    - C. `torch.no_grad()`
-    - D. `loss.item()`
-2. 【简答】`model.eval()` 和 `torch.no_grad()` 分别做了什么？推理时为什么两者都要？
-3. 【单选】一个 70B 模型的参数、梯度和优化器状态放不进单卡显存，最直接的训练方案是：
-    - A. DDP
-    - B. FSDP / ZeRO 切分
-    - C. 把 batch size 调成 1
-    - D. 改用 JAX
-4. 【简答】为什么现代 GPU 训练更常用 bf16 而不是 fp16？
-5. 【简答】`apply_chat_template` 解决什么问题？不用它直接拼字符串会有什么风险？
-
-<details markdown><summary>参考答案</summary>
-
-1. B — PyTorch 默认把梯度累加到 `.grad`，每步要先清零。
-2. `eval()` 切换 Dropout、BatchNorm 等层的行为；`no_grad()` 关闭计算图记录、节省显存和时间。前者影响结果正确性，后者影响资源，二者作用不同。
-3. B — DDP 每卡保存完整副本，放不下时就要切分参数、梯度与优化器状态。
-4. bf16 指数位与 fp32 相同，数值范围大、不易上溢下溢，通常不需要 loss scaling；fp16 范围小，需要额外的缩放技巧。
-5. 不同模型的角色标记、特殊 token 和系统提示词格式不同；模板按模型自带的格式拼接。手拼容易漏特殊 token 或格式错误，导致模型表现明显下降。
-
-</details>
+- [PyPI: torch](https://pypi.org/project/torch/) — 2026-11-23 读到的 2.15.0
+- [PyPI: transformers](https://pypi.org/project/transformers/) — 同日读到的 5.24.0
+- [PyPI: keras](https://pypi.org/project/keras/) — 同日读到的 3.15.1
 
 ---
 
