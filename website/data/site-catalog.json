@@ -675,7 +675,7 @@
       "path": "topics/microservices/09-database-sharding/README.md",
       "title_zh": "数据库与分库分表",
       "title_en": "Databases and sharding",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -683,7 +683,7 @@
       "path": "topics/microservices/10-observability/README.md",
       "title_zh": "可观测性",
       "title_en": "Observability",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -691,7 +691,7 @@
       "path": "topics/microservices/11-security/README.md",
       "title_zh": "安全",
       "title_en": "Security",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -699,7 +699,7 @@
       "path": "topics/microservices/12-containers-k8s/README.md",
       "title_zh": "容器与编排",
       "title_en": "Containers and Kubernetes",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 79,
-      "complete": 50
+      "building": 75,
+      "complete": 54
     }
   },
   "pending_integrations": [
