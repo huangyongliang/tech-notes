@@ -36,8 +36,8 @@ def main() -> int:
         or counts["translated"] != 7
         or counts["untranslated"] != 122
         or editorial["planned"] != 0
-        or editorial["building"] != 35
-        or editorial["complete"] != 94
+        or editorial["building"] != 34
+        or editorial["complete"] != 95
     ):
         fail(f"unexpected coverage {counts}")
     if "xp" in json.dumps(catalog["counts"]) or any("xp" in page for page in catalog["pages"]):
@@ -94,6 +94,9 @@ def main() -> int:
     theory = [line for line in home_text.splitlines() if "](topics/cs-theory/README.md)" in line][0]
     if "已完成" not in theory or "未译" not in theory or "搭建中" in theory:
         fail(f"theory must be complete and untranslated: {theory}")
+    ms = [line for line in home_text.splitlines() if "](topics/microservices/README.md)" in line and 'class="s' in line][0]
+    if "已完成" not in ms or "未译" not in ms or "搭建中" in ms:
+        fail(f"microservices must be complete and untranslated: {ms}")
     for rel in ("topics/web/origin/README.md", "topics/systems/distributed/README.md"):
         page = by_path[rel]
         if page["editorial"] != "complete" or page["translation"] != "untranslated":

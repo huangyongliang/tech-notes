@@ -739,7 +739,7 @@
       "path": "topics/microservices/README.md",
       "title_zh": "微服务",
       "title_en": "Microservices",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 35,
-      "complete": 94
+      "building": 34,
+      "complete": 95
     }
   },
   "pending_integrations": [

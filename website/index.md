@@ -31,7 +31,7 @@ topics/
 ├── <em>cs-theory/</em> <s># 14 个子主题 · 已完成</s>
 ├── <em>programming-basics/</em> <s># 6 个子主题 · 搭建中</s>
 ├── <em>java/</em> <s># 12 个子主题 · 搭建中</s>
-├── <em>microservices/</em> <s># 16 个子主题 · 搭建中</s>
+├── <em>microservices/</em> <s># 16 个子主题 · 已完成</s>
 ├── <em>ai/</em> <s># 21 个子主题 · 搭建中</s>
 ├── <em>programming/</em> <s># 4 个子主题 · 已完成</s>
 ├── <em>web/</em> <s># 4 个子主题 · 已完成</s>
@@ -183,7 +183,7 @@ Java 语言、JVM 和主流生态的学习笔记，12 关分三章，每章末�
 
 [<span class="n">05</span><span class="t">Java 技术栈</span><span class="d">语言 · JVM · 并发 · Spring，12 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/java/README.md)
 
-[<span class="n">06</span><span class="t">微服务</span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/microservices/README.md)
+[<span class="n">06</span><span class="t">微服务</span><span class="d">架构拆分 · 服务治理 · 可观测性 · 云原生 Java，16 个子主题</span><span class="s-pair"><span class="s">已完成</span><span class="s s--tr">未译</span></span>](topics/microservices/README.md)
 
 [<span class="n">07</span><span class="t">AI 技术栈</span><span class="d">大模型 · RAG · Agent · MCP · 推理部署，21 个子主题</span><span class="s-pair"><span class="s s--wip">搭建中</span><span class="s s--tr">未译</span></span>](topics/ai/README.md)
 
