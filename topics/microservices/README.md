@@ -39,10 +39,10 @@ flowchart TD
 | 10 | [可观测性](10-observability/) | OpenTelemetry / Micrometer / Prometheus / Grafana | 🟢 |
 | 11 | [安全](11-security/) | OAuth2 / OIDC / Keycloak / mTLS | 🟢 |
 | 12 | [容器与编排](12-containers-k8s/) | Docker / Kubernetes / Helm | 🟢 |
-| 13 | [服务网格](13-service-mesh/) | Istio ambient / Linkerd | 🟡 |
-| 14 | [持续交付与 GitOps](14-cicd-gitops/) | GitHub Actions / Argo CD | 🟡 |
-| 15 | [测试](15-testing/) | 契约测试 / Testcontainers | 🟡 |
-| 16 | [性能与云原生 Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | 🟡 |
+| 13 | [服务网格](13-service-mesh/) | Istio ambient / Linkerd | 🟢 |
+| 14 | [持续交付与 GitOps](14-cicd-gitops/) | GitHub Actions / Argo CD | 🟢 |
+| 15 | [测试](15-testing/) | 契约测试 / Testcontainers | 🟢 |
+| 16 | [性能与云原生 Java](16-cloud-native-java/) | GraalVM / CRaC / 虚拟线程 | 🟢 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 ## 三套主流技术选型

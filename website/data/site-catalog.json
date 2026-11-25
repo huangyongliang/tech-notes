@@ -707,7 +707,7 @@
       "path": "topics/microservices/13-service-mesh/README.md",
       "title_zh": "服务网格",
       "title_en": "Service mesh",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -715,7 +715,7 @@
       "path": "topics/microservices/14-cicd-gitops/README.md",
       "title_zh": "持续交付与 GitOps",
       "title_en": "Continuous delivery and GitOps",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -723,7 +723,7 @@
       "path": "topics/microservices/15-testing/README.md",
       "title_zh": "测试",
       "title_en": "Testing",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -731,7 +731,7 @@
       "path": "topics/microservices/16-cloud-native-java/README.md",
       "title_zh": "性能与云原生 Java",
       "title_en": "Cloud-native Java and performance",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 75,
-      "complete": 54
+      "building": 71,
+      "complete": 58
     }
   },
   "pending_integrations": [
