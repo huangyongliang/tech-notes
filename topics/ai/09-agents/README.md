@@ -2,46 +2,24 @@
 
 > [AI](../) › 智能体
 
-Agent 等于 LLM 加工具、循环、记忆与规划。本关讲 Agent 设计模式、终止与人工审批、记忆、多 Agent 协作与 A2A 协议，以及主流框架；MCP 见第 10 关，编程类 Agent 见第 12 关。
+模型在循环里选择工具时，才需要 Agent。步骤和顺序事先写得死，用工作流。这一页用来判断循环该何时把工具错误交回去、何时用预算停掉，以及一次审批到底批准了哪一组参数。
 
 > 相关主题：[LLM API 编程模式](../06-llm-api-programming/) · [MCP 协议与开发](../10-mcp/) · [安全与治理](../19-security-governance/)
 
-## 本关定位
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-| 项 | 内容 |
-|----|------|
-| 定位 | 第二章应用工程：从「一问一答」走到「自主多步完成任务」 |
-| 前置要求 | [LLM API 编程模式](../06-llm-api-programming/)（工具循环）、[应用开发框架](../07-app-frameworks/) |
-| 粗略用时 | 2 周（粗略参考） |
-| 章节 | 第二章 应用工程 |
+## 这一页补哪一块 {#_1}
 
-## 闯关任务
+工作流把分支写在代码里，Agent 把下一步交给模型。工具返回的错误是一条观察，通常要回填，让模型改参数或换工具。步数、Token 预算和截止时间是另一类停止：模型还想再试，循环也停。多 Agent 会把同一份上下文再付一次钱，并把轨迹拆开。审批必须绑住这次调用的工具名和参数，而且来自模型外面的人或策略服务。
 
-**QUEST 09 · 第二章 应用工程**
+## 工作流还是 Agent {#agent}
 
-- [ ] 能够区分工作流（Workflow）与 Agent，并说出 ReAct、Plan-and-Execute、Reflection、Router、Orchestrator-Workers 的适用场景。
-- [ ] 能够为 Agent 循环设计终止条件、工具白名单和人工审批（HITL）。
-- [ ] 能够区分短期记忆与长期记忆，并说明上下文压缩的做法。
-- [ ] 能够用 OpenAI Agents SDK 等框架实现带工具的 Agent，并读懂运行记录。
-- [ ] 能够说明 A2A 协议中 Agent Card 与任务生命周期的作用，以及它与 MCP 的分工。
+<span id="_2"></span>
 
-**奖励**：+100 XP · 徽章「智能体指挥官」（徽章名暂定，内容建设中）
-
-## 知识要点
-
-### 工作流还是 Agent
-
-- 工作流：步骤由代码预先编排，LLM 只负责其中某些节点，可预测、易测试。
-- Agent：由模型在循环中决定下一步调用什么工具、何时结束，灵活但成本与风险更高。
-- 经验法则：能用固定流程解决就不要上 Agent；先从单 Agent 加少量工具开始。
-
-### 常见设计模式
-
-- ReAct：思考 → 行动（调用工具）→ 观察结果，循环直到得出答案，是多数 Agent 框架的默认循环。
-- Plan-and-Execute：先生成计划再逐步执行，适合步骤多、可预先拆分的任务。
-- Reflection：生成后让模型（或另一个模型）自评并修改，适合写作、代码等可检查的产出。
-- Router：先分类再交给专门的处理分支。
-- Orchestrator-Workers：编排者动态拆分子任务交给多个 Worker，再汇总结果。
+- 工作流：每一步和顺序在模型运行前就定了。查订单、对状态、填一句政策说明，都是代码调用。模型只填一个槽。延迟、费用和审计都按这条路径估算。
+- Agent：下一步工具取决于上一步返回，分支表写不全。灵活的代价是模型可能选到有副作用的工具，错一次比写错一句话更贵。
+- 能用固定流程解决就不要上 Agent。先从单 Agent 加少量工具开始。
 
 ```mermaid
 flowchart LR
@@ -54,9 +32,21 @@ flowchart LR
     M -->|最终答案| R[返回]
 ```
 
-### 循环骨架：终止条件、白名单与审批
+图里的审批菱形必须发生在工具执行之前。确认的内容是这一次的工具名和参数，不是模型自己写的「我已获批准」。
+
+## 常见设计模式 {#_4}
+
+- ReAct：思考、调用工具、读观察，直到给出答案。多数框架的默认循环是这一形。
+- Plan-and-Execute：先写出计划再逐步执行。步骤多、但还能预先拆开时有用。计划本身不是审批。
+- Reflection：生成后再评一次、改一次。适合写作和代码这类能检查的产出，不适合代替退款前的人审。
+- Router：先分类，再交给写死的分支。分类后面的路径是工作流，不是第二个 Agent。
+- Orchestrator-Workers：编排者拆任务，工人分别做，再汇总。每个工人拿到一份上下文副本，同一段资料会再付一次 Token。编排者的摘要可能丢掉工人需要的约束。轨迹要靠关联 ID 才能拼回去。一个 Agent 加工具能完成时，不要拆。
+
+## 循环骨架 {#_5}
 
 下面用脚本化的假模型演示 Agent 循环必须具备的护栏，在编写时实际运行：
+
+这段是标准库脚本，按固定顺序返回工具调用，不下载模型。2026-11-25 的离线重跑只复核打印，输出块仍是编写时的原文，没有改写。
 
 ```python
 import json
@@ -106,7 +96,7 @@ def run_agent(task: str, approve, max_steps: int = 5) -> str:
 print(run_agent("帮我把没发货的订单退款", approve=lambda name, args: args["amount"] <= 5000))
 ```
 
-运行输出：
+编写时的输出：
 
 ```text
 step 0: search_orders({"user": "u42"}) -> [{'order_id': 'A1001', 'status': '未发货', 'amount': 3000}]
@@ -114,7 +104,9 @@ step 1: refund({"order_id": "A1001", "amount": 3000}) -> refund_ok:A1001
 已为订单 A1001 发起退款 3000 元。
 ```
 
-同一点的 Java 对照：
+假模型不会自己做决定。这段脚本说明三件事。工具结果，包括错误字符串，作为观察回到下一轮。示例里的 `refund` 只在金额不超过 5000 时返回成功，否则返回错误文本，循环还可以再走。示例的停止条件是模型不再发起工具调用。生产里还要有步数、Token 或费用上限，以及截止时间。这三样会在模型仍想继续时切断循环。工具报错和预算耗尽不是同一种退出。
+
+同一形状的 Java 对照把批准写死了：
 
 ```java
 class RefundScript {
@@ -143,15 +135,18 @@ class RefundScript {
 }
 ```
 
+`boolean approve = true` 写在循环里面，下面的拒绝分支到不了。这不是权限实现，也没有读任何外部决定。批准必须来自模型之外的人或策略服务。执行前，运行器要把即将发出的工具名和参数与已经批准的那一组比对。批准订单 A1001、金额 3000，不能拿去执行另一笔金额或另一张订单。参数变了就是一次新的审批。
 
-- 终止条件至少包括：模型给出最终答案、步数上限、Token 或费用上限、超时。
-- 有副作用的工具（退款、发邮件、删数据）需要人工审批，或在沙箱中执行。
-- 工具出错时把错误信息回填给模型，让它有机会改正，而不是让整个循环崩溃。
+循环至少还要能在这些地方停：模型给出最终答案、步数上限、Token 或费用上限、超时。有副作用的工具（退款、发邮件、删数据）在执行前等外部批准，或只在沙箱里跑。工具出错时把错误回填给模型，让它有机会改；不要把第一次错误当成循环崩溃。回填不等于无限重试，预算到了就停。
 
-### 用框架实现：OpenAI Agents SDK
+## OpenAI Agents SDK {#openai-agents-sdk}
+
+其他框架的循环形状相同。Claude Agent SDK 把 Claude Code 的循环开放成库。Google ADK 有 Python 与 Java。Microsoft Agent Framework 是 AutoGen 与 Semantic Kernel 的后继。CrewAI 按角色和任务组织多 Agent。需要显式状态图时用 LangGraph，见 [应用开发框架](../07-app-frameworks/)。
 
 > [!NOTE]
 > 本示例在编写时连接本地模拟服务运行（返回固定的工具调用和回答），用来验证 SDK 用法；换成真实 API Key 后模型措辞会不同。
+
+围栏里的模型名 `gpt-6-luna` 是该示例的字符串。2026-11-25 没有安装这个 SDK，没有跑 CLI，也没有换真实 API Key。输出块保持原文。
 
 ```python
 from agents import Agent, Runner, function_tool, set_tracing_disabled
@@ -176,27 +171,24 @@ print(result.final_output)
 print([type(item).__name__ for item in result.new_items])
 ```
 
-运行输出：
+编写时的输出：
 
 ```text
 北京现在 21°C。
 ['ToolCallItem', 'ToolCallOutputItem', 'MessageOutputItem']
 ```
 
-其他框架的思路相同：Claude Agent SDK 把 Claude Code 的 Agent 循环开放成库；Google ADK 提供 Python 与 Java 版本；Microsoft Agent Framework 是 AutoGen 与 Semantic Kernel 的后继；CrewAI 以角色和任务组织多 Agent；LangGraph 适合需要显式状态图的场景（见 [应用开发框架](../07-app-frameworks/)）。
+`max_turns` 是这个 SDK 调用上的步数上限。它切断的是循环，不是工具错误的回填。追踪在示例里关掉了；生产要留下每一步的工具名、参数和结果，见 [评测与可观测](../17-evals-observability/)。
 
-### 记忆
+## 记忆 {#_6}
 
-- 短期记忆：当前会话的消息历史，受上下文窗口限制，需要截断或摘要压缩（见 [提示词与上下文工程](../05-prompt-context/)）。
-- 长期记忆：跨会话保存的用户偏好、事实与经验，存进向量库或结构化存储，按需检索回上下文。
-- 记忆要可查看、可删除：错误的记忆会在后续每次对话中持续误导模型。
+短期记忆是当前会话的消息，受窗口限制，要截断或摘要，见 [提示词与上下文工程](../05-prompt-context/)。长期记忆是跨会话的偏好和事实，放进向量库或结构化存储，按需取回。记忆要能查看、能删除。一条错误记忆会在以后每次对话里继续误导模型。记忆不是审批记录，也不能充当租户隔离。
 
-### 多 Agent 与 A2A
+## 多 Agent 与 A2A {#agent-a2a}
 
-- 协作方式：主从（Supervisor 调度子 Agent）、交接（Handoff，把对话整体转交给另一个 Agent）、群聊。
-- 何时不用多 Agent：任务能由单 Agent 加工具完成时，多 Agent 只会增加 Token 消耗和调试难度。
-- A2A（Agent2Agent）协议解决跨团队、跨厂商的 Agent 互通：Agent 在 `/.well-known/agent-card.json` 发布 Agent Card，声明能力与技能；调用方通过 `SendMessage` 等操作创建任务，任务经历 `TASK_STATE_SUBMITTED`、`TASK_STATE_WORKING`、`TASK_STATE_INPUT_REQUIRED`、`TASK_STATE_COMPLETED` 等状态。
-- 分工：MCP 连接 Agent 与工具 / 数据，A2A 连接 Agent 与 Agent。
+协作可以是主从、交接或群聊。交接把整段对话交给另一个 Agent，上下文通常要再送一遍。主从还要为编排者的汇总再付一次生成。调试时轨迹被拆到多个进程，没有关联 ID 就拼不回「是谁在哪一步改了参数」。
+
+A2A（Agent2Agent）解决跨团队、跨厂商的 Agent 互通。Agent 在 `/.well-known/agent-card.json` 发布 Agent Card，声明能力与技能。调用方用 `SendMessage` 等操作创建任务。任务会经过 `TASK_STATE_SUBMITTED`、`TASK_STATE_WORKING`、`TASK_STATE_INPUT_REQUIRED`、`TASK_STATE_COMPLETED` 等状态。MCP 连接 Agent 与工具或数据，A2A 连接 Agent 与 Agent。多一个远程 Agent，就多一份上下文拷贝和一条需要拼接的轨迹。
 
 一个最小的 Agent Card（字段取自 A2A 规范示例）：
 
@@ -221,91 +213,79 @@ print([type(item).__name__ for item in result.new_items])
 }
 ```
 
-### 从循环到可恢复的业务执行
+## 从循环到可恢复的执行 {#_7}
 
-- 状态图记录的不只是聊天：还应包含目标、已完成步骤、工具调用 ID、审批状态、预算和结果引用。Checkpoint 恢复会重放部分代码，持久化并不自动带来 exactly-once 外部副作用。
-- 将发消息、退款、写库等操作封装为独立任务；执行前检查业务幂等键，成功后保存结果。超时但远端可能成功时先查询状态，不能让模型自行「再试一次」。
-- 审批绑定具体工具名、规范化参数、资源版本、用户 / 租户、期限；参数改变或资源状态变化后重新校验，避免批准 A 实际执行 B。审批记录和模型自己写的「已获批准」不是同一回事。
-- 把长任务交给 [消息队列](../../microservices/06-messaging/) 和持久化 worker，入口返回任务 ID；提供查询、取消与人工接管。任务的取消是业务状态，不代表所有已发生副作用可回滚。
+状态图记下的不只是聊天，还应有目标、已完成步骤、工具调用 ID、审批状态、预算和结果引用。Checkpoint 恢复会重放部分代码。持久化不会自动变成外部副作用的 exactly-once。
 
-### A2A 发现不等于信任
+发消息、退款、写库要包成独立任务。执行前检查业务幂等键，成功后保存结果。超时但远端可能已经成功时，先查询状态，不能让模型自行再试一次。
 
-Agent Card 声明能力、协议和认证方式，不证明服务身份或授权。服务端逐任务 / 数据 / 操作检查访问权，出站调用保留经过验证的用户与租户上下文，不能采信模型生成的身份字段。异步事件、结果产物和 webhook 都按不可信输入处理；认证、重放保护与工具最小权限见 [安全与治理](../19-security-governance/)，协议工具接入见 [MCP](../10-mcp/)。
+审批绑住的是具体工具名、规范化之后的参数、资源版本、用户或租户，以及期限。参数变了，或资源状态变了，就要重新校验。批准 A 却执行 B，就是这组绑定没做。审批记录和模型自己写的「已获批准」不是同一回事。
 
-## 选型对比
+长任务交给 [消息队列](../../microservices/06-messaging/) 和持久化 worker，入口返回任务 ID，并提供查询、取消和人工接管。取消是业务状态，不表示已经发生的副作用都能回滚。
 
-| 框架 / 协议 | 版本（2026-11） | 语言 | 特点 |
-|-------------|-----------------|------|------|
+## 发现不是信任 {#a2a}
+
+2026-11-25 打开的 [A2A 规范页](https://a2a-protocol.org/latest/specification/) 首行写的是 Latest Released Version `1.0.0`。页上示例使用 `protocolVersion` `"1.0"`，以及请求头 `A2A-Version: 1.0`。下面表格里的 GitHub `v1.0.1` 和 `a2a-sdk` 1.3.0 是 2026-11-04 至 2026-11-05 的快照。2026-11-25 没有重开这个 GitHub tag，不把 1.0.1 写成当天核对过的当前版本。
+
+Agent Card 声明能力、协议和认证方式，不证明对方是谁，也不授予权限。服务端按任务、数据和操作检查访问权。出站调用带的是已经验证过的用户和租户，不采信模型生成的身份字段。异步事件、结果和 webhook 都按不可信输入处理。认证和工具的最小权限见 [安全与治理](../19-security-governance/)。
+
+## 框架怎么选 {#agent-choice}
+
+<span id="_8"></span>
+
+版本是 2026-11-04 至 2026-11-05 的核对记录。2026-11-25 没有重开这些发布页。
+
+| 框架 / 协议 | 版本（2026-11-04 至 11-05 记录） | 语言 | 特点 |
+|-------------|----------------------------------|------|------|
 | OpenAI Agents SDK | `openai-agents` 0.24.0、`@openai/agents` 0.21.0 | Python / TS | 轻量，Handoff、Guardrails、Tracing 内置 |
 | Claude Agent SDK | `claude-agent-sdk` 0.2.178、`@anthropic-ai/claude-agent-sdk` 0.3.318 | Python / TS | 复用 Claude Code 的循环、工具与权限机制 |
 | Google ADK | Python 2.13.0、Java `google-adk` 1.14.0 | Python / Java | 多 Agent 层级编排，对接 Gemini 与 Vertex |
 | Microsoft Agent Framework | python-1.24.0、dotnet-1.27.0 | Python / .NET | AutoGen 与 Semantic Kernel 的后继 |
 | CrewAI | 1.15.35 | Python | 角色加任务的多 Agent 编排 |
 | LangGraph | 1.2.20 | Python / JS | 显式状态图、持久化与中断 |
-| A2A 协议 | 规范 v1.0.1，`a2a-sdk` 1.3.0 | 协议 | 跨厂商 Agent 互通 |
+| A2A 协议 | 当时记下规范 v1.0.1，`a2a-sdk` 1.3.0 | 协议 | 跨厂商 Agent 互通；2026-11-25 只重开了规范页上的 1.0.0 |
 
 > [!WARNING]
-> 版本以 2026-11-04 至 2026-11-05 核对为准，Agent 框架迭代极快，升级前先读变更日志。A2A 规范页标注的最新版本为 1.0.0，GitHub 发布为 v1.0.1；规范规定补丁号不影响协议兼容，Agent Card 中只写 `1.0` 这样的主次版本号。
+> 上表不是 2026-11-25 的当前版本。Agent 框架变得快，升级前读变更日志。2026-11-25 只确认规范页写着 Latest Released Version `1.0.0`。GitHub tag 未重开。规范要求 Agent Card 里写 `1.0` 这样的主次版本号；围栏里的 `"protocolVersion": "1.0"` 与此一致，没有改成 1.0.1。
 
-## 常见误区
+## 常见误读 {#_3}
 
-- 一上来就做多 Agent：多数任务单 Agent 加好工具就够了，多 Agent 让成本和调试难度成倍增加。
-- 没有步数和费用上限：模型在两个工具之间反复横跳时会持续烧钱。
-- 有副作用的工具不经审批：提示注入（网页、邮件、文档里的恶意指令）可以诱导 Agent 执行危险操作，见 [安全与治理](../19-security-governance/)。
-- 工具描述写得含糊：模型靠名称和描述决定何时调用，描述应说明用途、参数含义和返回格式。
-- 把所有工具一次性塞给模型：几十个工具会降低选择准确率，应按场景动态筛选或分给子 Agent。
-- 不保存运行轨迹：出错后无法复盘，应记录每一步的输入、工具调用和结果（见 [评测与可观测](../17-evals-observability/)）。
+<span id="_9"></span>
 
-## 实践任务
+- 什么任务都上 Agent：步骤固定、要审计、要卡住延迟时，工作流更合适。
+- 工具一报错就结束循环：错误文本应回填。该停的是步数、费用和超时。
+- 多 Agent 更聪明：每一跳都复制上下文、增加工具调用，并把轨迹拆开。
+- 模型写出「已批准」就算审批：批准要来自外部，并绑住工具名和这一次的参数。
+- Java 示例里的 `approve = true` 是权限系统：那是写死的常量，拒绝分支不会执行。
+- 把表里的 A2A 1.0.1 当成 2026-11-25 核对过的当前 tag：当天只重开了规范页上的 1.0.0。
 
-- 把本页的循环骨架接上真实模型（06 关的工具循环），加入 Token 上限与超时两种终止条件。
-- 用 OpenAI Agents SDK 或 Claude Agent SDK 实现「客服分诊 Agent → 退款 Agent / 物流 Agent」的 Handoff，并打印运行记录。
-- 为退款工具加上审批：金额超过阈值时暂停，等待命令行输入确认后继续。
-- 为你的 Agent 写一份 Agent Card，并说明哪些能力适合通过 A2A 暴露给其他团队。
+## 可选核对 {#agent-check}
 
-## 资料索引
+<span id="_10"></span>
+
+1. 工具返回错误时，为什么通常要把错误回填，而不是立刻结束循环？什么情况才该停？
+2. 退款状态查询的步骤是固定的。为什么用工作流？若随后要执行退款，审批至少要绑住哪些参数？
+
+<details markdown><summary>参考答案</summary>
+
+1. 错误字符串是一条观察。模型可以据此改参数或换工具，例如金额超限后缩小金额或停在查询。立刻终止会丢掉这次改正。该停的是另一类条件：步数、Token 或费用预算、截止时间。这些条件在模型还想继续时也要切断循环。
+2. 查订单、对状态、填说明在运行前就定了顺序，代码直接调用即可，不必让模型选择下一步。退款有副作用。审批要记下工具名、订单号、金额、资源版本和租户。换一笔金额就是一次新审批。模型自己写的批准，以及示例里写死的 `approve = true`，都不是这套外部决定。
+
+</details>
+
+<span id="_12"></span>
+
+## 资料索引 {#_11}
 
 - [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic 的工作流与 Agent 设计模式
 - [ReAct 论文](https://arxiv.org/abs/2210.03629) — 推理与行动交替的 Agent 范式
 - [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) — Agent、Handoff、Guardrails 与 Tracing
 - [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview) — 基于 Claude Code 的 Agent 开发库
 - [Google ADK 文档](https://google.github.io/adk-docs/) — Agent Development Kit
-- [A2A 协议规范](https://a2a-protocol.org/latest/specification/) — Agent Card、任务生命周期与传输绑定
+- [A2A 协议规范](https://a2a-protocol.org/latest/specification/) — 2026-11-25 打开，页首为 Latest Released Version 1.0.0
 - [LangGraph 持久执行](https://docs.langchain.com/oss/python/langgraph/durable-execution) — 重放、任务与幂等副作用
 - [A2A 企业级安全](https://a2a-protocol.org/latest/topics/enterprise-ready/) — 认证、授权与 Agent Card 的边界
 - [A2A 异步与流式操作](https://a2a-protocol.org/latest/topics/streaming-and-async/) — 任务、产物与 push notification
-
-## 通关自测
-
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】以下哪一项不是 Agent 循环的合理终止条件？
-    - A. 模型给出最终答案
-    - B. 达到最大步数
-    - C. 达到费用上限
-    - D. 工具第一次返回错误
-2. 【单选】A2A 协议主要解决的问题是：
-    - A. Agent 访问本地文件
-    - B. 不同团队、厂商的 Agent 之间发现与协作
-    - C. 模型量化
-    - D. 向量检索
-3. 【单选】「先对请求分类，再交给专门的处理分支」对应的模式是：
-    - A. Router
-    - B. Reflection
-    - C. ReAct
-    - D. Plan-and-Execute
-4. 【简答】什么情况下应该用工作流而不是 Agent？
-5. 【简答】一个能发邮件、能读网页的 Agent 存在什么风险？列出至少两条防护措施。
-
-<details markdown><summary>参考答案</summary>
-
-1. D — 工具出错应把错误回填给模型让它改正，而不是直接终止。
-2. B — A2A 通过 Agent Card 发现能力、通过任务生命周期协作；连接工具和数据是 MCP 的职责。
-3. A — Router 先分类再路由到专门的分支。
-4. 步骤固定、可预先编排，对可预测性、延迟和成本要求高，或需要严格审计时，用代码编排的工作流更合适。
-5. 风险：网页中的提示注入诱导 Agent 把隐私数据发出去。措施：发邮件需人工审批；限定收件人白名单；读取的外部内容按不可信数据处理；最小权限；记录完整运行轨迹。答出两条即可。
-
-</details>
 
 ---
 
