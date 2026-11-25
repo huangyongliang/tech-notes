@@ -2,39 +2,25 @@
 
 > [AI](../) › 编程智能体工作流
 
-把编程 Agent 当作团队成员来用的工程方法：怎么写规则和规格、怎么拆任务、怎么让它在 CI 里自动修复与评审，以及如何控制风险。目标是可复现、可审查，而不是「一把梭」。
+规则文件固定构建、测试和禁区。Agent 仍会自己选改哪些文件。没有可失败的测试时，Verify 停不住错误。worktree 和命令白名单也不是凭证隔离。
 
 > 相关主题：[AI 编程助手与 IDE](../11-ai-coding-tools/) · [持续交付与 GitOps](../../microservices/14-cicd-gitops/) · [安全与治理](../19-security-governance/)
 
-## 本关定位
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-| 项 | 内容 |
-|----|------|
-| 定位 | 第二章应用工程：从「会用工具」进阶到「用工程方法驾驭编程 Agent」 |
-| 前置要求 | [AI 编程助手与 IDE](../11-ai-coding-tools/)；熟悉 Git 分支、PR 与 CI 流水线 |
-| 粗略用时 | 1–2 周（粗略参考） |
-| 章节 | 第二章 应用工程 |
+## 这一页补哪一块 {#_1}
 
-## 闯关任务
+`AGENTS.md` 写的是稳定命令和禁止项，不是这一次的需求，更不是密钥。Explore → Plan → Code → Verify 里，测试是唯一能让 Agent 自己停下来的信号。并行用的 worktree 只是另一份工作树。CI 里的示例 YAML 是只读示意：没有固定 Action 的完整 SHA，也没有在带 secret 的上下文检出不可信 PR。
 
-**QUEST 12 · 第二章 应用工程**
+## 规则文件 {#_4}
 
-- [ ] 能够为项目写一份有效的 `AGENTS.md`，包含构建、测试命令与代码约定。
-- [ ] 能够按 Explore → Plan → Code → Verify 的节奏驱动 Agent 完成一个功能，并让测试成为验收标准。
-- [ ] 能够用 Spec 驱动开发（如 GitHub Spec Kit）把需求转成规格、计划和任务。
-- [ ] 能够用 git worktree 或容器并行运行多个 Agent，并配置权限白名单。
-- [ ] 能够在 CI 中接入编程 Agent 做自动评审或修复，并识别其中的安全风险。
+<span id="_2"></span>
 
-**奖励**：+100 XP · 徽章「Agent 工头」（徽章名暂定，内容建设中）
-
-## 知识要点
-
-### 规则文件
-
-- `AGENTS.md` 是跨工具的开放格式，放在仓库根目录（子目录可再放一份覆盖局部规则），多数编程 Agent 都会读取。
-- 各工具也有自己的文件：Claude Code 的 `CLAUDE.md`、Cursor Rules、Copilot 的 `.github/copilot-instructions.md`；可以让它们引用同一份 `AGENTS.md`，避免多处维护。
-- 写什么：怎么构建、怎么跑测试和 lint、目录约定、代码风格、禁止事项；不写人人都知道的常识。
-- 规则要短而具体，并随项目演进更新；Agent 反复犯同一个错时，就把正确做法补进规则文件。
+- `AGENTS.md` 放在仓库根目录，子目录可以再放一份覆盖局部规则。多数编程 Agent 会读它。
+- Claude Code 的 `CLAUDE.md`、Cursor Rules、Copilot 的 `.github/copilot-instructions.md` 可以指向同一份 `AGENTS.md`，避免两处各写一套。
+- 写构建、测试、lint、目录、风格和禁止项。不写人人都知道的常识，不写公司史，不写生产密码，不写只属于这一次任务的需求。
+- 规则要短。Agent 每次都会读。同一类错误反复出现时，把正确做法补进文件，而不是把文件写成手册。
 
 ```markdown
 # AGENTS.md
@@ -53,7 +39,9 @@
 - 不要升级依赖版本，除非任务明确要求
 ```
 
-### Explore → Plan → Code → Verify
+具体需求放在当次任务里。密钥放在仓库和规则都读不到的地方。这和 [AI 编程助手与 IDE](../11-ai-coding-tools/) 里「ignore 不是系统权限」是同一条边界。
+
+## Explore、Plan、Code、Verify {#explore-plan-code-verify}
 
 ```mermaid
 flowchart LR
@@ -64,15 +52,16 @@ flowchart LR
     V -->|通过| R[人工评审合并]
 ```
 
-- Explore：先让 Agent 只读地理解相关代码，不急着改。
-- Plan：让它写出修改计划并由你确认，复杂任务把计划存成文件。
-- Code：小步实现、小步提交，每步都能单独回滚。
-- Verify：测试先行，给 Agent 一个可验证的目标；它能自己跑测试，就能自己发现并修正错误。
+- Explore：先只读相关代码，不改文件。
+- Plan：写出要改什么，复杂任务把计划存成可评审的文件。人确认之前不开始改。
+- Code：小步提交，每步能单独回滚。
+- Verify：测试是验收标准。失败就回到 Code。通过之后仍由人评审再合并。
 
-### Spec 驱动开发
+没有测试时，这一环没有失败信号。Agent 只能停在「看起来对」。这和 [智能体](../09-agents/) 里「步骤事先写死就用工作流」是同一类选择：能写成固定命令和固定测试的，不要指望模型自己发明完成定义。测试怎么算数，见 [代码模型与评测](../13-code-models-evals/)。
 
-- 思路：先写规格（做什么、为什么）→ 技术计划 → 任务清单 → 实现，规格和计划都是仓库里可评审的文件。
-- GitHub Spec Kit 提供 `specify` CLI 和一组技能命令；Kiro 内置 specs 工作流。
+## 先写规格 {#spec}
+
+规格写做什么和为什么，然后是技术计划和任务清单，最后才是实现。这些文件留在仓库里，供人评审。GitHub Spec Kit 提供 `specify` CLI。Kiro 有自己的 specs 流程。
 
 ```bash
 uv tool install specify-cli
@@ -87,13 +76,13 @@ specify init my-project --integration copilot
 /speckit-implement
 ```
 
-上面是 Copilot 的默认命令写法，其他 Agent 的调用语法见 Spec Kit 文档。
+上面是 Copilot 的默认写法。其他 Agent 的语法以 Spec Kit 文档为准。2026-11-25 没有安装 `specify`，也没有跑这些斜杠命令。
 
-### 并行、隔离与权限
+## 并行与权限 {#_5}
 
-- 并行：每个 Agent 一个 `git worktree` 可减少文件冲突；需要安全隔离时另配受限容器 / 沙箱；主 Agent 也可以派生子 Agent 处理独立的子任务。
-- 权限：按白名单开放命令，例如只允许 `git diff`、`./mvnw test`；网络访问与写操作默认需要审批。
-- 无人值守运行时用 headless 模式，并明确限制工具：
+每个 Agent 一份 `git worktree`，减少互相改同一批文件。需要安全隔离时另配受限容器。主 Agent 可以把独立子任务派给子 Agent。命令按白名单开放，例如只允许 `git diff` 和 `./mvnw test`。网络和写操作默认要人确认。
+
+无人值守时用 headless，并写明允许的工具：
 
 ```bash
 git worktree add ../order-refund -b feat/refund
@@ -102,10 +91,11 @@ claude -p "修复 OrderServiceTest 中失败的测试，只修改 src/ 下的文
   --allowedTools "Read,Edit,Bash(./mvnw -q test *)"
 ```
 
-### CI 中的编程 Agent
+worktree 不是凭证隔离。它不新建操作系统用户，SSH 密钥、环境变量和网络仍是同一套。`--allowedTools` 是产品白名单，不是操作系统权限。允许 `./mvnw test` 时，Maven 插件、注解处理器和测试代码仍会执行。无人值守还要无生产凭证、受限网络和可丢弃环境。2026-11-25 没有执行上面的 `git worktree` 和 `claude -p`。
 
-- PR 自动评审、Issue 自动实现、失败测试自动修复，最终合并仍由人决定。
-- Claude Code GitHub Actions 在 Issue 或 PR 评论中 `@claude` 即可触发；Copilot coding agent、Codex 云任务提供类似的异步工作方式。
+## CI 里的 Agent {#ci-agent}
+
+PR 评审、Issue 实现和失败测试的修复，最后的合并仍由人决定。Claude Code GitHub Actions 用 Issue 或 PR 评论里的 `@claude` 触发。Copilot coding agent 和 Codex 云任务是同类的异步做法。
 
 ```yaml
 name: Claude Code
@@ -137,92 +127,79 @@ jobs:
 
 此 YAML 是受信维护者触发的只读分析配置示意，不包含自动提交 / 评论权限；生产前需按官方仓库解析并固定两项 Action 的完整 SHA，配置环境审批、模型预算与工具限制。不要在此 secret 上下文检出不可信 PR 分支；若需要发布分析结果，放在独立、经过审批且只处理数据的 job 中。
 
-### 自定义扩展
+2026-11-25 没有部署这条工作流，也没有重开 Actions 文档。`author_association` 只限制谁能触发，不证明评论内容可信。Issue、PR 评论、仓库文档和测试日志都可以夹带提示注入。
 
-- Skills / Slash 命令：把团队常用流程（发版检查、写迁移脚本）沉淀成可复用指令。
-- Hooks：在 Agent 编辑文件或运行命令前后自动执行格式化、lint 或安全检查。
-- MCP Server：接入内部系统（工单、文档、监控），见 [MCP 协议与开发](../10-mcp/)。
-- Agent SDK：Claude Agent SDK、Cursor Agent SDK、Codex SDK 可用来自建内部编程 Agent。
+## 扩展 {#_6}
 
-### 安全的 CI 验证与 Java 交付链
+- Skills 和斜杠命令：把发版检查、写迁移这类重复流程收成可复用指令。
+- Hooks：在编辑或跑命令的前后做格式化、lint 或安全检查。检查失败就停，不把 Hook 当成已经授权。
+- MCP Server：接工单、文档或监控，见 [MCP 协议与开发](../10-mcp/)。发现到一个 Server 不是授权。
+- Agent SDK：Claude Agent SDK、Cursor Agent SDK、Codex SDK 用来做内部编程 Agent。SDK 版本不是本章核对过的当前号。
 
-- Issue / PR 评论、仓库文档、测试日志、依赖脚本都可能携带提示注入；只有受信维护者的触发也不代表内容可信。身份校验、工具白名单、预算和环境隔离必须同时存在。
-- 默认 `GITHUB_TOKEN` 只读，按 job 开最小权限；第三方 Actions 生产配置固定完整 commit SHA，并验证来自官方仓库。不要在有 secret / 写权限的 `pull_request_target` 上检出或执行不可信 PR 代码。
-- 构建可能执行 Maven / Gradle 插件、注解处理器与测试代码；即使命令只允许 `mvn test`，也必须在无生产凭证、受限网络的临时环境运行。worktree 不是沙箱。
-- 交付物包括规格、差异、单元 / 集成测试、依赖与漏洞报告、模型调用预算和未验证项。复用 [Java 构建工具](../../java/07-build-tools/)、[微服务测试](../../microservices/15-testing/) 和 [CI/CD](../../microservices/14-cicd-gitops/)，把「Agent 说完成」换成可复查的检查结果。
+## 检查结果才算交付 {#ci-java}
 
-## 选型对比
+评论、文档、测试日志和依赖脚本都可能带提示注入。触发者是维护者，也不表示内容可信。身份校验、工具白名单、预算和环境隔离要同时在。
+
+默认 `GITHUB_TOKEN` 只读，按 job 开最小权限。第三方 Action 在生产配置里固定完整 commit SHA，并核对来自官方仓库。不要在有 secret 或写权限的 `pull_request_target` 上检出或执行不可信 PR。
+
+构建会跑 Maven 或 Gradle 插件、注解处理器和测试代码。命令白名单里即使只有 `mvn test`，也要放在无生产凭证、网络受限的临时环境。worktree 不是沙箱。
+
+交出去的是规格、diff、单元和集成测试、依赖与漏洞报告、模型预算，以及没有验证的项。复用 [Java 构建工具](../../java/07-build-tools/)、[微服务测试](../../microservices/15-testing/) 和 [CI/CD](../../microservices/14-cicd-gitops/)。「Agent 说完成」换成这些检查的结果。合并仍留给人，见 [安全与治理](../19-security-governance/)。
+
+## 怎么选 {#agent-workflow-choice}
+
+<span id="_7"></span>
 
 | 方式 | 代表 | 适合 | 风险控制 |
 |------|------|------|----------|
 | 本地交互 | IDE Agent 模式、CLI Agent | 探索、调试、需要频繁确认的任务 | 逐步审批，看 diff |
-| 本地 headless | `claude -p`、Codex 非交互模式 | 批量重构、脚本化任务 | 工具白名单、worktree 隔离 |
-| CI 触发 | Claude Code GitHub Actions | PR 评审、评论触发的修改 | 最小 `permissions`、密钥放 Secrets |
+| 本地 headless | `claude -p`、Codex 非交互模式 | 批量重构、脚本化任务 | 工具白名单、worktree 隔离；白名单不是沙箱 |
+| CI 触发 | Claude Code GitHub Actions | PR 评审、评论触发的修改 | 最小 `permissions`、密钥放 Secrets、固定 Action SHA |
 | 云端异步 | Copilot coding agent、Codex 云任务 | 从 Issue 到 PR 的独立任务 | 沙箱环境、人工评审合并 |
 | 规格驱动 | GitHub Spec Kit v1.3.0、Kiro specs | 新功能、需求不清晰的任务 | 规格与计划先评审 |
 
 > [!WARNING]
-> Spec Kit v1.3.0 发布于 2026-11-04（太平洋时间），命令写法为 `/speckit-specify` 这类连字符形式，旧教程中的 `/speckit.specify` 已过时。Claude Code GitHub Actions 示例取自 2026-11-05 的官方文档（`anthropics/claude-code-action@v1`）。
+> Spec Kit v1.3.0 发布于 2026-11-04（太平洋时间），命令写法为 `/speckit-specify` 这类连字符形式，旧教程中的 `/speckit.specify` 已过时。Claude Code GitHub Actions 示例取自 2026-11-05 的官方文档（`anthropics/claude-code-action@v1`）。2026-11-25 没有重开这些页，不把它们称为当前版本。
 
-## 常见误区
+## 常见误读 {#_3}
 
-- 规则文件写成长篇文档：Agent 每次都要读，冗长无关的内容会挤占上下文并稀释重点。
-- 一次给 Agent 一个大需求：缺少中间检查点，跑偏后难以定位；应拆成可验证的小任务。
-- 没有测试就让 Agent 改代码：它无法判断自己是否改对，只能「看起来对」。
-- 多个 Agent 在同一个工作目录并行：互相覆盖文件、抢占端口，应使用 worktree 或容器隔离。
-- CI 中给 Agent 过大的权限：一条恶意 Issue 评论就可能通过提示注入让 Agent 泄露密钥或推送恶意代码。
-- 让 Agent 自己合并 PR：评审与合并必须留给人，见 [安全与治理](../19-security-governance/)。
+<span id="_8"></span>
 
-## 实践任务
+- 规则写成手册：每次都读，无关段落挤掉构建命令。
+- 一次丢一个大需求：中间没有可失败的检查，跑偏后无从回滚。
+- 没有测试就改代码：Verify 没有失败信号。
+- 多个 Agent 共用一个目录：用 worktree 或容器分开文件。worktree 仍共享凭证。
+- 把 `--allowedTools` 当成沙箱：`./mvnw test` 仍会执行插件和测试代码。
+- CI 权限过大：一条评论里的提示注入就可能碰到密钥。YAML 示意没有代替固定 SHA。
+- 让 Agent 自己合并：评审和合并留给人。
 
-- 为你的一个项目写 `AGENTS.md`，让 Agent 在不额外提示的情况下正确跑通构建和测试。
-- 用 Explore → Plan → Code → Verify 完成一个小功能，保存计划文件和每一步的提交记录。
-- 用 Spec Kit 走一遍 constitution → specify → plan → tasks → implement，评审生成的规格与计划。
-- 在一个测试仓库中配置 Claude Code GitHub Actions，用 `@claude` 评论让它修复一个失败的测试，并检查其 `permissions` 是否最小化。
+## 可选核对 {#agent-workflow-check}
 
-## 资料索引
+<span id="_9"></span>
+
+1. 构建命令、这一次的需求、生产密码，各应写在哪里？为什么密码不能进 `AGENTS.md`？
+2. 每个 Agent 一个 worktree，再加上命令白名单，为什么仍不是沙箱？上面那份只读 YAML 在生产里还要另做哪两件事？
+
+<details markdown><summary>参考答案</summary>
+
+1. 构建、测试和禁止项写进 `AGENTS.md`。这一次做什么写在任务里。密码不进仓库、不进规则、不进提示。规则会被 Agent 反复读，写进去就等于交给模型上下文。
+2. worktree 只是另一份工作树，密钥、环境和网络还在。白名单只限制产品允许的命令名；`./mvnw test` 仍会跑插件和测试。YAML 还要把两个 Action 固定到官方仓库的完整 SHA，并且不要在带 secret 的上下文检出不可信 PR。2026-11-25 没有跑这些命令，也没有部署这条工作流。
+
+</details>
+
+<span id="_11"></span>
+
+## 资料索引 {#_10}
 
 - [AGENTS.md](https://agents.md/) — 编程 Agent 规则文件开放格式
-- [GitHub Spec Kit](https://github.com/github/spec-kit) — Spec 驱动开发工具包
-- [Claude Code 最佳实践](https://www.anthropic.com/engineering/claude-code-best-practices) — 官方工作流建议
-- [Claude Code GitHub Actions](https://code.claude.com/docs/en/github-actions) — CI 集成与权限说明
-- [Claude Code headless 模式](https://code.claude.com/docs/en/headless) — 非交互运行与工具白名单
+- [GitHub Spec Kit](https://github.com/github/spec-kit) — Spec 驱动开发工具包；v1.3.0 是 2026-11-04 的记录，2026-11-25 未重开
+- [Claude Code 最佳实践](https://www.anthropic.com/engineering/claude-code-best-practices) — 官方工作流建议；2026-11-25 未重开
+- [Claude Code GitHub Actions](https://code.claude.com/docs/en/github-actions) — CI 集成与权限说明；示例取自 2026-11-05
+- [Claude Code headless 模式](https://code.claude.com/docs/en/headless) — 非交互运行与工具白名单；2026-11-25 未运行
 - [Copilot coding agent](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent) — GitHub 异步编程 Agent
 - [GitHub Actions 安全使用](https://docs.github.com/en/actions/reference/security/secure-use) — 最小权限与固定完整 SHA
 - [GitHub pull_request_target 安全](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target) — 禁止在特权上下文运行不可信代码
 - [GitHub 脚本注入](https://docs.github.com/en/actions/concepts/security/script-injections) — 事件字段与命令拼接风险
-
-## 通关自测
-
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】以下哪项最适合写进 `AGENTS.md`？
-    - A. 公司发展历史
-    - B. 构建与测试命令、目录约定和禁止事项
-    - C. 生产数据库密码
-    - D. 每次任务的具体需求
-2. 【单选】让多个编程 Agent 并行工作而互不干扰，推荐的做法是：
-    - A. 在同一目录同时运行
-    - B. 每个 Agent 使用独立的 git worktree 或容器
-    - C. 关闭版本控制
-    - D. 让它们轮流提交到主分支
-3. 【单选】Explore → Plan → Code → Verify 中，让 Agent 能自我纠错的关键是：
-    - A. 更长的提示词
-    - B. 可运行的测试作为验收标准
-    - C. 更高的 temperature
-    - D. 更多的 MCP Server
-4. 【简答】说明 Spec 驱动开发的步骤，以及它相比「直接让 Agent 写代码」的好处。
-5. 【简答】在 CI 中让 Agent 响应 Issue 评论，存在哪些安全风险？如何缓解？
-
-<details markdown><summary>参考答案</summary>
-
-1. B — 规则文件写稳定、通用的项目知识；具体需求放在任务描述里，密钥绝不能写进仓库。
-2. B — worktree 或容器隔离文件与运行环境，避免互相覆盖。
-3. B — 测试给出客观的通过 / 失败信号，Agent 可以据此迭代修正。
-4. 规格 → 计划 → 任务 → 实现，各阶段产物都是可评审的文件。好处：需求和技术决策在写代码前就被评审；任务粒度小、可验证；结果可复现，便于多人协作和后续维护。
-5. 风险：评论中的提示注入诱导 Agent 泄露密钥、修改 CI 配置或推送恶意代码；权限过大；第三方 Action 供应链。缓解：最小化 `permissions`；限制可触发的用户；密钥放 Secrets 且不暴露给不可信输入；Agent 只能开 PR、不能合并；固定 Action 版本并审查。
-
-</details>
 
 ---
 
