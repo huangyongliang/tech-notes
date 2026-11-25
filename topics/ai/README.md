@@ -37,10 +37,10 @@ flowchart TD
 | 05 | [提示词与上下文工程](05-prompt-context/) | 结构化提示、上下文管理、DSPy | 🟢 |
 | 06 | [LLM API 编程模式](06-llm-api-programming/) | 流式、结构化输出、函数调用、多语言 SDK | 🟢 |
 | 07 | [应用开发框架](07-app-frameworks/) | LangChain / Spring AI / LangChain4j / AI SDK | 🟢 |
-| 08 | [检索增强生成](08-rag/) | 向量库、混合检索、重排、GraphRAG | 🟡 |
-| 09 | [智能体](09-agents/) | Agent 模式、多 Agent、A2A | 🟡 |
-| 10 | [MCP 协议与开发](10-mcp/) | Server / Client 开发、官方 SDK | 🟡 |
-| 11 | [AI 编程助手与 IDE](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟡 |
+| 08 | [检索增强生成](08-rag/) | 向量库、混合检索、重排、GraphRAG | 🟢 |
+| 09 | [智能体](09-agents/) | Agent 模式、多 Agent、A2A | 🟢 |
+| 10 | [MCP 协议与开发](10-mcp/) | Server / Client 开发、官方 SDK | 🟢 |
+| 11 | [AI 编程助手与 IDE](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟢 |
 | 12 | [编程智能体工作流](12-coding-agents/) | AGENTS.md、Spec 驱动、CI 集成 | 🟡 |
 | 13 | [代码模型与评测](13-code-models-evals/) | SWE-bench Pro、Terminal-Bench | 🟡 |
 | 14 | [微调与对齐](14-fine-tuning/) | LoRA / SFT / DPO / GRPO | 🟡 |

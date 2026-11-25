@@ -115,7 +115,7 @@
       "path": "topics/ai/08-rag/README.md",
       "title_zh": "检索增强生成",
       "title_en": "Retrieval-augmented generation",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -123,7 +123,7 @@
       "path": "topics/ai/09-agents/README.md",
       "title_zh": "智能体",
       "title_en": "Agents",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -131,7 +131,7 @@
       "path": "topics/ai/10-mcp/README.md",
       "title_zh": "MCP 协议与开发",
       "title_en": "MCP",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -139,7 +139,7 @@
       "path": "topics/ai/11-ai-coding-tools/README.md",
       "title_zh": "AI 编程助手与 IDE",
       "title_en": "AI coding tools and IDEs",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 63,
-      "complete": 66
+      "building": 59,
+      "complete": 70
     }
   },
   "pending_integrations": [
