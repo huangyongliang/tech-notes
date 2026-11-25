@@ -99,7 +99,7 @@ class TicketPrompt {
 ## 推理模型怎么提示 {#_5}
 
 - 推理模型会自己规划步骤。提示里写清楚目标、上下文、约束和「怎样算完成」，比写「第一步…第二步…」更有效。过细的步骤可能挡住模型自己的规划。
-- 2026-11-25 打开的 Anthropic 模型总览写明：当前所列模型使用自适应思考，并由 effort 调节。同日打开的 effort 文档写：Messages API 用 `output_config.effort` 设置力度；`adaptive` 是思考模式，不是 effort 的取值。该文档还出现 `thinking: {"type": "adaptive"}` 这一写法，并写明 Fable 5.2 的自适应思考始终开启，把 `thinking` 设为 `{"type": "disabled"}` 会返回 400。参数名、默认值和枚举以落地时的官方页为准，请求形态回 06。
+- 2026-11-25 打开的 Anthropic 模型总览写明：当前所列模型使用自适应思考，并由 effort 调节。同日打开的 effort 文档写：Messages API 用 `output_config.effort` 设置力度；`adaptive` 是思考模式，不是 effort 的取值。该文档还出现 `thinking: {"type": "adaptive"}` 这一写法。Fable 5.2 段写自适应思考始终开启，API 默认 effort 为 `high`，并用 effort 控制思考深度、延迟和成本。参数名、默认值和枚举以落地时的官方页为准，请求形态回 06。
 - OpenAI 示例里的 `reasoning.effort` 留在 06 的围栏中。具体枚举以当时的官方 SDK 和文档为准，未对照 GPT-6.2 重跑。
 - 不要要求模型把完整思考过程交给用户。需要解释时，要求输出简短的结论依据。思考过程也不单独当作安全审计。
 
