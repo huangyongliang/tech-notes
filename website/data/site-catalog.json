@@ -403,7 +403,7 @@
       "path": "topics/cs-theory/README.md",
       "title_zh": "理论基础",
       "title_en": "Theory",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 36,
-      "complete": 93
+      "building": 35,
+      "complete": 94
     }
   },
   "pending_integrations": [
