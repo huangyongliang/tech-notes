@@ -43,7 +43,7 @@ flowchart LR
 | 算法与复杂度 | [图的度数](05-graphs-degrees/) 起到 [最短路](11-shortest-path-proofs/)；问难度类别再读 [复杂度](14-complexity-reductions/) | [数据结构与算法](../cs-basics/06-data-structures-algorithms/) |
 | 操作系统 | [证明与归纳](03-proofs-induction/)；依赖成圈再读 [有向图](10-digraphs-dag/) | [操作系统](../cs-basics/02-operating-systems/) |
 | 数据库 | [集合、关系与函数](02-sets-relations-functions/) | [数据库基础](../cs-basics/07-databases/)；二值逻辑不覆盖 SQL 的 NULL |
-| 分布式与服务依赖 | [有向图](10-digraphs-dag/)；路径代价再读 [最短路](11-shortest-path-proofs/) | [系统](../systems/) 仍是骨架；实践在 [微服务](../microservices/) 的分布式事务 |
+| 分布式与服务依赖 | [有向图](10-digraphs-dag/)；路径代价再读 [最短路](11-shortest-path-proofs/) | [系统](../systems/) 和 [分布式系统模型](../systems/distributed/) 都在，目录状态都是 complete。实践中的分布式事务仍看 [微服务](../microservices/)。这一页不重写分布式模型 |
 
 左列不是右列的先修。这些理论章只在网站上，不在小程序打包的 35 篇里。
 
