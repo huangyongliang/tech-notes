@@ -41,15 +41,15 @@ flowchart TD
 | 09 | [智能体](09-agents/) | Agent 模式、多 Agent、A2A | 🟢 |
 | 10 | [MCP 协议与开发](10-mcp/) | Server / Client 开发、官方 SDK | 🟢 |
 | 11 | [AI 编程助手与 IDE](11-ai-coding-tools/) | Cursor / Copilot / Claude Code / Codex | 🟢 |
-| 12 | [编程智能体工作流](12-coding-agents/) | AGENTS.md、Spec 驱动、CI 集成 | 🟡 |
-| 13 | [代码模型与评测](13-code-models-evals/) | SWE-bench Pro、Terminal-Bench | 🟡 |
-| 14 | [微调与对齐](14-fine-tuning/) | LoRA / SFT / DPO / GRPO | 🟡 |
-| 15 | [推理与服务](15-inference-serving/) | vLLM / SGLang / 量化 / KV Cache | 🟡 |
-| 16 | [多模态](16-multimodal/) | 视觉、语音、图像与视频生成 | 🟡 |
-| 17 | [评测与可观测](17-evals-observability/) | LLM-as-judge、Langfuse、OTel GenAI | 🟡 |
-| 18 | [LLMOps 与 GPU 基础设施](18-llmops-infra/) | KServe / Ray / Kueue / GPU Operator | 🟡 |
-| 19 | [安全与治理](19-security-governance/) | OWASP LLM Top 10、EU AI Act、国内法规 | 🟡 |
-| 20 | [前沿与趋势](20-trends/) | 长程 Agent、开放权重、新架构 | 🟡 |
+| 12 | [编程智能体工作流](12-coding-agents/) | AGENTS.md、Spec 驱动、CI 集成 | 🟢 |
+| 13 | [代码模型与评测](13-code-models-evals/) | SWE-bench Pro、Terminal-Bench | 🟢 |
+| 14 | [微调与对齐](14-fine-tuning/) | LoRA / SFT / DPO / GRPO | 🟢 |
+| 15 | [推理与服务](15-inference-serving/) | vLLM / SGLang / 量化 / KV Cache | 🟢 |
+| 16 | [多模态](16-multimodal/) | 视觉、语音、图像与视频生成 | 🟢 |
+| 17 | [评测与可观测](17-evals-observability/) | LLM-as-judge、Langfuse、OTel GenAI | 🟢 |
+| 18 | [LLMOps 与 GPU 基础设施](18-llmops-infra/) | KServe / Ray / Kueue / GPU Operator | 🟢 |
+| 19 | [安全与治理](19-security-governance/) | OWASP LLM Top 10、EU AI Act、国内法规 | 🟢 |
+| 20 | [前沿与趋势](20-trends/) | 长程 Agent、开放权重、新架构 | 🟢 |
 🟢 已完成 · 🟡 搭建中 · ⚪ 待开始
 
 ## 与 Java、微服务的衔接

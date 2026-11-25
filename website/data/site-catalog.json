@@ -147,7 +147,7 @@
       "path": "topics/ai/12-coding-agents/README.md",
       "title_zh": "编程智能体工作流",
       "title_en": "Coding-agent workflows",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -155,7 +155,7 @@
       "path": "topics/ai/13-code-models-evals/README.md",
       "title_zh": "代码模型与评测",
       "title_en": "Code models and evals",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -163,7 +163,7 @@
       "path": "topics/ai/14-fine-tuning/README.md",
       "title_zh": "微调与对齐",
       "title_en": "Fine-tuning and alignment",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -171,7 +171,7 @@
       "path": "topics/ai/15-inference-serving/README.md",
       "title_zh": "推理与服务",
       "title_en": "Inference and serving",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -179,7 +179,7 @@
       "path": "topics/ai/16-multimodal/README.md",
       "title_zh": "多模态",
       "title_en": "Multimodal models",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -187,7 +187,7 @@
       "path": "topics/ai/17-evals-observability/README.md",
       "title_zh": "评测与可观测",
       "title_en": "Evals and observability",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -195,7 +195,7 @@
       "path": "topics/ai/18-llmops-infra/README.md",
       "title_zh": "LLMOps 与 GPU 基础设施",
       "title_en": "LLMOps and GPU infrastructure",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -203,7 +203,7 @@
       "path": "topics/ai/19-security-governance/README.md",
       "title_zh": "安全与治理",
       "title_en": "Security and governance",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -211,7 +211,7 @@
       "path": "topics/ai/20-trends/README.md",
       "title_zh": "前沿与趋势",
       "title_en": "Frontiers and trends",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 59,
-      "complete": 70
+      "building": 50,
+      "complete": 79
     }
   },
   "pending_integrations": [
