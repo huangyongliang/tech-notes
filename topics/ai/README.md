@@ -71,12 +71,12 @@ AI 主题以工程落地为主，多处直接建立在 Java 与微服务能力�
 ## 版本基线（2026-11）
 
 > [!WARNING]
-> 版本信息有时效，更新时同时改这里的日期。
+> 这是 2026-11 基线。各数字以拥有它的那一章为准，这里不刷新。日期只在真正重开来源时才动。
 
-- PyTorch 2.15.0 · Transformers 5.22.1 · vLLM 0.33.0 · SGLang 0.5.23 · Ollama 0.40.14
+- PyTorch 2.15.0 · Transformers 5.22.1 · vLLM 0.33.0 · SGLang 0.5.23 · Ollama 0.40.14。PyTorch 2.15.0 留在基线里，不是比章节更新的一次核对。Transformers 仍是 5.22.1；[深度学习框架](02-dl-frameworks/) 已写 2026-11-23 打开的 PyPI 是 5.24.0，并写明总览不改、不再把 5.22.1 叫成当前最新。[微调与对齐](14-fine-tuning/) 把 5.22.1 留在 2026-11-05 的运行注记里。vLLM 仍是 0.33.0；[推理与服务](15-inference-serving/) 已写 2026-11-25 没有重开发布页，不把表内版本称为当前版本。
 - Spring AI 2.0.2 · LangChain4j 1.23.0 · LangChain 1.4.9 · LangGraph 1.2.20 · Vercel AI SDK 7.0.163
-- MCP 规范 2026-07-28 · A2A v1.0.1 · Claude Code 2.1.318 · Codex CLI 0.166.0 · Gemini CLI 0.67.0
-- KServe 0.21.0 · Ray 2.60.0 · Langfuse v4.75.0 · OWASP LLM Top 10 2026
+- MCP 规范 2026-07-28 · A2A v1.0.1 · Claude Code 2.1.318 · Codex CLI 0.166.0 · Gemini CLI 0.67.0。MCP 仍是规范修订 2026-07-28；SDK 版本号不是协议修订号。A2A 仍写 v1.0.1，不改成 1.0.0。[智能体](09-agents/) 已写 2026-11-25 打开的规范页是 Latest Released Version 1.0.0，1.0.1 是更早的 GitHub 快照。Claude Code、Codex CLI、Gemini CLI 不补新版本，未重开的链接也不写成当天文档。
+- KServe 0.21.0 · Ray 2.60.0 · Langfuse v4.75.0 · OWASP LLM Top 10 2026。这些数字不补新版本，未重开的链接也不写成当天文档。
 
 ## 资料索引
 
