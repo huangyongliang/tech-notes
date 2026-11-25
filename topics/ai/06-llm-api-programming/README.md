@@ -2,42 +2,28 @@
 
 > [AI](../) › LLM API 编程模式
 
-不依赖框架，直接用官方 SDK 写 LLM 调用：消息结构、流式、结构化输出、函数调用、多轮工具循环、重试与成本控制。这是 07–10 关的共同底座，按 Python、Java、TypeScript 给出对应写法。
+不依赖框架，直接用官方 SDK 写 LLM 调用：消息结构、流式、结构化输出、函数调用、多轮工具循环、重试与成本控制。这是后面几章的共同底座，按 Python、Java、TypeScript 给出对应写法。
 
 > 相关主题：[Java 并发](../../java/05-concurrency/) · [微服务容错](../../microservices/05-resilience/)
 
-## 本关定位
+> [!NOTE]
+> 本仓库和站点的内容由 AI 生成，资料与资源链接来源于网络，仅供学习参考；如有错误或侵权，请提 Issue 告知。
 
-| 项 | 内容 |
-|----|------|
-| 定位 | 第一章入门的编程主线：不借助框架也能写出可靠的 LLM 调用代码 |
-| 前置要求 | [Python 速成](../00-python-bridge/)、[提示词与上下文工程](../05-prompt-context/)；Java 方向需熟悉 HTTP 客户端与 JSON |
-| 粗略用时 | 1–2 周（粗略参考） |
-| 章节 | 第一章 入门 |
+## 这一页补哪一块 {#_1}
 
-## 闯关任务
+本页处理六件必须按协议做的事：消息结构、流式拼接、Schema 约束、带上限的工具回填、超时重试，以及密钥只放在服务端。模型怎么选回 [模型全景](../04-model-landscape/)，提示和缓存顺序回 [提示词与上下文工程](../05-prompt-context/)，框架托管的循环回 [应用开发框架](../07-app-frameworks/)。
 
-**QUEST 06 · 第一章 入门**
+## 三种主流接口形态 {#_4}
 
-- [ ] 能够用 OpenAI Responses API、Anthropic Messages API 和 Gemini API 完成一次调用，并读出文本与 Token 用量。
-- [ ] 能够实现流式输出，并说明 SSE 事件的增量拼接方式。
-- [ ] 能够用 JSON Schema 约束的结构化输出把模型结果映射到 Pydantic 模型、Zod schema 或 Java 类。
-- [ ] 能够手写一个带上限的多轮工具调用循环，正确回填工具结果。
-- [ ] 能够为 LLM 调用配置超时、重试、限流和成本记录，并说明密钥为什么不能进前端。
-
-**奖励**：+100 XP · 徽章「接口驯服师」（徽章名暂定，内容建设中）
-
-## 知识要点
-
-### 三种主流接口形态
+<span id="_2"></span>
 
 - OpenAI Responses API：`input` 可以是字符串或「条目列表」，`instructions` 放系统指令，结果用 `output_text` 读取；工具调用和工具结果都是 `input` / `output` 里的条目。
 - Anthropic Messages API：`system` 单独传，`messages` 是 user / assistant 交替的列表，`max_tokens` 必填；工具调用以 `tool_use` 内容块出现，结果以 `tool_result` 块回填。
 - Gemini API：`google-genai` SDK 的 `client.models.generate_content(model=, contents=, config=)`。
-- OpenAI 兼容接口是国产模型的通用接入方式：改 `base_url` 和模型名即可；DeepSeek 同时兼容 Anthropic 格式。
+- OpenAI 兼容接口是国产模型的通用接入方式：改 `base_url` 和模型名即可；DeepSeek 同时兼容 Anthropic 格式。兼容只覆盖对方实现了的那一部分，不能默认 reasoning、缓存和 schema 全部等价。
 
 > [!NOTE]
-> 下面带「运行输出」的 Python 示例在编写时连接本地模拟服务运行（返回固定响应），用来验证 SDK 参数与循环逻辑；换成真实 API Key 后，模型的措辞会不同。标注「需要真实 API Key」的示例只做了参数校验。
+> 下面带「运行输出」的 Python 示例在编写时连接本地模拟服务运行（返回固定响应），用来验证 SDK 参数与循环逻辑；换成真实 API Key 后，模型的措辞会不同。标注「需要真实 API Key」的示例只做了参数校验。围栏里的模型 ID 是写作时的快照。2026-11-25 没有改这些 ID，也没有发送真实请求。
 
 OpenAI 基础调用与结构化输出：
 
@@ -75,13 +61,15 @@ ticket = parsed.output_parsed
 print(type(ticket).__name__, ticket.category, ticket.urgent)
 ```
 
-运行输出：
+模拟服务的运行输出（不是真实模型的保证答复）：
 
 ```text
 KV Cache 缓存已生成 Token 的键和值，避免重复计算。
 tokens: 12 8
 Ticket 退款 False
 ```
+
+围栏里的 `reasoning={"effort": "low"}` 按写作时的文档写入。具体枚举以落地时的官方 SDK 为准。Changelog 在 2026-11-17 写明 GPT-6.2 改变了 Responses API 编辑对话前缀时如何保留推理，以及如何处理顶层 `instructions`。示例仍用 `gpt-6-astra` 和原来的调用形状，未按迁移指南重跑，所以不改这段代码。
 
 Gemini 的写法（`google-genai` SDK）：
 
@@ -99,10 +87,12 @@ resp = client.models.generate_content(
 print(resp.text)
 ```
 
-### 流式输出
+`gemini-3.8-flash` 在 2026-11-25 打开的模型页上仍是有效 ID，页面称它为上一代 Flash。这段代码只做了参数形状，没有运行输出，也没有换成 `gemini-4-carbon`。
 
-- 服务端用 SSE（Server-Sent Events）逐段推送事件；客户端按事件类型拼接文本增量，最后一个事件带完整用量。
-- 后端转发给浏览器时，Java 可以用虚拟线程处理大量长连接（见 [Java 并发](../../java/05-concurrency/)），前端用 `EventSource` 或 `fetch` 读取流。
+## 流式输出 {#_5}
+
+- 服务端用 SSE（Server-Sent Events）逐段推送事件；客户端按事件类型拼接文本增量，完成事件才带完整用量。
+- 连接可能在用量事件之前断开。缺失的用量记为未知，不能按零计费。后端转发给浏览器时，Java 可以用虚拟线程处理大量长连接（见 [Java 并发](../../java/05-concurrency/)），前端用 `EventSource` 或 `fetch` 读取流。浏览器断开不等于上游已经停止计费。
 
 ```python
 # 需要真实 API Key：流式输出，本机只做了参数校验
@@ -126,7 +116,9 @@ with anthropic.Anthropic().messages.stream(
     print("\n用量", s.get_final_message().usage.output_tokens)
 ```
 
-### 函数调用与工具循环
+这段只做参数校验，没有运行输出，也没有真实 API Key。
+
+## 函数调用与工具循环 {#_6}
 
 ```mermaid
 flowchart LR
@@ -140,8 +132,8 @@ flowchart LR
 
 - 工具 = 名称 + 描述 + JSON Schema 参数。描述写清「什么时候用、参数含义」，模型才会选对工具。
 - 循环终止条件：模型不再请求工具，或达到步数上限。一定要设上限，防止死循环烧钱。
-- 模型可能一次返回多个工具调用（并行调用），要逐个执行并按 `call_id` / `tool_use_id` 对应回填。
-- `strict: true` 让工具参数严格符合 schema；`tool_choice` 可以强制或禁止调用工具。
+- 模型可能一次返回多个工具调用（并行调用），要逐个执行并按 `call_id` / `tool_use_id` 对应回填。漏掉模型自己发出的调用条目，下一轮就对不上。
+- `strict: true` 让工具参数严格符合 schema；`tool_choice` 可以强制或禁止调用工具。schema 通过不等于业务上允许执行。
 
 OpenAI Responses API 版本：
 
@@ -185,12 +177,14 @@ for step in range(5):                              # 上限防止无限循环
         items.append({"type": "function_call_output", "call_id": call.call_id, "output": json.dumps(result)})
 ```
 
-运行输出：
+模拟服务的运行输出：
 
 ```text
 step 0: get_weather({"city": "北京"}) -> {'city': '北京', 'temp_c': 21}
 北京现在 21°C。
 ```
+
+执行完工具后，要把模型返回的 `function_call` 和带同一 `call_id` 的 `function_call_output` 一起放回 `input`。只追加一条用户消息，模型看不到自己发起过哪一次调用。
 
 Anthropic Messages API 版本：
 
@@ -235,14 +229,16 @@ for step in range(5):
     messages.append({"role": "user", "content": results})
 ```
 
-运行输出：
+模拟服务的运行输出：
 
 ```text
 step 0: get_weather({'city': '北京'}) -> {'city': '北京', 'temp_c': 21}
 北京现在 21°C。
 ```
 
-### 结构化输出
+围栏里的 `thinking={"type": "adaptive"}` 和 `output_config={"effort": "low"}` 是写作时按当时文档写入的，注释原文也留在围栏里。2026-11-25 打开的模型总览仍把当前所列模型描述为自适应思考，并由 effort 调节；同日的 effort 文档写明用 `output_config.effort`，并出现 `thinking: {"type": "adaptive"}`。Fable 5.2 的发布说明还写了前缀检查和思考块不能跨模型随意回放。落地前对照当前 Messages API。字段若已变更，只改说明；未重跑就不改这段代码。assistant 的 `tool_use` 块之后要紧跟 user 的 `tool_result`，并用同一个 `tool_use_id`。
+
+## 结构化输出 {#_7}
 
 - 让支持该能力的 API 用 JSON Schema 约束解码，通常比仅提示「请输出 JSON」更可靠；拒答、截断和协议错误仍须单独处理。
 - Python 用 Pydantic、TypeScript 用 Zod、Java 用普通类或 record 描述结构，SDK 负责转成 schema 并解析结果。
@@ -271,15 +267,17 @@ msg = client.messages.parse(
 print(msg.parsed_output)
 ```
 
-运行输出：
+模拟服务的运行输出：
 
 ```text
 category='退款' urgent=False reason='未发货要求退款'
 ```
 
-### Java 与 TypeScript
+合法 JSON 不等于事实正确。拒答、截断和业务字段仍要单独判断，不能因为解析成功就执行退款或改订单。
 
-依赖坐标：`com.openai:openai-java:4.101.0`（Maven Central 与官方 SDK 源码核对，2026-11-05）；Anthropic 对应 `com.anthropic:anthropic-java:3.6.0`。保存为 `TicketClassifier.java`；完整 imports 如下。编译状态：2026-11-06 在 JDK 21.0.12.1、Maven 3.8.7 上 `mvn -DskipTests compile` 通过；未运行程序，未发送 API 请求。
+## Java 与 TypeScript {#java-typescript}
+
+依赖坐标保持写作时的快照：`com.openai:openai-java:4.101.0`（Maven Central 与官方 SDK 源码核对，2026-11-05）；Anthropic 对应 `com.anthropic:anthropic-java:3.6.0`。保存为 `TicketClassifier.java`；完整 imports 如下。编译状态：2026-11-06 在 JDK 21.0.12.1、Maven 3.8.7 上 `mvn -DskipTests compile` 通过；未运行程序，未发送 API 请求。2026-11-25 未重开这两个 Java 坐标的注册表，也不把这句话改写成更新的 JDK 已跑通。
 
 ```java
 import com.openai.client.OpenAIClient;
@@ -371,7 +369,7 @@ public class JdkLlmClient {
 }
 ```
 
-TypeScript 推荐 Vercel AI SDK 7（`ai` 7.0.163），工具循环由 `stopWhen` 控制。下面的代码在本机连接同一个模拟服务运行，输出 `北京现在 21°C。`，共 2 步：
+TypeScript 示例使用写作时的 Vercel AI SDK 7（`ai` 7.0.163），工具循环由 `stopWhen` 控制。下面的代码在编写时连接同一个模拟服务运行，输出 `北京现在 21°C。`，共 2 步。2026-11-25 未重开 `ai` 的注册表，不把 7.0.163 写成当日最新版。
 
 ```typescript
 import { generateText, tool, isStepCount } from 'ai';
@@ -393,15 +391,15 @@ const { text, steps } = await generateText({
 console.log(text, steps.length);
 ```
 
-### 工程化：超时、重试、限流、成本
+## 工程化：超时、重试、限流、成本 {#_8}
 
-- 超时与重试：官方 SDK 默认对连接错误、429、5xx 做指数退避重试，`timeout`、`max_retries` 可在客户端或单次请求上配置；业务层再加熔断与降级（见 [微服务容错](../../microservices/05-resilience/)）。
+- 超时与重试：官方 SDK 默认对连接错误、429、5xx 做指数退避重试，`timeout`、`max_retries` 可在客户端或单次请求上配置；业务层再加熔断与降级（见 [微服务容错](../../microservices/05-resilience/)）。SDK、网关和业务三层同时重试会放大请求。
 - 限流：按供应商的 RPM / TPM 配额做客户端令牌桶，429 时尊重 `retry-after`。
-- 成本记录：每次调用记录模型、输入 / 输出 / 缓存 Token、耗时，汇总到可观测平台（见 [评测与可观测](../17-evals-observability/)）。
-- 降本：Prompt Caching（稳定前缀）、Batch API（离线任务通常半价）、小模型分流。
-- 统一网关：LiteLLM 等多模型代理统一鉴权、配额与日志；API Key 只放在服务端，绝不下发到浏览器或 App。
+- 成本记录：每次调用记录模型、输入 / 输出 / 缓存 Token、耗时，汇总到可观测平台（见 [评测与可观测](../17-evals-observability/)）。用量字段缺失时记未知。
+- 降本：Prompt Caching（稳定前缀）、Batch API（离线任务通常半价）、小模型分流。半价是供应商规则，不是本页重新核过的价目。
+- 统一网关：LiteLLM 等多模型代理统一鉴权、配额与日志；API Key 只放在服务端，绝不下发到浏览器或 App。本章没有重开 LiteLLM 的当前版本。
 
-### 失败也是协议的一部分
+## 失败也是协议的一部分 {#_9}
 
 - 原生 Structured Outputs 约束受支持的 JSON Schema 子集；仍需分别处理拒答、截断 / incomplete、网络错误、空内容和业务字段校验。合法 JSON 不代表事实正确，工具参数也必须重新授权。
 - `strict`、JSON mode、函数调用和普通文本输出是不同契约；OpenAI-compatible 仅表示部分接口形态兼容，不能默认 Responses、reasoning、缓存、工具并行和 schema 全部等价。
@@ -409,14 +407,16 @@ console.log(text, steps.length);
 - 区分连接超时、首字 / 空闲超时与总 deadline；下游取消应向上游传播，并限制缓冲区与排队长度。浏览器断开不等于模型或异步任务已停止计费。
 - SDK、网关和服务重试叠加会放大请求；统一重试预算，尊重 `Retry-After`，指数退避加抖动，只重试适合的暂时错误。工具副作用用业务幂等键 / 去重记录，不能假设模型生成接口天然幂等。
 
-### 接入已有微服务的职责边界
+## 接入已有微服务的职责边界 {#_10}
 
-把本页客户端封装成出站适配器；入口沿用 [API 网关](../../microservices/02-api-gateway/) 的身份、限流和租户预算。地址 / 模型名由 [服务发现与配置](../../microservices/03-discovery-config/) 管理，密钥由服务端 secret 注入，不下发浏览器。Spring 适配、Resilience4j 与会话隔离集中在 [下一关](../07-app-frameworks/)，避免每个业务控制器复制重试逻辑。
+把本页客户端封装成出站适配器；入口沿用 [API 网关](../../microservices/02-api-gateway/) 的身份、限流和租户预算。地址 / 模型名由 [服务发现与配置](../../microservices/03-discovery-config/) 管理，密钥由服务端 secret 注入，不下发浏览器。Spring 适配、Resilience4j 与会话隔离集中在 [应用开发框架](../07-app-frameworks/)，避免每个业务控制器复制重试逻辑。
 
-## 选型对比
+## 语言与接入方式怎么选 {#api-choice}
 
-| 语言 | 官方 SDK（2026-11） | 结构化输出 | 适合 |
-|------|---------------------|------------|------|
+<span id="_11"></span>
+
+| 语言 | 官方 SDK（2026-11-05 快照） | 结构化输出 | 适合 |
+|------|---------------------------|------------|------|
 | Python | `openai` 3.46.0、`anthropic` 2.6.0、`google-genai` 2.34.0 | Pydantic | 原型、数据处理、Agent |
 | Java | `openai-java` 4.101.0、`anthropic-java` 3.6.0 | Java 类 / record | 已有 Spring 后端，见 [应用开发框架](../07-app-frameworks/) |
 | TypeScript | `openai` 7.52.0、`@anthropic-ai/sdk` 1.6.0、AI SDK 7.0.163 | Zod | Web 全栈、流式 UI |
@@ -424,25 +424,39 @@ console.log(text, steps.length);
 | 多模型代理 | LiteLLM 1.108.1 | 透传 | 统一接入多家模型 |
 
 > [!WARNING]
-> 版本以 2026-11-05 的注册表 / 官方发布记录复核；未变更条目保留原发布基线。Instructor 1.17.0 依赖 `jiter<0.15`，而 `openai` 3.46.0 依赖 `jiter>=0.16`，两者在同一环境中无法一起安装；需要 Instructor 时要用它支持的旧版 `openai`，或直接用 SDK 自带的 `parse` 结构化输出。
+> 表内数字是 2026-11-05 的注册表快照，围栏依赖不跟着改，也不自动迁移 API。2026-11-25 打开的 PyPI 项目页标题为 `openai` 3.59.0、`anthropic` 2.14.0。`google-genai`、Java、JavaScript、Go 和 LiteLLM 的「当前」版本本批没有重开，不能把表里的数字或搜索摘录写成当日已核。
+>
+> Instructor 1.17.0 依赖 `jiter<0.15`，而当时的 `openai` 3.46.0 依赖 `jiter>=0.16`，两者在同一环境中无法一起安装；需要 Instructor 时要用它支持的旧版 `openai`，或直接用 SDK 自带的 `parse` 结构化输出。这个冲突按 2026-11-05 的记录保留，2026-11-25 未重开 Instructor。
 
-## 常见误区
+## 常见误读 {#_3}
+
+<span id="_12"></span>
 
 - 不设步数上限的工具循环：模型反复调用同一工具时会无限消耗 Token。
 - 只回填工具结果、不回填模型的工具调用条目：OpenAI 需要 `function_call` 与 `function_call_output` 成对出现，Anthropic 需要 assistant 的 `tool_use` 块后紧跟 user 的 `tool_result` 块。
-- 在提示词里要求「输出 JSON」然后 `json.loads`：偶发的多余文字就会解析失败，应使用结构化输出。
+- 在提示词里要求「输出 JSON」然后 `json.loads`：偶发的多余文字就会解析失败，应使用结构化输出。解析成功仍要做业务校验。
 - 把 API Key 写进前端代码或移动端安装包：任何人都能提取并盗刷。
 - 重试不加退避和上限：429 时立即重试会让限流更严重。
 - 忽略 `max_tokens` / `max_output_tokens`：输出被截断时要检查结束原因（`stop_reason`、`status`），而不是当作完整答案。
+- 把模拟服务的固定输出当成真实模型的保证答复，或把只做了参数校验的示例当成已经调用过 API。
 
-## 实践任务
+## 可选核对 {#api-check}
 
-- 用 Python 分别调用三家 API 完成同一道题，打印文本、Token 用量和耗时。
-- 实现一个「查天气 + 查日程」两个工具的循环，让模型回答「明天下午适合户外开会吗」，记录每一步的工具调用。
-- 用结构化输出把 20 条非结构化简历文本解析成 Pydantic 模型，统计解析成功率。
-- 用 Spring Boot 或 Node.js 写一个转发接口，把模型的流式输出通过 SSE 推给浏览器，前端不接触 API Key。
+<span id="_13"></span>
 
-## 资料索引
+1. OpenAI 工具循环执行完工具后，为什么要把 `function_call` 与带同一 `call_id` 的 `function_call_output` 一起放回 `input`？
+2. 为什么结构化输出仍不能代替拒答、截断和业务字段校验？
+
+<details markdown><summary>参考答案</summary>
+
+1. 下一轮模型要看到自己发起的调用和对应结果。两者用 `call_id` 配对。只发送工具结果，或重新开一段对话，模型对不上是哪一次调用。
+2. Schema 约束的是正常完成时的 JSON 形状。拒答、截断、空内容和协议错误仍要单独分支。解析出的分类或金额还要按业务规则校验，不能因为类型正确就执行退款。
+
+</details>
+
+<span id="_15"></span>
+
+## 资料索引 {#_14}
 
 - [OpenAI Function calling](https://developers.openai.com/api/docs/guides/function-calling) — 函数调用与工具循环
 - [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs) — JSON Schema 结构化输出
@@ -452,43 +466,18 @@ console.log(text, steps.length);
 - [Gemini API 文档](https://ai.google.dev/gemini-api/docs) — google-genai SDK 用法
 - [OpenAI 结构化输出](https://platform.openai.com/docs/guides/structured-outputs) — schema 子集、拒答与 incomplete 处理
 - [OpenAI 流式响应](https://platform.openai.com/docs/guides/streaming-responses) — 事件流与完成语义
-- [openai-java Maven 元数据](https://repo1.maven.org/maven2/com/openai/openai-java/maven-metadata.xml) — 2026-11-05 正式版 4.101.0
+- [OpenAI API changelog](https://developers.openai.com/api/docs/changelog) — 2026-11-17：GPT-6.2 与 Responses 的前缀推理、`instructions`
+- [Anthropic effort](https://platform.claude.com/docs/en/build-with-claude/effort) — 2026-11-25 打开的 `output_config.effort` 说明
+- [openai-java Maven 元数据](https://repo1.maven.org/maven2/com/openai/openai-java/maven-metadata.xml) — 2026-11-05 正式版 4.101.0；2026-11-25 未重开
 - [JDK 21 HttpClient](https://docs.oracle.com/en/java/javase/21/docs/api/java.net.http/java/net/http/HttpClient.html) — 连接复用、超时与发送请求
-- [Anthropic Python 版本](https://pypi.org/project/anthropic/) — 2.6.0
-- [OpenAI JS 版本](https://www.npmjs.com/package/openai) — 7.52.0
-- [Anthropic JS 版本](https://www.npmjs.com/package/@anthropic-ai/sdk) — 1.6.0
-- [LiteLLM 版本](https://pypi.org/project/litellm/) — 1.108.1
-- [Anthropic Java 发布记录](https://github.com/anthropics/anthropic-sdk-java/releases) — 2026-11-05 正式版 3.6.0
-- [Anthropic Go 发布记录](https://github.com/anthropics/anthropic-sdk-go/releases) — 2026-11-05 正式版 v2.7.0；搜索索引曾落后于实时发布页
-- [OpenAI Go 发布记录](https://github.com/openai/openai-go/releases/tag/v3.95.0) — v3.95.0 的官方发布证据
-
-## 通关自测
-
-先独立作答，再展开参考答案核对；简答题答出要点即算对。答对 ≥ 80% 即可进入下一关。
-
-1. 【单选】在 OpenAI Responses API 的工具循环中，执行完工具后应当：
-    - A. 只把工具结果作为新的 user 消息发送
-    - B. 把模型返回的 `function_call` 条目和对应 `call_id` 的 `function_call_output` 一起加入 `input`
-    - C. 重新开一个对话
-    - D. 把结果放进 `instructions`
-2. 【单选】Anthropic Messages API 中哪个参数是必填的？
-    - A. `system`
-    - B. `tools`
-    - C. `max_tokens`
-    - D. `thinking`
-3. 【简答】为什么结构化输出比「在提示词里要求输出 JSON」更可靠？
-4. 【简答】列出工具调用循环至少三个必须处理的边界情况。
-5. 【简答】前端页面需要展示 LLM 流式回答，密钥和流式链路应该怎么设计？
-
-<details markdown><summary>参考答案</summary>
-
-1. B — 模型需要看到自己发起的调用和对应结果，二者通过 `call_id` 配对。
-2. C — `max_tokens` 必填，`system`、`tools`、`thinking` 都是可选的。
-3. 原生结构化输出在正常完成且无拒答时按支持的 JSON Schema 约束生成，仍需处理失败状态并校验业务语义；只靠提示词，模型可能输出多余文字、漏字段或类型错误。
-4. 步数上限；并行多个工具调用逐一回填；工具执行异常（把错误信息回填给模型而不是直接崩溃）；参数不合法；输出被 `max_tokens` 截断；超时与重试。答出任意三点即可。
-5. 浏览器只调用自己的后端接口；后端持有密钥，调用模型的流式接口，再通过 SSE 或 WebSocket 把增量转发给前端，同时做鉴权、限流和用量记录。
-
-</details>
+- [Anthropic Python 版本](https://pypi.org/project/anthropic/) — 2026-11-05 快照 2.6.0；2026-11-25 打开的项目页标题为 2.14.0
+- [OpenAI Python 版本](https://pypi.org/project/openai/) — 2026-11-05 快照 3.46.0；2026-11-25 打开的项目页标题为 3.59.0
+- [OpenAI JS 版本](https://www.npmjs.com/package/openai) — 2026-11-05 快照 7.52.0；2026-11-25 未重开
+- [Anthropic JS 版本](https://www.npmjs.com/package/@anthropic-ai/sdk) — 2026-11-05 快照 1.6.0；2026-11-25 未重开
+- [LiteLLM 版本](https://pypi.org/project/litellm/) — 2026-11-05 快照 1.108.1；2026-11-25 未重开
+- [Anthropic Java 发布记录](https://github.com/anthropics/anthropic-sdk-java/releases) — 2026-11-05 正式版 3.6.0；2026-11-25 未重开
+- [Anthropic Go 发布记录](https://github.com/anthropics/anthropic-sdk-go/releases) — 2026-11-05 正式版 v2.7.0；2026-11-25 未重开
+- [OpenAI Go 发布记录](https://github.com/openai/openai-go/releases/tag/v3.95.0) — v3.95.0 的官方发布证据；2026-11-25 未重开
 
 ---
 
