@@ -23,6 +23,8 @@ flowchart TD
   J --> K
 ```
 
+上面的图是阅读顺序，不是子目录编号。图上先写服务通信，再写 API 网关；目录里 02 是网关，04 才是通信。测试在图上位于生产段之前，目录里是 15。编号不是阅读顺序：不要把 02 读成必须排在通信之后，也不要把图上的先后当成目录顺序。
+
 ## 子目录
 
 | # | 子目录 | 内容 | 状态 |
@@ -57,17 +59,17 @@ flowchart TD
 | 分布式事务 | Saga / Outbox | Seata | Saga / Outbox |
 
 > [!WARNING]
-> Netflix Hystrix、Ribbon、Zuul 1 已停止维护，新项目不要选。
+> 新项目不要选 Zuul 1。口径在 [API 网关](02-api-gateway/)：现行 Spring Cloud Netflix 文档仍把 Eureka 当作服务发现，不要把 Eureka 整包写成维护模式。Hystrix 与 Ribbon 的口径在 [容错与流量治理](05-resilience/)。这里不另写停更日期。
 
 ## 版本基线（2026-11）
 
 > [!WARNING]
-> 版本信息有时效，更新时同时改这里的日期。
+> 下面是 2026-11 基线里已经写下的写法，不是一次新的当前版本核对。日期只在重开对应来源时才改。
 
-- Spring Boot 4.1.x · Spring Cloud 2025.1.x · Spring Cloud Alibaba 2025.1.0.0
-- Nacos 3.3.0 · Kubernetes 1.37.2 · Istio 1.31.3 · OpenTelemetry Java Agent 2.33.1
+- Spring Boot 4.1.x · Spring Cloud 2025.1.x · Spring Cloud Alibaba 2025.1.0.0。[API 网关](02-api-gateway/) 已经写明那些 RC 不是已交付默认，本页不把它们写进这张基线。
+- Nacos 3.3.0 · Kubernetes 1.37.2 · OpenTelemetry Java Agent 2.33.1。Istio 1.31.3 只留在这张基线里，不再当推荐默认。[服务网格](13-service-mesh/) 写明 2026-11-23 打开的当前主线是 Istio 1.32.0；同一章写明首页上的 Kubernetes 1.37.2 不在那一页改写。这里不新宣布一个当前版本。
 
-章节里的代码，只有写明「编译通过」的片段在 2026-11-06 用 JDK 21.0.12.1 做过 `javac` 核对。其余 YAML、SQL 和命令是结构示意，没有连接中间件或集群运行。版本号沿用 2026-11-05 基线：当天之后的补丁（例如 Keycloak 26.8.2、Prometheus 3.16.0）不在本章改写范围内。
+章节里的代码，只有写明「编译通过」的片段在 2026-11-06 用 JDK 21.0.12.1 做过 `javac` 核对。其余 YAML、SQL 和命令是结构示意，没有连接中间件或集群运行。版本号沿用 2026-11-05 基线：当天之后的补丁（例如 Keycloak 26.8.2、Prometheus 3.16.0）不在本章改写范围内。本次没有重开这些发布页，也没有换成更新的 JDK。
 
 ## 资料索引
 
