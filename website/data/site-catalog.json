@@ -83,7 +83,7 @@
       "path": "topics/ai/04-model-landscape/README.md",
       "title_zh": "模型全景",
       "title_en": "Model landscape",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -91,7 +91,7 @@
       "path": "topics/ai/05-prompt-context/README.md",
       "title_zh": "提示词与上下文工程",
       "title_en": "Prompts and context",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -99,7 +99,7 @@
       "path": "topics/ai/06-llm-api-programming/README.md",
       "title_zh": "LLM API 编程模式",
       "title_en": "LLM API programming",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -107,7 +107,7 @@
       "path": "topics/ai/07-app-frameworks/README.md",
       "title_zh": "应用开发框架",
       "title_en": "App frameworks",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 67,
-      "complete": 62
+      "building": 63,
+      "complete": 66
     }
   },
   "pending_integrations": [
