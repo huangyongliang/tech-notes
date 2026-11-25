@@ -24,7 +24,7 @@
 | 🔧 [编程入门 Programming Basics](topics/programming-basics/) | 第一门语言 C，6 个子主题 | 🟡 搭建中 |
 | ☕ [Java 技术栈 Java Stack](topics/java/) | 语言、JVM、Spring 生态，12 个子主题 | 🟡 搭建中 |
 | 🧩 [微服务 Microservices](topics/microservices/) | 网关、治理、消息、可观测、K8s，16 个子主题 | 🟢 已完成 |
-| 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署，21 个子主题 | 🟡 搭建中 |
+| 🤖 [AI 技术栈 AI Stack](topics/ai/) | 大模型、RAG、Agent、MCP、推理部署，21 个子主题 | 🟢 已完成 |
 | 💻 [编程 Programming](topics/programming/) | 语言定义了什么（语法、语义、类型、求值与内存）; 不建算法/设计模式目录 · 4 个子主题 | 🟢 已完成 |
 | 🌐 [Web](topics/web/) | 源与框架约定（渲染、请求处理、跨越边界）; 不建 protocols/ · 4 个子主题 | 🟢 已完成 |
 | 🖥️ [系统 Systems](topics/systems/) | 分布式系统模型；单机 OS、网络、SQL 仍在计算机基础 · 1 个子主题 | 🟢 已完成 |

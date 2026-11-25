@@ -219,7 +219,7 @@
       "path": "topics/ai/README.md",
       "title_zh": "AI 技术栈",
       "title_en": "AI",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "topic"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 34,
-      "complete": 95
+      "building": 33,
+      "complete": 96
     }
   },
   "pending_integrations": [
