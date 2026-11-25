@@ -36,8 +36,8 @@ def main() -> int:
         or counts["translated"] != 7
         or counts["untranslated"] != 122
         or editorial["planned"] != 0
-        or editorial["building"] != 71
-        or editorial["complete"] != 58
+        or editorial["building"] != 67
+        or editorial["complete"] != 62
     ):
         fail(f"unexpected coverage {counts}")
     if "xp" in json.dumps(catalog["counts"]) or any("xp" in page for page in catalog["pages"]):

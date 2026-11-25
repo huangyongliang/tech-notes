@@ -51,7 +51,7 @@
       "path": "topics/ai/00-python-bridge/README.md",
       "title_zh": "Python 速成",
       "title_en": "Python bridge",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -59,7 +59,7 @@
       "path": "topics/ai/01-foundations/README.md",
       "title_zh": "数学与机器学习基础",
       "title_en": "Math and machine learning",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -67,7 +67,7 @@
       "path": "topics/ai/02-dl-frameworks/README.md",
       "title_zh": "深度学习框架",
       "title_en": "Deep learning frameworks",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -75,7 +75,7 @@
       "path": "topics/ai/03-transformer-llm/README.md",
       "title_zh": "Transformer 与大模型原理",
       "title_en": "Transformers and LLMs",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "chapter"
     },
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 71,
-      "complete": 58
+      "building": 67,
+      "complete": 62
     }
   },
   "pending_integrations": [
