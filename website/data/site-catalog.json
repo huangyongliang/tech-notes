@@ -43,7 +43,7 @@
       "path": "topics/README.md",
       "title_zh": "主题索引",
       "title_en": "Topic index",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -499,7 +499,7 @@
       "path": "topics/inbox/README.md",
       "title_zh": "收件箱",
       "title_en": "Inbox",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -1027,7 +1027,7 @@
       "path": "website/index.md",
       "title_zh": "技术笔记",
       "title_en": "tech-notes",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "translated",
       "kind": "home"
     },
@@ -1035,7 +1035,7 @@
       "path": "notes/README.md",
       "title_zh": "笔记",
       "title_en": "Notes",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -1043,7 +1043,7 @@
       "path": "resources/README.md",
       "title_zh": "资料",
       "title_en": "Sources",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -1051,7 +1051,7 @@
       "path": "resources/links.md",
       "title_zh": "链接表",
       "title_en": "Links",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -1059,7 +1059,7 @@
       "path": "CONTRIBUTING.md",
       "title_zh": "贡献指南",
       "title_en": "Contributing",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     },
@@ -1067,7 +1067,7 @@
       "path": "STYLE.md",
       "title_zh": "Markdown 展示规范",
       "title_en": "Style guide",
-      "editorial": "building",
+      "editorial": "complete",
       "translation": "untranslated",
       "kind": "meta"
     }
@@ -1078,8 +1078,8 @@
     "untranslated": 122,
     "editorial": {
       "planned": 0,
-      "building": 33,
-      "complete": 96
+      "building": 25,
+      "complete": 104
     }
   },
   "pending_integrations": [

@@ -58,14 +58,14 @@ EMOJI_STATUS = {"🟡": "building", "⚪": "planned", "🟢": "complete"}
 
 # Pages that are not a homepage topic row and not a chapter table row.
 META_EDITORIAL = {
-    "website/index.md": "building",
-    "topics/README.md": "building",
-    "topics/inbox/README.md": "building",
-    "notes/README.md": "building",
-    "resources/README.md": "building",
-    "resources/links.md": "building",
-    "CONTRIBUTING.md": "building",
-    "STYLE.md": "building",
+    "website/index.md": "complete",
+    "topics/README.md": "complete",
+    "topics/inbox/README.md": "complete",
+    "notes/README.md": "complete",
+    "resources/README.md": "complete",
+    "resources/links.md": "complete",
+    "CONTRIBUTING.md": "complete",
+    "STYLE.md": "complete",
 }
 
 # English display names for chrome (nav, H1, title, search). Not translations:

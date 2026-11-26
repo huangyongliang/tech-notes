@@ -36,8 +36,8 @@ def main() -> int:
         or counts["translated"] != 7
         or counts["untranslated"] != 122
         or editorial["planned"] != 0
-        or editorial["building"] != 33
-        or editorial["complete"] != 96
+        or editorial["building"] != 25
+        or editorial["complete"] != 104
     ):
         fail(f"unexpected coverage {counts}")
     if "xp" in json.dumps(catalog["counts"]) or any("xp" in page for page in catalog["pages"]):
@@ -188,6 +188,10 @@ def main() -> int:
             fail("english home still lists a not-started topic")
         if "## Not started (0)" not in missing:
             fail("coverage should show that no page is not started")
+        if "## In progress (19)" not in missing or "## Complete (103)" not in missing:
+            fail("coverage headings are not 19 in progress and 103 complete")
+        if "104 are marked Complete." not in missing:
+            fail("coverage prose is not 104 complete")
         gs_row = next(line for line in home.splitlines() if 'data-label="Topic">Getting Started<' in line)
         if 'data-label="Translation">Translated<' not in gs_row or "Partial" in gs_row:
             fail(f"getting-started row is not fully translated: {gs_row}")
