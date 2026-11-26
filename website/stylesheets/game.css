@@ -272,6 +272,7 @@ html.tn-mode-game .md-tabs,
 html.tn-mode-game .md-footer { display: none !important; }
 html.tn-mode-read .tn-game-root,
 html.tn-mode-read .tn-g-slim { display: none !important; }
+html.tn-mode-read .tn-g .start { display: none !important; }
 .tn-g .mode-fab { display: none; }
 html.tn-mode-read .tn-g .mode-fab { display: grid; }
 html.tn-mode-game .tn-g .mode-fab { display: none !important; }

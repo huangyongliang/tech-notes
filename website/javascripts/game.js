@@ -963,7 +963,10 @@
       timers.push(setTimeout(function () { R.hint.hidden = true; }, 950));
     }
     R.btnStart.addEventListener("click", begin, sig);
-    R.btnRead.addEventListener("click", function () { setMode("read"); }, sig);
+    R.btnRead.addEventListener("click", function () {
+      R.start.hidden = true;
+      setMode("read");
+    }, sig);
 
     /* ---- 输入 ---- */
     var KEYMAP = { w: "w", a: "a", s: "s", d: "d", W: "w", A: "a", S: "s", D: "d", ArrowUp: "w", ArrowLeft: "a", ArrowDown: "s", ArrowRight: "d" };
