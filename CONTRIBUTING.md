@@ -16,7 +16,7 @@
 ## 模板
 - 新笔记：复制 `templates/note.md`，填写 front matter（title、topic、tags、date、status、summary）。
 - 新主题：复制 `templates/topic-readme.md` 到 `topics/<new-topic>/README.md`，然后在 `topics/README.md` 里登记。
-- `status` 可选值：`draft` / `in-progress` / `done`。
+- `status` 可选值：`draft` / `in-progress` / `done`。这是笔记模板自己的字段，不是目录 editorial 的 planned / building / complete。
 - 排版、提示框、mermaid 和导航的约定见 [展示规范 STYLE.md](STYLE.md)。
 
 ## 提交规范 (Conventional Commits)
@@ -26,7 +26,7 @@
 - `fix: broken links in web index`
 
 ## PR 流程
-1. 从 `main` 建分支：`notes/<topic>-<short-desc>`。
+1. 从 `main` 建分支。人工贡献用 `notes/<topic>-<short-desc>`；本仓库的云端或自动 PR 用 `cursor/` 前缀。
 2. 每个 PR 只做一件事，并更新相关 README 索引。
 3. 至少一人 review 后再合并（初期由小鼠 review）。
 4. 不要提交密钥、token 或私人数据。
